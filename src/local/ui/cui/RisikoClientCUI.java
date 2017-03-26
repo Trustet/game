@@ -26,7 +26,7 @@ public class RisikoClientCUI {
 			{
 				for(int i = 1;i <= anzahl;i++)
 				{
-					System.out.println("Hallo Spieler " + i + ", wie heißt du?");
+					System.out.println("Hallo Spieler " + i + ", wie heiï¿½t du?");
 					name = read.readString();
 					sp.erstelleSpieler(name);
 				}
@@ -36,10 +36,10 @@ public class RisikoClientCUI {
 				//Ausgabe bei falscher Eingabe
 				System.out.println("Falsche Eingabe.");
 			}
-			//comment
+			
 		}	
 		
-		//Ausgabe, wer nun alles mitspielt (Überprüfung, ob Eingabe erfolgreich war)
+		//Ausgabe, wer nun alles mitspielt (ï¿½berprï¿½fung, ob Eingabe erfolgreich war)
 		System.out.println("Los gehts.\n Es spielen mit:");
 		for(int i = 1;i <= anzahl;i++)
 		{
