@@ -14,7 +14,7 @@ public class RisikoClientCUI {
 		int anzahl = 0;
 		IO read = new IO();
 		Spielfeld sp = new Spielfeld();
-		//Test
+		//Tes
 		//endlose Schleife bis richtige Eingabe um Spieler zu erstellen
 		while(true)
 		{
