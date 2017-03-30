@@ -17,6 +17,12 @@ public class RisikoClientCUI {
 	
 	private void spielStarten()
 	{
+		/*
+		 * ddsasdadasda
+		 * asdasdasdasdas
+		 * asdasdasda
+		 * dasdasdasdasda
+		 */
 		String name = "";
 		int anzahlSpieler = 0;
 		Spielfeld sp = new Spielfeld();
@@ -68,6 +74,7 @@ public class RisikoClientCUI {
 			}
 			System.out.println("");
 		}
+		
 	}
 }
 
