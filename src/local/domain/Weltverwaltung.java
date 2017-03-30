@@ -44,6 +44,7 @@ public class Weltverwaltung {
 	
 	private void laenderErstellen()
 	{
+<<<<<<< HEAD
 		laenderListe.add(new Land("Island",new Spieler("unbekannt"),0));
 		laenderListe.add(new Land("Skandinavien",new Spieler("unbekannt"),0));
 		laenderListe.add(new Land("Ukraine",new Spieler("unbekannt"),0));
@@ -51,6 +52,15 @@ public class Weltverwaltung {
 		laenderListe.add(new Land("Sud Europa",new Spieler("unbekannt"),0));
 		laenderListe.add(new Land("West Europa",new Spieler("unbekannt"),0));
 		laenderListe.add(new Land("Gro�britannien",new Spieler("unbekannt"),0));
+=======
+		laenderListe[0] = new Land("Island",new Spieler("unbekannt"),1);
+		laenderListe[1] = new Land("Skandinavien",new Spieler("unbekannt"),1);
+		laenderListe[2] = new Land("Ukraine",new Spieler("unbekannt"),1);
+		laenderListe[3] = new Land("Nord Europa",new Spieler("unbekannt"),1);
+		laenderListe[4] = new Land("Sud Europa",new Spieler("unbekannt"),1);
+		laenderListe[5] = new Land("West Europa",new Spieler("unbekannt"),1);
+		laenderListe[6] = new Land("Gro\u00dfbritannien",new Spieler("unbekannt"),1);
+>>>>>>> origin/master
 	}
 	
 	private void verbindungenErstellen()
