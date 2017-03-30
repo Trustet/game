@@ -1,26 +1,28 @@
 package local.domain;
+import java.util.List;
+import java.util.Vector;
+
 import local.valueobjects.Spieler;
 
 public class Spielerverwaltung {
 
-private Spieler[] spieler = new Spieler[6];
-private int anzahlSpieler = 0;
+//private Spieler[] spieler = new Spieler[6];
+private List<Spieler> spielerListe = new Vector<Spieler>();
 
 	public Spieler getSpieler(int index) {
-		return this.spieler[index-1];
+		return this.spielerListe.get(index-1);
 	}
 
 	public void neuerSpieler(String name){
-		spieler[anzahlSpieler] = new Spieler(name);
-		anzahlSpieler++;
+		spielerListe.add(new Spieler(name));
 	}
 	
 	public String zeigeName(int index){
-		return spieler[index-1].getName();
+		return spielerListe.get(index-1).getName();
 	}
 
-	public Spieler[] getSpielerArray() {
-		return spieler;
+	public List<Spieler> getSpielerList() {
+		return spielerListe;
 	}
 
 	
