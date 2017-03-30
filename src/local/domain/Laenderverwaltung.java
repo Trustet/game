@@ -7,15 +7,15 @@ public class Laenderverwaltung {
 	
 	public void laenderAufteilen(int anzahlSpieler, Spielerverwaltung spielerVw, Weltverwaltung weltVw)
 	{
-		
+		int counter = 0;
 		for(int i = 0;i < weltVw.getLaenderListe().length;i = i+anzahlSpieler)
 		{
 			for(int j = 0;j < anzahlSpieler;j++)
 			{
-				if(i<weltVw.getLaenderListe().length)
+				if(counter < weltVw.getLaenderListe().length)
 				{
-					weltVw.getLaenderListe()[i].setBesitzer(spielerVw.getSpielerArray()[j]);
-					
+					weltVw.getLaenderListe()[counter].setBesitzer(spielerVw.getSpielerArray()[j]);
+					counter++;
 				}
 			}
 		}
