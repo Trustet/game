@@ -35,4 +35,11 @@ public class Land {
 	public void setEinheiten(int einheiten) {
 		this.einheiten = einheiten;
 	}
+
+	@Override
+	public String toString() {
+		return "Land [name=" + name + ", besitzer=" + besitzer.getName() + ", einheiten=" + einheiten + "]";
+	}
+	
+	
 }

@@ -1,14 +1,22 @@
 package local.domain;
 
-import local.valueobjects.Spieler;
 public class Spielfeld {
 	
-	Spielerverwaltung spielerVw = new Spielerverwaltung();
+	public Spielerverwaltung spielerVw = new Spielerverwaltung();
+	public Laenderverwaltung laenderVw = new Laenderverwaltung();
+	public Weltverwaltung weltVw = new Weltverwaltung();
 	
 	public void erstelleSpieler(String name){
 		spielerVw.neuerSpieler(name);
 	}
 	public String zeigeName(int index){
 		return spielerVw.zeigeName(index);
+	}
+	
+	public void laenderAufteilen(int anzahlSpieler)
+	{
+		laenderVw.laenderAufteilen(anzahlSpieler);
+				
+				
 	}
 }

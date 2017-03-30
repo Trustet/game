@@ -19,5 +19,9 @@ private int anzahlSpieler = 0;
 		return spieler[index-1].getName();
 	}
 
+	public Spieler[] getSpielerArray() {
+		return spieler;
+	}
+
 	
 }
