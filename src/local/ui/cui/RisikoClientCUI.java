@@ -2,6 +2,7 @@
 package local.ui.cui;
 
 import local.domain.Spielfeld;
+import local.valueobjects.Land;
 
 public class RisikoClientCUI {
 
@@ -55,10 +56,12 @@ public class RisikoClientCUI {
 		sp.laenderAufteilen(anzahlSpieler);
 		
 		//Laender ausgeben
-		for(int i = 0;i < sp.weltVw.getLaenderListe().length;i++)
-		{
-			System.out.println(sp.weltVw.getLaenderListe()[i].toString());
+
+		for(Land land : sp.weltVw.getLaenderListe()){
+			System.out.println(land);
 		}
+		
+		
 		System.out.println("");		
 		for(int i = 0;i < sp.weltVw.getLaenderAufteilung().length;i++)
 		{

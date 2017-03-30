@@ -1,15 +1,20 @@
 package local.domain;
+import java.util.List;
+import java.util.Vector;
+
 import local.valueobjects.*;
 public class Weltverwaltung {
 
 	private static int laenderAnzahl = 7;
 	private boolean[][] laenderAufteilung;
-	private Land[] laenderListe = new Land[laenderAnzahl];
+	private Spielerverwaltung spielerVw;
+	private List<Land> laenderListe = new Vector<Land>();
 	
 	
-	public Weltverwaltung() {
+	public Weltverwaltung(Spielerverwaltung spielerVw) {
 		laenderAufteilung = new boolean[laenderAnzahl][laenderAnzahl];
 		
+		this.spielerVw = spielerVw;
 		for(int spalte = 0; spalte < laenderAnzahl;spalte++)
 		{
 			for(int zeile = 0; zeile < laenderAnzahl;zeile++)
@@ -24,13 +29,13 @@ public class Weltverwaltung {
 	public void laenderAufteilen(int anzahlSpieler, Spielerverwaltung spielerVw, Weltverwaltung weltVw)
 	{
 		int counter = 0;
-		for(int i = 0;i < weltVw.getLaenderListe().length;i = i+anzahlSpieler)
+		for(int i = 0;i < weltVw.getLaenderListe().size();i = i+anzahlSpieler)
 		{
 			for(int j = 0;j < anzahlSpieler;j++)
 			{
-				if(counter < weltVw.getLaenderListe().length)
+				if(counter < weltVw.getLaenderListe().size())
 				{
-					weltVw.getLaenderListe()[counter].setBesitzer(spielerVw.getSpielerList().get(j));
+					weltVw.getLaenderListe().get(counter).setBesitzer(spielerVw.getSpielerList().get(j));
 					counter++;
 				}
 			}
@@ -39,13 +44,13 @@ public class Weltverwaltung {
 	
 	private void laenderErstellen()
 	{
-		laenderListe[0] = new Land("Island",new Spieler("unbekannt"),0);
-		laenderListe[1] = new Land("Skandinavien",new Spieler("unbekannt"),0);
-		laenderListe[2] = new Land("Ukraine",new Spieler("unbekannt"),0);
-		laenderListe[3] = new Land("Nord Europa",new Spieler("unbekannt"),0);
-		laenderListe[4] = new Land("Sud Europa",new Spieler("unbekannt"),0);
-		laenderListe[5] = new Land("West Europa",new Spieler("unbekannt"),0);
-		laenderListe[6] = new Land("Gro�britannien",new Spieler("unbekannt"),0);
+		laenderListe.add(new Land("Island",new Spieler("unbekannt"),0));
+		laenderListe.add(new Land("Skandinavien",new Spieler("unbekannt"),0));
+		laenderListe.add(new Land("Ukraine",new Spieler("unbekannt"),0));
+		laenderListe.add(new Land("Nord Europa",new Spieler("unbekannt"),0));
+		laenderListe.add(new Land("Sud Europa",new Spieler("unbekannt"),0));
+		laenderListe.add(new Land("West Europa",new Spieler("unbekannt"),0));
+		laenderListe.add(new Land("Gro�britannien",new Spieler("unbekannt"),0));
 	}
 	
 	private void verbindungenErstellen()
@@ -69,40 +74,18 @@ public class Weltverwaltung {
 		verbindungEinfuegen(5,6);
 	}
 	
-	public boolean verbindungEinfuegen(int indexLand1,int indexLand2)
+	public void verbindungEinfuegen(int indexLand1,int indexLand2)
 	{
-		if (indexLand1 != -1 && indexLand2 != -1)
-		{
+
 			laenderAufteilung[indexLand1][indexLand2] = true;
 			laenderAufteilung[indexLand2][indexLand1] = true;
-			return true;
-		}
-		return false;
-	}
-	
-	private int laenderIndexSuchen(Land land)
-	{
-		int index = -1;
-		int i = 0;
-		
-		while( index < 0 && i < laenderListe.length)
-		{
-			if(laenderListe[i].equals(land))
-			{
-				index = i;
-			}
-			i++;
-		}
-		
-		
-		return index;
 	}
 
-	public Land[] getLaenderListe() {
+	public List<Land> getLaenderListe() {
 		return laenderListe;
 	}
 
-	public void setLaenderListe(Land[] laenderListe) {
+	public void setLaenderListe(List<Land> laenderListe) {
 		this.laenderListe = laenderListe;
 	}
 
