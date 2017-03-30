@@ -1,15 +1,18 @@
 package local.valueobjects;
 
+
 public class Land {
 	private String name;
 	private Spieler besitzer;
 	private int einheiten;
+	private String kurzel;
 	
 
-	public Land(String name, Spieler besitzer, int einheiten) {
+	public Land(String name, Spieler besitzer, int einheiten, String kurzel) {
 		this.name = name;
 		this.besitzer = besitzer;
 		this.einheiten = einheiten;
+		this.kurzel = kurzel;
 	}
 
 	public String getName() {

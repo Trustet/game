@@ -2,7 +2,9 @@
 package local.ui.cui;
 
 import local.domain.Spielfeld;
+import local.valueobjects.Kontinent;
 import local.valueobjects.Land;
+import local.valueobjects.Spieler;
 
 public class RisikoClientCUI {
 
@@ -52,22 +54,30 @@ public class RisikoClientCUI {
 			
 		}	
 		
-		//Ausgabe, wer nun alles mitspielt (Uberprufung, ob Eingabe erfolgreich war)
-		System.out.println("Los gehts.\n Es spielen mit:");
-		for(int i = 1;i <= anzahlSpieler;i++)
-		{
-			System.out.println(sp.zeigeName(i));
-		}
-		
+		//teilt die Länder auf die Spieler auf
 		sp.laenderAufteilen(anzahlSpieler);
 		
+		for(Spieler spieler : sp.spielerVw.getSpielerList())
+		spielerstandAusgeben(spieler, sp);
+		
+		/*
+		 * Test-Ausgaben
+		 */
+		/*
 		//Laender ausgeben
 
 		for(Land land : sp.weltVw.getLaenderListe()){
 			System.out.println(land);
 		}
 		
+		//Kontinente ausgeben
 		
+		for(Kontinent kontinent: sp.weltVw.getKontinentenListe())
+		{
+			System.out.println(kontinent);
+		}
+		
+		//Adjazenzmatrix ausgeben
 		System.out.println("");		
 		for(int i = 0;i < sp.weltVw.getLaenderAufteilung().length;i++)
 		{
@@ -77,7 +87,20 @@ public class RisikoClientCUI {
 			}
 			System.out.println("");
 		}
+		*/
+	}
+	
+	//Zeigt an welcher Spieler an der Reihe ist und welche Länder er besitzt und Einheiten er bekommt
+	public void spielerstandAusgeben(Spieler spieler, Spielfeld sp)
+	{
 		
+				System.out.println("\n" + spieler.getName() +" besitzt die Länder: ");
+				for(Land land : sp.spielerVw.besitztLaender(spieler))
+				{
+					System.out.print(land.getName() + " |");
+				}
+				System.out.println("\nund bekommt " + sp.spielerVw.bekommtEinheiten(spieler) + " Einheiten\n");
+				
 	}
 }
 

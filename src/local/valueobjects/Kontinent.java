@@ -1,19 +1,36 @@
 package local.valueobjects;
 
+import java.util.List;
+
 public class Kontinent {
 
-	private Land[] laender;
+	private List<Land> laender;
+	private String name;
 
-	public Kontinent(Land[] laender) {
+	public Kontinent(String name, List<Land> laender) {
+		this.setName(name);
 		this.laender = laender;
 	}
 
-	public Land[] getLaender() {
+
+	public String toString() {
+		return "Kontinent [name=" + name + ", laender=" + laender.toString() + "]";
+	}
+
+
+	public List<Land> getLaender() {
 		return laender;
 	}
 
-	public void setLaender(Land[] laender) {
+	public void setLaender(List<Land> laender) {
 		this.laender = laender;
 	}
-	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

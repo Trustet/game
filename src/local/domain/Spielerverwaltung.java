@@ -2,6 +2,7 @@ package local.domain;
 import java.util.List;
 import java.util.Vector;
 
+import local.valueobjects.Land;
 import local.valueobjects.Spieler;
 
 public class Spielerverwaltung {
@@ -30,5 +31,30 @@ public class Spielerverwaltung {
 		this.weltVw = weltVw;
 	}
 
+	public List<Land> besitztLaender(Spieler spieler)
+	{
+		List<Land> laender = new Vector<Land>();
+		
+		for(Land land : weltVw.getLaenderListe())
+		{
+			if(spieler.equals(land.getBesitzer()))
+				{
+					laender.add(land);
+				}
+		}
+		return laender;
+	}
+
+	public int bekommtEinheiten(Spieler spieler) {
+		int einheiten = 0;
+		
+		einheiten = besitztLaender(spieler).size()/3;
+		if(einheiten < 3)
+		{
+			einheiten = 3;
+		}
+		
+		return einheiten;
+	}
 	
 }
