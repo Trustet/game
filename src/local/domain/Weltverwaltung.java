@@ -21,6 +21,22 @@ public class Weltverwaltung {
 		this.verbindungenErstellen();
 	}
 	
+	public void laenderAufteilen(int anzahlSpieler, Spielerverwaltung spielerVw, Weltverwaltung weltVw)
+	{
+		int counter = 0;
+		for(int i = 0;i < weltVw.getLaenderListe().length;i = i+anzahlSpieler)
+		{
+			for(int j = 0;j < anzahlSpieler;j++)
+			{
+				if(counter < weltVw.getLaenderListe().length)
+				{
+					weltVw.getLaenderListe()[counter].setBesitzer(spielerVw.getSpielerList().get(j));
+					counter++;
+				}
+			}
+		}
+	}
+	
 	private void laenderErstellen()
 	{
 		laenderListe[0] = new Land("Island",new Spieler("unbekannt"),1);
