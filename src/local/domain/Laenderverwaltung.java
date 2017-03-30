@@ -2,11 +2,12 @@ package local.domain;
 
 public class Laenderverwaltung {
 
-	Weltverwaltung weltVw = new Weltverwaltung();
-	Spielerverwaltung spielerVw = new Spielerverwaltung();
+	//Weltverwaltung weltVw = new Weltverwaltung();
+	//Spielerverwaltung spielerVw = new Spielerverwaltung();
 	
-	public void laenderAufteilen(int anzahlSpieler)
+	public void laenderAufteilen(int anzahlSpieler, Spielerverwaltung spielerVw, Weltverwaltung weltVw)
 	{
+		
 		for(int i = 0;i < weltVw.getLaenderListe().length;i = i+anzahlSpieler)
 		{
 			for(int j = 0;j < anzahlSpieler;j++)
@@ -14,8 +15,10 @@ public class Laenderverwaltung {
 				if(i<weltVw.getLaenderListe().length)
 				{
 					weltVw.getLaenderListe()[i].setBesitzer(spielerVw.getSpielerArray()[j]);
+					
 				}
 			}
 		}
+		
 	}
 }

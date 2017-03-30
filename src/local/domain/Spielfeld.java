@@ -15,7 +15,7 @@ public class Spielfeld {
 	
 	public void laenderAufteilen(int anzahlSpieler)
 	{
-		laenderVw.laenderAufteilen(anzahlSpieler);
+		laenderVw.laenderAufteilen(anzahlSpieler, spielerVw, weltVw);
 				
 				
 	}

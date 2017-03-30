@@ -29,31 +29,31 @@ public class Weltverwaltung {
 		laenderListe[3] = new Land("Nord Europa",new Spieler("unbekannt"),0);
 		laenderListe[4] = new Land("Sud Europa",new Spieler("unbekannt"),0);
 		laenderListe[5] = new Land("West Europa",new Spieler("unbekannt"),0);
-		laenderListe[6] = new Land("Großbritannien",new Spieler("unbekannt"),0);
+		laenderListe[6] = new Land("Groï¿½britannien",new Spieler("unbekannt"),0);
 	}
 	
 	private void verbindungenErstellen()
 	{
-		verbindungEinfügen(0,1);
-		verbindungEinfügen(0,6);
+		verbindungEinfuegen(0,1);
+		verbindungEinfuegen(0,6);
 		
-		verbindungEinfügen(1,2);
-		verbindungEinfügen(1,3);
-		verbindungEinfügen(1,6);
+		verbindungEinfuegen(1,2);
+		verbindungEinfuegen(1,3);
+		verbindungEinfuegen(1,6);
 		
-		verbindungEinfügen(2,3);
-		verbindungEinfügen(2,4);
+		verbindungEinfuegen(2,3);
+		verbindungEinfuegen(2,4);
 		
-		verbindungEinfügen(3,4);
-		verbindungEinfügen(3,5);
-		verbindungEinfügen(3,6);
+		verbindungEinfuegen(3,4);
+		verbindungEinfuegen(3,5);
+		verbindungEinfuegen(3,6);
 		
-		verbindungEinfügen(4,5);
+		verbindungEinfuegen(4,5);
 		
-		verbindungEinfügen(5,6);
+		verbindungEinfuegen(5,6);
 	}
 	
-	public boolean verbindungEinfügen(int indexLand1,int indexLand2)
+	public boolean verbindungEinfuegen(int indexLand1,int indexLand2)
 	{
 		if (indexLand1 != -1 && indexLand2 != -1)
 		{
