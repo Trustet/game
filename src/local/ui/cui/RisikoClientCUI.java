@@ -1,13 +1,16 @@
 
 package local.ui.cui;
 
+import java.util.List;
+
 import local.domain.Spielfeld;
-import local.valueobjects.Kontinent;
-import local.valueobjects.Land;
-import local.valueobjects.Spieler;
+import local.valueobjects.*;
 
 public class RisikoClientCUI {
 
+
+	Spielfeld sp = new Spielfeld();
+	
 	/**
 	 * Main-Methode der CUI
 	 * @param args
@@ -20,15 +23,8 @@ public class RisikoClientCUI {
 	
 	private void spielStarten()
 	{
-		/*
-		 * ddsasdadasda
-		 * asdasdasdasdas
-		 * asdasdasda
-		 * dasdasdasdasda
-		 */
 		String name = "";
 		int anzahlSpieler = 0;
-		Spielfeld sp = new Spielfeld();
 		
 		//endlose Schleife bis richtige Eingabe um Spieler zu erstellen
 		while(true)
@@ -58,7 +54,11 @@ public class RisikoClientCUI {
 		sp.laenderAufteilen(anzahlSpieler);
 		
 		for(Spieler spieler : sp.spielerVw.getSpielerList())
-		spielerstandAusgeben(spieler, sp);
+		{	
+		spielerstandAusgeben(spieler);
+		einheitenVerteilen(spieler);
+		angriffsPhase(spieler);
+		}
 		
 		/*
 		 * Test-Ausgaben
@@ -91,16 +91,71 @@ public class RisikoClientCUI {
 	}
 	
 	//Zeigt an welcher Spieler an der Reihe ist und welche Länder er besitzt und Einheiten er bekommt
-	public void spielerstandAusgeben(Spieler spieler, Spielfeld sp)
+	public void spielerstandAusgeben(Spieler spieler)
 	{
 		
-				System.out.println("\n" + spieler.getName() +" besitzt die Länder: ");
-				for(Land land : sp.spielerVw.besitztLaender(spieler))
-				{
-					System.out.print(land.getName() + " |");
-				}
-				System.out.println("\nund bekommt " + sp.spielerVw.bekommtEinheiten(spieler) + " Einheiten\n");
-				
+			System.out.println("\n" + spieler.getName() +" besitzt die Länder: ");
+			for(Land land : sp.spielerVw.besitztLaender(spieler))
+			{
+				System.out.print(land.getName() + " |");
+			}
+			System.out.println("\nund bekommt " + sp.spielerVw.bekommtEinheiten(spieler) + " Einheiten\n");		
+	}
+	
+	public void einheitenVerteilen(Spieler spieler)
+	{
+		int einheitenAnzahl = sp.spielerVw.bekommtEinheiten(spieler);
+		String landString;
+		Land land;
+		int einheiten;
+		
+		while(einheitenAnzahl > 0)
+		{
+			System.out.println("Auf welches Land möchtest du Einheiten setzen?");
+			landString = IO.readString();
+			land = sp.weltVw.stringToLand(landString);
+			//todo Überprüfung ob gültiges land und spieler besitzer
+			System.out.println("Wie viele Einheiten möchtest du auf " + land.getName() + " setzen?");
+			einheiten = IO.readInt();
+			if(einheiten <= einheitenAnzahl)
+			{
+				sp.kriegsVw.einheitenPositionieren(einheiten, land);
+				System.out.println(land.getName() + " hat jetzt " + land.getEinheiten() + " Einheiten.");
+				einheitenAnzahl -= einheiten;
+			} else {
+				System.out.println("So viele Einheiten hast du gar nicht, du hast nur noch " + einheitenAnzahl + " Einheiten\n");	
+			}
+		}
+	}
+	
+	public void angriffsPhase(Spieler spieler)
+	{
+			String angriffsLandString;
+			Land angriffsLand;
+			List<Land> angreifbareLaender;
+			String verteidigungsLandString;
+			Land verteidigungsLand;
+			int angreiferVerluste;
+			int verteidigerVerluste;
+			System.out.println("Mit welchem Land möchtest du angreifen?");
+			angriffsLandString = IO.readString();
+			angriffsLand = sp.weltVw.stringToLand(angriffsLandString);
+			angreifbareLaender = sp.moeglicheAngriffe(angriffsLand, spieler);
+			System.out.println("\nDu kannst mit " + angriffsLandString + " folgende Länder angreifen: ");
+			for(Land land : angreifbareLaender)
+			{
+				System.out.print(land.getName() + " |");
+			}
+			System.out.println("\n");
+			System.out.println("\nWelches Land willst du angreifen? ");
+			verteidigungsLandString = IO.readString();
+			verteidigungsLand = sp.weltVw.stringToLand(verteidigungsLandString);
+			angreiferVerluste = sp.kriegsVw.befreiungsAktion(angriffsLand, verteidigungsLand).get(0);
+			verteidigerVerluste = sp.kriegsVw.befreiungsAktion(angriffsLand, verteidigungsLand).get(1);
+			angriffsLand.setEinheiten(angriffsLand.getEinheiten() - angreiferVerluste);
+			verteidigungsLand.setEinheiten(verteidigungsLand.getEinheiten() - verteidigerVerluste);
+			System.out.println("\n" + angriffsLand.getName() + " hat nun noch " + angriffsLand.getEinheiten());
+			System.out.println("\n" + verteidigungsLand.getName() + " hat nun noch " + verteidigungsLand.getEinheiten());
 	}
 }
 

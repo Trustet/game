@@ -10,6 +10,7 @@ public class Weltverwaltung {
 	private Spielerverwaltung spielerVw;
 	private List<Land> laenderListe = new Vector<Land>();
 	private List<Kontinent> kontinentenListe = new Vector<Kontinent>();
+	private Kriegsverwaltung kriegsVw;
 
 	public Weltverwaltung(Spielerverwaltung spielerVw) {
 		laenderAufteilung = new boolean[laenderAnzahl][laenderAnzahl];
@@ -152,6 +153,7 @@ public class Weltverwaltung {
 		verbindungEinfuegen(41,new int[] {0,37,38,40});
 	}
 	
+	//bisher nur Europa
 	public void kontinenteErstellen()
 	{
 		List<Land> eu = new Vector<Land>();
@@ -171,7 +173,40 @@ public class Weltverwaltung {
 			laenderAufteilung[nachbarland][indexLand1] = true;
 		}
 	}
-
+	
+	public int indexVonLand(Land land)
+	{
+		for(int i = 0;i < laenderListe.size();i++)
+		{
+			if(laenderListe.get(i).equals(land))
+			{
+				return i;
+			}
+		}
+		//fehlermeldung
+		return 9999;
+	}
+	
+	public Land landVonIndex(int index)
+	{
+		return laenderListe.get(index);
+	}
+	
+	public List<Land> getNachbarLaender(Land land)
+	{
+		int index = indexVonLand(land);
+		List<Land> nachbarLaender = new Vector<Land>();
+		
+		for (int i = 0;i < laenderAufteilung[index].length;i++)
+		{
+			if(laenderAufteilung[index][i] == true)
+			{
+				nachbarLaender.add(laenderListe.get(i));
+			}
+		}
+		return nachbarLaender;			
+	}
+	
 	public boolean istNachbarland(int indexLand1, int indexLand2)
 	{
 		if (laenderAufteilung[indexLand1][indexLand2] == true)
@@ -200,6 +235,23 @@ public class Weltverwaltung {
 
 	public List<Kontinent> getKontinentenListe() {
 		return kontinentenListe;
+	}
+
+
+	public void setVerwaltung(Kriegsverwaltung kriegsVw) {
+		this.kriegsVw = kriegsVw;
+	}
+
+
+	public Land stringToLand(String angriffsLandString) {
+		for(Land land : laenderListe)
+		{
+			if(land.getName().equals(angriffsLandString))
+			{
+				return land;
+			}
+		}
+		return null;
 	}
 	
 	

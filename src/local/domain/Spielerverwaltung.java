@@ -9,6 +9,7 @@ public class Spielerverwaltung {
 
 	private Weltverwaltung weltVw;
 	private List<Spieler> spielerListe = new Vector<Spieler>();
+	private Kriegsverwaltung kriegsVw;
 
 	public Spieler getSpieler(int index) {
 		return this.spielerListe.get(index-1);
@@ -26,9 +27,10 @@ public class Spielerverwaltung {
 		return spielerListe;
 	}
 
-	public void setWeltverwaltung(Weltverwaltung weltVw) {
+	public void setVerwaltung(Weltverwaltung weltVw, Kriegsverwaltung kriegsVw) {
 
 		this.weltVw = weltVw;
+		this.kriegsVw = kriegsVw;
 	}
 
 	public List<Land> besitztLaender(Spieler spieler)
