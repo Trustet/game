@@ -1,8 +1,9 @@
 package local.domain;
+
 import java.util.List;
 import java.util.Vector;
-
 import local.valueobjects.*;
+
 public class Weltverwaltung {
 
 	private static int laenderAnzahl = 42;
@@ -12,14 +13,15 @@ public class Weltverwaltung {
 	private List<Kontinent> kontinentenListe = new Vector<Kontinent>();
 	private Kriegsverwaltung kriegsVw;
 
+	/**
+	 * @param spielerVw
+	 */
 	public Weltverwaltung(Spielerverwaltung spielerVw) {
 		laenderAufteilung = new boolean[laenderAnzahl][laenderAnzahl];
 		
 		this.spielerVw = spielerVw;
-		for(int spalte = 0; spalte < laenderAnzahl;spalte++)
-		{
-			for(int zeile = 0; zeile < laenderAnzahl;zeile++)
-			{
+		for(int spalte = 0; spalte < laenderAnzahl;spalte++) {
+			for(int zeile = 0; zeile < laenderAnzahl;zeile++) {
 				laenderAufteilung[spalte][zeile] = false;
 			}
 		}
@@ -28,16 +30,16 @@ public class Weltverwaltung {
 		this.kontinenteErstellen();
 	}
 
-
-	public void laenderAufteilen(int anzahlSpieler, Spielerverwaltung spielerVw, Weltverwaltung weltVw)
-	{
+	/**
+	 * @param anzahlSpieler
+	 * @param spielerVw
+	 * @param weltVw
+	 */
+	public void laenderAufteilen(int anzahlSpieler, Spielerverwaltung spielerVw, Weltverwaltung weltVw) {
 		int counter = 0;
-		for(int i = 0;i < weltVw.getLaenderListe().size();i = i+anzahlSpieler)
-		{
-			for(int j = 0;j < anzahlSpieler;j++)
-			{
-				if(counter < weltVw.getLaenderListe().size())
-				{
+		for(int i = 0;i < weltVw.getLaenderListe().size();i = i+anzahlSpieler) {
+			for(int j = 0;j < anzahlSpieler;j++) {
+				if(counter < weltVw.getLaenderListe().size()) {
 					weltVw.getLaenderListe().get(counter).setBesitzer(spielerVw.getSpielerList().get(j));
 					counter++;
 				}
@@ -45,8 +47,10 @@ public class Weltverwaltung {
 		}
 	}
 	
-	private void laenderErstellen()
-	{
+	/**
+	 * erstellt Länder
+	 */
+	private void laenderErstellen()	{
 		//Europa 7
 		laenderListe.add(new Land("Island",new Spieler("unbekannt"),1,"is"));
 		laenderListe.add(new Land("Skandinavien",new Spieler("unbekannt"),1,"sk"));
@@ -102,8 +106,10 @@ public class Weltverwaltung {
 		laenderListe.add(new Land("Grönland",new Spieler("unbekannt"),1,"gl"));
 	}
 	
-	private void verbindungenErstellen()
-	{
+	/**
+	 * erstellt Verbindungen zwischen den Ländern
+	 */
+	private void verbindungenErstellen() {
 		verbindungEinfuegen(0,new int[] {1,6,41});
 		verbindungEinfuegen(1,new int[] {0,2,3,6});		
 		verbindungEinfuegen(2,new int[] {1,3,4,7,14,16});		
@@ -153,33 +159,36 @@ public class Weltverwaltung {
 		verbindungEinfuegen(41,new int[] {0,37,38,40});
 	}
 	
-	//bisher nur Europa
-	public void kontinenteErstellen()
-	{
+	/**
+	 * bisher wird nur Europa erstellt
+	 */
+	public void kontinenteErstellen() {
 		List<Land> eu = new Vector<Land>();
 		
-		for(int i = 0;i < 7;i++)
-		{
+		for(int i = 0;i < 7;i++) {
 			eu.add(laenderListe.get(i));
 		}
 		kontinentenListe.add(new Kontinent("Europa",eu));
 	}
 	
-	public void verbindungEinfuegen(int indexLand1,int[] nachbarlaender)
-	{
-		for(int nachbarland : nachbarlaender)
-		{
+	/**
+	 * @param indexLand1
+	 * @param nachbarlaender
+	 */
+	public void verbindungEinfuegen(int indexLand1,int[] nachbarlaender) {
+		for(int nachbarland : nachbarlaender) {
 			laenderAufteilung[indexLand1][nachbarland] = true;
 			laenderAufteilung[nachbarland][indexLand1] = true;
 		}
 	}
 	
-	public int indexVonLand(Land land)
-	{
-		for(int i = 0;i < laenderListe.size();i++)
-		{
-			if(laenderListe.get(i).equals(land))
-			{
+	/**
+	 * @param land
+	 * @return
+	 */
+	public int indexVonLand(Land land) {
+		for(int i = 0;i < laenderListe.size();i++) {
+			if(laenderListe.get(i).equals(land)) {
 				return i;
 			}
 		}
@@ -187,72 +196,94 @@ public class Weltverwaltung {
 		return 9999;
 	}
 	
-	public Land landVonIndex(int index)
-	{
+	/**
+	 * @param index
+	 * @return Land
+	 */
+	public Land landVonIndex(int index) {
 		return laenderListe.get(index);
 	}
 	
-	public List<Land> getNachbarLaender(Land land)
-	{
+	/**
+	 * @param land
+	 * @return
+	 */
+	public List<Land> getNachbarLaender(Land land) {
 		int index = indexVonLand(land);
 		List<Land> nachbarLaender = new Vector<Land>();
 		
-		for (int i = 0;i < laenderAufteilung[index].length;i++)
-		{
-			if(laenderAufteilung[index][i] == true)
-			{
+		for (int i = 0;i < laenderAufteilung[index].length;i++) {
+			if(laenderAufteilung[index][i] == true) {
 				nachbarLaender.add(laenderListe.get(i));
 			}
 		}
 		return nachbarLaender;			
 	}
 	
-	public boolean istNachbarland(int indexLand1, int indexLand2)
-	{
-		if (laenderAufteilung[indexLand1][indexLand2] == true)
-		{
+	/**
+	 * @param indexLand1
+	 * @param indexLand2
+	 * @return boolean
+	 */
+	public boolean istNachbarland(int indexLand1, int indexLand2) {
+		if (laenderAufteilung[indexLand1][indexLand2] == true) {
 			return true;
 		}
 		return false;
 	}
 	
+	/**
+	 * @return List<Land>
+	 */
 	public List<Land> getLaenderListe() {
 		return laenderListe;
 	}
 
+	/**
+	 * @param laenderListe
+	 */
 	public void setLaenderListe(List<Land> laenderListe) {
 		this.laenderListe = laenderListe;
 	}
 
+	/**
+	 * @return boolean[][]
+	 */
 	public boolean[][] getLaenderAufteilung() {
 		return laenderAufteilung;
 	}
 
+	/**
+	 * @param laenderAufteilung
+	 */
 	public void setLaenderAufteilung(boolean[][] laenderAufteilung) {
 		this.laenderAufteilung = laenderAufteilung;
 	}
 
-
+	/**
+	 * @return List<Kontinent>
+	 */
 	public List<Kontinent> getKontinentenListe() {
 		return kontinentenListe;
 	}
 
-
+	/**
+	 * @param kriegsVw
+	 */
 	public void setVerwaltung(Kriegsverwaltung kriegsVw) {
 		this.kriegsVw = kriegsVw;
 	}
 
-
+	/**
+	 * @param angriffsLandString
+	 * @return Land
+	 */
 	public Land stringToLand(String angriffsLandString) {
-		for(Land land : laenderListe)
-		{
-			if(land.getName().equals(angriffsLandString))
-			{
+		for(Land land : laenderListe) {
+			if(land.getName().equals(angriffsLandString)) {
 				return land;
 			}
 		}
 		return null;
 	}
-	
-	
 }
