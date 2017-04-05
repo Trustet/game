@@ -77,9 +77,9 @@ private Weltverwaltung weltVw;
 		}
 		
 		if(verteidigerEinheiten < 2) {
-			verteidigendeEinheiten = verteidigerEinheiten - 1;
+			verteidigendeEinheiten = verteidigerEinheiten;
 		} else {
-			verteidigendeEinheiten = 3;
+			verteidigendeEinheiten = 2;
 		}
 		
 		wuerfeAngreifer = wuerfeln(angreifendeEinheiten);
