@@ -43,13 +43,4 @@ public class Spielfeld {
 	public void laenderAufteilen(int anzahlSpieler) {
 		weltVw.laenderAufteilen(anzahlSpieler, spielerVw, weltVw);			
 	}
-	
-	/**
-	 * @param land
-	 * @param spieler
-	 * @return List<Land>
-	 */
-	public List<Land> moeglicheAngriffe(Land land,Spieler spieler) {
-		return kriegsVw.moeglicheAngriffsziele(land, spieler);
-	}
 }

@@ -27,16 +27,18 @@ private Weltverwaltung weltVw;
 	 * @param spieler
 	 * @return Vector<Land>
 	 */
-	public List<Land> moeglicheAngriffsziele(Land land, Spieler spieler) {
+	public String moeglicheAngriffsziele(String landString, Spieler spieler) {
+		Land land = weltVw.stringToLand(landString);
 		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);
-		List<Land> angriffsZiele = new Vector<Land>();
+		String nachbarLaenderString = "\nDu kannst mit " + landString + " folgende Länder angreifen: ";
 		
 		for(Land l : nachbarLaender) {
 			if(!l.getBesitzer().equals(spieler)) {
-				angriffsZiele.add(l);
+				nachbarLaenderString += l.getName() + " | ";
 			}
 		}	
-		return angriffsZiele;
+		
+		return nachbarLaenderString;	
 	}
 	
 	/**
@@ -61,7 +63,9 @@ private Weltverwaltung weltVw;
 	 * @param verteidigendesLand
 	 * @return Vector<Integer> Verluste
 	 */
-	public List<Integer> befreiungsAktion(Land angreifendesLand, Land verteidigendesLand) {
+	public String befreiungsAktion(String angreifendesLandString, String verteidigendesLandString) {
+		Land angreifendesLand = weltVw.stringToLand(angreifendesLandString);
+		Land verteidigendesLand = weltVw.stringToLand(verteidigendesLandString);
 		int angreiferEinheiten = angreifendesLand.getEinheiten();
 		int verteidigerEinheiten = verteidigendesLand.getEinheiten();
 		int angreifendeEinheiten;
@@ -69,6 +73,7 @@ private Weltverwaltung weltVw;
 		List<Integer> wuerfeAngreifer;
 		List<Integer> wuerfeVerteidiger;
 		List<Integer> verluste = new Vector<Integer>();
+		String ausgabeString = "";
 		
 		if(angreiferEinheiten < 4) {
 			angreifendeEinheiten = angreiferEinheiten - 1;
@@ -101,8 +106,26 @@ private Weltverwaltung weltVw;
 			 verluste.add(2);
 			 verluste.add(0);
 		}
-		//AngreiferVerlust / VerteidigerVerlust
-		return verluste;
+		//verluste ist ein Vector mit den Angaben: AngreiferVerlust / VerteidigerVerlust
+		angreifendesLand.setEinheiten(angreiferEinheiten - verluste.get(0));
+		verteidigendesLand.setEinheiten(verteidigerEinheiten - verluste.get(1));
+
+		if(verteidigendesLand.getEinheiten() == 0) {
+			ausgabeString += "Land erobert! " + verteidigendesLandString + " gehört jetzt " + angreifendesLand.getBesitzer().getName();
+			verteidigendesLand.setBesitzer(angreifendesLand.getBesitzer());
+			angreifendesLand.setEinheiten(angreifendesLand.getEinheiten() - 1);
+			verteidigendesLand.setEinheiten(verteidigendesLand.getEinheiten() - 1);
+		} else if(verluste.get(0) < verluste.get(1)) {
+			ausgabeString += angreifendesLand.getBesitzer().getName() + " hat gewonnen ";
+		} else if(verluste.get(0) == verluste.get(1)) {
+			ausgabeString += "Unentschieden! Beide verlieren eine Einheit. ";
+		} else if(verluste.get(0) > verluste.get(1)) {
+			ausgabeString += verteidigendesLand.getBesitzer().getName() + " hat gewonnen ";
+		}
+		
+		ausgabeString += "\n" + angreifendesLandString + " hat nun noch " + angreifendesLand.getEinheiten() + " und " + verteidigendesLandString + " hat nun noch " + verteidigendesLand.getEinheiten();
+				
+		return ausgabeString;
 	}
 	
 	/**

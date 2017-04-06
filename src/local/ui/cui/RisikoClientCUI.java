@@ -17,14 +17,26 @@ public class RisikoClientCUI {
 	 */
 	public static void main(String[] args) {
 		RisikoClientCUI cui = new RisikoClientCUI();
-		
+		String weiterAngreifen;
 		cui.spielStarten();	
 		
 		//führt für jeden Spieler die Funktionen aus
 		for(Spieler spieler : cui.sp.spielerVw.getSpielerList()) {	
 			cui.spielerstandAusgeben(spieler);
 			cui.einheitenVerteilen(spieler);
+			
 			cui.angriffsPhase(spieler);
+			System.out.println("Willst du weiter angreifen? Ja / Nein");
+			weiterAngreifen = IO.readString();
+			if(weiterAngreifen == "Ja")
+			{
+				cui.angriffsPhase(spieler);
+			}
+			else
+			{
+				System.out.println("\nDann kannst du nun noch deine Einheiten verschieben.\n");
+				//Einheiten verschieben
+			}
 		}
 	}
 	
@@ -99,6 +111,7 @@ public class RisikoClientCUI {
 			}
 		}
 	}
+
 	
 	/**
 	 * spielt die Angriffsphase durch
@@ -106,35 +119,17 @@ public class RisikoClientCUI {
 	 */
 	public void angriffsPhase(Spieler spieler) {
 			String angriffsLandString;
-			Land angriffsLand;
-			List<Land> angreifbareLaender;
 			String verteidigungsLandString;
-			Land verteidigungsLand;
-			int angreiferVerluste;
-			int verteidigerVerluste;
 			
-			System.out.println("Mit welchem Land möchtest du angreifen?");
-			angriffsLandString = IO.readString();
-			angriffsLand = sp.weltVw.stringToLand(angriffsLandString);
-			angreifbareLaender = sp.moeglicheAngriffe(angriffsLand, spieler);
-			System.out.println("\nDu kannst mit " + angriffsLandString + " folgende Länder angreifen: ");
-			for(Land land : angreifbareLaender)
-			{
-				System.out.print(land.getName() + " |");
-			}
-			
+				System.out.println("Mit welchem Land möchtest du angreifen?");
+				angriffsLandString = IO.readString();
+				System.out.println(sp.kriegsVw.moeglicheAngriffsziele(angriffsLandString, spieler));
+				
 				System.out.println("\n");
 				System.out.println("\nWelches Land willst du angreifen?");
 				verteidigungsLandString = IO.readString();
-
-					verteidigungsLand = sp.weltVw.stringToLand(verteidigungsLandString);
-					angreiferVerluste = sp.kriegsVw.befreiungsAktion(angriffsLand, verteidigungsLand).get(0);
-					verteidigerVerluste = sp.kriegsVw.befreiungsAktion(angriffsLand, verteidigungsLand).get(1);
-					angriffsLand.setEinheiten(angriffsLand.getEinheiten() - angreiferVerluste);
-					verteidigungsLand.setEinheiten(verteidigungsLand.getEinheiten() - verteidigerVerluste);
-					System.out.println("\n" + angriffsLand.getName() + " hat nun noch " + angriffsLand.getEinheiten());
-					System.out.println("\n" + verteidigungsLand.getName() + " hat nun noch " + verteidigungsLand.getEinheiten());
-
+				System.out.println(sp.kriegsVw.befreiungsAktion(angriffsLandString, verteidigungsLandString));
+				//System.out.println("Willst du den selben Angriff erneut durchführen?");
 	}
 }
 
