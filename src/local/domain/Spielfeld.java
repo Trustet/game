@@ -2,6 +2,7 @@ package local.domain;
 
 import java.util.List;
 
+import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.valueobjects.*;
 
 public class Spielfeld {
@@ -15,32 +16,50 @@ public class Spielfeld {
 	 */
 	public Spielfeld() {
 		this.spielerVw = new Spielerverwaltung();
-		this.weltVw = new Weltverwaltung(spielerVw);
+		this.weltVw = new Weltverwaltung();
 		this.kriegsVw = new Kriegsverwaltung(spielerVw, weltVw);
-		spielerVw.setVerwaltung(weltVw, kriegsVw);
-		weltVw.setVerwaltung(kriegsVw);
+//		spielerVw.setVerwaltung(weltVw, kriegsVw);
+//		weltVw.setVerwaltung(kriegsVw);
 	}
 	
 	/**
 	 * erstellt Spieler
 	 * @param name
 	 */
-	public void erstelleSpieler(String name) {
+	public void erstelleSpieler(String name) throws SpielerExistiertBereitsException {
 		spielerVw.neuerSpieler(name);
 	}
 	
-	/**
-	 * @param index
-	 * @return String
-	 */
-	public String zeigeName(int index) {
-		return spielerVw.zeigeName(index);
-	}
+//	/**
+//	 * @param index
+//	 * @return String
+//	 */
+//	public String zeigeName(int index) {
+//		return spielerVw.zeigeName(index);
+//	}
 	
 	/**
 	 * @param anzahlSpieler
 	 */
 	public void laenderAufteilen(int anzahlSpieler) {
-		weltVw.laenderAufteilen(anzahlSpieler, spielerVw, weltVw);			
+//		weltVw.laenderAufteilen(anzahlSpieler, spielerVw, weltVw);			
+		List<Spieler> spielerListe = spielerVw.getSpielerList();
+		weltVw.laenderAufteilen(spielerListe);		
+	}
+	
+	/**
+	 * @param spieler
+	 * @return int
+	 */
+	public int bekommtEinheiten(Spieler spieler) {
+		return kriegsVw.bekommtEinheiten(spieler);
+	}
+	
+	/**
+	 * @param spieler
+	 * @return List<Land>
+	 */
+	public List<Land> besitztLaender(Spieler spieler) {
+		return weltVw.besitztLaender(spieler);
 	}
 }

@@ -63,6 +63,10 @@ private Weltverwaltung weltVw;
 	 * @param verteidigendesLand
 	 * @return Vector<Integer> Verluste
 	 */
+
+//	public AttackResult befreiungsAktion(Attack attack) {
+//		Attack -> Angreifer, Verteidiger, vielleicht noch wie viele Würfel
+//		AttackResult -> AngreiferLand, VerteidigerLand, Gewinner / Verluste 
 	public String befreiungsAktion(String angreifendesLandString, String verteidigendesLandString) {
 		Land angreifendesLand = weltVw.stringToLand(angreifendesLandString);
 		Land verteidigendesLand = weltVw.stringToLand(verteidigendesLandString);
@@ -136,4 +140,19 @@ private Weltverwaltung weltVw;
 	public void einheitenPositionieren(int anzahl, Land land) {
 		land.setEinheiten(land.getEinheiten() + anzahl);
 	}
+	
+	/**
+	 * @param spieler
+	 * @return int
+	 */
+	public int bekommtEinheiten(Spieler spieler) {
+		int einheiten = 0;
+		
+		einheiten = weltVw.besitztLaender(spieler).size()/3;
+		if (einheiten < 3) {
+			einheiten = 3;
+		}
+		return einheiten;
+	}
+
 }

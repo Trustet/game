@@ -13,4 +13,12 @@ public class Spieler {
 		this.name = name;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Spieler) {
+			Spieler andererSpieler = (Spieler) obj;
+			return this.name.equals(andererSpieler.getName());
+		}
+		return false;
+	}
 }
