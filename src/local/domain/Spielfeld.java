@@ -18,8 +18,6 @@ public class Spielfeld {
 		this.spielerVw = new Spielerverwaltung();
 		this.weltVw = new Weltverwaltung();
 		this.kriegsVw = new Kriegsverwaltung(spielerVw, weltVw);
-//		spielerVw.setVerwaltung(weltVw, kriegsVw);
-//		weltVw.setVerwaltung(kriegsVw);
 	}
 	
 	/**
@@ -30,19 +28,11 @@ public class Spielfeld {
 		spielerVw.neuerSpieler(name);
 	}
 	
-//	/**
-//	 * @param index
-//	 * @return String
-//	 */
-//	public String zeigeName(int index) {
-//		return spielerVw.zeigeName(index);
-//	}
-	
+
 	/**
 	 * @param anzahlSpieler
 	 */
-	public void laenderAufteilen(int anzahlSpieler) {
-//		weltVw.laenderAufteilen(anzahlSpieler, spielerVw, weltVw);			
+	public void laenderAufteilen(int anzahlSpieler) {		
 		List<Spieler> spielerListe = spielerVw.getSpielerList();
 		weltVw.laenderAufteilen(spielerListe);		
 	}

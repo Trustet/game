@@ -8,18 +8,16 @@ public class Weltverwaltung {
 
 	private static int laenderAnzahl = 42;
 	private boolean[][] laenderAufteilung;
-// 	private Spielerverwaltung spielerVw;
 	private List<Land> laenderListe = new Vector<Land>();
 	private List<Kontinent> kontinentenListe = new Vector<Kontinent>();
-// 	private Kriegsverwaltung kriegsVw;
+
 
 	/**
 	 * @param spielerVw
 	 */
-	public Weltverwaltung(/* Spielerverwaltung spielerVw */) {
+	public Weltverwaltung() {
 		laenderAufteilung = new boolean[laenderAnzahl][laenderAnzahl];
 		
-//		this.spielerVw = spielerVw;
 		for(int spalte = 0; spalte < laenderAnzahl;spalte++) {
 			for(int zeile = 0; zeile < laenderAnzahl;zeile++) {
 				laenderAufteilung[spalte][zeile] = false;
@@ -35,17 +33,6 @@ public class Weltverwaltung {
 	 * @param spielerVw
 	 * @param weltVw
 	 */
-//	public void laenderAufteilen(int anzahlSpieler, Spielerverwaltung spielerVw, Weltverwaltung weltVw) {
-//		int counter = 0;
-//		for(int i = 0;i < weltVw.getLaenderListe().size();i = i+anzahlSpieler) {
-//			for(int j = 0;j < anzahlSpieler;j++) {
-//				if(counter < weltVw.getLaenderListe().size()) {
-//					weltVw.getLaenderListe().get(counter).setBesitzer(spielerVw.getSpielerList().get(j));
-//					counter++;
-//				}
-//			}
-//		}
-//	}
 	public void laenderAufteilen(List<Spieler> spielerListe) {
 		int counter = 0;
 		int anzahlSpieler = spielerListe.size();
@@ -282,12 +269,7 @@ public class Weltverwaltung {
 		return kontinentenListe;
 	}
 
-//	/**
-//	 * @param kriegsVw
-//	 */
-//	public void setVerwaltung(Kriegsverwaltung kriegsVw) {
-//		this.kriegsVw = kriegsVw;
-//	}
+
 
 	/**
 	 * @param angriffsLandString
