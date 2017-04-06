@@ -7,7 +7,6 @@ import local.domain.Spielfeld;
 import local.valueobjects.*;
 
 public class RisikoClientCUI {
-// ich mag datvi
 	//Domain-Komponente, welche die Verwaltungen verwaltet
 	Spielfeld sp = new Spielfeld();
 	
