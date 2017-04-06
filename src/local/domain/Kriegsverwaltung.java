@@ -107,8 +107,8 @@ private Weltverwaltung weltVw;
 			 verluste.add(0);
 		}
 		//verluste ist ein Vector mit den Angaben: AngreiferVerlust / VerteidigerVerlust
-		angreifendesLand.setEinheiten(angreiferEinheiten - verluste.get(0));
-		verteidigendesLand.setEinheiten(verteidigerEinheiten - verluste.get(1));
+		angreifendesLand.setEinheiten(angreifendesLand.getEinheiten() - verluste.get(0));
+		verteidigendesLand.setEinheiten(verteidigendesLand.getEinheiten() - verluste.get(1));
 
 		if(verteidigendesLand.getEinheiten() == 0) {
 			ausgabeString += "Land erobert! " + verteidigendesLandString + " gehört jetzt " + angreifendesLand.getBesitzer().getName();

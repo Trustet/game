@@ -25,7 +25,12 @@ public class RisikoClientCUI {
 			cui.spielerstandAusgeben(spieler);
 			cui.einheitenVerteilen(spieler);
 			
+		}
+		
+		for(Spieler spieler : cui.sp.spielerVw.getSpielerList()) {
+			System.out.println("\n" + spieler.getName() + " ist nun dran!\n");
 			cui.angriffsPhase(spieler);
+			
 			System.out.println("Willst du weiter angreifen? Ja / Nein");
 			weiterAngreifen = IO.readString();
 			if(weiterAngreifen == "Ja")
@@ -128,8 +133,19 @@ public class RisikoClientCUI {
 				System.out.println("\n");
 				System.out.println("\nWelches Land willst du angreifen?");
 				verteidigungsLandString = IO.readString();
-				System.out.println(sp.kriegsVw.befreiungsAktion(angriffsLandString, verteidigungsLandString));
-				//System.out.println("Willst du den selben Angriff erneut durchführen?");
+				angreifen(angriffsLandString,verteidigungsLandString);
+	}
+	
+	public void angreifen(String angriffsLandString, String verteidigungsLandString)
+	{
+		String selberAngriff;
+		System.out.println(sp.kriegsVw.befreiungsAktion(angriffsLandString, verteidigungsLandString));
+		System.out.println("Willst du den selben Angriff erneut durchführen? Ja / Nein");
+		selberAngriff = IO.readString();
+		if(selberAngriff == "Ja")
+		{
+			angreifen(angriffsLandString, verteidigungsLandString);
+		}
 	}
 }
 
