@@ -7,8 +7,12 @@ import local.domain.Spielfeld;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.valueobjects.*;
 
+<<<<<<< HEAD
 public class RisikoClientCUI {
 	// ich mag datvi
+=======
+public class RisikoClientCUI {
+>>>>>>> origin/master
 	//Domain-Komponente, welche die Verwaltungen verwaltet
 	Spielfeld sp = new Spielfeld();
 

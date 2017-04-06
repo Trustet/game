@@ -64,59 +64,61 @@ public class Weltverwaltung {
 	 * erstellt Länder
 	 */
 	private void laenderErstellen()	{
+		Spieler leer = new Spieler("Unbekannt");
+		
 		//Europa 7
-		laenderListe.add(new Land("Island",new Spieler("unbekannt"),1,"is"));
-		laenderListe.add(new Land("Skandinavien",new Spieler("unbekannt"),1,"sk"));
-		laenderListe.add(new Land("Ukraine",new Spieler("unbekannt"),1,"uk"));
-		laenderListe.add(new Land("Nord-Europa",new Spieler("unbekannt"),1,"ne"));
-		laenderListe.add(new Land("Sud-Europa",new Spieler("unbekannt"),1,"se"));
-		laenderListe.add(new Land("West-Europa",new Spieler("unbekannt"),1,"we"));
-		laenderListe.add(new Land("Großbritannien",new Spieler("unbekannt"),1,"gr"));
+		laenderListe.add(new Land("Island",leer,1,"is"));
+		laenderListe.add(new Land("Skandinavien",leer,1,"sk"));
+		laenderListe.add(new Land("Ukraine",leer,1,"uk"));
+		laenderListe.add(new Land("Nord-Europa",leer,1,"ne"));
+		laenderListe.add(new Land("Sud-Europa",leer,1,"se"));
+		laenderListe.add(new Land("West-Europa",leer,1,"we"));
+		laenderListe.add(new Land("Großbritannien",leer,1,"gr"));
 		
 		//Asien 12
-		laenderListe.add(new Land("Ural",new Spieler("unbekannt"),1,"ur"));
-		laenderListe.add(new Land("Sibirien",new Spieler("unbekannt"),1,"si"));
-		laenderListe.add(new Land("Jakutien",new Spieler("unbekannt"),1,"ja"));
-		laenderListe.add(new Land("Kamtschatka",new Spieler("unbekannt"),1,"ka"));
-		laenderListe.add(new Land("Irtusk",new Spieler("unbekannt"),1,"ir"));
-		laenderListe.add(new Land("Mongolei",new Spieler("unbekannt"),1,"mo"));
-		laenderListe.add(new Land("Japan",new Spieler("unbekannt"),1,"ja"));
-		laenderListe.add(new Land("Afghanistan",new Spieler("unbekannt"),1,"af"));
-		laenderListe.add(new Land("China",new Spieler("unbekannt"),1,"ch"));
-		laenderListe.add(new Land("Mittlerer Osten",new Spieler("unbekannt"),1,"mo"));
-		laenderListe.add(new Land("Indien",new Spieler("unbekannt"),1,"in"));
-		laenderListe.add(new Land("Siam",new Spieler("unbekannt"),1,"si"));
+		laenderListe.add(new Land("Ural",leer,1,"ur"));
+		laenderListe.add(new Land("Sibirien",leer,1,"si"));
+		laenderListe.add(new Land("Jakutien",leer,1,"ja"));
+		laenderListe.add(new Land("Kamtschatka",leer,1,"ka"));
+		laenderListe.add(new Land("Irtusk",leer,1,"ir"));
+		laenderListe.add(new Land("Mongolei",leer,1,"mo"));
+		laenderListe.add(new Land("Japan",leer,1,"ja"));
+		laenderListe.add(new Land("Afghanistan",leer,1,"af"));
+		laenderListe.add(new Land("China",leer,1,"ch"));
+		laenderListe.add(new Land("Mittlerer Osten",leer,1,"mo"));
+		laenderListe.add(new Land("Indien",leer,1,"in"));
+		laenderListe.add(new Land("Siam",leer,1,"si"));
 		
 		//Australien 4
-		laenderListe.add(new Land("Neu-Guinea",new Spieler("unbekannt"),1,"ng"));
-		laenderListe.add(new Land("Indonesien",new Spieler("unbekannt"),1,"in"));
-		laenderListe.add(new Land("Ostaustralien",new Spieler("unbekannt"),1,"os"));
-		laenderListe.add(new Land("Westaustralien",new Spieler("unbekannt"),1,"we"));
+		laenderListe.add(new Land("Neu-Guinea",leer,1,"ng"));
+		laenderListe.add(new Land("Indonesien",leer,1,"in"));
+		laenderListe.add(new Land("Ostaustralien",leer,1,"os"));
+		laenderListe.add(new Land("Westaustralien",leer,1,"we"));
 		
 		//Afrika 6
-		laenderListe.add(new Land("Ägypten",new Spieler("unbekannt"),1,"äg"));
-		laenderListe.add(new Land("Ostafrika",new Spieler("unbekannt"),1,"oa"));
-		laenderListe.add(new Land("Kongo",new Spieler("unbekannt"),1,"ko"));
-		laenderListe.add(new Land("Südafrika",new Spieler("unbekannt"),1,"sü"));
-		laenderListe.add(new Land("Nordwestafrika",new Spieler("unbekannt"),1,"no"));
-		laenderListe.add(new Land("Madagaskar",new Spieler("unbekannt"),1,"ma"));
+		laenderListe.add(new Land("Ägypten",leer,1,"äg"));
+		laenderListe.add(new Land("Ostafrika",leer,1,"oa"));
+		laenderListe.add(new Land("Kongo",leer,1,"ko"));
+		laenderListe.add(new Land("Südafrika",leer,1,"sü"));
+		laenderListe.add(new Land("Nordwestafrika",leer,1,"no"));
+		laenderListe.add(new Land("Madagaskar",leer,1,"ma"));
 		
 		//Südamerika 4
-		laenderListe.add(new Land("Argentinien",new Spieler("unbekannt"),1,"ar"));
-		laenderListe.add(new Land("Peru",new Spieler("unbekannt"),1,"pe"));
-		laenderListe.add(new Land("Brasilien",new Spieler("unbekannt"),1,"br"));
-		laenderListe.add(new Land("Venezuela",new Spieler("unbekannt"),1,"ve"));
+		laenderListe.add(new Land("Argentinien",leer,1,"ar"));
+		laenderListe.add(new Land("Peru",leer,1,"pe"));
+		laenderListe.add(new Land("Brasilien",leer,1,"br"));
+		laenderListe.add(new Land("Venezuela",leer,1,"ve"));
 		
 		//Nordamerika 9
-		laenderListe.add(new Land("Mittelamerika",new Spieler("unbekannt"),1,"ma"));
-		laenderListe.add(new Land("Oststaaten",new Spieler("unbekannt"),1,"os"));
-		laenderListe.add(new Land("Weststaaten",new Spieler("unbekannt"),1,"ws"));
-		laenderListe.add(new Land("Alberta",new Spieler("unbekannt"),1,"al"));
-		laenderListe.add(new Land("Ontario",new Spieler("unbekannt"),1,"on"));
-		laenderListe.add(new Land("Quebec",new Spieler("unbekannt"),1,"qu"));
-		laenderListe.add(new Land("Alaska",new Spieler("unbekannt"),1,"al"));
-		laenderListe.add(new Land("Nordwest-Territorium",new Spieler("unbekannt"),1,"nt"));
-		laenderListe.add(new Land("Grönland",new Spieler("unbekannt"),1,"gl"));
+		laenderListe.add(new Land("Mittelamerika",leer,1,"ma"));
+		laenderListe.add(new Land("Oststaaten",leer,1,"os"));
+		laenderListe.add(new Land("Weststaaten",leer,1,"ws"));
+		laenderListe.add(new Land("Alberta",leer,1,"al"));
+		laenderListe.add(new Land("Ontario",leer,1,"on"));
+		laenderListe.add(new Land("Quebec",leer,1,"qu"));
+		laenderListe.add(new Land("Alaska",leer,1,"al"));
+		laenderListe.add(new Land("Nordwest-Territorium",leer,1,"nt"));
+		laenderListe.add(new Land("Grönland",leer,1,"gl"));
 	}
 	
 	/**
