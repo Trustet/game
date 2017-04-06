@@ -39,7 +39,6 @@ public class Land {
 		this.einheiten = einheiten;
 	}
 
-	@Override
 	public String toString() {
 		return "Land [name=" + name + ", besitzer=" + besitzer.getName() + ", einheiten=" + einheiten + "]";
 	}
