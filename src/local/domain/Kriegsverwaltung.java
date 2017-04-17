@@ -10,6 +10,7 @@ public class Kriegsverwaltung {
 
 private Spielerverwaltung spielerVw;
 private Weltverwaltung weltVw;
+public phasen Phase;
 	
 	/**
 	 * Konstruktor Kriegsverwaltung
@@ -19,6 +20,7 @@ private Weltverwaltung weltVw;
 	public Kriegsverwaltung(Spielerverwaltung spielerVw, Weltverwaltung weltVw) {
 	this.spielerVw = spielerVw;
 	this.weltVw = weltVw;
+	Phase = phasen.ANGRIFF;
 	}
 
 	/**
@@ -34,6 +36,20 @@ private Weltverwaltung weltVw;
 		
 		for(Land l : nachbarLaender) {
 			if(!l.getBesitzer().equals(spieler)) {
+				nachbarLaenderString += l.getName() + " | ";
+			}
+		}	
+		
+		return nachbarLaenderString;	
+	}
+	
+	public String eigeneNachbarn(String landString, Spieler spieler) {
+		Land land = weltVw.stringToLand(landString);
+		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);
+		String nachbarLaenderString = "\nDu kannst mit " + landString + " auf folgende Laender verschieben: ";
+		
+		for(Land l : nachbarLaender) {
+			if(l.getBesitzer().equals(spieler)) {
 				nachbarLaenderString += l.getName() + " | ";
 			}
 		}	
@@ -154,5 +170,33 @@ private Weltverwaltung weltVw;
 		}
 		return einheiten;
 	}
+	public void nextTurn(){
+		switch(Phase){
+			case VERSCHIEBEN:
+				Phase = phasen.VERTEILEN;
+				break;
+			case ANGRIFF:
+				Phase = phasen.VERSCHIEBEN;
+				break;
+			case VERTEILEN:
+				Phase = phasen.ANGRIFF;
+				break;
+				
+		}
+	}
+	/**
+	 * Phasen Enum
+	 */
+	public enum phasen{
+		VERTEILEN,ANGRIFF,VERSCHIEBEN
+	}
+	
 
+	public phasen getTurn(){
+		return Phase;
+	}
+	public Spieler nextSpieler(Spieler spieler){
+		return spieler;
+	}
+	
 }

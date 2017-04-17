@@ -2,6 +2,7 @@ package local.domain;
 
 import java.util.List;
 
+import local.domain.Kriegsverwaltung.phasen;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.valueobjects.*;
 
@@ -10,11 +11,14 @@ public class Spielfeld {
 	public Spielerverwaltung spielerVw;
 	public Weltverwaltung weltVw;
 	public Kriegsverwaltung kriegsVw;
+	public phasen Phase;
+	
 	
 	/**
 	 * Konstruktor erstellt die Verwaltungen, so dass sie sich untereinander kennen
 	 */
 	public Spielfeld() {
+		
 		this.spielerVw = new Spielerverwaltung();
 		this.weltVw = new Weltverwaltung();
 		this.kriegsVw = new Kriegsverwaltung(spielerVw, weltVw);
@@ -52,4 +56,22 @@ public class Spielfeld {
 	public List<Land> besitztLaender(Spieler spieler) {
 		return weltVw.besitztLaender(spieler);
 	}
+	
+	public phasen getTurn(){
+		return kriegsVw.getTurn();
+	}
+	public void nextTurn(){
+		kriegsVw.nextTurn();
+	}
+	
+	public Spieler getAktiverSpieler(){
+		return spielerVw.getAktiverSpieler();
+	}
+	public void naechsterSpieler(){
+		spielerVw.naechsterSpieler();
+	}
+	public String eigeneNachbarn(String landString, Spieler spieler){
+		return kriegsVw.eigeneNachbarn(landString, spieler);
+	}
+
 }

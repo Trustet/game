@@ -9,7 +9,7 @@ import local.valueobjects.Spieler;
 public class Spielerverwaltung {
 
 	private List<Spieler> spielerListe = new Vector<Spieler>();
-
+	private int spielerNummer = 0;
 	/**
 	 * @param index
 	 * @return Spieler
@@ -18,6 +18,17 @@ public class Spielerverwaltung {
 		return this.spielerListe.get(index-1);
 	}
 	
+	public Spieler getAktiverSpieler(){
+		return this.spielerListe.get(spielerNummer);
+	}
+	
+	public void naechsterSpieler(){
+		if(spielerNummer < this.spielerListe.size()-1){
+			spielerNummer++;
+		}else{
+			spielerNummer = 0;
+		}
+	}
 	/**
 	 * @param name
 	 */

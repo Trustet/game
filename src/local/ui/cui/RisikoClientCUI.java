@@ -4,6 +4,7 @@ package local.ui.cui;
 import java.util.List;
 
 import local.domain.Spielfeld;
+import local.domain.Kriegsverwaltung.phasen;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.valueobjects.*;
 
@@ -11,13 +12,16 @@ import local.valueobjects.*;
 public class RisikoClientCUI {
 
 	//Domain-Komponente, welche die Verwaltungen verwaltet
-	Spielfeld sp = new Spielfeld();
+	static Spielfeld sp = new Spielfeld();
+	public static phasen Phase;
+	private static boolean gewonnen = false;
 
 	/**
 	 * Main-Methode der CUI
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args)  {
+		
 		RisikoClientCUI cui = new RisikoClientCUI();
 		String weiterAngreifen;
 		cui.spielStarten();	
@@ -28,24 +32,56 @@ public class RisikoClientCUI {
 			cui.einheitenVerteilen(spieler);
 
 		}
-
-		for(Spieler spieler : cui.sp.spielerVw.getSpielerList()) {
-			System.out.println("\n" + spieler.getName() + " ist nun dran!\n");
-			cui.angriffsPhase(spieler);
-
-			System.out.println("Willst du weiter angreifen? Ja / Nein");
-			weiterAngreifen = IO.readString();
-			if(weiterAngreifen == "Ja")
-			{
+		do{
+		Spieler spieler = sp.getAktiverSpieler();
+//		for(Spieler spieler : cui.sp.spielerVw.getSpielerList()) {
+//			System.out.println("\n" + spieler.getName() + " ist nun dran!\n");
+			//cui.angriffsPhase(spieler);
+//			int enden = 1;
+//			do{
+//				System.out.println("Der name vom ersten Spieler lautet " + sp.getAktiverSpieler().getName());
+//				sp.naechsterSpieler();
+//				System.out.println("Weiter = 0");
+//				enden = IO.readInt();
+//			}while(enden == 0);
+		
+			//Testtext
+			System.out.println(sp.getTurn() + "Aktuelle Phase");
+			//
+			switch(sp.getTurn()){
+			
+			case VERSCHIEBEN:
+				System.out.println("Verschieben");
+				cui.verschieben(spieler);
+				sp.nextTurn();
+				break;
+			case ANGRIFF:
+				System.out.println("Angriff");
 				cui.angriffsPhase(spieler);
+				sp.nextTurn();
+				break;
+			case VERTEILEN:
+				System.out.println("Verteilen");
+				sp.naechsterSpieler();
+				sp.nextTurn();
+				break;
+				
 			}
-			else
-			{
-				System.out.println("\nDann kannst du nun noch deine Einheiten verschieben.\n");
-				//Einheiten verschieben
-			}
-		}
-	}
+			
+//			System.out.println("Willst du weiter angreifen? Ja / Nein");
+//			weiterAngreifen = IO.readString();
+//			if(weiterAngreifen.equals("Ja"))
+//			{
+//				cui.angriffsPhase(spieler);
+//			}
+//			else
+//			{
+//				System.out.println("\nDann kannst du nun noch deine Einheiten verschieben.\n");
+//				//Einheiten verschieben
+//			}
+	}while(gewonnen == false);
+}
+//	}
 
 	/**
 	 * startet das Spiel
@@ -138,7 +174,7 @@ public class RisikoClientCUI {
 		String angriffsLandString;
 		String verteidigungsLandString;
 
-		System.out.println("Mit welchem Land möchtest du angreifen?");
+		System.out.println(spieler.getName() + "Mit welchem Land möchtest du angreifen?");
 		angriffsLandString = IO.readString();
 		System.out.println(sp.kriegsVw.moeglicheAngriffsziele(angriffsLandString, spieler));
 
@@ -154,9 +190,57 @@ public class RisikoClientCUI {
 		System.out.println(sp.kriegsVw.befreiungsAktion(angriffsLandString, verteidigungsLandString));
 		System.out.println("Willst du den selben Angriff erneut durchführen? Ja / Nein");
 		selberAngriff = IO.readString();
-		if(selberAngriff == "Ja")
+		if(selberAngriff.equals("Ja"))
 		{
 			angreifen(angriffsLandString, verteidigungsLandString);
+		}
+	}
+	/**
+	 * spielt die Verschiebenphase durch
+	 * @param spieler
+	 */
+	public void verschieben(Spieler spieler){
+		Land erstesLand;
+		boolean kannVerschieben = false;
+		boolean gehoertLand = false;
+		boolean fertigMitVerschieben = false;
+		String zielLand;
+		System.out.println("Moechtest du Einheiten verschieben? Ja/Nein");
+		String antwort = IO.readString();
+		if(antwort.equals("Ja")){
+				System.out.println("Von welchem Land moechtest du Einheiten verschieben?");
+				for(Land land : sp.besitztLaender(spieler))
+				{
+					System.out.print(land.getName() + " |");
+				}
+				System.out.println();
+				
+				do{
+						antwort = IO.readString();
+						if(sp.weltVw.stringToLand(antwort) != null){
+							
+							System.out.println("Land gehoert dir");
+							gehoertLand = true;
+						
+						}else{
+							System.out.println("Land gehoert nicht dir");
+							System.out.println("Bitte gebe dein Land ein");
+								
+						}
+					}while(gehoertLand == false);
+					erstesLand = sp.weltVw.stringToLand(antwort);
+					if(erstesLand.getEinheiten() < 2){
+				
+						System.out.println("Das Land hat nur " + erstesLand.getEinheiten() + " Einheiten, bitte waehle ein anderes Land");
+						this.verschieben(spieler);
+						
+					}else{
+						System.out.println(sp.eigeneNachbarn(antwort, spieler));
+						zielLand = IO.readString();
+						Land zweitesLand = sp.weltVw.stringToLand(zielLand);
+						System.out.println(antwort + " hat " +  erstesLand.getEinheiten() + " Einheiten");
+						System.out.println(zielLand + " hat " + zweitesLand.getEinheiten() + " Einheiten");
+					}
 		}
 	}
 }
