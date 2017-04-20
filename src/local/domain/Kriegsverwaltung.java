@@ -196,7 +196,7 @@ public phasen Phase;
 			
 			return einheiten;
 		}
-	}
+	
 	public void nextTurn(){
 		switch(Phase){
 			case VERSCHIEBEN:

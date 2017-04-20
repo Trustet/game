@@ -170,6 +170,7 @@ public class Weltverwaltung {
 		for(int i = 0;i < 7;i++) {
 			eu.add(laenderListe.get(i));
 		}
+	
 		kontinentenListe.add(new Kontinent("Europa",eu));
 List<Land> asien = new Vector<Land>();
 		
@@ -198,7 +199,7 @@ List<Land> asien = new Vector<Land>();
 		}
 		kontinentenListe.add(new Kontinent("Nordamerika",nordamerika));
 	}
-	}
+	
 	
 	/**
 	 * @param indexLand1
