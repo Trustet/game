@@ -163,12 +163,39 @@ public phasen Phase;
 	 */
 	public int bekommtEinheiten(Spieler spieler) {
 		int einheiten = 0;
+		Spieler speicher;
+		int anzahl=0;
 		
 		einheiten = weltVw.besitztLaender(spieler).size()/3;
 		if (einheiten < 3) {
 			einheiten = 3;
+			for (Kontinent k : weltVw.getKontinentenListe()){
+				for (int i=1;i<k.getLaender().size();i++){
+					if(k.getLaender().get(i).getBesitzer() == k.getLaender().get(i-1).getBesitzer())
+					{
+						speicher= k.getLaender().get(i).getBesitzer();
+						anzahl++;
+						
+					}
+					if (anzahl==k.getLaender().size()){
+						if (k.getName() == "Europa"){
+							einheiten+=5;	
+						}else if(k.getName() =="Asien"){
+							einheiten+=7;
+						}else if(k.getName() == "Afrika"){
+							einheiten+=3;
+						}else if(k.getName() == "Suedamerika"){
+							einheiten+=2;
+						}else if(k.getName() == "Nordamerika"){
+							einheiten+=5;
+						}
+					}
+				}
+			}
+			}
+			
+			return einheiten;
 		}
-		return einheiten;
 	}
 	public void nextTurn(){
 		switch(Phase){

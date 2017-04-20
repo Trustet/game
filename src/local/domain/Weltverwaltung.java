@@ -171,6 +171,33 @@ public class Weltverwaltung {
 			eu.add(laenderListe.get(i));
 		}
 		kontinentenListe.add(new Kontinent("Europa",eu));
+List<Land> asien = new Vector<Land>();
+		
+		for (int i=7;i < 19;i++){
+			asien.add(laenderListe.get(i));
+		}
+		kontinentenListe.add(new Kontinent("Asien",asien));
+		List<Land> australien= new Vector<Land>();
+		for (int i=19;i < 23;i++){
+			australien.add(laenderListe.get(i));
+		}
+		kontinentenListe.add(new Kontinent("Australien",australien));
+		List<Land> afrika = new Vector<Land>();
+		for (int i=23;i < 29;i++){
+			afrika.add(laenderListe.get(i));
+		}
+		kontinentenListe.add(new Kontinent("Afrika",afrika));
+		List<Land> suedamerika = new Vector<Land>();
+		for (int i=29;i < 33;i++){
+			suedamerika.add(laenderListe.get(i));
+		}
+		kontinentenListe.add(new Kontinent("Suedamerika",suedamerika));
+		List<Land> nordamerika = new Vector<Land>();
+		for (int i=33;i < 42;i++){
+			nordamerika.add(laenderListe.get(i));
+		}
+		kontinentenListe.add(new Kontinent("Nordamerika",nordamerika));
+	}
 	}
 	
 	/**
