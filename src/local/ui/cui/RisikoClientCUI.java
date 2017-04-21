@@ -51,8 +51,11 @@ public class RisikoClientCUI {
 			switch(sp.getTurn()){
 			
 			case VERSCHIEBEN:
-				System.out.println("Verschieben");
-				cui.verschieben(spieler);
+				System.out.println("Moechtest du Einheiten verschieben? Ja/Nein");
+				String antwort = IO.readString();
+				if(antwort.equals("Ja")){
+					cui.verschieben(spieler);
+				}
 				sp.nextTurn();
 				break;
 			case ANGRIFF:
@@ -201,39 +204,31 @@ public class RisikoClientCUI {
 	 */
 	public void verschieben(Spieler spieler){
 		Land erstesLand;
+		String antwort;
 		boolean kannVerschieben = false;
 		boolean gehoertLand = false;
 		boolean fertigMitVerschieben = false;
 		String zielLand;
-		System.out.println("Moechtest du Einheiten verschieben? Ja/Nein");
-		String antwort = IO.readString();
-		if(antwort.equals("Ja")){
+		
 				System.out.println("Von welchem Land moechtest du Einheiten verschieben?");
 				for(Land land : sp.besitztLaender(spieler))
 				{
 					System.out.print(land.getName() + " |");
 				}
 				System.out.println();
-				
 				do{
 						antwort = IO.readString();
-						if(sp.weltVw.stringToLand(antwort) != null){
-							
-							System.out.println("Land gehoert dir");
+						if(sp.stringToLand(antwort) != null && sp.stringToLand(antwort).getBesitzer().equals(spieler)){
 							gehoertLand = true;
-						
 						}else{
 							System.out.println("Land gehoert nicht dir");
-							System.out.println("Bitte gebe dein Land ein");
-								
+							System.out.println("Bitte gebe ein anderes Land ein");			
 						}
 					}while(gehoertLand == false);
-					erstesLand = sp.weltVw.stringToLand(antwort);
+					erstesLand = sp.stringToLand(antwort);
 					if(erstesLand.getEinheiten() < 2){
-				
-						System.out.println("Das Land hat nur " + erstesLand.getEinheiten() + " Einheiten, bitte waehle ein anderes Land");
+						System.out.println("Das Land hat nur " + erstesLand.getEinheiten() + " Einheit, bitte waehle ein anderes Land");
 						this.verschieben(spieler);
-						
 					}else{
 						System.out.println(sp.eigeneNachbarn(antwort, spieler));
 						zielLand = IO.readString();
@@ -241,7 +236,6 @@ public class RisikoClientCUI {
 						System.out.println(antwort + " hat " +  erstesLand.getEinheiten() + " Einheiten");
 						System.out.println(zielLand + " hat " + zweitesLand.getEinheiten() + " Einheiten");
 					}
-		}
 	}
 }
 

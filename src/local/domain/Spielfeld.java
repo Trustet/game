@@ -73,5 +73,10 @@ public class Spielfeld {
 	public String eigeneNachbarn(String landString, Spieler spieler){
 		return kriegsVw.eigeneNachbarn(landString, spieler);
 	}
-
+	public Land stringToLand(String angriffsLandString) {
+		return weltVw.stringToLand(angriffsLandString);
+	}
+	
 }
+
+
