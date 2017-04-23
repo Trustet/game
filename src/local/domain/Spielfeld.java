@@ -76,7 +76,19 @@ public class Spielfeld {
 	public Land stringToLand(String angriffsLandString) {
 		return weltVw.stringToLand(angriffsLandString);
 	}
-	
+	public void einheitenPositionieren(int anzahl, Land land) {
+		kriegsVw.einheitenPositionieren(anzahl, land);
+	}
+	public String moeglicheAngriffsziele(String landString, Spieler spieler) {
+		return kriegsVw.moeglicheAngriffsziele(landString, spieler);
+	}
+	public String befreiungsAktion(String angreifendesLandString, String verteidigendesLandString) {
+		return kriegsVw.befreiungsAktion(angreifendesLandString, verteidigendesLandString);
+	}
+	public List<Spieler> getSpielerList() {
+		return spielerVw.getSpielerList();
+	}
+
 }
 
 

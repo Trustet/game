@@ -27,7 +27,7 @@ public class RisikoClientCUI {
 		cui.spielStarten();	
 
 		//führt für jeden Spieler die Funktionen aus
-		for(Spieler spieler : cui.sp.spielerVw.getSpielerList()) {	
+		for(Spieler spieler : cui.sp.getSpielerList()) {	
 			cui.spielerstandAusgeben(spieler);
 			cui.einheitenVerteilen(spieler);
 
@@ -154,13 +154,13 @@ public class RisikoClientCUI {
 			System.out.println("Auf welches Land möchtest du Einheiten setzen?");
 			landString = IO.readString();
 			if(sp.stringToLand(landString) != null){
-				land = sp.weltVw.stringToLand(landString);
+				land = sp.stringToLand(landString);
 				if(land.getBesitzer().equals(spieler)){
 					System.out.println("Wie viele Einheiten möchtest du auf " + land.getName() + " setzen?");
 					einheiten = IO.readInt();
 					if(einheiten <= einheitenAnzahl)
 					{
-						sp.kriegsVw.einheitenPositionieren(einheiten, land);
+						sp.einheitenPositionieren(einheiten, land);
 						System.out.println(land.getName() + " hat jetzt " + land.getEinheiten() + " Einheiten.");
 						einheitenAnzahl -= einheiten;
 					} else {
@@ -186,7 +186,7 @@ public class RisikoClientCUI {
 
 		System.out.println(spieler.getName() + "Mit welchem Land möchtest du angreifen?");
 		angriffsLandString = IO.readString();
-		System.out.println(sp.kriegsVw.moeglicheAngriffsziele(angriffsLandString, spieler));
+		System.out.println(sp.moeglicheAngriffsziele(angriffsLandString, spieler));
 
 		System.out.println("\n");
 		System.out.println("\nWelches Land willst du angreifen?");
@@ -197,7 +197,7 @@ public class RisikoClientCUI {
 	public void angreifen(String angriffsLandString, String verteidigungsLandString)
 	{
 		String selberAngriff;
-		System.out.println(sp.kriegsVw.befreiungsAktion(angriffsLandString, verteidigungsLandString));
+		System.out.println(sp.befreiungsAktion(angriffsLandString, verteidigungsLandString));
 		System.out.println("Willst du den selben Angriff erneut durchführen? Ja / Nein");
 		selberAngriff = IO.readString();
 		if(selberAngriff.equals("Ja"))
