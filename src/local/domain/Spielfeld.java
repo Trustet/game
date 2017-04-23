@@ -88,6 +88,9 @@ public class Spielfeld {
 	public List<Spieler> getSpielerList() {
 		return spielerVw.getSpielerList();
 	}
+	public boolean istNachbar(Land land, Spieler spieler){
+		return kriegsVw.istNachbar(land, spieler);
+	}
 
 }
 

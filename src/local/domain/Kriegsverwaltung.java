@@ -56,6 +56,17 @@ public phasen Phase;
 		
 		return nachbarLaenderString;	
 	}
+	public boolean istNachbar(Land land, Spieler spieler){
+		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);
+		System.out.println(land.getName());
+		for(Land l : nachbarLaender){
+			System.out.println(l.getName());
+			if(l.getName().equals(land.getName())){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	/**
 	 * würfelt mehrfach und gibt Liste mit Ergebnissen zurück
