@@ -153,17 +153,24 @@ public class RisikoClientCUI {
 		while(einheitenAnzahl > 0) {
 			System.out.println("Auf welches Land möchtest du Einheiten setzen?");
 			landString = IO.readString();
-			land = sp.weltVw.stringToLand(landString);
-			//ToDo Überprüfung ob gültiges land und spieler auch besitzer
-			System.out.println("Wie viele Einheiten möchtest du auf " + land.getName() + " setzen?");
-			einheiten = IO.readInt();
-			if(einheiten <= einheitenAnzahl)
-			{
-				sp.kriegsVw.einheitenPositionieren(einheiten, land);
-				System.out.println(land.getName() + " hat jetzt " + land.getEinheiten() + " Einheiten.");
-				einheitenAnzahl -= einheiten;
-			} else {
-				System.out.println("So viele Einheiten hast du gar nicht, du hast nur noch " + einheitenAnzahl + " Einheiten\n");	
+			if(sp.stringToLand(landString) != null){
+				land = sp.weltVw.stringToLand(landString);
+				if(land.getBesitzer().equals(spieler)){
+					System.out.println("Wie viele Einheiten möchtest du auf " + land.getName() + " setzen?");
+					einheiten = IO.readInt();
+					if(einheiten <= einheitenAnzahl)
+					{
+						sp.kriegsVw.einheitenPositionieren(einheiten, land);
+						System.out.println(land.getName() + " hat jetzt " + land.getEinheiten() + " Einheiten.");
+						einheitenAnzahl -= einheiten;
+					} else {
+						System.out.println("So viele Einheiten hast du gar nicht, du hast nur noch " + einheitenAnzahl + " Einheiten\n");	
+					}
+				}else{
+					System.out.println("Das Land geh�rt nicht dir!");
+				}
+			}else{
+				System.out.println("Dieses Land existiert nicht");
 			}
 		}
 	}
