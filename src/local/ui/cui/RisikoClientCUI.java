@@ -167,7 +167,7 @@ public class RisikoClientCUI {
 						System.out.println("So viele Einheiten hast du gar nicht, du hast nur noch " + einheitenAnzahl + " Einheiten\n");	
 					}
 				}else{
-					System.out.println("Das Land geh�rt nicht dir!");
+					System.out.println("Das Land geh�rt nicht dir!");
 				}
 			}else{
 				System.out.println("Dieses Land existiert nicht");
@@ -198,7 +198,7 @@ public class RisikoClientCUI {
 						System.out.println("Das Land hat nicht genug Einheiten");
 					}
 				}else{
-					System.out.println("Dieses Land geh�rt nicht dir");
+					System.out.println("Dieses Land geh�rt nicht dir");
 				}
 			}else{
 				System.out.println("Dieses Land existiert nicht");
@@ -206,7 +206,7 @@ public class RisikoClientCUI {
 		}while(genugEinheiten == false);
 		System.out.println("\n");
 		do{
-			//ToDo Man kann noch eigene L�nder angreifen
+			//ToDo Man kann noch eigene L�nder angreifen
 			System.out.println("\nWelches Land willst du angreifen?");
 			verteidigungsLandString = IO.readString();
 			if(sp.stringToLand(verteidigungsLandString) != null){
@@ -215,7 +215,7 @@ public class RisikoClientCUI {
 					angreifen(angriffsLandString,verteidigungsLandString);
 					gegnerNachbar = true;
 				}else{
-					System.out.println("Das Land geh�rt dir selber");
+					System.out.println("Das Land geh�rt dir selber");
 				}
 			}else{
 				System.out.println("Das Land existiert nicht");
@@ -241,21 +241,23 @@ public class RisikoClientCUI {
 	public void verschieben(Spieler spieler){
 		Land erstesLand = null;
 		String wahlLand;
-		boolean zugEins = false;
 		boolean kannLandBenutzen = false;
-		boolean fertigMitVerschieben = false;
 		String zielLand;
 		
 				System.out.println("Von welchem Land moechtest du Einheiten verschieben?");
+				//Zeigt alle Länder an, die benutzt werden können
 				for(Land land : sp.besitztLaender(spieler))
 				{
 					System.out.print(land.getName() + " |");
 				}
 				System.out.println();
+				//Läuft so lange, bis das erste Land korrekt ausgewählt wird
 				do{
 						wahlLand = IO.readString();
+						//Schaut nach, ob das Land existiert und dem Spieler gehört
 						if(sp.stringToLand(wahlLand) != null && sp.stringToLand(wahlLand).getBesitzer().equals(spieler)){
 							erstesLand = sp.stringToLand(wahlLand);
+							//Überprüft ob das Land mehr als eine Einheit hat
 							if(erstesLand.getEinheiten() < 2){
 								System.out.println("Das Land hat nur eine Einheit");
 							}else{
@@ -268,9 +270,11 @@ public class RisikoClientCUI {
 					}while(kannLandBenutzen == false);
 					
 					kannLandBenutzen = false;
+					//So lange, bis ein korrektes Zielland gewählt wird
 					do{
 						System.out.println(sp.eigeneNachbarn(wahlLand, spieler));
 						zielLand = IO.readString();
+						//Überprüft ob das Land existiert und dem Spieler gehört
 						if(sp.stringToLand(zielLand) != null && sp.stringToLand(zielLand).getBesitzer().equals(spieler)){
 							Land zweitesLand = sp.stringToLand(zielLand);
 							if(sp.istNachbar(zweitesLand,spieler)){
@@ -281,7 +285,7 @@ public class RisikoClientCUI {
 								System.out.println("Das Land ist nicht dein Nachbar");
 							}
 						}else{
-							System.out.println("Das Land geh�rt nicht dir");
+							System.out.println("Das Land geh�rt nicht dir");
 						}
 					}while(kannLandBenutzen == false);
 	}
