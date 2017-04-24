@@ -82,7 +82,7 @@ public class Spielfeld {
 	public String moeglicheAngriffsziele(String landString, Spieler spieler) {
 		return kriegsVw.moeglicheAngriffsziele(landString, spieler);
 	}
-	public String befreiungsAktion(String angreifendesLandString, String verteidigendesLandString) {
+	public List befreiungsAktion(String angreifendesLandString, String verteidigendesLandString) {
 		return kriegsVw.befreiungsAktion(angreifendesLandString, verteidigendesLandString);
 	}
 	public List<Spieler> getSpielerList() {
@@ -91,7 +91,9 @@ public class Spielfeld {
 	public boolean istNachbar(Land wahlLand, Land landZiel, Spieler spieler){
 		return kriegsVw.istNachbar(wahlLand ,landZiel, spieler);
 	}
-
+	public void eroberungBesetzen(Land aLand, Land vLand, int einheiten){
+		kriegsVw.eroberungBesetzen(aLand,vLand, einheiten);
+	}
 }
 
 

@@ -94,7 +94,7 @@ public phasen Phase;
 //	public AttackResult befreiungsAktion(Attack attack) {
 //		Attack -> Angreifer, Verteidiger, vielleicht noch wie viele Würfel
 //		AttackResult -> AngreiferLand, VerteidigerLand, Gewinner / Verluste 
-	public String befreiungsAktion(String angreifendesLandString, String verteidigendesLandString) {
+	public List befreiungsAktion(String angreifendesLandString, String verteidigendesLandString) {
 		Land angreifendesLand = weltVw.stringToLand(angreifendesLandString);
 		Land verteidigendesLand = weltVw.stringToLand(verteidigendesLandString);
 		int angreiferEinheiten = angreifendesLand.getEinheiten();
@@ -104,7 +104,9 @@ public phasen Phase;
 		List<Integer> wuerfeAngreifer;
 		List<Integer> wuerfeVerteidiger;
 		List<Integer> verluste = new Vector<Integer>();
+		List<String> rueckgabe = new Vector<String>();
 		String ausgabeString = "";
+		
 		
 		if(angreiferEinheiten < 4) {
 			angreifendeEinheiten = angreiferEinheiten - 1;
@@ -145,18 +147,22 @@ public phasen Phase;
 			ausgabeString += "Land erobert! " + verteidigendesLandString + " gehört jetzt " + angreifendesLand.getBesitzer().getName();
 			verteidigendesLand.setBesitzer(angreifendesLand.getBesitzer());
 			angreifendesLand.setEinheiten(angreifendesLand.getEinheiten() - 1);
-			verteidigendesLand.setEinheiten(verteidigendesLand.getEinheiten() - 1);
+			verteidigendesLand.setEinheiten(0);
+			rueckgabe.add("Erobert");
 		} else if(verluste.get(0) < verluste.get(1)) {
 			ausgabeString += angreifendesLand.getBesitzer().getName() + " hat gewonnen ";
+			rueckgabe.add(null);
 		} else if(verluste.get(0) == verluste.get(1)) {
 			ausgabeString += "Unentschieden! Beide verlieren eine Einheit. ";
+			rueckgabe.add(null);
 		} else if(verluste.get(0) > verluste.get(1)) {
 			ausgabeString += verteidigendesLand.getBesitzer().getName() + " hat gewonnen ";
+			rueckgabe.add(null);
 		}
 		
 		ausgabeString += "\n" + angreifendesLandString + " hat nun noch " + angreifendesLand.getEinheiten() + " und " + verteidigendesLandString + " hat nun noch " + verteidigendesLand.getEinheiten();
-				
-		return ausgabeString;
+		rueckgabe.add(ausgabeString);
+		return rueckgabe;
 	}
 	
 	/**
@@ -235,6 +241,11 @@ public phasen Phase;
 	}
 	public Spieler nextSpieler(Spieler spieler){
 		return spieler;
+	}
+	
+	public void eroberungBesetzen(Land aLand, Land vLand, int einheiten){
+		this.einheitenPositionieren(einheiten, vLand);
+		this.einheitenPositionieren(-einheiten, aLand);
 	}
 	
 }
