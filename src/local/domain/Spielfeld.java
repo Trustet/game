@@ -3,6 +3,7 @@ package local.domain;
 import java.util.List;
 
 import local.domain.Kriegsverwaltung.phasen;
+import local.domain.exceptions.KannLandNichtBenutzenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.valueobjects.*;
 
@@ -93,6 +94,9 @@ public class Spielfeld {
 	}
 	public void eroberungBesetzen(Land aLand, Land vLand, int einheiten){
 		kriegsVw.eroberungBesetzen(aLand,vLand, einheiten);
+	}
+	public boolean landWaehlen(String land, Spieler spieler) throws KannLandNichtBenutzenException{
+		return kriegsVw.landWaehlen(land,spieler);
 	}
 }
 

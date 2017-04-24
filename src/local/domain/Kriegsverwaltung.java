@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import local.domain.exceptions.KannLandNichtBenutzenException;
 import local.valueobjects.*;
 
 public class Kriegsverwaltung {
@@ -246,6 +247,17 @@ public phasen Phase;
 	public void eroberungBesetzen(Land aLand, Land vLand, int einheiten){
 		this.einheitenPositionieren(einheiten, vLand);
 		this.einheitenPositionieren(-einheiten, aLand);
+	}
+	public boolean landWaehlen(String land, Spieler spieler) throws KannLandNichtBenutzenException{
+		if(weltVw.stringToLand(land) == null){
+			throw new KannLandNichtBenutzenException(land," existiert nicht");
+		}else if(!weltVw.stringToLand(land).getBesitzer().equals(spieler)){
+			throw new KannLandNichtBenutzenException(land," gehört dir nicht");	
+		}else if(weltVw.stringToLand(land).getEinheiten() < 2){
+			throw new KannLandNichtBenutzenException(land, " hat nur eine Einheit");
+		}else{
+			return true;
+		}
 	}
 	
 }

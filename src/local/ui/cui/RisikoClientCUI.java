@@ -5,6 +5,7 @@ import java.util.List;
 
 import local.domain.Spielfeld;
 import local.domain.Kriegsverwaltung.phasen;
+import local.domain.exceptions.KannLandNichtBenutzenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.valueobjects.*;
 
@@ -59,8 +60,9 @@ public class RisikoClientCUI {
 				sp.nextTurn();
 				break;
 			case ANGRIFF:
-				System.out.println("Angriff");
-				cui.angriffsPhase(spieler);
+				//Zum testen erstmal deaktiviert
+				//System.out.println("Angriff");
+				//cui.angriffsPhase(spieler);
 				sp.nextTurn();
 				break;
 			case VERTEILEN:
@@ -288,18 +290,24 @@ public class RisikoClientCUI {
 				//Läuft so lange, bis das erste Land korrekt ausgewählt wird
 				do{
 						wahlLand = IO.readString();
-						//Schaut nach, ob das Land existiert und dem Spieler gehört
-						if(sp.stringToLand(wahlLand) != null && sp.stringToLand(wahlLand).getBesitzer().equals(spieler)){
-							erstesLand = sp.stringToLand(wahlLand);
-							//Überprüft ob das Land mehr als eine Einheit hat
-							if(erstesLand.getEinheiten() < 2){
-								System.out.println("Das Land hat nur eine Einheit");
-							}else{
-								kannLandBenutzen = true;
-							}
-						}else{
-							System.out.println("Land gehoert nicht dir");
-							System.out.println("Bitte gebe ein anderes Land ein");			
+//						//Schaut nach, ob das Land existiert und dem Spieler gehört
+//						if(sp.stringToLand(wahlLand) != null && sp.stringToLand(wahlLand).getBesitzer().equals(spieler)){
+//							erstesLand = sp.stringToLand(wahlLand);
+//							//Überprüft ob das Land mehr als eine Einheit hat
+//							if(erstesLand.getEinheiten() < 2){
+//								System.out.println("Das Land hat nur eine Einheit");
+//							}else{
+//								kannLandBenutzen = true;
+//							}
+//						}else{
+//							System.out.println("Land gehoert nicht dir");
+//							System.out.println("Bitte gebe ein anderes Land ein");			
+//						}
+						try{
+							kannLandBenutzen = sp.landWaehlen(wahlLand,spieler);
+						}catch(KannLandNichtBenutzenException lene){
+							System.out.println(lene);
+							System.out.println("Bitte waehle ein anderes Land aus");
 						}
 					}while(kannLandBenutzen == false);
 					
