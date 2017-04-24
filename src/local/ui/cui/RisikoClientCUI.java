@@ -189,72 +189,80 @@ public class RisikoClientCUI {
 		boolean gegnerNachbar = false;
 		boolean landErobert = false;
 		boolean erneutAngreifen = false;
-
+		boolean phaseBeendet = false;
 		do{
-			System.out.println(spieler.getName() + "Mit welchem Land möchtest du angreifen?");
-			angriffsLandString = IO.readString();
-			if(sp.stringToLand(angriffsLandString) != null){
-				if(sp.stringToLand(angriffsLandString).getBesitzer().equals(spieler)){
-					if(sp.stringToLand(angriffsLandString).getEinheiten() > 1){
-						System.out.println(sp.moeglicheAngriffsziele(angriffsLandString, spieler));
-						genugEinheiten = true;
-						aLand = sp.stringToLand(angriffsLandString);
+			do{
+				System.out.println(spieler.getName() + "Mit welchem Land möchtest du angreifen?");
+				angriffsLandString = IO.readString();
+				if(sp.stringToLand(angriffsLandString) != null){
+					if(sp.stringToLand(angriffsLandString).getBesitzer().equals(spieler)){
+						if(sp.stringToLand(angriffsLandString).getEinheiten() > 1){
+							System.out.println(sp.moeglicheAngriffsziele(angriffsLandString, spieler));
+							genugEinheiten = true;
+							aLand = sp.stringToLand(angriffsLandString);
+						}else{
+							System.out.println("Das Land hat nicht genug Einheiten");
+						}
 					}else{
-						System.out.println("Das Land hat nicht genug Einheiten");
+						System.out.println("Dieses Land gehoert nicht dir");
 					}
 				}else{
-					System.out.println("Dieses Land gehoert nicht dir");
+					System.out.println("Dieses Land existiert nicht");
 				}
-			}else{
-				System.out.println("Dieses Land existiert nicht");
-			}
-		}while(genugEinheiten == false);
-		System.out.println("\n");
-		do{
-			//ToDo Man kann noch eigene L�nder angreifen
-			System.out.println("\nWelches Land willst du angreifen?");
-			verteidigungsLandString = IO.readString();
-			if(sp.stringToLand(verteidigungsLandString) != null){
-				vLand = sp.stringToLand(verteidigungsLandString);
-				if(vLand.equals(spieler)){
-					System.out.println("Das Land geh�rt dir selber");
-				}else{
-					gegnerNachbar = true;
-				}
-			}else{
-				System.out.println("Das Land existiert nicht");
-			}
-		}while(gegnerNachbar == false);
-		do{
-			List eroberung = sp.befreiungsAktion(angriffsLandString, verteidigungsLandString);
-			System.out.println(eroberung.get(1));
-			if(eroberung.get(0) != null){
-				genugEinheiten = false;
-				do{
-					System.out.println("Wie viele Einheiten moechtest du auf " + verteidigungsLandString + " setzen?");
-					System.out.println(aLand.getEinheiten()-1 + " Einheiten kannst du setzen");
-					int einheiten = IO.readInt();
-					if(einheiten < aLand.getEinheiten() && einheiten > 0){
-						sp.eroberungBesetzen(aLand, vLand, einheiten); 
-						System.out.println("Das Land " + vLand.getName() + " " + vLand.getEinheiten() + " Einheiten");
-						System.out.println("Das Land " + aLand.getName() + " " + aLand.getEinheiten() + " Einheiten");
-						genugEinheiten = true;
+			}while(genugEinheiten == false);
+			System.out.println("\n");
+			do{
+				//ToDo Man kann noch eigene L�nder angreifen
+				System.out.println("\nWelches Land willst du angreifen?");
+				verteidigungsLandString = IO.readString();
+				if(sp.stringToLand(verteidigungsLandString) != null){
+					vLand = sp.stringToLand(verteidigungsLandString);
+					if(vLand.equals(spieler)){
+						System.out.println("Das Land geh�rt dir selber");
 					}else{
-						System.out.println("Bitte gebe eine Korrekte Zahl ein");
+						gegnerNachbar = true;
 					}
-						
-				}while(!genugEinheiten);
-			}else if(aLand.getEinheiten() < 2){
-				System.out.println("Du kannst mit diesem land nicht weiter angreifen");
-			}else{
-				System.out.println("Moechtest du weiter angreifen? Ja/Nein");
-				String selberAngriff = IO.readString();
-				if(selberAngriff.equals("Ja"))
-				{
-					erneutAngreifen = true;
+				}else{
+					System.out.println("Das Land existiert nicht");
 				}
+			}while(gegnerNachbar == false);
+			do{
+				erneutAngreifen = false;
+				List eroberung = sp.befreiungsAktion(angriffsLandString, verteidigungsLandString);
+				System.out.println(eroberung.get(1));
+				if(eroberung.get(0) != null){
+					genugEinheiten = false;
+					do{
+						System.out.println("Wie viele Einheiten moechtest du auf " + verteidigungsLandString + " setzen?");
+						System.out.println(aLand.getEinheiten() - 1 + " Einheiten kannst du setzen");
+						int einheiten = IO.readInt();
+						if(einheiten < aLand.getEinheiten() && einheiten > 0){
+							sp.eroberungBesetzen(aLand, vLand, einheiten); 
+							System.out.println("Das Land " + vLand.getName() + " hat " + vLand.getEinheiten() + " Einheiten");
+							System.out.println("Das Land " + aLand.getName() + " hat " + aLand.getEinheiten() + " Einheiten");
+							genugEinheiten = true;
+						}else{
+							System.out.println("Bitte gebe eine Korrekte Zahl ein");
+						}
+							
+					}while(!genugEinheiten);
+				}else if(aLand.getEinheiten() <= 2){
+					System.out.println("Du kannst mit diesem land nicht weiter angreifen");
+				}else{
+					System.out.println("Moechtest du weiter angreifen? Ja/Nein");
+					String selberAngriff = IO.readString();
+					if(selberAngriff.equals("Ja"))
+					{
+						erneutAngreifen = true;
+					}
+				}
+			}while(erneutAngreifen == true);
+			System.out.println("Moechtest du mit einem weiteren Land angreifen?Ja/Nein");
+			String antwort = IO.readString();
+			if(!antwort.equals("Ja")){
+				phaseBeendet = true;
 			}
-		}while(erneutAngreifen == true);
+		}while(!phaseBeendet);
 	}
 
 	
