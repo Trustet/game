@@ -240,8 +240,10 @@ public class RisikoClientCUI {
 	 */
 	public void verschieben(Spieler spieler){
 		Land erstesLand = null;
+		Land zweitesLand = null;
 		String wahlLand;
 		boolean kannLandBenutzen = false;
+		boolean genugEinheiten = false;
 		String zielLand;
 		
 				System.out.println("Von welchem Land moechtest du Einheiten verschieben?");
@@ -276,8 +278,8 @@ public class RisikoClientCUI {
 						zielLand = IO.readString();
 						//Überprüft ob das Land existiert und dem Spieler gehört
 						if(sp.stringToLand(zielLand) != null && sp.stringToLand(zielLand).getBesitzer().equals(spieler)){
-							Land zweitesLand = sp.stringToLand(zielLand);
-							if(sp.istNachbar(zweitesLand,spieler)){
+							zweitesLand = sp.stringToLand(zielLand);
+							if(sp.istNachbar(erstesLand, zweitesLand,spieler)){
 								System.out.println(wahlLand + " hat " +  erstesLand.getEinheiten() + " Einheiten");
 								System.out.println(zielLand + " hat " + zweitesLand.getEinheiten() + " Einheiten");
 								kannLandBenutzen = true;
@@ -288,6 +290,21 @@ public class RisikoClientCUI {
 							System.out.println("Das Land geh�rt nicht dir");
 						}
 					}while(kannLandBenutzen == false);
+					do{
+						int einheiten;
+						System.out.println("Wie viele Einheiten mochtest du verschieben?");
+						einheiten = IO.readInt();
+						if(einheiten > 0 && einheiten < erstesLand.getEinheiten()){
+							sp.einheitenPositionieren(einheiten, zweitesLand);
+							sp.einheitenPositionieren(-einheiten, erstesLand);
+							System.out.println("Das Land " + zweitesLand.getName() + " " + zweitesLand.getEinheiten() + " Einheiten");
+							System.out.println("Das Land " + erstesLand.getName() + " " + erstesLand.getEinheiten() + " Einheiten");
+							genugEinheiten = true;
+						}else{
+							System.out.println("Du kannst die Anzahl an Einheiten nicht verschieben");
+						}
+					}while(genugEinheiten == false);
+					
 	}
 }
 

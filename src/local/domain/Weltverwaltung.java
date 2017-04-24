@@ -60,7 +60,7 @@ public class Weltverwaltung {
 		laenderListe.add(new Land("Nord-Europa",leer,1,"ne"));
 		laenderListe.add(new Land("Sud-Europa",leer,1,"se"));
 		laenderListe.add(new Land("West-Europa",leer,1,"we"));
-		laenderListe.add(new Land("Großbritannien",leer,1,"gr"));
+		laenderListe.add(new Land("Grossbritannien",leer,1,"gr"));
 		
 		//Asien 12
 		laenderListe.add(new Land("Ural",leer,1,"ur"));
