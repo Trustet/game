@@ -328,15 +328,6 @@ public class RisikoClientCUI {
 						
 						System.out.println("Wie viele Einheiten moechtest du verschieben?");
 						einheiten = IO.readInt();
-//						if(einheiten > 0 && einheiten < erstesLand.getEinheiten()){
-//							sp.einheitenPositionieren(einheiten, zweitesLand);
-//							sp.einheitenPositionieren(-einheiten, erstesLand);
-//							System.out.println("Das Land " + zweitesLand.getName() + " hat " + zweitesLand.getEinheiten() + " Einheiten");
-//							System.out.println("Das Land " + erstesLand.getName() + " hat " + erstesLand.getEinheiten() + " Einheiten");
-//							genugEinheiten = true;
-//						}else{
-//							System.out.println("Du kannst die Anzahl an Einheiten nicht verschieben");
-//						}
 						try{
 							genugEinheiten = sp.checkEinheiten(wahlLand, einheiten);
 						}catch(NichtGenugEinheitenException ngee){
