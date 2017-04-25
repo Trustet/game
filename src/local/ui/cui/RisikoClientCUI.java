@@ -26,11 +26,10 @@ public class RisikoClientCUI {
 	public static void main(String[] args)  {
 		
 		RisikoClientCUI cui = new RisikoClientCUI();
-		String weiterAngreifen;
 		cui.spielStarten();	
 
 		//führt für jeden Spieler die Funktionen aus
-		for(Spieler spieler : cui.sp.getSpielerList()) {	
+		for(Spieler spieler : sp.getSpielerList()) {	
 			cui.spielerstandAusgeben(spieler);
 			cui.einheitenVerteilen(spieler);
 
@@ -192,7 +191,6 @@ public class RisikoClientCUI {
 		Land vLand = null;
 		boolean genugEinheiten = false;
 		boolean gegnerNachbar = false;
-		boolean landErobert = false;
 		boolean erneutAngreifen = false;
 		boolean phaseBeendet = false;
 		do{
@@ -233,7 +231,7 @@ public class RisikoClientCUI {
 			}while(gegnerNachbar == false);
 			do{
 				erneutAngreifen = false;
-				List eroberung = sp.befreiungsAktion(angriffsLandString, verteidigungsLandString);
+				List<String> eroberung = sp.befreiungsAktion(angriffsLandString, verteidigungsLandString);
 				System.out.println(eroberung.get(1));
 				if(eroberung.get(0) != null){
 					genugEinheiten = false;
