@@ -137,10 +137,11 @@ public class RisikoClientCUI {
 	 */
 	public void spielerstandAusgeben(Spieler spieler) {
 		System.out.println("\n" + spieler.getName() +" besitzt die Länder: ");
-		for(Land land : sp.besitztLaender(spieler))
-		{
-			System.out.print(land.getName() + " |");
-		}
+//		for(Land land : sp.besitztLaender(spieler))
+//		{
+//			System.out.print(land.getName() + " |");
+//		}
+		System.out.println(sp.eigeneLaenderListe(spieler));
 		System.out.println("\nund bekommt " + sp.bekommtEinheiten(spieler) + " Einheiten\n");		
 	}
 

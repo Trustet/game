@@ -103,6 +103,9 @@ public class Spielfeld {
 	public boolean checkEinheiten(String land, int einheiten) throws NichtGenugEinheitenException{
 		return kriegsVw.checkEinheiten(land,einheiten);
 	}
+	public String eigeneLaenderListe(Spieler spieler){
+		return weltVw.eigeneLaenderListe(spieler);
+	}
 }
 
 
