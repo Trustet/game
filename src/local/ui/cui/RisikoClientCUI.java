@@ -6,6 +6,7 @@ import java.util.List;
 import local.domain.Spielfeld;
 import local.domain.Kriegsverwaltung.phasen;
 import local.domain.exceptions.KannLandNichtBenutzenException;
+import local.domain.exceptions.KeinNachbarlandException;
 import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.valueobjects.*;
@@ -62,8 +63,8 @@ public class RisikoClientCUI {
 				break;
 			case ANGRIFF:
 				//Zum testen erstmal deaktiviert
-				System.out.println("Angriff");
-				cui.angriffsPhase(spieler);
+				//System.out.println("Angriff");
+				//cui.angriffsPhase(spieler);
 				sp.nextTurn();
 				break;
 			case VERTEILEN:
@@ -274,6 +275,7 @@ public class RisikoClientCUI {
 	 * @param spieler
 	 */
 	public void verschieben(Spieler spieler){
+		int einheiten;
 		Land erstesLand = null;
 		Land zweitesLand = null;
 		String wahlLand;
@@ -291,19 +293,6 @@ public class RisikoClientCUI {
 				//Läuft so lange, bis das erste Land korrekt ausgewählt wird
 				do{
 						wahlLand = IO.readString();
-//						//Schaut nach, ob das Land existiert und dem Spieler gehört
-//						if(sp.stringToLand(wahlLand) != null && sp.stringToLand(wahlLand).getBesitzer().equals(spieler)){
-//							erstesLand = sp.stringToLand(wahlLand);
-//							//Überprüft ob das Land mehr als eine Einheit hat
-//							if(erstesLand.getEinheiten() < 2){
-//								System.out.println("Das Land hat nur eine Einheit");
-//							}else{
-//								kannLandBenutzen = true;
-//							}
-//						}else{
-//							System.out.println("Land gehoert nicht dir");
-//							System.out.println("Bitte gebe ein anderes Land ein");			
-//						}
 						try{
 							kannLandBenutzen = sp.landWaehlen(wahlLand,spieler);
 							kannLandBenutzen = sp.checkEinheiten(wahlLand,1);
@@ -322,34 +311,42 @@ public class RisikoClientCUI {
 						System.out.println(sp.eigeneNachbarn(wahlLand, spieler));
 						zielLand = IO.readString();
 						//Überprüft ob das Land existiert und dem Spieler gehört
-						if(sp.stringToLand(zielLand) != null && sp.stringToLand(zielLand).getBesitzer().equals(spieler)){
-							zweitesLand = sp.stringToLand(zielLand);
-							if(sp.istNachbar(erstesLand, zweitesLand,spieler)){
-								System.out.println(wahlLand + " hat " +  erstesLand.getEinheiten() + " Einheiten");
-								System.out.println(zielLand + " hat " + zweitesLand.getEinheiten() + " Einheiten");
-								kannLandBenutzen = true;
-							}else{
-								System.out.println("Das Land ist nicht dein Nachbar");
-							}
-						}else{
-							System.out.println("Das Land geh�rt nicht dir");
+						try{
+							kannLandBenutzen = sp.landWaehlen(zielLand, spieler);
+							kannLandBenutzen = sp.istNachbar(erstesLand, sp.stringToLand(zielLand), spieler);
+						}catch(KannLandNichtBenutzenException klnbe){
+							System.out.println(klnbe.getMessage());
+						}catch(KeinNachbarlandException kne){
+							System.out.println(kne.getMessage());
+							kannLandBenutzen = false;
 						}
 					}while(kannLandBenutzen == false);
+					zweitesLand = sp.stringToLand(zielLand);
+					System.out.println(wahlLand + " hat " +  erstesLand.getEinheiten() + " Einheiten");
+					System.out.println(zielLand + " hat " + zweitesLand.getEinheiten() + " Einheiten");
 					do{
-						int einheiten;
-						System.out.println("Wie viele Einheiten mochtest du verschieben?");
+						
+						System.out.println("Wie viele Einheiten moechtest du verschieben?");
 						einheiten = IO.readInt();
-						if(einheiten > 0 && einheiten < erstesLand.getEinheiten()){
-							sp.einheitenPositionieren(einheiten, zweitesLand);
-							sp.einheitenPositionieren(-einheiten, erstesLand);
-							System.out.println("Das Land " + zweitesLand.getName() + " hat " + zweitesLand.getEinheiten() + " Einheiten");
-							System.out.println("Das Land " + erstesLand.getName() + " hat " + erstesLand.getEinheiten() + " Einheiten");
-							genugEinheiten = true;
-						}else{
-							System.out.println("Du kannst die Anzahl an Einheiten nicht verschieben");
+//						if(einheiten > 0 && einheiten < erstesLand.getEinheiten()){
+//							sp.einheitenPositionieren(einheiten, zweitesLand);
+//							sp.einheitenPositionieren(-einheiten, erstesLand);
+//							System.out.println("Das Land " + zweitesLand.getName() + " hat " + zweitesLand.getEinheiten() + " Einheiten");
+//							System.out.println("Das Land " + erstesLand.getName() + " hat " + erstesLand.getEinheiten() + " Einheiten");
+//							genugEinheiten = true;
+//						}else{
+//							System.out.println("Du kannst die Anzahl an Einheiten nicht verschieben");
+//						}
+						try{
+							genugEinheiten = sp.checkEinheiten(wahlLand, einheiten);
+						}catch(NichtGenugEinheitenException ngee){
+							System.out.println(ngee.getMessage());
 						}
 					}while(genugEinheiten == false);
-					
+					sp.einheitenPositionieren(einheiten, zweitesLand);
+					sp.einheitenPositionieren(-einheiten, erstesLand);
+					System.out.println("Das Land " + zweitesLand.getName() + " hat " + zweitesLand.getEinheiten() + " Einheiten");
+					System.out.println("Das Land " + erstesLand.getName() + " hat " + erstesLand.getEinheiten() + " Einheiten");
 	}
 }
 

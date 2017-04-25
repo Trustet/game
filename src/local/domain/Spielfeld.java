@@ -4,6 +4,7 @@ import java.util.List;
 
 import local.domain.Kriegsverwaltung.phasen;
 import local.domain.exceptions.KannLandNichtBenutzenException;
+import local.domain.exceptions.KeinNachbarlandException;
 import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.valueobjects.*;
@@ -90,7 +91,7 @@ public class Spielfeld {
 	public List<Spieler> getSpielerList() {
 		return spielerVw.getSpielerList();
 	}
-	public boolean istNachbar(Land wahlLand, Land landZiel, Spieler spieler){
+	public boolean istNachbar(Land wahlLand, Land landZiel, Spieler spieler) throws KeinNachbarlandException{
 		return kriegsVw.istNachbar(wahlLand ,landZiel, spieler);
 	}
 	public void eroberungBesetzen(Land aLand, Land vLand, int einheiten){

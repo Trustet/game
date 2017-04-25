@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Vector;
 
 import local.domain.exceptions.KannLandNichtBenutzenException;
+import local.domain.exceptions.KeinNachbarlandException;
 import local.domain.exceptions.NichtGenugEinheitenException;
 import local.valueobjects.*;
 
@@ -58,14 +59,14 @@ public phasen Phase;
 		
 		return nachbarLaenderString;	
 	}
-	public boolean istNachbar(Land wahlLand, Land landZiel, Spieler spieler){
+	public boolean istNachbar(Land wahlLand, Land landZiel, Spieler spieler) throws KeinNachbarlandException{
 		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(wahlLand);
 		for(Land l : nachbarLaender){
 			if(l.getName().equals(landZiel.getName())){
 				return true;
 			}
 		}
-		return false;
+		throw new KeinNachbarlandException(wahlLand.getName());
 	}
 	
 	/**
@@ -260,7 +261,7 @@ public phasen Phase;
 	public boolean checkEinheiten(String land, int einheiten) throws NichtGenugEinheitenException{
 		if(weltVw.stringToLand(land).getEinheiten() < 2){
 			throw new NichtGenugEinheitenException(land, " hat zu wenig Einheiten");
-		}else if(weltVw.stringToLand(land).getEinheiten() >= einheiten){
+		}else if(weltVw.stringToLand(land).getEinheiten() <= einheiten){
 			throw new NichtGenugEinheitenException(land, " hat nicht so viele Einheiten");
 		}else if(einheiten < 1){
 			throw new NichtGenugEinheitenException(land, " kann nicht so wenig Einheiten verschicken");
