@@ -4,6 +4,7 @@ import java.util.List;
 
 import local.domain.Kriegsverwaltung.phasen;
 import local.domain.exceptions.KannLandNichtBenutzenException;
+import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.valueobjects.*;
 
@@ -97,6 +98,9 @@ public class Spielfeld {
 	}
 	public boolean landWaehlen(String land, Spieler spieler) throws KannLandNichtBenutzenException{
 		return kriegsVw.landWaehlen(land,spieler);
+	}
+	public boolean checkEinheiten(String land, int einheiten) throws NichtGenugEinheitenException{
+		return kriegsVw.checkEinheiten(land,einheiten);
 	}
 }
 

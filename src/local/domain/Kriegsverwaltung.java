@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Vector;
 
 import local.domain.exceptions.KannLandNichtBenutzenException;
+import local.domain.exceptions.NichtGenugEinheitenException;
 import local.valueobjects.*;
 
 public class Kriegsverwaltung {
@@ -60,8 +61,6 @@ public phasen Phase;
 	public boolean istNachbar(Land wahlLand, Land landZiel, Spieler spieler){
 		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(wahlLand);
 		for(Land l : nachbarLaender){
-			System.out.print(l.getName() + "   ");
-			System.out.println(landZiel.getName());
 			if(l.getName().equals(landZiel.getName())){
 				return true;
 			}
@@ -253,8 +252,18 @@ public phasen Phase;
 			throw new KannLandNichtBenutzenException(land," existiert nicht");
 		}else if(!weltVw.stringToLand(land).getBesitzer().equals(spieler)){
 			throw new KannLandNichtBenutzenException(land," gehört dir nicht");	
-		}else if(weltVw.stringToLand(land).getEinheiten() < 2){
-			throw new KannLandNichtBenutzenException(land, " hat nur eine Einheit");
+		}else{
+			return true;
+		}
+	}
+	
+	public boolean checkEinheiten(String land, int einheiten) throws NichtGenugEinheitenException{
+		if(weltVw.stringToLand(land).getEinheiten() < 2){
+			throw new NichtGenugEinheitenException(land, " hat zu wenig Einheiten");
+		}else if(weltVw.stringToLand(land).getEinheiten() >= einheiten){
+			throw new NichtGenugEinheitenException(land, " hat nicht so viele Einheiten");
+		}else if(einheiten < 1){
+			throw new NichtGenugEinheitenException(land, " kann nicht so wenig Einheiten verschicken");
 		}else{
 			return true;
 		}

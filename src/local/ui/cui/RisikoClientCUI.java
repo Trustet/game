@@ -6,6 +6,7 @@ import java.util.List;
 import local.domain.Spielfeld;
 import local.domain.Kriegsverwaltung.phasen;
 import local.domain.exceptions.KannLandNichtBenutzenException;
+import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.valueobjects.*;
 
@@ -61,8 +62,8 @@ public class RisikoClientCUI {
 				break;
 			case ANGRIFF:
 				//Zum testen erstmal deaktiviert
-				//System.out.println("Angriff");
-				//cui.angriffsPhase(spieler);
+				System.out.println("Angriff");
+				cui.angriffsPhase(spieler);
 				sp.nextTurn();
 				break;
 			case VERTEILEN:
@@ -305,12 +306,16 @@ public class RisikoClientCUI {
 //						}
 						try{
 							kannLandBenutzen = sp.landWaehlen(wahlLand,spieler);
-						}catch(KannLandNichtBenutzenException lene){
+							kannLandBenutzen = sp.checkEinheiten(wahlLand,1);
+						}catch(KannLandNichtBenutzenException lene ){
 							System.out.println(lene.getMessage());
-							System.out.println("Bitte waehle ein anderes Land aus");
+						}catch(NichtGenugEinheitenException ngee){
+							System.out.println(ngee.getMessage());
+							kannLandBenutzen = false;
+							
 						}
 					}while(kannLandBenutzen == false);
-					
+					erstesLand = sp.stringToLand(wahlLand);
 					kannLandBenutzen = false;
 					//So lange, bis ein korrektes Zielland gewählt wird
 					do{
@@ -337,8 +342,8 @@ public class RisikoClientCUI {
 						if(einheiten > 0 && einheiten < erstesLand.getEinheiten()){
 							sp.einheitenPositionieren(einheiten, zweitesLand);
 							sp.einheitenPositionieren(-einheiten, erstesLand);
-							System.out.println("Das Land " + zweitesLand.getName() + " " + zweitesLand.getEinheiten() + " Einheiten");
-							System.out.println("Das Land " + erstesLand.getName() + " " + erstesLand.getEinheiten() + " Einheiten");
+							System.out.println("Das Land " + zweitesLand.getName() + " hat " + zweitesLand.getEinheiten() + " Einheiten");
+							System.out.println("Das Land " + erstesLand.getName() + " hat " + erstesLand.getEinheiten() + " Einheiten");
 							genugEinheiten = true;
 						}else{
 							System.out.println("Du kannst die Anzahl an Einheiten nicht verschieben");
