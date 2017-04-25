@@ -306,7 +306,7 @@ public class RisikoClientCUI {
 						try{
 							kannLandBenutzen = sp.landWaehlen(wahlLand,spieler);
 						}catch(KannLandNichtBenutzenException lene){
-							System.out.println(lene);
+							System.out.println(lene.getMessage());
 							System.out.println("Bitte waehle ein anderes Land aus");
 						}
 					}while(kannLandBenutzen == false);
