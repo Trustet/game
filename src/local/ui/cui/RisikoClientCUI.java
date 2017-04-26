@@ -29,7 +29,6 @@ public class RisikoClientCUI {
 	public static void main(String[] args)  {
 		
 		RisikoClientCUI cui = new RisikoClientCUI();
-		//TODO Anfangsphase auf Verteilen setzen
 		cui.spielStarten(cui);	
 		
 		//Phasenablauf
