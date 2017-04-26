@@ -149,7 +149,7 @@ private List<Mission> missionsListe = new Vector<Mission>();
 		} else if((wuerfeVerteidiger.size() == 2) && (wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) < wuerfeAngreifer.get(2))) {
 			 verluste.add(0);
 			 verluste.add(2);
-		} else if(((wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) > wuerfeAngreifer.get(2))) && ((wuerfeVerteidiger.get(0) > wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) < wuerfeAngreifer.get(2)))) {
+		} else if(((wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) >= wuerfeAngreifer.get(2))) || ((wuerfeVerteidiger.get(0) > wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) <= wuerfeAngreifer.get(2)))) {
 			 verluste.add(1);
 			 verluste.add(1);	
 		} else if((wuerfeVerteidiger.size() == 1) && (wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(1))) {
