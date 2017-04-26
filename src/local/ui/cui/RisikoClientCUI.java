@@ -99,6 +99,7 @@ public class RisikoClientCUI {
 				//springt aus der Endlos-Schleife
 				break;
 			} else {
+				//TEst
 				//Ausgabe bei falscher Eingabe
 				System.out.println("Falsche Eingabe.");
 			}
