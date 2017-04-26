@@ -174,7 +174,7 @@ public class Weltverwaltung {
 	}
 	
 	/**
-	 * bisher wird nur Europa erstellt
+	 * Erstellt alle Kontinente
 	 */
 	public void kontinenteErstellen() {
 		List<Land> eu = new Vector<Land>();
@@ -184,7 +184,7 @@ public class Weltverwaltung {
 		}
 	
 		kontinentenListe.add(new Kontinent("Europa",eu));
-List<Land> asien = new Vector<Land>();
+		List<Land> asien = new Vector<Land>();
 		
 		for (int i=7;i < 19;i++){
 			asien.add(laenderListe.get(i));
@@ -357,7 +357,9 @@ List<Land> asien = new Vector<Land>();
 			}
 		}
 		return ausgabe;
-	}
+	}/*
+		Listet die Laender auf, mit denen der Spieler angreifen kann
+	*/
 	public String eigeneAngriffsLaender(Spieler spieler){
 		String ausgabe;
 		String puffer;
@@ -407,7 +409,9 @@ List<Land> asien = new Vector<Land>();
 			return true;
 		}
 		
-	}
+	} /*
+		Listet die Laender auf, die dir zum Verschieben zur Verfuegung stehen
+	*/
 	public String eigeneVerschiebeLaender(Spieler spieler, List<Land> land){
 		String ausgabe;
 		String puffer;

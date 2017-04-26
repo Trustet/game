@@ -183,10 +183,12 @@ public class RisikoClientCUI {
 		System.out.println("Phase: " + sp.getTurn());
 		
 		do{
-			do{
+			do{ 	
 				System.out.println(spieler.getName() + " mit welchem Land m\u00F6chtest du angreifen?");
 				System.out.println(sp.eigeneAngriffsLaender(spieler));
 				angriffsLandString = IO.readString();
+					/* Bis ein Land eingegeben wird, das dem Spieler gehoert
+					 * und genug Einheiten hat.*/	
 				try{
 					genugEinheiten = sp.landWaehlen(angriffsLandString,spieler);
 					genugEinheiten = sp.checkEinheiten(angriffsLandString,1);
@@ -326,7 +328,7 @@ public class RisikoClientCUI {
 					
 					zweitesLand = sp.stringToLand(zielLand);
 					System.out.println(sp.einheitenAusgabe(erstesLand, zweitesLand));
-					
+					// Solange, bis zu einer korrekten Eingabe einer möglichen Anzahl an Einheiten
 					do{
 						System.out.println("Wie viele Einheiten m\u00F6chtest du verschieben?");
 						einheiten = IO.readInt();
