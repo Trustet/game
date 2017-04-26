@@ -15,11 +15,12 @@ import local.valueobjects.*;
 
 
 public class RisikoClientCUI {
-
+	
 	//Domain-Komponente, welche die Verwaltungen verwaltet
 	static Spielfeld sp = new Spielfeld();
 	public static phasen Phase;
 	private static boolean gewonnen = false;
+	private boolean startPhase;
 
 	/**
 	 * Main-Methode der CUI
@@ -28,67 +29,53 @@ public class RisikoClientCUI {
 	public static void main(String[] args)  {
 		
 		RisikoClientCUI cui = new RisikoClientCUI();
-		cui.spielStarten();	
-
-		//führt für jeden Spieler die Funktionen aus
-		for(Spieler spieler : sp.getSpielerList()) {	
-			cui.spielerstandAusgeben(spieler);
-			cui.einheitenVerteilen(spieler);
-
-		}
+		//TODO Anfangsphase auf Verteilen setzen
+		cui.spielStarten(cui);	
+		
+		//Phasenablauf
 		do{
-		Spieler spieler = sp.getAktiverSpieler();
-
-			System.out.println(sp.getTurn());
-			
+			Spieler spieler = sp.getAktiverSpieler();
 			
 			switch(sp.getTurn()){
-			
-			case VERSCHIEBEN:
-				System.out.println("Moechtest du Einheiten verschieben? Ja/Nein");
-				String antwort = IO.readString();
-				if(antwort.equals("Ja")){
-					cui.verschieben(spieler);
-				}
+			case VERTEILEN:
+				cui.einheitenVerteilen(spieler, cui);
 				sp.nextTurn();
 				break;
 			case ANGRIFF:
-				//Zum testen erstmal deaktiviert
-				cui.angriffsPhase(spieler);
+				cui.angreifen(spieler);
 				sp.nextTurn();
 				break;
-			case VERTEILEN:
-				
-				cui.einheitenVerteilen(spieler);
+			case VERSCHIEBEN:
+				cui.verschieben(spieler);
+				sp.nextTurn();
 				sp.naechsterSpieler();
-				sp.nextTurn();
-				break;
-				
-			}
-			
-	}while(gewonnen == false);
-}
-//	}
+				break;	
+			}	
+		}while(gewonnen == false);
+	}
 
 	/**
 	 * startet das Spiel
 	 */
-	private void spielStarten()	{
+	private void spielStarten(RisikoClientCUI cui)	{
 		String name = "";
 		int anzahlSpieler = 0;
-
+		int aktiveSpieler = 0;
+		
+		startPhase = true;
 		//endlose Schleife bis richtige Eingabe um Spieler zu erstellen
 		while(true)	{
 			//anzahlSpieler der Spieler einlesen
 			System.out.println("Wie viele Spieler spielen mit? (2-6)");
 			anzahlSpieler = IO.readInt();
+			
 			//Bei Eingaben zwischen 2 und 6, werden die neuen Spieler mit eingegebenen Namen erstellt
 			if(anzahlSpieler > 1 && anzahlSpieler < 7 )	{
-				//				for(int i = 1;i <= anzahlSpieler;i++) {
-				int aktiveSpieler = 0;
+
 				do {
 					System.out.println("Hallo Spieler " + (aktiveSpieler+1) + ", wie heisst du?");
 					name = IO.readString();
+					
 					try {
 						sp.erstelleSpieler(name);
 						aktiveSpieler++;
@@ -97,18 +84,25 @@ public class RisikoClientCUI {
 						System.out.println(message);
 						System.out.println("Bitte wählen Sie einen anderen Namen!");
 					}
-					//				}
 				} while (aktiveSpieler < anzahlSpieler);
-				//springt aus der Endlos-Schleife
+				
 				break;
 			} else {
-				//TEst
 				//Ausgabe bei falscher Eingabe
 				System.out.println("Falsche Eingabe.");
 			}
 		}	
 
 		sp.laenderAufteilen(anzahlSpieler);
+		
+		//verteilen der Einheiten am Anfang für jeden Spieler
+				for(Spieler spieler : sp.getSpielerList()) {
+					System.out.println(spieler.getName() + " ist dran und darf nun seine ersten Einheiten verteilen.");
+					cui.einheitenVerteilen(spieler, cui);
+					sp.naechsterSpieler();
+				}
+				
+		startPhase = false;
 	}
 
 	/**
@@ -125,18 +119,27 @@ public class RisikoClientCUI {
 	 * Spieler kann Einheiten auf eigene Länder verteilen
 	 * @param spieler
 	 */
-	public void einheitenVerteilen(Spieler spieler)	{
+	public void einheitenVerteilen(Spieler spieler,RisikoClientCUI cui)	{
 		int einheitenAnzahl = sp.bekommtEinheiten(spieler);
 		String landString;
 		Land land;
 		int einheiten;
-
+		
+		if(startPhase != true)
+		{
+		System.out.println("\n" + sp.getAktiverSpieler().getName() + " ist jetzt dran.");
+		System.out.println("Phase: " + sp.getTurn());
+		}
+		
+		cui.spielerstandAusgeben(spieler);
+		
 		while(einheitenAnzahl > 0) {
 			System.out.println("Auf welches Land möchtest du Einheiten setzen?");
 			landString = IO.readString();
-			if(sp.stringToLand(landString) != null){
+			//TODO Exceptions statt else
+			if(sp.stringToLand(landString) != null) {
 				land = sp.stringToLand(landString);
-				if(land.getBesitzer().equals(spieler)){
+				if(land.getBesitzer().equals(spieler)) {
 					System.out.println("Wie viele Einheiten möchtest du auf " + land.getName() + " setzen?");
 					System.out.println("Du kannst " + einheitenAnzahl + " Einheiten setzen");
 					einheiten = IO.readInt();
@@ -149,7 +152,7 @@ public class RisikoClientCUI {
 						System.out.println("So viele Einheiten hast du gar nicht, du hast nur noch " + einheitenAnzahl + " Einheiten\n");	
 					}
 				}else{
-					System.out.println("Das Land geh�rt nicht dir!");
+					System.out.println("Das Land gehört nicht dir!");
 				}
 			}else{
 				System.out.println("Dieses Land existiert nicht");
@@ -159,10 +162,10 @@ public class RisikoClientCUI {
 
 
 	/**
-	 * spielt die Angriffsphase durch
+	 * Angriffphase
 	 * @param spieler
 	 */
-	public void angriffsPhase(Spieler spieler) {
+	public void angreifen(Spieler spieler) {
 		String angriffsLandString;
 		String verteidigungsLandString;
 		Land aLand = null;
@@ -171,6 +174,11 @@ public class RisikoClientCUI {
 		boolean gegnerNachbar = false;
 		boolean erneutAngreifen = false;
 		boolean phaseBeendet = false;
+		List<String> eroberung;
+		String weiterangreifen;
+		
+		System.out.println("Phase: " + sp.getTurn());
+		
 		do{
 			do{
 				System.out.println(spieler.getName() + " mit welchem Land möchtest du angreifen?");
@@ -183,14 +191,12 @@ public class RisikoClientCUI {
 					System.out.println(lene.getMessage());
 				}catch(NichtGenugEinheitenException ngee){
 					System.out.println(ngee.getMessage());
-					genugEinheiten = false;
-					
 				}
-				
 			}while(genugEinheiten == false);
+			
 			System.out.println(sp.moeglicheAngriffsziele(angriffsLandString, spieler));
 			aLand = sp.stringToLand(angriffsLandString);
-			System.out.println("\n");
+			
 			do{
 				System.out.println("\nWelches Land willst du angreifen?");
 				verteidigungsLandString = IO.readString();
@@ -207,16 +213,16 @@ public class RisikoClientCUI {
 					System.out.println(kge.getMessage());
 				}
 			}while(gegnerNachbar == false);
+			
 			do{
 				erneutAngreifen = false;
-				List<String> eroberung = sp.befreiungsAktion(angriffsLandString, verteidigungsLandString);
+				eroberung = sp.befreiungsAktion(angriffsLandString, verteidigungsLandString);
 				System.out.println(eroberung.get(1));
+				
 				if(eroberung.get(0) != null){
 					genugEinheiten = false;
 					do{
-						if(aLand.getEinheiten() == 2)
-						{
-							//noch nicht getestet
+						if(aLand.getEinheiten() == 2) {
 							System.out.println("Eine Einheit wird auf " + verteidigungsLandString + " gesetzt.");
 							sp.eroberungBesetzen(aLand, vLand, 1); 
 							System.out.println("Das Land " + vLand.getName() + " hat " + vLand.getEinheiten() + " Einheiten");
@@ -238,8 +244,8 @@ public class RisikoClientCUI {
 						}
 							
 					}while(!genugEinheiten);
-				}else if(aLand.getEinheiten() <= 2){
-					System.out.println("Du kannst mit diesem land nicht weiter angreifen");
+				}else if(aLand.getEinheiten() < 2){
+					System.out.println("Du kannst mit diesem Land nicht weiter angreifen.");
 				}else{
 					System.out.println("Moechtest du weiter angreifen? Ja/Nein");
 					String selberAngriff = IO.readString();
@@ -249,9 +255,10 @@ public class RisikoClientCUI {
 					}
 				}
 			}while(erneutAngreifen == true);
+			
 			System.out.println("Moechtest du mit einem weiteren Land angreifen?Ja/Nein");
-			String antwort = IO.readString();
-			if(!antwort.equals("Ja")){
+			weiterangreifen = IO.readString();
+			if(!weiterangreifen.equals("Ja")){
 				phaseBeendet = true;
 			}
 		}while(!phaseBeendet);
@@ -259,7 +266,7 @@ public class RisikoClientCUI {
 
 	
 	/**
-	 * spielt die Verschiebenphase durch
+	 * Verschiebenphase
 	 * @param spieler
 	 */
 	public void verschieben(Spieler spieler){
@@ -271,6 +278,12 @@ public class RisikoClientCUI {
 		boolean genugEinheiten = false;
 		String zielLand;
 		
+		System.out.println("Phase: " + sp.getTurn());
+		System.out.println("\nMoechtest du Einheiten verschieben? Ja/Nein");
+		String antwort = IO.readString();
+		
+		if(antwort.equals("Ja")){
+			
 				System.out.println("Von welchem Land moechtest du Einheiten verschieben?");
 				//Zeigt alle Länder an, die benutzt werden können
 				System.out.println(sp.eigeneAngriffsLaender(spieler));
@@ -288,8 +301,10 @@ public class RisikoClientCUI {
 							
 						}
 					}while(kannLandBenutzen == false);
+				
 					erstesLand = sp.stringToLand(wahlLand);
 					kannLandBenutzen = false;
+					
 					//So lange, bis ein korrektes Zielland gewählt wird
 					do{
 						System.out.println(sp.moeglicheVerschiebeZiele(erstesLand, spieler));
@@ -305,23 +320,27 @@ public class RisikoClientCUI {
 							kannLandBenutzen = false;
 						}
 					}while(kannLandBenutzen == false);
+					
 					zweitesLand = sp.stringToLand(zielLand);
 					System.out.println(wahlLand + " hat " +  erstesLand.getEinheiten() + " Einheiten");
 					System.out.println(zielLand + " hat " + zweitesLand.getEinheiten() + " Einheiten");
+					
 					do{
-						
 						System.out.println("Wie viele Einheiten moechtest du verschieben?");
 						einheiten = IO.readInt();
+						
 						try{
 							genugEinheiten = sp.checkEinheiten(wahlLand, einheiten);
 						}catch(NichtGenugEinheitenException ngee){
 							System.out.println(ngee.getMessage());
 						}
 					}while(genugEinheiten == false);
+					
 					sp.einheitenPositionieren(einheiten, zweitesLand);
 					sp.einheitenPositionieren(-einheiten, erstesLand);
 					System.out.println("Das Land " + zweitesLand.getName() + " hat " + zweitesLand.getEinheiten() + " Einheiten");
 					System.out.println("Das Land " + erstesLand.getName() + " hat " + erstesLand.getEinheiten() + " Einheiten");
+		}
 	}
 }
 

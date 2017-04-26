@@ -133,7 +133,6 @@ private List<Mission> missionsListe = new Vector<Mission>();
 		
 		wuerfeAngreifer = wuerfeln(angreifendeEinheiten);
 		wuerfeVerteidiger = wuerfeln(verteidigendeEinheiten);
-		System.out.println("DAVOR");
 		if((wuerfeVerteidiger.size() == 1) && (wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(1))) {
 			 verluste.add(0);
 			 verluste.add(1);
@@ -151,9 +150,9 @@ private List<Mission> missionsListe = new Vector<Mission>();
 			 verluste.add(0);
 		} else
 		{
+			//Test, da irgendwo noch ein Fehler
 			System.out.println(wuerfeVerteidiger.get(0) + " " + wuerfeVerteidiger.get(1));
 			System.out.println(wuerfeAngreifer.get(1) + " " + wuerfeAngreifer.get(2));
-			System.out.println("DANNACH");
 		}
 		//verluste ist ein Vector mit den Angaben: AngreiferVerlust / VerteidigerVerlust
 		angreifendesLand.setEinheiten(angreifendesLand.getEinheiten() - verluste.get(0));
@@ -255,6 +254,7 @@ private List<Mission> missionsListe = new Vector<Mission>();
 	public phasen getTurn(){
 		return Phase;
 	}
+	
 	public Spieler nextSpieler(Spieler spieler){
 		return spieler;
 	}
@@ -263,6 +263,7 @@ private List<Mission> missionsListe = new Vector<Mission>();
 		this.einheitenPositionieren(einheiten, vLand);
 		this.einheitenPositionieren(-einheiten, aLand);
 	}
+	
 	public boolean landWaehlen(String land, Spieler spieler) throws KannLandNichtBenutzenException{
 		if(weltVw.stringToLand(land) == null){
 			throw new KannLandNichtBenutzenException(land," existiert nicht");
@@ -275,11 +276,11 @@ private List<Mission> missionsListe = new Vector<Mission>();
 	
 	public boolean checkEinheiten(String land, int einheiten) throws NichtGenugEinheitenException{
 		if(weltVw.stringToLand(land).getEinheiten() < 2){
-			throw new NichtGenugEinheitenException(land, " hat zu wenig Einheiten");
+			throw new NichtGenugEinheitenException(land, " hat zu wenig Einheiten.");
 		}else if(weltVw.stringToLand(land).getEinheiten() <= einheiten){
-			throw new NichtGenugEinheitenException(land, " hat nicht so viele Einheiten");
+			throw new NichtGenugEinheitenException(land, " hat nicht so viele Einheiten.");
 		}else if(einheiten < 1){
-			throw new NichtGenugEinheitenException(land, " kann nicht so wenig Einheiten verschicken");
+			throw new NichtGenugEinheitenException(land, " kann nicht so wenig Einheiten verschicken.");
 		}else{
 			return true;
 		}
