@@ -36,15 +36,33 @@ private List<Mission> missionsListe = new Vector<Mission>();
 	public String moeglicheAngriffsziele(String landString, Spieler spieler) {
 		Land land = weltVw.stringToLand(landString);
 		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);
-		String nachbarLaenderString = "\nDu kannst mit " + landString + " folgende Länder angreifen: ";
-		
+//		String nachbarLaenderString = "\nDu kannst mit " + landString + " folgende Länder angreifen: ";
+//		
+//		for(Land l : nachbarLaender) {
+//			if(!l.getBesitzer().equals(spieler)) {
+//				nachbarLaenderString += l.getName() + " | ";
+//			}
+//		}	
+//		
+//		return nachbarLaenderString;	
+		String ausgabe;
+		String puffer;
+					
+		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
 		for(Land l : nachbarLaender) {
-			if(!l.getBesitzer().equals(spieler)) {
-				nachbarLaenderString += l.getName() + " | ";
+			if(!spieler.equals(l.getBesitzer())) {
+				puffer = l.getName();
+				while(puffer.length() < 24){
+					puffer += " ";
+				}
+				puffer += "|";
+				while(puffer.length() < 30){
+					puffer += " ";
+				}
+				ausgabe += puffer + l.getEinheiten() + "\n";
 			}
-		}	
-		
-		return nachbarLaenderString;	
+		}
+		return ausgabe;
 	}
 	
 	public String eigeneNachbarn(String landString, Spieler spieler) {
@@ -96,7 +114,7 @@ private List<Mission> missionsListe = new Vector<Mission>();
 //	public AttackResult befreiungsAktion(Attack attack) {
 //		Attack -> Angreifer, Verteidiger, vielleicht noch wie viele Würfel
 //		AttackResult -> AngreiferLand, VerteidigerLand, Gewinner / Verluste 
-	public List befreiungsAktion(String angreifendesLandString, String verteidigendesLandString) {
+	public List<String> befreiungsAktion(String angreifendesLandString, String verteidigendesLandString) {
 		Land angreifendesLand = weltVw.stringToLand(angreifendesLandString);
 		Land verteidigendesLand = weltVw.stringToLand(verteidigendesLandString);
 		int angreiferEinheiten = angreifendesLand.getEinheiten();

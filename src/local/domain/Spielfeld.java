@@ -109,6 +109,9 @@ public class Spielfeld {
 	public String weltAnsicht(){
 		return weltVw.weltAnsicht(getSpielerList());
 	}
+	public String eigeneAngriffsLaender(Spieler spieler){
+		return weltVw.eigeneAngriffsLaender(spieler);
+	}
 }
 
 

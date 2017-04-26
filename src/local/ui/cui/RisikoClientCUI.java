@@ -172,6 +172,7 @@ public class RisikoClientCUI {
 		do{
 			do{
 				System.out.println(spieler.getName() + "Mit welchem Land möchtest du angreifen?");
+				System.out.println(sp.eigeneAngriffsLaender(spieler));
 				angriffsLandString = IO.readString();
 				if(sp.stringToLand(angriffsLandString) != null){
 					if(sp.stringToLand(angriffsLandString).getBesitzer().equals(spieler)){

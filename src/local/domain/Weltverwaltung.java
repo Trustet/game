@@ -346,6 +346,26 @@ List<Land> asien = new Vector<Land>();
 		}
 		return ausgabe;
 	}
+	public String eigeneAngriffsLaender(Spieler spieler){
+		String ausgabe;
+		String puffer;
+					
+		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
+		for(Land land : this.getLaenderListe()) {
+			if(spieler.equals(land.getBesitzer()) && land.getEinheiten() > 1) {
+				puffer = land.getName();
+				while(puffer.length() < 24){
+					puffer += " ";
+				}
+				puffer += "|";
+				while(puffer.length() < 30){
+					puffer += " ";
+				}
+				ausgabe += puffer + land.getEinheiten() + "\n";
+			}
+		}
+		return ausgabe;
+	}
 	public String weltAnsicht(List<Spieler> spielerListe){
 		String ausgabe = "";
 		String puffer;
