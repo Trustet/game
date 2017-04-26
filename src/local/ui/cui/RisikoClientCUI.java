@@ -125,6 +125,8 @@ public class RisikoClientCUI {
 		String landString;
 		Land land;
 		int einheiten;
+		boolean genugEinheiten = false;
+		boolean kannLandBenutzen = false;
 		
 		if(startPhase != true)
 		{
@@ -135,29 +137,29 @@ public class RisikoClientCUI {
 		cui.spielerstandAusgeben(spieler);
 		
 		while(einheitenAnzahl > 0) {
-			System.out.println("Auf welches Land m\u00F6chtest du Einheiten setzen?");
-			landString = IO.readString();
-			//TODO Exceptions statt else
-			if(sp.stringToLand(landString) != null) {
-				land = sp.stringToLand(landString);
-				if(land.getBesitzer().equals(spieler)) {
-					System.out.println("Wie viele Einheiten m\u00F6chtest du auf " + land.getName() + " setzen?");
-					System.out.println("Du kannst " + einheitenAnzahl + " Einheiten setzen");
-					einheiten = IO.readInt();
-					if(einheiten <= einheitenAnzahl)
-					{
-						sp.einheitenPositionieren(einheiten, land);
-						System.out.println(land.getName() + " hat jetzt " + land.getEinheiten() + " Einheiten.");
-						einheitenAnzahl -= einheiten;
-					} else {
-						System.out.println("So viele Einheiten hast du gar nicht, du hast nur noch " + einheitenAnzahl + " Einheiten\n");	
-					}
-				}else{
-					System.out.println("Das Land geh\u00F6rt nicht dir!");
+			do{
+				System.out.println("Auf welches Land m\u00F6chtest du Einheiten setzen?");
+				landString = IO.readString();
+				try{
+					kannLandBenutzen = sp.landWaehlen(landString,spieler);
+				}catch(KannLandNichtBenutzenException lene ){
+					System.out.println(lene.getMessage());
 				}
-			}else{
-				System.out.println("Dieses Land existiert nicht");
-			}
+			}while(kannLandBenutzen == false);
+			land = sp.stringToLand(landString);
+			System.out.println("Wie viele Einheiten m\u00F6chtest du auf " + land.getName() + " setzen?");
+			do{
+				System.out.println("Du kannst " + einheitenAnzahl + " Einheiten setzen");
+				einheiten = IO.readInt();
+				try{
+					genugEinheiten = sp.checkEinheitenVerteilen(einheiten,spieler);
+				}catch(KannEinheitenNichtVerschiebenException cev){
+					System.out.println(cev.getMessage());
+				}
+			}while(genugEinheiten == false);
+			sp.einheitenPositionieren(einheiten, land);
+			System.out.println(land.getName() + " hat jetzt " + land.getEinheiten() + " Einheiten.");
+			einheitenAnzahl -= einheiten;
 		}
 	}
 
@@ -232,7 +234,7 @@ public class RisikoClientCUI {
 							genugEinheiten = true;
 							//...
 						} else {
-							System.out.println("Wie viele Einheiten moechtest du auf " + verteidigungsLandString + " setzen?");
+							System.out.println("Wie viele Einheiten m\u00F6chtest du auf " + verteidigungsLandString + " setzen?");
 							System.out.println(aLand.getEinheiten() - 1 + " Einheiten kannst du setzen");
 							int einheiten = IO.readInt();
 							if(einheiten < aLand.getEinheiten() && einheiten > 0){

@@ -336,5 +336,14 @@ private List<Land> benutzteLaender = new Vector<Land>();
 	public List<Land> getBenutzteLaenderListe(){
 		return benutzteLaender;
 	}
+	public boolean checkEinheitenVerteilen(int einheiten, Spieler spieler) throws KannEinheitenNichtVerschiebenException{
+		if(einheiten > this.bekommtEinheiten(spieler)){
+			throw new KannEinheitenNichtVerschiebenException("nicht so viele Einheiten verschieben");
+		}else if(einheiten < 1){
+			throw new KannEinheitenNichtVerschiebenException("nicht so wenig Einheiten verschieben");
+		}else{
+			return true;
+		}
+	}
 	
 }

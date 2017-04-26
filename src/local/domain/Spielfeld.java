@@ -3,6 +3,7 @@ package local.domain;
 import java.util.List;
 
 import local.domain.Kriegsverwaltung.phasen;
+import local.domain.exceptions.KannEinheitenNichtVerschiebenException;
 import local.domain.exceptions.KannLandNichtBenutzenException;
 import local.domain.exceptions.KeinGegnerException;
 import local.domain.exceptions.KeinNachbarlandException;
@@ -135,6 +136,9 @@ public class Spielfeld {
 	}
 	public String eigeneVerschiebeLaender(Spieler spieler){
 		return weltVw.eigeneVerschiebeLaender(spieler, kriegsVw.getBenutzteLaenderListe());
+	}
+	public boolean checkEinheitenVerteilen(int einheiten, Spieler spieler) throws KannEinheitenNichtVerschiebenException{
+		return kriegsVw.checkEinheitenVerteilen(einheiten, spieler);
 	}
 }
 
