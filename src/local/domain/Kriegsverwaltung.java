@@ -95,7 +95,7 @@ public phasen Phase;
 //	public AttackResult befreiungsAktion(Attack attack) {
 //		Attack -> Angreifer, Verteidiger, vielleicht noch wie viele WÃ¼rfel
 //		AttackResult -> AngreiferLand, VerteidigerLand, Gewinner / Verluste 
-	public List befreiungsAktion(String angreifendesLandString, String verteidigendesLandString) {
+	public List<String> befreiungsAktion(String angreifendesLandString, String verteidigendesLandString) {
 		Land angreifendesLand = weltVw.stringToLand(angreifendesLandString);
 		Land verteidigendesLand = weltVw.stringToLand(verteidigendesLandString);
 		int angreiferEinheiten = angreifendesLand.getEinheiten();
@@ -191,7 +191,7 @@ public phasen Phase;
 				for (int i=1;i<k.getLaender().size();i++){
 					if(k.getLaender().get(i).getBesitzer() == k.getLaender().get(i-1).getBesitzer())
 					{
-						speicher= k.getLaender().get(i).getBesitzer();
+						speicher = k.getLaender().get(i).getBesitzer();
 						anzahl++;
 						
 					}
@@ -252,7 +252,7 @@ public phasen Phase;
 		if(weltVw.stringToLand(land) == null){
 			throw new KannLandNichtBenutzenException(land," existiert nicht");
 		}else if(!weltVw.stringToLand(land).getBesitzer().equals(spieler)){
-			throw new KannLandNichtBenutzenException(land," gehört dir nicht");	
+			throw new KannLandNichtBenutzenException(land," gehï¿½rt dir nicht");	
 		}else{
 			return true;
 		}
