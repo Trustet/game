@@ -14,6 +14,7 @@ public class Kriegsverwaltung {
 private Spielerverwaltung spielerVw;
 private Weltverwaltung weltVw;
 public phasen Phase;
+private List<Mission> missionsListe = new Vector<Mission>();
 	
 	/**
 	 * Konstruktor Kriegsverwaltung
@@ -268,6 +269,20 @@ public phasen Phase;
 		}else{
 			return true;
 		}
+	}
+	
+	public void missionsListeErstellen()
+	{
+		missionsListe.add(new Mission("Befreien Sie Nordamerika und Afrika!"));
+		missionsListe.add(new Mission("Befreien Sie Nordamerika und Australien!"));
+		missionsListe.add(new Mission("Befreien Sie 24 Länder Ihrer Wahl!"));
+		missionsListe.add(new Mission("Befreien Sie 18 Länder und setzen Sie in jedes Land mindestens 2 Armeen!"));
+		missionsListe.add(new Mission("Befreien Sie Europa, Südamerika und einen dritten Kontinent Ihrer Wahl!"));
+		missionsListe.add(new Mission("Befreien Sie Europa, Australien und einen dritten Kontinent Ihrer Wahl!"));
+		missionsListe.add(new Mission("Befreien Sie Asien und Südamerika!"));
+		missionsListe.add(new Mission("Befreien Sie Afrika und Asien!"));
+		missionsListe.add(new Mission("Befreien Sie alle Länder von den roten Armeen!"));
+
 	}
 	
 }
