@@ -6,7 +6,9 @@ import java.util.List;
 import local.domain.Spielfeld;
 import local.domain.Kriegsverwaltung.phasen;
 import local.domain.exceptions.KannLandNichtBenutzenException;
+import local.domain.exceptions.KeinGegnerException;
 import local.domain.exceptions.KeinNachbarlandException;
+import local.domain.exceptions.LandExistiertNichtException;
 import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.valueobjects.*;
@@ -174,36 +176,36 @@ public class RisikoClientCUI {
 				System.out.println(spieler.getName() + "Mit welchem Land möchtest du angreifen?");
 				System.out.println(sp.eigeneAngriffsLaender(spieler));
 				angriffsLandString = IO.readString();
-				if(sp.stringToLand(angriffsLandString) != null){
-					if(sp.stringToLand(angriffsLandString).getBesitzer().equals(spieler)){
-						if(sp.stringToLand(angriffsLandString).getEinheiten() > 1){
-							System.out.println(sp.moeglicheAngriffsziele(angriffsLandString, spieler));
-							genugEinheiten = true;
-							aLand = sp.stringToLand(angriffsLandString);
-						}else{
-							System.out.println("Das Land hat nicht genug Einheiten");
-						}
-					}else{
-						System.out.println("Dieses Land gehoert nicht dir");
-					}
-				}else{
-					System.out.println("Dieses Land existiert nicht");
+				try{
+					genugEinheiten = sp.landWaehlen(angriffsLandString,spieler);
+					genugEinheiten = sp.checkEinheiten(angriffsLandString,1);
+				}catch(KannLandNichtBenutzenException lene ){
+					System.out.println(lene.getMessage());
+				}catch(NichtGenugEinheitenException ngee){
+					System.out.println(ngee.getMessage());
+					genugEinheiten = false;
+					
 				}
+				
 			}while(genugEinheiten == false);
+			System.out.println(sp.moeglicheAngriffsziele(angriffsLandString, spieler));
+			aLand = sp.stringToLand(angriffsLandString);
 			System.out.println("\n");
 			do{
 				//ToDo Man kann noch eigene L�nder angreifen
 				System.out.println("\nWelches Land willst du angreifen?");
 				verteidigungsLandString = IO.readString();
-				if(sp.stringToLand(verteidigungsLandString) != null){
+				try{
+					sp.landExistiert(verteidigungsLandString);
 					vLand = sp.stringToLand(verteidigungsLandString);
-					if(vLand.equals(spieler)){
-						System.out.println("Das Land geh�rt dir selber");
-					}else{
-						gegnerNachbar = true;
-					}
-				}else{
-					System.out.println("Das Land existiert nicht");
+					sp.istNachbar(aLand,vLand,spieler);
+					gegnerNachbar = sp.istGegner(verteidigungsLandString,spieler);
+				}catch(LandExistiertNichtException lene ){
+					System.out.println(lene.getMessage());
+				}catch(KeinNachbarlandException ngee){
+					System.out.println(ngee.getMessage());
+				}catch(KeinGegnerException kge){
+					System.out.println(kge.getMessage());
 				}
 			}while(gegnerNachbar == false);
 			do{

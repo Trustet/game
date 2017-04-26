@@ -2,6 +2,10 @@ package local.domain;
 
 import java.util.List;
 import java.util.Vector;
+
+import local.domain.exceptions.KeinGegnerException;
+import local.domain.exceptions.KeinNachbarlandException;
+import local.domain.exceptions.LandExistiertNichtException;
 import local.valueobjects.*;
 
 public class Weltverwaltung {
@@ -379,5 +383,21 @@ List<Land> asien = new Vector<Land>();
 		}
 		ausgabe += "\n";
 		return ausgabe;
+	}
+	public boolean landExistiert(String land) throws LandExistiertNichtException{
+		if(this.stringToLand(land) == null){
+			throw new LandExistiertNichtException(land);
+		}else{
+			return true;
+		}
+		
+	}
+	public boolean istGegner(String land,Spieler spieler) throws KeinGegnerException{
+		if(this.stringToLand(land).getBesitzer().equals(spieler)){
+			throw new KeinGegnerException(land);
+		}else{
+			return true;
+		}
+		
 	}
 }

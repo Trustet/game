@@ -4,7 +4,9 @@ import java.util.List;
 
 import local.domain.Kriegsverwaltung.phasen;
 import local.domain.exceptions.KannLandNichtBenutzenException;
+import local.domain.exceptions.KeinGegnerException;
 import local.domain.exceptions.KeinNachbarlandException;
+import local.domain.exceptions.LandExistiertNichtException;
 import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.valueobjects.*;
@@ -111,6 +113,12 @@ public class Spielfeld {
 	}
 	public String eigeneAngriffsLaender(Spieler spieler){
 		return weltVw.eigeneAngriffsLaender(spieler);
+	}
+	public boolean landExistiert(String land) throws LandExistiertNichtException{
+		return weltVw.landExistiert(land);
+	}
+	public boolean istGegner(String land,Spieler spieler) throws KeinGegnerException{
+		return weltVw.istGegner(land, spieler);
 	}
 }
 
