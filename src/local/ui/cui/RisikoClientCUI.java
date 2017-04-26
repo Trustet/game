@@ -5,13 +5,7 @@ import java.util.List;
 
 import local.domain.Spielfeld;
 import local.domain.Kriegsverwaltung.phasen;
-import local.domain.exceptions.KannLandNichtBenutzenException;
-import local.domain.exceptions.KeinGegnerException;
-import local.domain.exceptions.KeinNachbarlandException;
-import local.domain.exceptions.LandBereitsBenutztException;
-import local.domain.exceptions.LandExistiertNichtException;
-import local.domain.exceptions.NichtGenugEinheitenException;
-import local.domain.exceptions.SpielerExistiertBereitsException;
+import local.domain.exceptions.*;
 import local.valueobjects.*;
 
 
