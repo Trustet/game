@@ -346,4 +346,18 @@ List<Land> asien = new Vector<Land>();
 		}
 		return ausgabe;
 	}
+	public String weltAnsicht(List<Spieler> spielerListe){
+		String ausgabe = "";
+		String puffer;
+		int laenge = 20;
+		for(Spieler spieler : spielerListe){
+			while(ausgabe.length() < laenge){
+				ausgabe += " ";
+			}
+			ausgabe += spieler.getName();
+			laenge += 20 + spieler.getName().length();
+		}
+		ausgabe += "\n";
+		return ausgabe;
+	}
 }
