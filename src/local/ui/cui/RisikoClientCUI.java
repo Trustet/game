@@ -173,7 +173,7 @@ public class RisikoClientCUI {
 		boolean phaseBeendet = false;
 		do{
 			do{
-				System.out.println(spieler.getName() + "Mit welchem Land möchtest du angreifen?");
+				System.out.println(spieler.getName() + " mit welchem Land möchtest du angreifen?");
 				System.out.println(sp.eigeneAngriffsLaender(spieler));
 				angriffsLandString = IO.readString();
 				try{
@@ -217,7 +217,7 @@ public class RisikoClientCUI {
 						if(aLand.getEinheiten() == 2)
 						{
 							//noch nicht getestet
-							System.out.println("Eine Einheit wird auf" + verteidigungsLandString + "gesetzt.");
+							System.out.println("Eine Einheit wird auf " + verteidigungsLandString + " gesetzt.");
 							sp.eroberungBesetzen(aLand, vLand, 1); 
 							System.out.println("Das Land " + vLand.getName() + " hat " + vLand.getEinheiten() + " Einheiten");
 							System.out.println("Das Land " + aLand.getName() + " hat " + aLand.getEinheiten() + " Einheiten");
