@@ -56,6 +56,7 @@ public class RisikoClientCUI {
 				sp.nextTurn();
 				break;
 			case VERTEILEN:
+				//Verteilung
 				cui.einheitenVerteilen(spieler);
 				sp.naechsterSpieler();
 				sp.nextTurn();
