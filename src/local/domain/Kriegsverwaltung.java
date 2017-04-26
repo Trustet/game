@@ -24,7 +24,7 @@ private List<Mission> missionsListe = new Vector<Mission>();
 	public Kriegsverwaltung(Spielerverwaltung spielerVw, Weltverwaltung weltVw) {
 	this.spielerVw = spielerVw;
 	this.weltVw = weltVw;
-	Phase = phasen.ANGRIFF;
+	Phase = phasen.VERTEILEN;
 	}
 
 	/**
