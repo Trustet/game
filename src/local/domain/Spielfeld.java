@@ -140,6 +140,9 @@ public class Spielfeld {
 	public boolean checkEinheitenVerteilen(int einheiten, Spieler spieler) throws KannEinheitenNichtVerschiebenException{
 		return kriegsVw.checkEinheitenVerteilen(einheiten, spieler);
 	}
+	public String einheitenAusgabe(Land erstesLand, Land zweitesLand){
+		return weltVw.einheitenAusgabe(erstesLand, zweitesLand);
+	}
 }
 
 

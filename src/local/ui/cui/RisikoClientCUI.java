@@ -229,8 +229,7 @@ public class RisikoClientCUI {
 						if(aLand.getEinheiten() == 2) {
 							System.out.println("Eine Einheit wird auf " + verteidigungsLandString + " gesetzt.");
 							sp.eroberungBesetzen(aLand, vLand, 1); 
-							System.out.println("Das Land " + vLand.getName() + " hat " + vLand.getEinheiten() + " Einheiten");
-							System.out.println("Das Land " + aLand.getName() + " hat " + aLand.getEinheiten() + " Einheiten");
+							sp.einheitenAusgabe(aLand, vLand);
 							genugEinheiten = true;
 							//...
 						} else {
@@ -239,8 +238,7 @@ public class RisikoClientCUI {
 							int einheiten = IO.readInt();
 							if(einheiten < aLand.getEinheiten() && einheiten > 0){
 								sp.eroberungBesetzen(aLand, vLand, einheiten); 
-								System.out.println("Das Land " + vLand.getName() + " hat " + vLand.getEinheiten() + " Einheiten");
-								System.out.println("Das Land " + aLand.getName() + " hat " + aLand.getEinheiten() + " Einheiten");
+								sp.einheitenAusgabe(aLand, vLand);
 								genugEinheiten = true;
 							}else{
 								System.out.println("Bitte gebe eine Korrekte Zahl ein");
@@ -327,8 +325,7 @@ public class RisikoClientCUI {
 					}while(kannLandBenutzen == false);
 					
 					zweitesLand = sp.stringToLand(zielLand);
-					System.out.println(wahlLand + " hat " +  erstesLand.getEinheiten() + " Einheiten");
-					System.out.println(zielLand + " hat " + zweitesLand.getEinheiten() + " Einheiten");
+					sp.einheitenAusgabe(erstesLand, zweitesLand);
 					
 					do{
 						System.out.println("Wie viele Einheiten m\u00F6chtest du verschieben?");
@@ -343,8 +340,7 @@ public class RisikoClientCUI {
 					
 					sp.einheitenPositionieren(einheiten, zweitesLand);
 					sp.einheitenPositionieren(-einheiten, erstesLand);
-					System.out.println("Das Land " + zweitesLand.getName() + " hat " + zweitesLand.getEinheiten() + " Einheiten");
-					System.out.println("Das Land " + erstesLand.getName() + " hat " + erstesLand.getEinheiten() + " Einheiten");
+					sp.einheitenAusgabe(erstesLand, zweitesLand);
 		}
 	}
 }

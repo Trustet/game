@@ -428,4 +428,8 @@ List<Land> asien = new Vector<Land>();
 		}
 		return ausgabe;
 	}
+	public String einheitenAusgabe(Land erstesLand, Land zweitesLand){
+		String ausgabe = "Das Land " + erstesLand.getName() + " hat " + erstesLand.getEinheiten() + " Einheiten \n Das Land " + zweitesLand.getName() + " hat " + zweitesLand.getEinheiten() + " Einheiten";
+		return ausgabe;
+	}
 }
