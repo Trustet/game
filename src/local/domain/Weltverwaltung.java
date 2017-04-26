@@ -408,4 +408,24 @@ List<Land> asien = new Vector<Land>();
 		}
 		
 	}
+	public String eigeneVerschiebeLaender(Spieler spieler, List<Land> land){
+		String ausgabe;
+		String puffer;
+					
+		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
+		for(Land l : this.getLaenderListe()) {
+			if(spieler.equals(l.getBesitzer()) && l.getEinheiten() > 1 && !land.contains(l)) {
+				puffer = l.getName();
+				while(puffer.length() < 24){
+					puffer += " ";
+				}
+				puffer += "|";
+				while(puffer.length() < 30){
+					puffer += " ";
+				}
+				ausgabe += puffer + l.getEinheiten() + "\n";
+			}
+		}
+		return ausgabe;
+	}
 }

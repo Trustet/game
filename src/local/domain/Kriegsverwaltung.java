@@ -1,12 +1,11 @@
 package local.domain;
 
 import java.util.Collections;
+
 import java.util.List;
 import java.util.Vector;
 
-import local.domain.exceptions.KannLandNichtBenutzenException;
-import local.domain.exceptions.KeinNachbarlandException;
-import local.domain.exceptions.NichtGenugEinheitenException;
+import local.domain.exceptions.*;
 import local.valueobjects.*;
 
 public class Kriegsverwaltung {
@@ -15,6 +14,7 @@ private Spielerverwaltung spielerVw;
 private Weltverwaltung weltVw;
 public phasen Phase;
 private List<Mission> missionsListe = new Vector<Mission>();
+private List<Land> benutzteLaender = new Vector<Land>();
 	
 	/**
 	 * Konstruktor Kriegsverwaltung
@@ -319,6 +319,22 @@ private List<Mission> missionsListe = new Vector<Mission>();
 			}
 		}
 		return ausgabe;
+	}
+	public boolean benutzeLaender(Land land) throws LandBereitsBenutztException{
+		if(benutzteLaender.contains(land)){
+			throw new LandBereitsBenutztException(land.getName());
+		}else{
+			return true;
+		}
+	}
+	public void landBenutzen(Land land){
+		benutzteLaender.add(land);
+	}
+	public void benutzteLaenderLoeschen(){
+		benutzteLaender.clear();
+	}
+	public List<Land> getBenutzteLaenderListe(){
+		return benutzteLaender;
 	}
 	
 }

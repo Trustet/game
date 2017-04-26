@@ -8,6 +8,7 @@ import local.domain.Kriegsverwaltung.phasen;
 import local.domain.exceptions.KannLandNichtBenutzenException;
 import local.domain.exceptions.KeinGegnerException;
 import local.domain.exceptions.KeinNachbarlandException;
+import local.domain.exceptions.LandBereitsBenutztException;
 import local.domain.exceptions.LandExistiertNichtException;
 import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
@@ -48,6 +49,7 @@ public class RisikoClientCUI {
 				cui.verschieben(spieler);
 				sp.nextTurn();
 				sp.naechsterSpieler();
+				sp.benutzteLaenderLoeschen();
 				break;	
 			}	
 		}while(gewonnen == false);
@@ -195,6 +197,7 @@ public class RisikoClientCUI {
 			
 			System.out.println(sp.moeglicheAngriffsziele(angriffsLandString, spieler));
 			aLand = sp.stringToLand(angriffsLandString);
+			sp.landBenutzen(aLand);
 			
 			do{
 				System.out.println("\nWelches Land willst du angreifen?");
@@ -285,19 +288,20 @@ public class RisikoClientCUI {
 			
 				System.out.println("Von welchem Land moechtest du Einheiten verschieben?");
 				//Zeigt alle Länder an, die benutzt werden können
-				System.out.println(sp.eigeneAngriffsLaender(spieler));
+				System.out.println(sp.eigeneVerschiebeLaender(spieler));
 				//Läuft so lange, bis das erste Land korrekt ausgewählt wird
 				do{
 						wahlLand = IO.readString();
 						try{
-							kannLandBenutzen = sp.landWaehlen(wahlLand,spieler);
+							sp.landWaehlen(wahlLand,spieler);
+							sp.benutzeLaender(sp.stringToLand(wahlLand));
 							kannLandBenutzen = sp.checkEinheiten(wahlLand,1);
 						}catch(KannLandNichtBenutzenException lene ){
 							System.out.println(lene.getMessage());
 						}catch(NichtGenugEinheitenException ngee){
-							System.out.println(ngee.getMessage());
-							kannLandBenutzen = false;
-							
+							System.out.println(ngee.getMessage());					
+						}catch(LandBereitsBenutztException lbbe){
+							System.out.println(lbbe.getMessage());
 						}
 					}while(kannLandBenutzen == false);
 				

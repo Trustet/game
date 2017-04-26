@@ -6,6 +6,7 @@ import local.domain.Kriegsverwaltung.phasen;
 import local.domain.exceptions.KannLandNichtBenutzenException;
 import local.domain.exceptions.KeinGegnerException;
 import local.domain.exceptions.KeinNachbarlandException;
+import local.domain.exceptions.LandBereitsBenutztException;
 import local.domain.exceptions.LandExistiertNichtException;
 import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
@@ -122,6 +123,18 @@ public class Spielfeld {
 	}
 	public String moeglicheVerschiebeZiele(Land land, Spieler spieler){
 		return kriegsVw.moeglicheVerschiebeZiele(land, spieler);
+	}
+	public boolean benutzeLaender(Land land) throws LandBereitsBenutztException{
+		return kriegsVw.benutzeLaender(land);
+	}
+	public void landBenutzen(Land land){
+		kriegsVw.landBenutzen(land);
+	}
+	public void benutzteLaenderLoeschen(){
+		kriegsVw.benutzteLaenderLoeschen();
+	}
+	public String eigeneVerschiebeLaender(Spieler spieler){
+		return weltVw.eigeneVerschiebeLaender(spieler, kriegsVw.getBenutzteLaenderListe());
 	}
 }
 
