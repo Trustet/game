@@ -59,7 +59,7 @@ private List<Land> benutzteLaender = new Vector<Land>();
 	public String eigeneNachbarn(String landString, Spieler spieler) {
 		Land land = weltVw.stringToLand(landString);
 		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);
-		String nachbarLaenderString = "\nDu kannst mit " + landString + " auf folgende Laender verschieben: ";
+		String nachbarLaenderString = "\nDu kannst mit " + landString + " auf folgende L\u00E4nder verschieben: ";
 		
 		for(Land l : nachbarLaender) {
 			if(l.getBesitzer().equals(spieler)) {
@@ -159,7 +159,7 @@ private List<Land> benutzteLaender = new Vector<Land>();
 		verteidigendesLand.setEinheiten(verteidigendesLand.getEinheiten() - verluste.get(1));
 
 		if(verteidigendesLand.getEinheiten() == 0) {
-			ausgabeString += "Land erobert! " + verteidigendesLandString + " gehÃ¶rt jetzt " + angreifendesLand.getBesitzer().getName();
+			ausgabeString += "Land erobert! " + verteidigendesLandString + " geh\u00F6rt jetzt " + angreifendesLand.getBesitzer().getName();
 			verteidigendesLand.setBesitzer(angreifendesLand.getBesitzer());
 			angreifendesLand.setEinheiten(angreifendesLand.getEinheiten() - 1);
 			verteidigendesLand.setEinheiten(0);
@@ -268,7 +268,7 @@ private List<Land> benutzteLaender = new Vector<Land>();
 		if(weltVw.stringToLand(land) == null){
 			throw new KannLandNichtBenutzenException(land," existiert nicht");
 		}else if(!weltVw.stringToLand(land).getBesitzer().equals(spieler)){
-			throw new KannLandNichtBenutzenException(land," geh�rt dir nicht");	
+			throw new KannLandNichtBenutzenException(land," geh\u00F6rt dir nicht");	
 		}else{
 			return true;
 		}
@@ -290,13 +290,13 @@ private List<Land> benutzteLaender = new Vector<Land>();
 	{
 		missionsListe.add(new Mission("Befreien Sie Nordamerika und Afrika!"));
 		missionsListe.add(new Mission("Befreien Sie Nordamerika und Australien!"));
-		missionsListe.add(new Mission("Befreien Sie 24 Länder Ihrer Wahl!"));
-		missionsListe.add(new Mission("Befreien Sie 18 Länder und setzen Sie in jedes Land mindestens 2 Armeen!"));
-		missionsListe.add(new Mission("Befreien Sie Europa, Südamerika und einen dritten Kontinent Ihrer Wahl!"));
+		missionsListe.add(new Mission("Befreien Sie 24 L\u00E4nder Ihrer Wahl!"));
+		missionsListe.add(new Mission("Befreien Sie 18 L\u00E4nder und setzen Sie in jedes Land mindestens 2 Armeen!"));
+		missionsListe.add(new Mission("Befreien Sie Europa, S\u00FCdamerika und einen dritten Kontinent Ihrer Wahl!"));
 		missionsListe.add(new Mission("Befreien Sie Europa, Australien und einen dritten Kontinent Ihrer Wahl!"));
-		missionsListe.add(new Mission("Befreien Sie Asien und Südamerika!"));
+		missionsListe.add(new Mission("Befreien Sie Asien und S\u00FCdamerika!"));
 		missionsListe.add(new Mission("Befreien Sie Afrika und Asien!"));
-		missionsListe.add(new Mission("Befreien Sie alle Länder von den roten Armeen!"));
+		missionsListe.add(new Mission("Befreien Sie alle L\u00E4nder von den roten Armeen!"));
 
 	}
 	public String moeglicheVerschiebeZiele(Land land, Spieler spieler){

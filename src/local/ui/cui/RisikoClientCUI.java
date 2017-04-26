@@ -1,4 +1,10 @@
-
+//ß \u00DF
+//ü \u00FC
+//Ü \u00DC
+//ä \u00E4
+//Ä \u00C4
+//ö \u00F6
+//Ö \u006D
 package local.ui.cui;
 
 import java.util.List;
@@ -77,7 +83,7 @@ public class RisikoClientCUI {
 					} catch (SpielerExistiertBereitsException sebe) {
 						String message = sebe.getMessage();
 						System.out.println(message);
-						System.out.println("Bitte wÃ¤hlen Sie einen anderen Namen!");
+						System.out.println("Bitte w\u00E4hlen Sie einen anderen Namen!");
 					}
 				} while (aktiveSpieler < anzahlSpieler);
 				
@@ -105,7 +111,7 @@ public class RisikoClientCUI {
 	 * @param spieler
 	 */
 	public void spielerstandAusgeben(Spieler spieler) {
-		System.out.println("\n" + spieler.getName() +" besitzt die LÃ¤nder: ");
+		System.out.println("\n" + spieler.getName() +" besitzt die Lä \u00E4nder: ");
 		System.out.println(sp.eigeneLaenderListe(spieler));
 		System.out.println("\nund bekommt " + sp.bekommtEinheiten(spieler) + " Einheiten\n");		
 	}
@@ -129,13 +135,13 @@ public class RisikoClientCUI {
 		cui.spielerstandAusgeben(spieler);
 		
 		while(einheitenAnzahl > 0) {
-			System.out.println("Auf welches Land mÃ¶chtest du Einheiten setzen?");
+			System.out.println("Auf welches Land m\u00F6chtest du Einheiten setzen?");
 			landString = IO.readString();
 			//TODO Exceptions statt else
 			if(sp.stringToLand(landString) != null) {
 				land = sp.stringToLand(landString);
 				if(land.getBesitzer().equals(spieler)) {
-					System.out.println("Wie viele Einheiten mÃ¶chtest du auf " + land.getName() + " setzen?");
+					System.out.println("Wie viele Einheiten m\u00F6chtest du auf " + land.getName() + " setzen?");
 					System.out.println("Du kannst " + einheitenAnzahl + " Einheiten setzen");
 					einheiten = IO.readInt();
 					if(einheiten <= einheitenAnzahl)
@@ -147,7 +153,7 @@ public class RisikoClientCUI {
 						System.out.println("So viele Einheiten hast du gar nicht, du hast nur noch " + einheitenAnzahl + " Einheiten\n");	
 					}
 				}else{
-					System.out.println("Das Land gehÃ¶rt nicht dir!");
+					System.out.println("Das Land geh\u00F6rt nicht dir!");
 				}
 			}else{
 				System.out.println("Dieses Land existiert nicht");
@@ -176,7 +182,7 @@ public class RisikoClientCUI {
 		
 		do{
 			do{
-				System.out.println(spieler.getName() + " mit welchem Land mÃ¶chtest du angreifen?");
+				System.out.println(spieler.getName() + " mit welchem Land m\u00F6chtest du angreifen?");
 				System.out.println(sp.eigeneAngriffsLaender(spieler));
 				angriffsLandString = IO.readString();
 				try{
@@ -243,7 +249,7 @@ public class RisikoClientCUI {
 				}else if(aLand.getEinheiten() < 2){
 					System.out.println("Du kannst mit diesem Land nicht weiter angreifen.");
 				}else{
-					System.out.println("Moechtest du weiter angreifen? Ja/Nein");
+					System.out.println("M\u00F6chtest du weiter angreifen? Ja/Nein");
 					String selberAngriff = IO.readString();
 					if(selberAngriff.equals("Ja"))
 					{
@@ -252,7 +258,7 @@ public class RisikoClientCUI {
 				}
 			}while(erneutAngreifen == true);
 			
-			System.out.println("Moechtest du mit einem weiteren Land angreifen?Ja/Nein");
+			System.out.println("M\u00F6chtest du mit einem weiteren Land angreifen?Ja/Nein");
 			weiterangreifen = IO.readString();
 			if(!weiterangreifen.equals("Ja")){
 				phaseBeendet = true;
@@ -275,12 +281,12 @@ public class RisikoClientCUI {
 		String zielLand;
 		
 		System.out.println("Phase: " + sp.getTurn());
-		System.out.println("\nMoechtest du Einheiten verschieben? Ja/Nein");
+		System.out.println("\nM\u00F6chtest du Einheiten verschieben? Ja/Nein");
 		String antwort = IO.readString();
 		
 		if(antwort.equals("Ja")){
 			
-				System.out.println("Von welchem Land moechtest du Einheiten verschieben?");
+				System.out.println("Von welchem Land m\u00F6chtest du Einheiten verschieben?");
 				//Zeigt alle LÃ¤nder an, die benutzt werden kÃ¶nnen
 				System.out.println(sp.eigeneVerschiebeLaender(spieler));
 				//LÃ¤uft so lange, bis das erste Land korrekt ausgewÃ¤hlt wird
@@ -323,7 +329,7 @@ public class RisikoClientCUI {
 					System.out.println(zielLand + " hat " + zweitesLand.getEinheiten() + " Einheiten");
 					
 					do{
-						System.out.println("Wie viele Einheiten moechtest du verschieben?");
+						System.out.println("Wie viele Einheiten m\u00F6chtest du verschieben?");
 						einheiten = IO.readInt();
 						
 						try{
