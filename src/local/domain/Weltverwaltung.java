@@ -37,17 +37,7 @@ public class Weltverwaltung {
 	 * @param spielerVw
 	 * @param weltVw
 	 */
-//	public void laenderAufteilen(List<Spieler> spielerListe) {
-//		int counter = 0;
-//		int anzahlSpieler = spielerListe.size();
-//		for(int i = 0;i < this.getLaenderListe().size();i = i+anzahlSpieler) {
-//			for(int j = 0;j < anzahlSpieler;j++) {
-//				if(counter < this.getLaenderListe().size()) {
-//					this.getLaenderListe().get(counter).setBesitzer(spielerListe.get(j));
-//					counter++;
-//				}
-//			}
-//		}
+
 		public void laenderAufteilen(List<Spieler> spielerListe){
 			List<Land> laenderWahl = new Vector<Land>();
 			for(Land ls :this.getLaenderListe()){
