@@ -37,18 +37,38 @@ public class Weltverwaltung {
 	 * @param spielerVw
 	 * @param weltVw
 	 */
-	public void laenderAufteilen(List<Spieler> spielerListe) {
-		int counter = 0;
-		int anzahlSpieler = spielerListe.size();
-		for(int i = 0;i < this.getLaenderListe().size();i = i+anzahlSpieler) {
-			for(int j = 0;j < anzahlSpieler;j++) {
-				if(counter < this.getLaenderListe().size()) {
-					this.getLaenderListe().get(counter).setBesitzer(spielerListe.get(j));
-					counter++;
+//	public void laenderAufteilen(List<Spieler> spielerListe) {
+//		int counter = 0;
+//		int anzahlSpieler = spielerListe.size();
+//		for(int i = 0;i < this.getLaenderListe().size();i = i+anzahlSpieler) {
+//			for(int j = 0;j < anzahlSpieler;j++) {
+//				if(counter < this.getLaenderListe().size()) {
+//					this.getLaenderListe().get(counter).setBesitzer(spielerListe.get(j));
+//					counter++;
+//				}
+//			}
+//		}
+		public void laenderAufteilen(List<Spieler> spielerListe){
+			List<Land> laenderWahl = new Vector<Land>();
+			for(Land ls :this.getLaenderListe()){
+				laenderWahl.add(ls);
+			}
+			int random;
+			while(laenderWahl.size() > 0){
+				for(Spieler s : spielerListe){
+					if(laenderWahl.size() > 0){
+						random = (int)(Math.random() * laenderWahl.size());
+						String land = laenderWahl.get(random).getName();
+						for(Land l : this.getLaenderListe()){
+							if(l.getName().equals(land)){
+								l.setBesitzer(s);
+							}
+						}
+						laenderWahl.remove(random);
+					}
 				}
 			}
 		}
-		
 		//TEST SPIELER 1 kriegt ganz EUROPA zu Beginn
 		/*
 		for(int x = 0;x < 7;x++)
@@ -56,7 +76,7 @@ public class Weltverwaltung {
 			this.getLaenderListe().get(x).setBesitzer(spielerListe.get(0));
 		}
 		*/
-	}
+	//}
 
 	
 	/**
@@ -64,7 +84,7 @@ public class Weltverwaltung {
 	 */
 	private void laenderErstellen()	{
 		Spieler leer = new Spieler("Unbekannt");
-		
+		//42
 		//Europa 7
 		laenderListe.add(new Land("Island",leer,1,"is"));
 		laenderListe.add(new Land("Skandinavien",leer,1,"sk"));
