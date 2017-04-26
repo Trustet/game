@@ -192,7 +192,6 @@ public class RisikoClientCUI {
 			aLand = sp.stringToLand(angriffsLandString);
 			System.out.println("\n");
 			do{
-				//ToDo Man kann noch eigene L�nder angreifen
 				System.out.println("\nWelches Land willst du angreifen?");
 				verteidigungsLandString = IO.readString();
 				try{

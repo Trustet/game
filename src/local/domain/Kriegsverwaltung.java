@@ -133,7 +133,7 @@ private List<Mission> missionsListe = new Vector<Mission>();
 		
 		wuerfeAngreifer = wuerfeln(angreifendeEinheiten);
 		wuerfeVerteidiger = wuerfeln(verteidigendeEinheiten);
-		
+		System.out.println("DAVOR");
 		if((wuerfeVerteidiger.size() == 1) && (wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(1))) {
 			 verluste.add(0);
 			 verluste.add(1);
@@ -153,6 +153,7 @@ private List<Mission> missionsListe = new Vector<Mission>();
 		{
 			System.out.println(wuerfeVerteidiger.get(0) + " " + wuerfeVerteidiger.get(1));
 			System.out.println(wuerfeAngreifer.get(1) + " " + wuerfeAngreifer.get(2));
+			System.out.println("DANNACH");
 		}
 		//verluste ist ein Vector mit den Angaben: AngreiferVerlust / VerteidigerVerlust
 		angreifendesLand.setEinheiten(angreifendesLand.getEinheiten() - verluste.get(0));
