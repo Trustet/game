@@ -95,7 +95,7 @@ public phasen Phase;
 //	public AttackResult befreiungsAktion(Attack attack) {
 //		Attack -> Angreifer, Verteidiger, vielleicht noch wie viele Würfel
 //		AttackResult -> AngreiferLand, VerteidigerLand, Gewinner / Verluste 
-	public List<String> befreiungsAktion(String angreifendesLandString, String verteidigendesLandString) {
+	public List befreiungsAktion(String angreifendesLandString, String verteidigendesLandString) {
 		Land angreifendesLand = weltVw.stringToLand(angreifendesLandString);
 		Land verteidigendesLand = weltVw.stringToLand(verteidigendesLandString);
 		int angreiferEinheiten = angreifendesLand.getEinheiten();
@@ -145,7 +145,7 @@ public phasen Phase;
 		verteidigendesLand.setEinheiten(verteidigendesLand.getEinheiten() - verluste.get(1));
 
 		if(verteidigendesLand.getEinheiten() == 0) {
-			ausgabeString += "Land erobert! " + verteidigendesLandString + " gehört jetzt " + angreifendesLand.getBesitzer().getName();
+			ausgabeString += "Land erobert! " + verteidigendesLandString + " gehÃ¶rt jetzt " + angreifendesLand.getBesitzer().getName();
 			verteidigendesLand.setBesitzer(angreifendesLand.getBesitzer());
 			angreifendesLand.setEinheiten(angreifendesLand.getEinheiten() - 1);
 			verteidigendesLand.setEinheiten(0);
