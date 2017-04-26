@@ -215,16 +215,27 @@ public class RisikoClientCUI {
 				if(eroberung.get(0) != null){
 					genugEinheiten = false;
 					do{
-						System.out.println("Wie viele Einheiten moechtest du auf " + verteidigungsLandString + " setzen?");
-						System.out.println(aLand.getEinheiten() - 1 + " Einheiten kannst du setzen");
-						int einheiten = IO.readInt();
-						if(einheiten < aLand.getEinheiten() && einheiten > 0){
-							sp.eroberungBesetzen(aLand, vLand, einheiten); 
+						if(aLand.getEinheiten() == 2)
+						{
+							//noch nicht getestet
+							System.out.println("Eine Einheit wird auf" + verteidigungsLandString + "gesetzt.");
+							sp.eroberungBesetzen(aLand, vLand, 1); 
 							System.out.println("Das Land " + vLand.getName() + " hat " + vLand.getEinheiten() + " Einheiten");
 							System.out.println("Das Land " + aLand.getName() + " hat " + aLand.getEinheiten() + " Einheiten");
 							genugEinheiten = true;
-						}else{
-							System.out.println("Bitte gebe eine Korrekte Zahl ein");
+							//...
+						} else {
+							System.out.println("Wie viele Einheiten moechtest du auf " + verteidigungsLandString + " setzen?");
+							System.out.println(aLand.getEinheiten() - 1 + " Einheiten kannst du setzen");
+							int einheiten = IO.readInt();
+							if(einheiten < aLand.getEinheiten() && einheiten > 0){
+								sp.eroberungBesetzen(aLand, vLand, einheiten); 
+								System.out.println("Das Land " + vLand.getName() + " hat " + vLand.getEinheiten() + " Einheiten");
+								System.out.println("Das Land " + aLand.getName() + " hat " + aLand.getEinheiten() + " Einheiten");
+								genugEinheiten = true;
+							}else{
+								System.out.println("Bitte gebe eine Korrekte Zahl ein");
+							}
 						}
 							
 					}while(!genugEinheiten);
