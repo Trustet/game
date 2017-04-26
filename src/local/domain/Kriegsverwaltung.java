@@ -35,16 +35,7 @@ private List<Mission> missionsListe = new Vector<Mission>();
 	 */
 	public String moeglicheAngriffsziele(String landString, Spieler spieler) {
 		Land land = weltVw.stringToLand(landString);
-		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);
-//		String nachbarLaenderString = "\nDu kannst mit " + landString + " folgende Länder angreifen: ";
-//		
-//		for(Land l : nachbarLaender) {
-//			if(!l.getBesitzer().equals(spieler)) {
-//				nachbarLaenderString += l.getName() + " | ";
-//			}
-//		}	
-//		
-//		return nachbarLaenderString;	
+		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);	
 		String ausgabe;
 		String puffer;
 					
@@ -305,6 +296,27 @@ private List<Mission> missionsListe = new Vector<Mission>();
 		missionsListe.add(new Mission("Befreien Sie Afrika und Asien!"));
 		missionsListe.add(new Mission("Befreien Sie alle Länder von den roten Armeen!"));
 
+	}
+	public String moeglicheVerschiebeZiele(Land land, Spieler spieler){
+		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);	
+		String ausgabe;
+		String puffer;
+					
+		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
+		for(Land l : nachbarLaender) {
+			if(spieler.equals(l.getBesitzer())) {
+				puffer = l.getName();
+				while(puffer.length() < 24){
+					puffer += " ";
+				}
+				puffer += "|";
+				while(puffer.length() < 30){
+					puffer += " ";
+				}
+				ausgabe += puffer + l.getEinheiten() + "\n";
+			}
+		}
+		return ausgabe;
 	}
 	
 }

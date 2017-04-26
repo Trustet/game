@@ -263,11 +263,7 @@ public class RisikoClientCUI {
 		
 				System.out.println("Von welchem Land moechtest du Einheiten verschieben?");
 				//Zeigt alle Länder an, die benutzt werden können
-				for(Land land : sp.besitztLaender(spieler))
-				{
-					System.out.print(land.getName() + " |");
-				}
-				System.out.println();
+				System.out.println(sp.eigeneAngriffsLaender(spieler));
 				//Läuft so lange, bis das erste Land korrekt ausgewählt wird
 				do{
 						wahlLand = IO.readString();
@@ -286,7 +282,7 @@ public class RisikoClientCUI {
 					kannLandBenutzen = false;
 					//So lange, bis ein korrektes Zielland gewählt wird
 					do{
-						System.out.println(sp.eigeneNachbarn(wahlLand, spieler));
+						System.out.println(sp.moeglicheVerschiebeZiele(erstesLand, spieler));
 						zielLand = IO.readString();
 						//Überprüft ob das Land existiert und dem Spieler gehört
 						try{

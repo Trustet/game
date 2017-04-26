@@ -120,6 +120,9 @@ public class Spielfeld {
 	public boolean istGegner(String land,Spieler spieler) throws KeinGegnerException{
 		return weltVw.istGegner(land, spieler);
 	}
+	public String moeglicheVerschiebeZiele(Land land, Spieler spieler){
+		return kriegsVw.moeglicheVerschiebeZiele(land, spieler);
+	}
 }
 
 
