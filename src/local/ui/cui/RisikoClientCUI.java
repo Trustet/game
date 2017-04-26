@@ -52,7 +52,7 @@ public class RisikoClientCUI {
 				sp.benutzteLaenderLoeschen();
 				break;	
 			}	
-		}while(gewonnen == false);
+		}while(!gewonnen);
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class RisikoClientCUI {
 				}catch(KannLandNichtBenutzenException lene ){
 					System.out.println(lene.getMessage());
 				}
-			}while(kannLandBenutzen == false);
+			}while(!kannLandBenutzen);
 			land = sp.stringToLand(landString);
 			System.out.println("Wie viele Einheiten m\u00F6chtest du auf " + land.getName() + " setzen?");
 			do{
@@ -156,7 +156,7 @@ public class RisikoClientCUI {
 				}catch(KannEinheitenNichtVerschiebenException cev){
 					System.out.println(cev.getMessage());
 				}
-			}while(genugEinheiten == false);
+			}while(!genugEinheiten);
 			sp.einheitenPositionieren(einheiten, land);
 			System.out.println(land.getName() + " hat jetzt " + land.getEinheiten() + " Einheiten.");
 			einheitenAnzahl -= einheiten;
@@ -195,7 +195,7 @@ public class RisikoClientCUI {
 				}catch(NichtGenugEinheitenException ngee){
 					System.out.println(ngee.getMessage());
 				}
-			}while(genugEinheiten == false);
+			}while(!genugEinheiten);
 			
 			System.out.println(sp.moeglicheAngriffsziele(angriffsLandString, spieler));
 			aLand = sp.stringToLand(angriffsLandString);
@@ -216,7 +216,7 @@ public class RisikoClientCUI {
 				}catch(KeinGegnerException kge){
 					System.out.println(kge.getMessage());
 				}
-			}while(gegnerNachbar == false);
+			}while(!gegnerNachbar);
 			
 			do{
 				erneutAngreifen = false;
@@ -229,7 +229,7 @@ public class RisikoClientCUI {
 						if(aLand.getEinheiten() == 2) {
 							System.out.println("Eine Einheit wird auf " + verteidigungsLandString + " gesetzt.");
 							sp.eroberungBesetzen(aLand, vLand, 1); 
-							sp.einheitenAusgabe(aLand, vLand);
+							System.out.println(sp.einheitenAusgabe(aLand, vLand));
 							genugEinheiten = true;
 							//...
 						} else {
@@ -238,7 +238,7 @@ public class RisikoClientCUI {
 							int einheiten = IO.readInt();
 							if(einheiten < aLand.getEinheiten() && einheiten > 0){
 								sp.eroberungBesetzen(aLand, vLand, einheiten); 
-								sp.einheitenAusgabe(aLand, vLand);
+								System.out.println(sp.einheitenAusgabe(aLand, vLand));
 								genugEinheiten = true;
 							}else{
 								System.out.println("Bitte gebe eine Korrekte Zahl ein");
@@ -256,7 +256,7 @@ public class RisikoClientCUI {
 						erneutAngreifen = true;
 					}
 				}
-			}while(erneutAngreifen == true);
+			}while(erneutAngreifen);
 			
 			System.out.println("M\u00F6chtest du mit einem weiteren Land angreifen?Ja/Nein");
 			weiterangreifen = IO.readString();
@@ -303,7 +303,7 @@ public class RisikoClientCUI {
 						}catch(LandBereitsBenutztException lbbe){
 							System.out.println(lbbe.getMessage());
 						}
-					}while(kannLandBenutzen == false);
+					}while(!kannLandBenutzen);
 				
 					erstesLand = sp.stringToLand(wahlLand);
 					kannLandBenutzen = false;
@@ -322,10 +322,10 @@ public class RisikoClientCUI {
 							System.out.println(kne.getMessage());
 							kannLandBenutzen = false;
 						}
-					}while(kannLandBenutzen == false);
+					}while(!kannLandBenutzen);
 					
 					zweitesLand = sp.stringToLand(zielLand);
-					sp.einheitenAusgabe(erstesLand, zweitesLand);
+					System.out.println(sp.einheitenAusgabe(erstesLand, zweitesLand));
 					
 					do{
 						System.out.println("Wie viele Einheiten m\u00F6chtest du verschieben?");
@@ -336,11 +336,11 @@ public class RisikoClientCUI {
 						}catch(NichtGenugEinheitenException ngee){
 							System.out.println(ngee.getMessage());
 						}
-					}while(genugEinheiten == false);
+					}while(!genugEinheiten);
 					
 					sp.einheitenPositionieren(einheiten, zweitesLand);
 					sp.einheitenPositionieren(-einheiten, erstesLand);
-					sp.einheitenAusgabe(erstesLand, zweitesLand);
+					System.out.println(sp.einheitenAusgabe(erstesLand, zweitesLand));
 		}
 	}
 }
