@@ -48,6 +48,11 @@ public class Weltverwaltung {
 				}
 			}
 		}
+		//TEST SPIELER 1 kriegt ganz EUROPA zu Beginn
+		for(int x = 0;x < 7;x++)
+		{
+			this.getLaenderListe().get(x).setBesitzer(spielerListe.get(0));
+		}
 	}
 
 	

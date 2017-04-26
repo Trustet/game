@@ -195,21 +195,22 @@ private List<Mission> missionsListe = new Vector<Mission>();
 	 */
 	public int bekommtEinheiten(Spieler spieler) {
 		int einheiten = 0;
+		int anzahl = 1;
 		Spieler speicher;
-		int anzahl=0;
 		
 		einheiten = weltVw.besitztLaender(spieler).size()/3;
 		if (einheiten < 3) {
 			einheiten = 3;
+		}
 			for (Kontinent k : weltVw.getKontinentenListe()){
 				for (int i=1;i<k.getLaender().size();i++){
+					
 					if(k.getLaender().get(i).getBesitzer() == k.getLaender().get(i-1).getBesitzer())
 					{
-						speicher = k.getLaender().get(i).getBesitzer();
 						anzahl++;
-						
 					}
-					if (anzahl==k.getLaender().size()){
+					
+					if (anzahl == k.getLaender().size()){
 						if (k.getName() == "Europa"){
 							einheiten+=5;	
 						}else if(k.getName() =="Asien"){
@@ -223,7 +224,6 @@ private List<Mission> missionsListe = new Vector<Mission>();
 						}
 					}
 				}
-			}
 			}
 			
 			return einheiten;
