@@ -11,6 +11,7 @@ public class Spielerverwaltung {
 	private List<Spieler> spielerListe = new Vector<Spieler>();
 	private int spielerNummer = 0;
 	/**
+	 * Gibt einen bestimmten Spieler aus der Liste zurück
 	 * @param index
 	 * @return Spieler
 	 */
@@ -18,10 +19,17 @@ public class Spielerverwaltung {
 		return this.spielerListe.get(index-1);
 	}
 	
+	/**
+	 * Gibt den SPieler zurück, der am Zug ist
+	 * @return Spieler
+	 */
 	public Spieler getAktiverSpieler(){
 		return this.spielerListe.get(spielerNummer);
 	}
 	
+	/**
+	 * Setzt den neuenSpieler für die nächste Runde
+	 */
 	public void naechsterSpieler(){
 		if(spielerNummer < this.spielerListe.size()-1){
 			spielerNummer++;
@@ -30,7 +38,9 @@ public class Spielerverwaltung {
 		}
 	}
 	/**
+	 * Fügt einen neuen Spieler zu
 	 * @param name
+	 * @throws SpielerExistiertBereitsException
 	 */
 	public void neuerSpieler(String name) throws SpielerExistiertBereitsException {
 		Spieler neuerSpieler = new Spieler(name);
@@ -42,6 +52,7 @@ public class Spielerverwaltung {
 	
 
 	/**
+	 * Gibt die SPielerliste zurück
 	 * @return List<Spieler>
 	 */
 	public List<Spieler> getSpielerList() {

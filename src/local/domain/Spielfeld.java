@@ -13,6 +13,10 @@ import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.valueobjects.*;
 
+/**
+ * @author yannik
+ *
+ */
 public class Spielfeld {
 	
 	public Spielerverwaltung spielerVw;
@@ -64,22 +68,48 @@ public class Spielfeld {
 		return weltVw.besitztLaender(spieler);
 	}
 	
+	/**
+	 * Leitet die Phase aus der Kriegsverwaltung weiter
+	 * @return phasen
+	 */
 	public phasen getTurn(){
 		return kriegsVw.getTurn();
 	}
+	/**
+	 * Ruft nextTurn in der KriegsVerwaltung auf
+	 */
 	public void nextTurn(){
 		kriegsVw.nextTurn();
 	}
 	
+	/**
+	 * Leitet Spieler aus der Spielerverwaltung weiter
+	 * @return Spieler
+	 */
 	public Spieler getAktiverSpieler(){
 		return spielerVw.getAktiverSpieler();
 	}
+	/**
+	 * Ruft nächsterSpieler in der Spielerverwaltung auf 
+	 */
 	public void naechsterSpieler(){
 		spielerVw.naechsterSpieler();
 	}
+	/**
+	 * Leitet die Ausgabe von eigeneNachbarn aus der KriegsVerwaltung weiter
+	 * @param landString
+	 * @param spieler
+	 * @return String
+	 */
 	public String eigeneNachbarn(String landString, Spieler spieler){
 		return kriegsVw.eigeneNachbarn(landString, spieler);
 	}
+	
+	/**
+	 * Leitet das Land aus stringToLand weiter
+	 * @param angriffsLandString
+	 * @return Land
+	 */
 	public Land stringToLand(String angriffsLandString) {
 		return weltVw.stringToLand(angriffsLandString);
 	}
@@ -110,9 +140,9 @@ public class Spielfeld {
 	public String eigeneLaenderListe(Spieler spieler){
 		return weltVw.eigeneLaenderListe(spieler);
 	}
-	public String weltAnsicht(){
-		return weltVw.weltAnsicht(getSpielerList());
-	}
+//	public String weltAnsicht(){
+//		return weltVw.weltAnsicht(getSpielerList());
+//	}
 	public String eigeneAngriffsLaender(Spieler spieler){
 		return weltVw.eigeneAngriffsLaender(spieler);
 	}

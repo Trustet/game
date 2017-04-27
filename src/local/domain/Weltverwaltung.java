@@ -33,6 +33,7 @@ public class Weltverwaltung {
 	}
 
 	/**
+	 * Teilt die Länder auf
 	 * @param anzahlSpieler
 	 * @param spielerVw
 	 * @param weltVw
@@ -367,9 +368,13 @@ public class Weltverwaltung {
 			}
 		}
 		return ausgabe;
-	}/*
-		Listet die Laender auf, mit denen der Spieler angreifen kann
-	*/
+	}
+	
+	/**
+	 * Listet alle Länder auf mit denen man angreifen kann
+	 * @param spieler
+	 * @return String
+	 */
 	public String eigeneAngriffsLaender(Spieler spieler){
 		String ausgabe;
 		String puffer;
@@ -390,20 +395,26 @@ public class Weltverwaltung {
 		}
 		return ausgabe;
 	}
-	public String weltAnsicht(List<Spieler> spielerListe){
-		String ausgabe = "";
-		String puffer;
-		int laenge = 20;
-		for(Spieler spieler : spielerListe){
-			while(ausgabe.length() < laenge){
-				ausgabe += " ";
-			}
-			ausgabe += spieler.getName();
-			laenge += 20 + spieler.getName().length();
-		}
-		ausgabe += "\n";
-		return ausgabe;
-	}
+//	public String weltAnsicht(List<Spieler> spielerListe){
+//		String ausgabe = "";
+//		String puffer;
+//		int laenge = 20;
+//		for(Spieler spieler : spielerListe){
+//			while(ausgabe.length() < laenge){
+//				ausgabe += " ";
+//			}
+//			ausgabe += spieler.getName();
+//			laenge += 20 + spieler.getName().length();
+//		}
+//		ausgabe += "\n";
+//		return ausgabe;
+//	}
+	/**
+	 * Überprüft ob ein Land existiert
+	 * @param land
+	 * @return boolean
+	 * @throws LandExistiertNichtException
+	 */
 	public boolean landExistiert(String land) throws LandExistiertNichtException{
 		if(this.stringToLand(land) == null){
 			throw new LandExistiertNichtException(land);
@@ -412,6 +423,13 @@ public class Weltverwaltung {
 		}
 		
 	}
+	/**
+	 * Überprüft ob ein Land dem Gegner gehört
+	 * @param land
+	 * @param spieler
+	 * @return boolean
+	 * @throws KeinGegnerException
+	 */
 	public boolean istGegner(String land,Spieler spieler) throws KeinGegnerException{
 		if(this.stringToLand(land).getBesitzer().equals(spieler)){
 			throw new KeinGegnerException(land);
@@ -419,9 +437,13 @@ public class Weltverwaltung {
 			return true;
 		}
 		
-	} /*
-		Listet die Laender auf, die dir zum Verschieben zur Verfuegung stehen
-	*/
+	}
+	/**
+	 * Listet alle Länder auf, auf die man verschieben kann
+	 * @param spieler
+	 * @param land
+	 * @return String
+	 */
 	public String eigeneVerschiebeLaender(Spieler spieler, List<Land> land){
 		String ausgabe;
 		String puffer;
@@ -442,6 +464,12 @@ public class Weltverwaltung {
 		}
 		return ausgabe;
 	}
+	/**
+	 * Gibt die Namen und Einheiten von zwei Länder aus
+	 * @param erstesLand
+	 * @param zweitesLand
+	 * @return String
+	 */
 	public String einheitenAusgabe(Land erstesLand, Land zweitesLand){
 		String ausgabe = "Das Land " + erstesLand.getName() + " hat " + erstesLand.getEinheiten() + " Einheiten \n Das Land " + zweitesLand.getName() + " hat " + zweitesLand.getEinheiten() + " Einheiten";
 		return ausgabe;

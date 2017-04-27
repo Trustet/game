@@ -8,6 +8,7 @@ import java.util.Vector;
 import local.domain.exceptions.*;
 import local.valueobjects.*;
 
+
 public class Kriegsverwaltung {
 
 private Spielerverwaltung spielerVw;
@@ -28,7 +29,7 @@ private List<Land> benutzteLaender = new Vector<Land>();
 	}
 
 	/**
-	 * gibt Nachbarlaender die angegriffen werden können zurück
+	 * Gibt Nachbarlaender die angegriffen werden können zurück
 	 * @param land
 	 * @param spieler
 	 * @return Vector<Land>
@@ -56,6 +57,12 @@ private List<Land> benutzteLaender = new Vector<Land>();
 		return ausgabe;
 	}
 	
+	/**
+	 * Gibt eine Auflistung der eigenen Nachbarländer von einem Land wieder
+	 * @param landString
+	 * @param spieler
+	 * @return String
+	 */
 	public String eigeneNachbarn(String landString, Spieler spieler) {
 		Land land = weltVw.stringToLand(landString);
 		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);
@@ -69,6 +76,14 @@ private List<Land> benutzteLaender = new Vector<Land>();
 		
 		return nachbarLaenderString;	
 	}
+	/**
+	 * Überprüft ob die beiden Länder Nachbarn sind
+	 * @param wahlLand
+	 * @param landZiel
+	 * @param spieler
+	 * @return boolean
+	 * @throws KeinNachbarlandException
+	 */
 	public boolean istNachbar(Land wahlLand, Land landZiel, Spieler spieler) throws KeinNachbarlandException{
 		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(wahlLand);
 		for(Land l : nachbarLaender){
@@ -80,7 +95,7 @@ private List<Land> benutzteLaender = new Vector<Land>();
 	}
 	
 	/**
-	 * würfelt mehrfach und gibt Liste mit Ergebnissen zurück
+	 * Würfelt mehrfach und gibt Liste mit Ergebnissen zurück
 	 * @param anzahl
 	 * @return Vector<Integer>
 	 */
@@ -96,7 +111,7 @@ private List<Land> benutzteLaender = new Vector<Land>();
 	}
 	
 	/**
-	 * greift mit einem Land ein anderes an und gibt Verluste zurück
+	 * Greift mit einem Land ein anderes an und gibt Verluste zurück
 	 * @param angreifendesLand
 	 * @param verteidigendesLand
 	 * @return Vector<Integer> Verluste
@@ -181,7 +196,7 @@ private List<Land> benutzteLaender = new Vector<Land>();
 	}
 	
 	/**
-	 * setzt eine gewisse Anzahl an Einheiten auf ein Land
+	 * Setzt eine gewisse Anzahl an Einheiten auf ein Land
 	 * @param anzahl
 	 * @param land
 	 */
@@ -190,6 +205,7 @@ private List<Land> benutzteLaender = new Vector<Land>();
 	}
 	
 	/**
+	 * Bestimmt die Anzahl an Einheiten, die der Spieler bekommt
 	 * @param spieler
 	 * @return int
 	 */
@@ -229,6 +245,9 @@ private List<Land> benutzteLaender = new Vector<Land>();
 			return einheiten;
 		}
 	
+	/**
+	 * Setzt die nächste Phase
+	 */
 	public void nextTurn(){
 		switch(Phase){
 			case VERSCHIEBEN:
@@ -251,19 +270,41 @@ private List<Land> benutzteLaender = new Vector<Land>();
 	}
 	
 
+	/**
+	 * Gibt die aktuelle Phase zurück
+	 * @return Phase
+	 */
 	public phasen getTurn(){
 		return Phase;
 	}
 	
+	/**
+	 * Gibt den Spieler zurück
+	 * @param spieler
+	 * @return Spieler
+	 */
 	public Spieler nextSpieler(Spieler spieler){
 		return spieler;
 	}
 	
+	/**
+	 * Besetzt das eroberte Land
+	 * @param aLand
+	 * @param vLand
+	 * @param einheiten
+	 */
 	public void eroberungBesetzen(Land aLand, Land vLand, int einheiten){
 		this.einheitenPositionieren(einheiten, vLand);
 		this.einheitenPositionieren(-einheiten, aLand);
 	}
 	
+	/**
+	 * Überprüft ob das Land existiert und dem Spieler gehört
+	 * @param land
+	 * @param spieler
+	 * @return boolean
+	 * @throws KannLandNichtBenutzenException
+	 */
 	public boolean landWaehlen(String land, Spieler spieler) throws KannLandNichtBenutzenException{
 		if(weltVw.stringToLand(land) == null){
 			throw new KannLandNichtBenutzenException(land," existiert nicht");
@@ -274,6 +315,13 @@ private List<Land> benutzteLaender = new Vector<Land>();
 		}
 	}
 	
+	/**
+	 * Überprüft ob die eingegebene Einheitenzahl größer ist, als die Einheitenzahl auf dem Land
+	 * @param land
+	 * @param einheiten
+	 * @return boolean
+	 * @throws NichtGenugEinheitenException
+	 */
 	public boolean checkEinheiten(String land, int einheiten) throws NichtGenugEinheitenException{
 		if(weltVw.stringToLand(land).getEinheiten() < 2){
 			throw new NichtGenugEinheitenException(land, " hat zu wenig Einheiten.");
@@ -286,6 +334,9 @@ private List<Land> benutzteLaender = new Vector<Land>();
 		}
 	}
 	
+	/**
+	 * Erstellt die Missionsliste
+	 */
 	public void missionsListeErstellen()
 	{
 		missionsListe.add(new Mission("Befreien Sie Nordamerika und Afrika!"));
@@ -299,6 +350,12 @@ private List<Land> benutzteLaender = new Vector<Land>();
 		missionsListe.add(new Mission("Befreien Sie alle L\u00E4nder von den roten Armeen!"));
 
 	}
+	/**
+	 * Gibt alle eigenen NAchbarländer als Tabelle zurück
+	 * @param land
+	 * @param spieler
+	 * @return String
+	 */
 	public String moeglicheVerschiebeZiele(Land land, Spieler spieler){
 		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);	
 		String ausgabe;
@@ -320,6 +377,12 @@ private List<Land> benutzteLaender = new Vector<Land>();
 		}
 		return ausgabe;
 	}
+	/**
+	 * Gibt zurück, ob das übergebene Land in der Runde für einen Angriff benutzt wurde
+	 * @param land
+	 * @return boolean
+	 * @throws LandBereitsBenutztException
+	 */
 	public boolean benutzeLaender(Land land) throws LandBereitsBenutztException{
 		if(benutzteLaender.contains(land)){
 			throw new LandBereitsBenutztException(land.getName());
@@ -327,15 +390,36 @@ private List<Land> benutzteLaender = new Vector<Land>();
 			return true;
 		}
 	}
+	/**
+	 * Fügt der liste der benutzten Länder das übergebene Land zu
+	 * @param land
+	 */
 	public void landBenutzen(Land land){
 		benutzteLaender.add(land);
 	}
+	
+	/**
+	 * Löscht die Liste, der Länder, die in einer Runde für einen Angriff benutzt wurden
+	 */
 	public void benutzteLaenderLoeschen(){
 		benutzteLaender.clear();
 	}
+	
+	/**
+	 * Gibt die Liste der Länder zurück, die für einen Angriff benutzt wurden
+	 * @return List<Land>
+	 */
 	public List<Land> getBenutzteLaenderListe(){
 		return benutzteLaender;
 	}
+	
+	/**
+	 * Überprüft ob der Spieler genug Einheiten zum verschieben hat
+	 * @param einheiten
+	 * @param spieler
+	 * @return boolean
+	 * @throws KannEinheitenNichtVerschiebenException
+	 */
 	public boolean checkEinheitenVerteilen(int einheiten, Spieler spieler) throws KannEinheitenNichtVerschiebenException{
 		if(einheiten > this.bekommtEinheiten(spieler)){
 			throw new KannEinheitenNichtVerschiebenException("nicht so viele Einheiten verschieben");

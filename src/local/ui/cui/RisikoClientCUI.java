@@ -1,10 +1,10 @@
-//ß \u00DF
-//ü \u00FC
-//Ü \u00DC
-//ä \u00E4
-//Ä \u00C4
-//ö \u00F6
-//Ö \u006D
+//ï¿½ \u00DF
+//ï¿½ \u00FC
+//ï¿½ \u00DC
+//ï¿½ \u00E4
+//ï¿½ \u00C4
+//ï¿½ \u00F6
+//ï¿½ \u006D
 package local.ui.cui;
 
 import java.util.List;
@@ -111,7 +111,7 @@ public class RisikoClientCUI {
 	 * @param spieler
 	 */
 	public void spielerstandAusgeben(Spieler spieler) {
-		System.out.println("\n" + spieler.getName() +" besitzt die Lä \u00E4nder: ");
+		System.out.println("\n" + spieler.getName() +" besitzt die L\u00E4nder: ");
 		System.out.println(sp.eigeneLaenderListe(spieler));
 		System.out.println("\nund bekommt " + sp.bekommtEinheiten(spieler) + " Einheiten\n");		
 	}
@@ -328,7 +328,7 @@ public class RisikoClientCUI {
 					
 					zweitesLand = sp.stringToLand(zielLand);
 					System.out.println(sp.einheitenAusgabe(erstesLand, zweitesLand));
-					// Solange, bis zu einer korrekten Eingabe einer möglichen Anzahl an Einheiten
+					// Solange, bis zu einer korrekten Eingabe einer mï¿½glichen Anzahl an Einheiten
 					do{
 						System.out.println("Wie viele Einheiten m\u00F6chtest du verschieben?");
 						einheiten = IO.readInt();
