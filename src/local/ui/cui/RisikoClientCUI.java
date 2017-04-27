@@ -19,8 +19,8 @@ public class RisikoClientCUI {
 	
 	//Domain-Komponente, welche die Verwaltungen verwaltet
 	static Spielfeld sp = new Spielfeld();
-	public static phasen Phase;
-	private static boolean gewonnen = false;
+	private  phasen Phase;
+	private boolean gewonnen = false;
 	private boolean startPhase;
 	
 	/**
