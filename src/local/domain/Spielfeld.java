@@ -132,13 +132,7 @@ public class Spielfeld {
 	public boolean checkEinheiten(String land, int einheiten) throws NichtGenugEinheitenException{
 		return kriegsVw.checkEinheiten(land,einheiten);
 	}
-	public String eigeneLaenderListe(Spieler spieler){
-		return weltVw.eigeneLaenderListe(spieler);
-	}
-//	public String weltAnsicht(){
-//		return weltVw.weltAnsicht(getSpielerList());
-//	}
-	public String eigeneAngriffsLaender(Spieler spieler){
+	public List<Land> eigeneAngriffsLaender(Spieler spieler){
 		return weltVw.eigeneAngriffsLaender(spieler);
 	}
 	public boolean landExistiert(String land) throws LandExistiertNichtException{
@@ -159,7 +153,7 @@ public class Spielfeld {
 	public void benutzteLaenderLoeschen(){
 		kriegsVw.benutzteLaenderLoeschen();
 	}
-	public String eigeneVerschiebeLaender(Spieler spieler){
+	public List<Land> eigeneVerschiebeLaender(Spieler spieler){
 		return weltVw.eigeneVerschiebeLaender(spieler, kriegsVw.getBenutzteLaenderListe());
 	}
 	public boolean checkEinheitenVerteilen(int einheiten,int veinheiten, Spieler spieler) throws KannEinheitenNichtVerschiebenException{
@@ -179,6 +173,9 @@ public class Spielfeld {
 	}
 	public List<String> willkommenNachricht(){
 		return kriegsVw.willkommenNachricht();
+	}
+	public List<Land> getLaenderListe(){
+		return weltVw.getLaenderListe();
 	}
 }
 

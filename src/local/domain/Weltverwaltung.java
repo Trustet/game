@@ -349,66 +349,23 @@ public class Weltverwaltung {
 		}
 		return laender;
 	}
-	public String eigeneLaenderListe(Spieler spieler){
-		String ausgabe;
-		String puffer;
-					
-		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
-		for(Land land : this.getLaenderListe()) {
-			if(spieler.equals(land.getBesitzer())) {
-				puffer = land.getName();
-				while(puffer.length() < 24){
-					puffer += " ";
-				}
-				puffer += "|";
-				while(puffer.length() < 30){
-					puffer += " ";
-				}
-				ausgabe += puffer + land.getEinheiten() + "\n";
-			}
-		}
-		return ausgabe;
-	}
+	
 	
 	/**
 	 * Listet alle Länder auf mit denen man angreifen kann
 	 * @param spieler
 	 * @return String
 	 */
-	public String eigeneAngriffsLaender(Spieler spieler){
-		String ausgabe;
-		String puffer;
-					
-		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
+	public List<Land> eigeneAngriffsLaender(Spieler spieler){
+		List<Land> rueckgabeLaender = new Vector<Land>();
 		for(Land land : this.getLaenderListe()) {
 			if(spieler.equals(land.getBesitzer()) && land.getEinheiten() > 1) {
-				puffer = land.getName();
-				while(puffer.length() < 24){
-					puffer += " ";
-				}
-				puffer += "|";
-				while(puffer.length() < 30){
-					puffer += " ";
-				}
-				ausgabe += puffer + land.getEinheiten() + "\n";
+				rueckgabeLaender.add(land);
 			}
 		}
-		return ausgabe;
+		return rueckgabeLaender;
 	}
-//	public String weltAnsicht(List<Spieler> spielerListe){
-//		String ausgabe = "";
-//		String puffer;
-//		int laenge = 20;
-//		for(Spieler spieler : spielerListe){
-//			while(ausgabe.length() < laenge){
-//				ausgabe += " ";
-//			}
-//			ausgabe += spieler.getName();
-//			laenge += 20 + spieler.getName().length();
-//		}
-//		ausgabe += "\n";
-//		return ausgabe;
-//	}
+
 	/**
 	 * Überprüft ob ein Land existiert
 	 * @param land
@@ -444,25 +401,15 @@ public class Weltverwaltung {
 	 * @param land
 	 * @return String
 	 */
-	public String eigeneVerschiebeLaender(Spieler spieler, List<Land> land){
-		String ausgabe;
-		String puffer;
+	public List<Land> eigeneVerschiebeLaender(Spieler spieler, List<Land> land){
+		List<Land> rueckgabeLaender = new Vector<Land>();
 					
-		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
 		for(Land l : this.getLaenderListe()) {
 			if(spieler.equals(l.getBesitzer()) && l.getEinheiten() > 1 && !land.contains(l)) {
-				puffer = l.getName();
-				while(puffer.length() < 24){
-					puffer += " ";
+				rueckgabeLaender.add(l);
 				}
-				puffer += "|";
-				while(puffer.length() < 30){
-					puffer += " ";
-				}
-				ausgabe += puffer + l.getEinheiten() + "\n";
 			}
-		}
-		return ausgabe;
+		return rueckgabeLaender;
 	}
 	/**
 	 * Gibt die Namen und Einheiten von zwei Länder aus
