@@ -204,6 +204,7 @@ public class RisikoClientCUI {
 		List<String> eroberung;
 		String weiterangreifen;
 		Angriff angriff;
+		AngriffRueckgabe angriffRueckgabe;
 		
 		System.out.println("Phase: " + sp.getTurn());
 		
@@ -245,22 +246,67 @@ public class RisikoClientCUI {
 				}
 			}while(!gegnerNachbar);
 			
-			do{
 				erneutAngreifen = false;
 				
 				angriff = new Angriff(aLand, vLand);
-				eroberung = sp.befreiungsAktion(angriff);
-				System.out.println(eroberung.get(1));
+				angriffRueckgabe = sp.befreiungsAktion(angriff);
 				
-				if(eroberung.get(0) != null){
+				do {
+				System.out.print(aLand.getBesitzer().getName() + " hat ");
+				
+				if(angriffRueckgabe.getWuerfelAngreifer().size() == 2)
+				{
+					System.out.print(angriffRueckgabe.getWuerfelAngreifer().get(0) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(1));
+				} else if (angriffRueckgabe.getWuerfelAngreifer().size() == 3)
+				{
+					System.out.print(angriffRueckgabe.getWuerfelAngreifer().get(0) + ", " + angriffRueckgabe.getWuerfelAngreifer().get(1) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(2));
+				}
+					System.out.print(" gewürfelt.\n");
+				
+				System.out.print(vLand.getBesitzer().getName() + " hat ");
+					
+				if(angriffRueckgabe.getWuerfelVerteidiger().size() == 1)
+				{
+					System.out.print(" eine " + angriffRueckgabe.getWuerfelVerteidiger().get(0));
+				} else if (angriffRueckgabe.getWuerfelVerteidiger().size() == 2)
+				{
+					System.out.print(angriffRueckgabe.getWuerfelVerteidiger().get(0) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(1));
+				}
+				
+				System.out.print(" gewürfelt.\n");
+					
+				if(angriffRueckgabe.isErobert() != true){
+						
+					if (angriffRueckgabe.getVerlusteVerteidiger() < angriffRueckgabe.getVerlusteAngreifer()){
+							System.out.println(vLand.getBesitzer().getName() + " hat gewonnen." );
+							System.out.println(aLand.getBesitzer().getName() + " hat " + angriffRueckgabe.getVerlusteAngreifer() + " verloren.");
+							
+					}else if(angriffRueckgabe.getVerlusteVerteidiger() > angriffRueckgabe.getVerlusteAngreifer()){
+							System.out.println(aLand.getBesitzer().getName() + " hat gewonnen." );
+							System.out.println(vLand.getBesitzer().getName() + " hat " + angriffRueckgabe.getVerlusteVerteidiger() + " verloren.");
+							
+					}else if(angriffRueckgabe.getVerlusteVerteidiger() == angriffRueckgabe.getVerlusteAngreifer()){
+							System.out.println("Ihr habt unentschieden gespielt, beide verlieren eine Einheit." );
+					}
+					
+					if (aLand.getEinheiten() < 2){
+						System.out.println("Du kannst mit diesem Land nicht weiter angreifen.");
+					} else {
+						System.out.println("M\u00F6chtest du weiter angreifen? Ja/Nein");
+						String selberAngriff = IO.readString();
+						if(selberAngriff.equalsIgnoreCase("Ja"))
+						{
+							erneutAngreifen = true;
+						}
+					}
+				} else {
+					System.out.println(aLand.getBesitzer().getName() + " hat das Land erobert." );
 					genugEinheiten = false;
-					do{
 						if(aLand.getEinheiten() == 2) {
 							System.out.println("Eine Einheit wird auf " + verteidigungsLandString + " gesetzt.");
 							sp.eroberungBesetzen(aLand, vLand, 1); 
 							System.out.println(sp.einheitenAusgabe(aLand, vLand));
 							genugEinheiten = true;
-							//...
 						} else {
 							System.out.println("Wie viele Einheiten m\u00F6chtest du auf " + verteidigungsLandString + " setzen?");
 							System.out.println(aLand.getEinheiten() - 1 + " Einheiten kannst du setzen");
@@ -275,16 +321,7 @@ public class RisikoClientCUI {
 						}
 							
 					}while(!genugEinheiten);
-				}else if(aLand.getEinheiten() < 2){
-					System.out.println("Du kannst mit diesem Land nicht weiter angreifen.");
-				}else{
-					System.out.println("M\u00F6chtest du weiter angreifen? Ja/Nein");
-					String selberAngriff = IO.readString();
-					if(selberAngriff.equalsIgnoreCase("Ja"))
-					{
-						erneutAngreifen = true;
-					}
-				}
+
 			}while(erneutAngreifen);
 			
 			System.out.println("M\u00F6chtest du mit einem weiteren Land angreifen?Ja/Nein");
