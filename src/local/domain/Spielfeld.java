@@ -3,14 +3,7 @@ package local.domain;
 import java.util.List;
 
 import local.domain.Kriegsverwaltung.phasen;
-import local.domain.exceptions.KannEinheitenNichtVerschiebenException;
-import local.domain.exceptions.KannLandNichtBenutzenException;
-import local.domain.exceptions.KeinGegnerException;
-import local.domain.exceptions.KeinNachbarlandException;
-import local.domain.exceptions.LandBereitsBenutztException;
-import local.domain.exceptions.LandExistiertNichtException;
-import local.domain.exceptions.NichtGenugEinheitenException;
-import local.domain.exceptions.SpielerExistiertBereitsException;
+import local.domain.exceptions.*;
 import local.valueobjects.*;
 
 /**
@@ -22,6 +15,7 @@ public class Spielfeld {
 	public Spielerverwaltung spielerVw;
 	public Weltverwaltung weltVw;
 	public Kriegsverwaltung kriegsVw;
+	public Missionsverwaltung missionVw;
 	public phasen Phase;
 	
 	
@@ -33,6 +27,7 @@ public class Spielfeld {
 		this.spielerVw = new Spielerverwaltung();
 		this.weltVw = new Weltverwaltung();
 		this.kriegsVw = new Kriegsverwaltung(spielerVw, weltVw);
+		this.missionVw = new Missionsverwaltung();
 	}
 	
 	/**
@@ -167,11 +162,20 @@ public class Spielfeld {
 	public String eigeneVerschiebeLaender(Spieler spieler){
 		return weltVw.eigeneVerschiebeLaender(spieler, kriegsVw.getBenutzteLaenderListe());
 	}
-	public boolean checkEinheitenVerteilen(int einheiten, Spieler spieler) throws KannEinheitenNichtVerschiebenException{
-		return kriegsVw.checkEinheitenVerteilen(einheiten, spieler);
+	public boolean checkEinheitenVerteilen(int einheiten,int veinheiten, Spieler spieler) throws KannEinheitenNichtVerschiebenException{
+		return kriegsVw.checkEinheitenVerteilen(einheiten, veinheiten ,spieler);
 	}
 	public String einheitenAusgabe(Land erstesLand, Land zweitesLand){
 		return weltVw.einheitenAusgabe(erstesLand, zweitesLand);
+	}
+	public void missionenVerteilen(){
+		missionVw.missionenVerteilen(spielerVw.getSpielerList());
+	}
+	public String missionAusgeben(Spieler spieler){
+		return missionVw.missionAusgeben(spieler);
+	}
+	public void missionsListeErstellen(){
+		missionVw.missionsListeErstellen();
 	}
 }
 

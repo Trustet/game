@@ -14,7 +14,7 @@ public class Kriegsverwaltung {
 private Spielerverwaltung spielerVw;
 private Weltverwaltung weltVw;
 public phasen Phase;
-private List<Mission> missionsListe = new Vector<Mission>();
+//public List<Mission> missionsListe = new Vector<Mission>();
 private List<Land> benutzteLaender = new Vector<Land>();
 	
 	/**
@@ -334,22 +334,22 @@ private List<Land> benutzteLaender = new Vector<Land>();
 		}
 	}
 	
-	/**
-	 * Erstellt die Missionsliste
-	 */
-	public void missionsListeErstellen()
-	{
-		missionsListe.add(new Mission("Befreien Sie Nordamerika und Afrika!"));
-		missionsListe.add(new Mission("Befreien Sie Nordamerika und Australien!"));
-		missionsListe.add(new Mission("Befreien Sie 24 L\u00E4nder Ihrer Wahl!"));
-		missionsListe.add(new Mission("Befreien Sie 18 L\u00E4nder und setzen Sie in jedes Land mindestens 2 Armeen!"));
-		missionsListe.add(new Mission("Befreien Sie Europa, S\u00FCdamerika und einen dritten Kontinent Ihrer Wahl!"));
-		missionsListe.add(new Mission("Befreien Sie Europa, Australien und einen dritten Kontinent Ihrer Wahl!"));
-		missionsListe.add(new Mission("Befreien Sie Asien und S\u00FCdamerika!"));
-		missionsListe.add(new Mission("Befreien Sie Afrika und Asien!"));
-		missionsListe.add(new Mission("Befreien Sie alle L\u00E4nder von den roten Armeen!"));
-
-	}
+//	/**
+//	 * Erstellt die Missionsliste
+//	 */
+//	public void missionsListeErstellen()
+//	{
+//		missionsListe.add(new Mission("Befreien Sie Nordamerika und Afrika!",null));
+//		missionsListe.add(new Mission("Befreien Sie Nordamerika und Australien!",null));
+//		missionsListe.add(new Mission("Befreien Sie 24 L\u00E4nder Ihrer Wahl!",null));
+//		missionsListe.add(new Mission("Befreien Sie 18 L\u00E4nder und setzen Sie in jedes Land mindestens 2 Armeen!",null));
+//		missionsListe.add(new Mission("Befreien Sie Europa, S\u00FCdamerika und einen dritten Kontinent Ihrer Wahl!",null));
+//		missionsListe.add(new Mission("Befreien Sie Europa, Australien und einen dritten Kontinent Ihrer Wahl!",null));
+//		missionsListe.add(new Mission("Befreien Sie Asien und S\u00FCdamerika!",null));
+//		missionsListe.add(new Mission("Befreien Sie Afrika und Asien!",null));
+//		missionsListe.add(new Mission("Befreien Sie alle L\u00E4nder von den roten Armeen!",null));
+//
+//	}
 	/**
 	 * Gibt alle eigenen NAchbarländer als Tabelle zurück
 	 * @param land
@@ -420,8 +420,8 @@ private List<Land> benutzteLaender = new Vector<Land>();
 	 * @return boolean
 	 * @throws KannEinheitenNichtVerschiebenException
 	 */
-	public boolean checkEinheitenVerteilen(int einheiten, Spieler spieler) throws KannEinheitenNichtVerschiebenException{
-		if(einheiten > this.bekommtEinheiten(spieler)){
+	public boolean checkEinheitenVerteilen(int einheiten,int veinheiten, Spieler spieler) throws KannEinheitenNichtVerschiebenException{
+		if(einheiten > veinheiten){
 			throw new KannEinheitenNichtVerschiebenException("nicht so viele Einheiten verschieben");
 		}else if(einheiten < 1){
 			throw new KannEinheitenNichtVerschiebenException("nicht so wenig Einheiten verschieben");
@@ -429,5 +429,31 @@ private List<Land> benutzteLaender = new Vector<Land>();
 			return true;
 		}
 	}
+//	public void missionenVerteilen(){
+//		List<Mission> speicher = new Vector<Mission>();
+//		int random;
+//		for(Mission m : this.missionsListe){
+//			speicher.add(m);
+//		}
+//		for(Spieler s : spielerVw.getSpielerList()){
+//			random = (int)(Math.random() * speicher.size());
+//			for(Mission m : this.missionsListe){
+//				if(m.getBeschreibung().equals(speicher.get(random).getBeschreibung())){
+//					m.setMissionSpieler(s);
+//				}
+//			}
+//			speicher.remove(random);
+//		}
+//		
+//	}
+//	public String missionAusgeben(Spieler spieler){
+//		String ausgabe = "";
+//		for(Mission m : this.missionsListe){
+//			if(m.getMissionSpieler() != null && m.getMissionSpieler().equals(spieler)){
+//				ausgabe = m.getBeschreibung();
+//			}
+//		}
+//		return ausgabe;
+//	}
 	
 }

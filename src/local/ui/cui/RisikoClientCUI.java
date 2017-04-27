@@ -95,11 +95,14 @@ public class RisikoClientCUI {
 		}	
 
 		sp.laenderAufteilen(anzahlSpieler);
+		sp.missionsListeErstellen();
+		sp.missionenVerteilen();
 		
 		//verteilen der Einheiten am Anfang für jeden Spieler
 				for(Spieler spieler : sp.getSpielerList()) {
 					System.out.println(spieler.getName() + " ist dran und darf nun seine ersten Einheiten verteilen.");
 					cui.einheitenVerteilen(spieler, cui);
+					
 					sp.naechsterSpieler();
 				}
 				
@@ -113,7 +116,10 @@ public class RisikoClientCUI {
 	public void spielerstandAusgeben(Spieler spieler) {
 		System.out.println("\n" + spieler.getName() +" besitzt die L\u00E4nder: ");
 		System.out.println(sp.eigeneLaenderListe(spieler));
-		System.out.println("\nund bekommt " + sp.bekommtEinheiten(spieler) + " Einheiten\n");		
+		System.out.println("\nund bekommt " + sp.bekommtEinheiten(spieler) + " Einheiten\n");
+		if(startPhase){
+			System.out.println(spieler.getName() + " du hast die Mission: \n" + sp.missionAusgeben(spieler) + "\n\n");
+		}
 	}
 
 	/**
@@ -137,6 +143,7 @@ public class RisikoClientCUI {
 		cui.spielerstandAusgeben(spieler);
 		
 		while(einheitenAnzahl > 0) {
+			genugEinheiten = false;
 			do{
 				System.out.println("Auf welches Land m\u00F6chtest du Einheiten setzen?");
 				landString = IO.readString();
@@ -152,13 +159,13 @@ public class RisikoClientCUI {
 				System.out.println("Du kannst " + einheitenAnzahl + " Einheiten setzen");
 				einheiten = IO.readInt();
 				try{
-					genugEinheiten = sp.checkEinheitenVerteilen(einheiten,spieler);
+					genugEinheiten = sp.checkEinheitenVerteilen(einheiten,einheitenAnzahl,spieler);
 				}catch(KannEinheitenNichtVerschiebenException cev){
 					System.out.println(cev.getMessage());
 				}
 			}while(!genugEinheiten);
 			sp.einheitenPositionieren(einheiten, land);
-			System.out.println(land.getName() + " hat jetzt " + land.getEinheiten() + " Einheiten.");
+			System.out.println(land.getName() + " hat jetzt " + land.getEinheiten() + " Einheiten.\n\n");
 			einheitenAnzahl -= einheiten;
 		}
 	}
@@ -190,7 +197,7 @@ public class RisikoClientCUI {
 					/* Bis ein Land eingegeben wird, das dem Spieler gehoert
 					 * und genug Einheiten hat.*/	
 				try{
-					genugEinheiten = sp.landWaehlen(angriffsLandString,spieler);
+					sp.landWaehlen(angriffsLandString,spieler);
 					genugEinheiten = sp.checkEinheiten(angriffsLandString,1);
 				}catch(KannLandNichtBenutzenException lene ){
 					System.out.println(lene.getMessage());
@@ -269,6 +276,7 @@ public class RisikoClientCUI {
 	}
 
 	
+	
 	/**
 	 * Verschiebenphase
 	 * @param Spieler
@@ -316,13 +324,12 @@ public class RisikoClientCUI {
 						zielLand = IO.readString();
 						//Überprüft ob das Land existiert und dem Spieler gehört
 						try{
-							kannLandBenutzen = sp.landWaehlen(zielLand, spieler);
+							sp.landWaehlen(zielLand, spieler);
 							kannLandBenutzen = sp.istNachbar(erstesLand, sp.stringToLand(zielLand), spieler);
 						}catch(KannLandNichtBenutzenException klnbe){
 							System.out.println(klnbe.getMessage());
 						}catch(KeinNachbarlandException kne){
 							System.out.println(kne.getMessage());
-							kannLandBenutzen = false;
 						}
 					}while(!kannLandBenutzen);
 					
