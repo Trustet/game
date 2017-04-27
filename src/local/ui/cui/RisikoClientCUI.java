@@ -108,7 +108,7 @@ public class RisikoClientCUI {
 
 	/**
 	 * Zeigt an welcher Spieler an der Reihe ist und welche Länder er besitzt und Einheiten er bekommt
-	 * @param spieler
+	 * @param Spieler
 	 */
 	public void spielerstandAusgeben(Spieler spieler) {
 		System.out.println("\n" + spieler.getName() +" besitzt die L\u00E4nder: ");
@@ -118,7 +118,7 @@ public class RisikoClientCUI {
 
 	/**
 	 * Spieler kann Einheiten auf eigene Länder verteilen
-	 * @param spieler
+	 * @param Spieler
 	 */
 	public void einheitenVerteilen(Spieler spieler,RisikoClientCUI cui)	{
 		int einheitenAnzahl = sp.bekommtEinheiten(spieler);
@@ -166,7 +166,7 @@ public class RisikoClientCUI {
 
 	/**
 	 * Angriffphase
-	 * @param spieler
+	 * @param Spieler
 	 */
 	public void angreifen(Spieler spieler) {
 		String angriffsLandString;
@@ -271,7 +271,7 @@ public class RisikoClientCUI {
 	
 	/**
 	 * Verschiebenphase
-	 * @param spieler
+	 * @param Spieler
 	 */
 	public void verschieben(Spieler spieler){
 		int einheiten;
