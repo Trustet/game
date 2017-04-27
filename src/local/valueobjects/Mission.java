@@ -1,5 +1,8 @@
 package local.valueobjects;
 
+import java.util.List;
+import java.util.Vector;
+
 public abstract class Mission {
 
 	private String beschreibung;
@@ -21,4 +24,6 @@ public abstract class Mission {
 	public Spieler getSpieler() {
 		return spieler;
 	}
+
+
 }

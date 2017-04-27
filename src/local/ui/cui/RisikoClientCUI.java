@@ -22,6 +22,7 @@ public class RisikoClientCUI {
 	public static phasen Phase;
 	private static boolean gewonnen = false;
 	private boolean startPhase;
+	
 	/**
 	 * Main-Methode der CUI
 	 * @param args
@@ -35,7 +36,9 @@ public class RisikoClientCUI {
 		
 		do{
 			Spieler spieler = sp.getAktiverSpieler();
-			
+			//Zum testen
+//			Mission ms = new LaenderMission(spieler,3,3,sp.getLaenderListe());
+//			System.out.println(ms.getBeschreibung());
 			switch(sp.getTurn()){
 			case VERTEILEN:
 				cui.einheitenVerteilen(spieler, cui);
@@ -52,24 +55,25 @@ public class RisikoClientCUI {
 				sp.benutzteLaenderLoeschen();
 				break;	
 			}	
-			
-//			gewonnen = spieler.getMission().istAbgeschlossen();
+			//zum testen
+//			gewonnen = ms.istAbgeschlossen();
 		}while(!gewonnen);
+		System.out.println("Du hast gewonnen");
 	}
 
 	/**
 	 * startet das Spiel
 	 */
 	private void spielStarten(RisikoClientCUI cui)	{
-		List<String> willkommen = sp.willkommenNachricht();
-		for(String s : willkommen){
-			System.out.print(s);
-			try {
-			    Thread.sleep(300);
-			} catch(InterruptedException ex) {
-			    Thread.currentThread().interrupt();
-			}
-		}
+//		List<String> willkommen = sp.willkommenNachricht();
+//		for(String s : willkommen){
+//			System.out.print(s);
+//			try {
+//			    Thread.sleep(300);
+//			} catch(InterruptedException ex) {
+//			    Thread.currentThread().interrupt();
+//			}
+//		}
 		System.out.println("");
 		String name = "";
 		int anzahlSpieler = 0;

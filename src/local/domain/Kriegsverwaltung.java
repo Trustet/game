@@ -481,4 +481,14 @@ private List<Land> benutzteLaender = new Vector<Land>();
 		return willkommen;
 	}
 	
+	public List<Land> getSpielerLaender(Spieler spieler){
+		List<Land> rueckgabeLaender = new Vector<Land>();
+		for(Land l : weltVw.getLaenderListe()){
+			if(l.getBesitzer().equals(spieler)){
+				rueckgabeLaender.add(l);
+			}
+		}
+		return rueckgabeLaender;
+	}
+	
 }
