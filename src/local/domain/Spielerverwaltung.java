@@ -58,5 +58,6 @@ public class Spielerverwaltung {
 	public List<Spieler> getSpielerList() {
 		return spielerListe;
 	}
+	
 
 }
