@@ -114,8 +114,8 @@ public class Spielfeld {
 	public String moeglicheAngriffsziele(String landString, Spieler spieler) {
 		return kriegsVw.moeglicheAngriffsziele(landString, spieler);
 	}
-	public List<String> befreiungsAktion(String angreifendesLandString, String verteidigendesLandString) {
-		return kriegsVw.befreiungsAktion(angreifendesLandString, verteidigendesLandString);
+	public List<String> befreiungsAktion(Angriff angriff) {
+		return kriegsVw.befreiungsAktion(angriff);
 	}
 	public List<Spieler> getSpielerList() {
 		return spielerVw.getSpielerList();

@@ -120,9 +120,9 @@ private List<Land> benutzteLaender = new Vector<Land>();
 //	public AttackResult befreiungsAktion(Attack attack) {
 //		Attack -> Angreifer, Verteidiger, vielleicht noch wie viele Würfel
 //		AttackResult -> AngreiferLand, VerteidigerLand, Gewinner / Verluste 
-	public List<String> befreiungsAktion(String angreifendesLandString, String verteidigendesLandString) {
-		Land angreifendesLand = weltVw.stringToLand(angreifendesLandString);
-		Land verteidigendesLand = weltVw.stringToLand(verteidigendesLandString);
+	public List<String> befreiungsAktion(Angriff angriff) {
+		Land angreifendesLand = angriff.getAngriffsland();
+		Land verteidigendesLand = angriff.getVerteidigungsland();
 		int angreiferEinheiten = angreifendesLand.getEinheiten();
 		int verteidigerEinheiten = verteidigendesLand.getEinheiten();
 		int angreifendeEinheiten;
@@ -174,7 +174,7 @@ private List<Land> benutzteLaender = new Vector<Land>();
 		verteidigendesLand.setEinheiten(verteidigendesLand.getEinheiten() - verluste.get(1));
 
 		if(verteidigendesLand.getEinheiten() == 0) {
-			ausgabeString += "Land erobert! " + verteidigendesLandString + " geh\u00F6rt jetzt " + angreifendesLand.getBesitzer().getName();
+			ausgabeString += "Land erobert! " + verteidigendesLand.getName() + " geh\u00F6rt jetzt " + angreifendesLand.getBesitzer().getName();
 			verteidigendesLand.setBesitzer(angreifendesLand.getBesitzer());
 			angreifendesLand.setEinheiten(angreifendesLand.getEinheiten() - 1);
 			verteidigendesLand.setEinheiten(0);
@@ -190,7 +190,7 @@ private List<Land> benutzteLaender = new Vector<Land>();
 			rueckgabe.add(null);
 		}
 		
-		ausgabeString += "\n" + angreifendesLandString + " hat nun noch " + angreifendesLand.getEinheiten() + " und " + verteidigendesLandString + " hat nun noch " + verteidigendesLand.getEinheiten();
+		ausgabeString += "\n" + angreifendesLand.getName() + " hat nun noch " + angreifendesLand.getEinheiten() + " und " + verteidigendesLand.getName() + " hat nun noch " + verteidigendesLand.getEinheiten();
 		rueckgabe.add(ausgabeString);
 		return rueckgabe;
 	}

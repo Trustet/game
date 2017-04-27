@@ -203,6 +203,7 @@ public class RisikoClientCUI {
 		boolean phaseBeendet = false;
 		List<String> eroberung;
 		String weiterangreifen;
+		Angriff angriff;
 		
 		System.out.println("Phase: " + sp.getTurn());
 		
@@ -246,7 +247,9 @@ public class RisikoClientCUI {
 			
 			do{
 				erneutAngreifen = false;
-				eroberung = sp.befreiungsAktion(angriffsLandString, verteidigungsLandString);
+				
+				angriff = new Angriff(aLand, vLand);
+				eroberung = sp.befreiungsAktion(angriff);
 				System.out.println(eroberung.get(1));
 				
 				if(eroberung.get(0) != null){
