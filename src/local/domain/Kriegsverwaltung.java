@@ -120,7 +120,7 @@ private List<Land> benutzteLaender = new Vector<Land>();
 //	public AttackResult befreiungsAktion(Attack attack) {
 //		Attack -> Angreifer, Verteidiger, vielleicht noch wie viele Würfel
 //		AttackResult -> AngreiferLand, VerteidigerLand, Gewinner / Verluste 
-	public List<String> befreiungsAktion(Angriff angriff) {
+	public AngriffRueckgabe befreiungsAktion(Angriff angriff) {
 		Land angreifendesLand = angriff.getAngriffsland();
 		Land verteidigendesLand = angriff.getVerteidigungsland();
 		int angreiferEinheiten = angreifendesLand.getEinheiten();
@@ -130,8 +130,8 @@ private List<Land> benutzteLaender = new Vector<Land>();
 		List<Integer> wuerfeAngreifer;
 		List<Integer> wuerfeVerteidiger;
 		List<Integer> verluste = new Vector<Integer>();
-		List<String> rueckgabe = new Vector<String>();
-		String ausgabeString = "";
+		AngriffRueckgabe rueckgabe;
+		boolean erobert = false;
 		
 		
 		if(angreiferEinheiten < 4) {
@@ -163,35 +163,19 @@ private List<Land> benutzteLaender = new Vector<Land>();
 		} else if((wuerfeVerteidiger.size() == 2) && (wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) >= wuerfeAngreifer.get(2))) {
 			 verluste.add(2);
 			 verluste.add(0);
-		} else
-		{
-			//Test, da irgendwo noch ein Fehler
-			System.out.println(wuerfeVerteidiger.get(0) + " " + wuerfeVerteidiger.get(1));
-			System.out.println(wuerfeAngreifer.get(1) + " " + wuerfeAngreifer.get(2));
 		}
 		//verluste ist ein Vector mit den Angaben: AngreiferVerlust / VerteidigerVerlust
 		angreifendesLand.setEinheiten(angreifendesLand.getEinheiten() - verluste.get(0));
 		verteidigendesLand.setEinheiten(verteidigendesLand.getEinheiten() - verluste.get(1));
 
 		if(verteidigendesLand.getEinheiten() == 0) {
-			ausgabeString += "Land erobert! " + verteidigendesLand.getName() + " geh\u00F6rt jetzt " + angreifendesLand.getBesitzer().getName();
+			erobert = true;
 			verteidigendesLand.setBesitzer(angreifendesLand.getBesitzer());
 			angreifendesLand.setEinheiten(angreifendesLand.getEinheiten() - 1);
 			verteidigendesLand.setEinheiten(0);
-			rueckgabe.add("Erobert");
-		} else if(verluste.get(0) < verluste.get(1)) {
-			ausgabeString += angreifendesLand.getBesitzer().getName() + " hat gewonnen ";
-			rueckgabe.add(null);
-		} else if(verluste.get(0) == verluste.get(1)) {
-			ausgabeString += "Unentschieden! Beide verlieren eine Einheit. ";
-			rueckgabe.add(null);
-		} else if(verluste.get(0) > verluste.get(1)) {
-			ausgabeString += verteidigendesLand.getBesitzer().getName() + " hat gewonnen ";
-			rueckgabe.add(null);
 		}
 		
-		ausgabeString += "\n" + angreifendesLand.getName() + " hat nun noch " + angreifendesLand.getEinheiten() + " und " + verteidigendesLand.getName() + " hat nun noch " + verteidigendesLand.getEinheiten();
-		rueckgabe.add(ausgabeString);
+		rueckgabe = new AngriffRueckgabe(verluste.get(1), verluste.get(0), wuerfeVerteidiger, wuerfeAngreifer, erobert);
 		return rueckgabe;
 	}
 	
