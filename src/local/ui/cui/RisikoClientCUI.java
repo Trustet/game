@@ -253,7 +253,7 @@ public class RisikoClientCUI {
 				}else{
 					System.out.println("M\u00F6chtest du weiter angreifen? Ja/Nein");
 					String selberAngriff = IO.readString();
-					if(selberAngriff.equals("Ja"))
+					if(selberAngriff.equalsIgnoreCase("Ja"))
 					{
 						erneutAngreifen = true;
 					}
@@ -262,7 +262,7 @@ public class RisikoClientCUI {
 			
 			System.out.println("M\u00F6chtest du mit einem weiteren Land angreifen?Ja/Nein");
 			weiterangreifen = IO.readString();
-			if(!weiterangreifen.equals("Ja")){
+			if(!weiterangreifen.equalsIgnoreCase("Ja")){
 				phaseBeendet = true;
 			}
 		}while(!phaseBeendet);
@@ -286,7 +286,7 @@ public class RisikoClientCUI {
 		System.out.println("\nM\u00F6chtest du Einheiten verschieben? Ja/Nein");
 		String antwort = IO.readString();
 		
-		if(antwort.equals("Ja")){
+		if(antwort.equalsIgnoreCase("Ja")){
 			
 				System.out.println("Von welchem Land m\u00F6chtest du Einheiten verschieben?");
 				//Zeigt alle Länder an, die benutzt werden können
