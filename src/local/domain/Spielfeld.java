@@ -177,6 +177,9 @@ public class Spielfeld {
 	public void missionsListeErstellen(){
 		missionVw.missionsListeErstellen();
 	}
+	public List<String> willkommenNachricht(){
+		return kriegsVw.willkommenNachricht();
+	}
 }
 
 

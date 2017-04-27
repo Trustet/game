@@ -1,37 +1,24 @@
 package local.valueobjects;
 
-public class Mission {
+public abstract class Mission {
 
 	private String beschreibung;
-	private boolean abgeschlossen;
 	private Spieler spieler;
-
+	
+	
 	public Mission(String beschreibung, Spieler spieler) {
+		super();
 		this.beschreibung = beschreibung;
 		this.spieler = spieler;
-		this.abgeschlossen = false;
 	}
 
+	public abstract boolean istAbgeschlossen();
+	
 	public String getBeschreibung() {
 		return beschreibung;
 	}
 
-	public void setBeschreibung(String beschreibung) {
-		this.beschreibung = beschreibung;
+	public Spieler getSpieler() {
+		return spieler;
 	}
-
-	public boolean isAbgeschlossen() {
-		return abgeschlossen;
-	}
-
-	public void setAbgeschlossen(boolean abgeschlossen) {
-		this.abgeschlossen = abgeschlossen;
-	}
-	public Spieler getMissionSpieler(){
-		return this.spieler;
-	}
-	public void setMissionSpieler(Spieler spieler){
-		this.spieler = spieler;
-	}
-	
 }

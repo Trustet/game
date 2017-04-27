@@ -455,5 +455,30 @@ private List<Land> benutzteLaender = new Vector<Land>();
 //		}
 //		return ausgabe;
 //	}
+	public List<String> willkommenNachricht(){
+		List<String> willkommen = new Vector<String>();
+		willkommen.add("W");
+		willkommen.add("I");
+		willkommen.add("L");
+		willkommen.add("L");
+		willkommen.add("K");
+		willkommen.add("O");
+		willkommen.add("M");
+		willkommen.add("M");
+		willkommen.add("E");
+		willkommen.add("N");
+		willkommen.add(" ");
+		willkommen.add("B");
+		willkommen.add("E");
+		willkommen.add("I");
+		willkommen.add(" ");
+		willkommen.add("R");
+		willkommen.add("I");
+		willkommen.add("S");
+		willkommen.add("I");
+		willkommen.add("K");
+		willkommen.add("O");
+		return willkommen;
+	}
 	
 }

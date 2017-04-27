@@ -8,6 +8,8 @@
 package local.ui.cui;
 
 import java.util.List;
+import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 import local.domain.Spielfeld;
 import local.domain.Kriegsverwaltung.phasen;
@@ -22,17 +24,19 @@ public class RisikoClientCUI {
 	public static phasen Phase;
 	private static boolean gewonnen = false;
 	private boolean startPhase;
-
+	private List<String> willkommen;
+	private String nachricht = "Willkommen bei Risiko";
 	/**
 	 * Main-Methode der CUI
 	 * @param args
 	 */
 	public static void main(String[] args)  {
-		
 		RisikoClientCUI cui = new RisikoClientCUI();
 		cui.spielStarten(cui);	
 		
 		//Phasenablauf
+		boolean gewonnen = false;
+		
 		do{
 			Spieler spieler = sp.getAktiverSpieler();
 			
@@ -52,6 +56,8 @@ public class RisikoClientCUI {
 				sp.benutzteLaenderLoeschen();
 				break;	
 			}	
+			
+//			gewonnen = spieler.getMission().istAbgeschlossen();
 		}while(!gewonnen);
 	}
 
@@ -59,6 +65,16 @@ public class RisikoClientCUI {
 	 * startet das Spiel
 	 */
 	private void spielStarten(RisikoClientCUI cui)	{
+		List<String> willkommen = sp.willkommenNachricht();
+		for(String s : willkommen){
+			System.out.print(s);
+			try {
+			    Thread.sleep(300);
+			} catch(InterruptedException ex) {
+			    Thread.currentThread().interrupt();
+			}
+		}
+		System.out.println("");
 		String name = "";
 		int anzahlSpieler = 0;
 		int aktiveSpieler = 0;
@@ -85,6 +101,7 @@ public class RisikoClientCUI {
 						System.out.println(message);
 						System.out.println("Bitte w\u00E4hlen Sie einen anderen Namen!");
 					}
+				
 				} while (aktiveSpieler < anzahlSpieler);
 				
 				break;
