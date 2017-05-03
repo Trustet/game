@@ -10,6 +10,8 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import local.valueobjects.Land;
+import local.valueobjects.Mission;
+import local.valueobjects.MissionAlt;
 import local.valueobjects.Spieler;
 
 public class FilePersistenceManager {
@@ -48,6 +50,13 @@ public class FilePersistenceManager {
 		
 		return new Land(name,null,1,kuerzel);
 		
+	}
+	public MissionAlt ladeMission() throws IOException{
+		String beschreibung = liesZeile();
+			if(beschreibung == null){
+				return null;
+			}
+			return new MissionAlt(beschreibung,null);
 	}
 	
 	private String liesZeile() throws IOException{

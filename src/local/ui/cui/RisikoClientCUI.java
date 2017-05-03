@@ -73,8 +73,9 @@ public class RisikoClientCUI {
 	
 	/**
 	 * startet das Spiel
+	 * @throws IOException 
 	 */
-	private void spielStarten(RisikoClientCUI cui)	{
+	private void spielStarten(RisikoClientCUI cui) throws IOException	{
 //		List<String> willkommen = sp.willkommenNachricht();
 //		for(String s : willkommen){
 //			System.out.print(s);

@@ -85,7 +85,7 @@ public class Weltverwaltung {
 				laenderListe.add(land);
 			}
 		}while(land != null);
-		
+		pm.close();
 //		Spieler leer = new Spieler("Unbekannt");
 //		//42
 //		//Europa 7

@@ -170,7 +170,7 @@ public class Spielfeld {
 	public String missionAusgeben(Spieler spieler){
 		return missionVw.missionAusgeben(spieler);
 	}
-	public void missionsListeErstellen(){
+	public void missionsListeErstellen() throws IOException{
 		missionVw.missionsListeErstellen();
 	}
 	public List<String> willkommenNachricht(){
