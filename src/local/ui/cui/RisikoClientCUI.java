@@ -246,10 +246,10 @@ public class RisikoClientCUI {
 				}
 			}while(!gegnerNachbar);
 			
-				erneutAngreifen = false;
+			
 				
 				do {
-					
+				erneutAngreifen = false;	
 				angriff = new Angriff(aLand, vLand);
 				angriffRueckgabe = sp.befreiungsAktion(angriff);
 				
@@ -292,6 +292,7 @@ public class RisikoClientCUI {
 					
 					if (aLand.getEinheiten() < 2){
 						System.out.println("Du kannst mit diesem Land nicht weiter angreifen.");
+						
 					} else {
 						System.out.println("M\u00F6chtest du weiter angreifen? Ja/Nein");
 						String selberAngriff = IO.readString();
@@ -322,9 +323,9 @@ public class RisikoClientCUI {
 							}
 						}while(!genugEinheiten);
 							
+							
 					}
 				}
-
 			}while(erneutAngreifen);
 			
 			System.out.println("M\u00F6chtest du mit einem weiteren Land angreifen?Ja/Nein");
