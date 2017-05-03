@@ -1,5 +1,6 @@
 package local.domain;
 
+import java.io.IOException;
 import java.util.List;
 
 import local.domain.Kriegsverwaltung.phasen;
@@ -21,8 +22,9 @@ public class Spielfeld {
 	
 	/**
 	 * Konstruktor erstellt die Verwaltungen, so dass sie sich untereinander kennen
+	 * @throws IOException 
 	 */
-	public Spielfeld() {
+	public Spielfeld() throws IOException {
 		
 		this.spielerVw = new Spielerverwaltung();
 		this.weltVw = new Weltverwaltung();

@@ -7,6 +7,7 @@
 //� \u006D
 package local.ui.cui;
 
+import java.io.IOException;
 import java.util.List;
 
 import local.domain.Spielfeld;
@@ -18,49 +19,58 @@ import local.valueobjects.*;
 public class RisikoClientCUI {
 	
 	//Domain-Komponente, welche die Verwaltungen verwaltet
-	static Spielfeld sp = new Spielfeld();
+	private Spielfeld sp;
 	private  phasen Phase;
 	private boolean gewonnen = false;
 	private boolean startPhase;
 	
+	public RisikoClientCUI() throws IOException{
+		sp = new Spielfeld();
+	}
 	/**
 	 * Main-Methode der CUI
 	 * @param args
+	 * @throws IOException 
 	 */
-	public static void main(String[] args)  {
+	public static void main(String[] args) throws IOException {
+		
 		RisikoClientCUI cui = new RisikoClientCUI();
 		cui.spielStarten(cui);	
+		cui.spielen(cui);
 		
-		//Phasenablauf
-		boolean gewonnen = false;
-		
-		do{
-			Spieler spieler = sp.getAktiverSpieler();
-			//Zum testen
-//			Mission ms = new LaenderMission(spieler,3,3,sp.getLaenderListe());
-//			System.out.println(ms.getBeschreibung());
-			switch(sp.getTurn()){
-			case VERTEILEN:
-				cui.einheitenVerteilen(spieler, cui);
-				sp.nextTurn();
-				break;
-			case ANGRIFF:
-				cui.angreifen(spieler, cui);
-				sp.nextTurn();
-				break;
-			case VERSCHIEBEN:
-				cui.verschieben(spieler, cui);
-				sp.nextTurn();
-				sp.naechsterSpieler();
-				sp.benutzteLaenderLoeschen();
-				break;	
-			}	
-			//zum testen
-//			gewonnen = ms.istAbgeschlossen();
-		}while(!gewonnen);
-		System.out.println("Du hast gewonnen");
 	}
 
+	public void spielen(RisikoClientCUI cui){
+		//Phasenablauf
+				boolean gewonnen = false;
+				
+				do{
+					Spieler spieler = sp.getAktiverSpieler();
+					//Zum testen
+//					Mission ms = new LaenderMission(spieler,3,3,sp.getLaenderListe());
+//					System.out.println(ms.getBeschreibung());
+					switch(sp.getTurn()){
+					case VERTEILEN:
+						cui.einheitenVerteilen(spieler, cui);
+						sp.nextTurn();
+						break;
+					case ANGRIFF:
+						cui.angreifen(spieler, cui);
+						sp.nextTurn();
+						break;
+					case VERSCHIEBEN:
+						cui.verschieben(spieler, cui);
+						sp.nextTurn();
+						sp.naechsterSpieler();
+						sp.benutzteLaenderLoeschen();
+						break;	
+					}	
+					//zum testen
+//					gewonnen = ms.istAbgeschlossen();
+				}while(!gewonnen);
+				System.out.println("Du hast gewonnen");
+	}
+	
 	/**
 	 * startet das Spiel
 	 */
