@@ -248,10 +248,11 @@ public class RisikoClientCUI {
 			
 				erneutAngreifen = false;
 				
+				do {
+					
 				angriff = new Angriff(aLand, vLand);
 				angriffRueckgabe = sp.befreiungsAktion(angriff);
 				
-				do {
 				System.out.print(aLand.getBesitzer().getName() + " hat ");
 				
 				if(angriffRueckgabe.getWuerfelAngreifer().size() == 2)
@@ -261,7 +262,7 @@ public class RisikoClientCUI {
 				{
 					System.out.print(angriffRueckgabe.getWuerfelAngreifer().get(0) + ", " + angriffRueckgabe.getWuerfelAngreifer().get(1) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(2));
 				}
-					System.out.print(" gewürfelt.\n");
+					System.out.print(" gewï¿½rfelt.\n");
 				
 				System.out.print(vLand.getBesitzer().getName() + " hat ");
 					
@@ -273,7 +274,7 @@ public class RisikoClientCUI {
 					System.out.print(angriffRueckgabe.getWuerfelVerteidiger().get(0) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(1));
 				}
 				
-				System.out.print(" gewürfelt.\n");
+				System.out.print(" gewï¿½rfelt.\n");
 					
 				if(angriffRueckgabe.isErobert() != true){
 						
@@ -308,6 +309,7 @@ public class RisikoClientCUI {
 							System.out.println(sp.einheitenAusgabe(aLand, vLand));
 							genugEinheiten = true;
 						} else {
+							do{
 							System.out.println("Wie viele Einheiten m\u00F6chtest du auf " + verteidigungsLandString + " setzen?");
 							System.out.println(aLand.getEinheiten() - 1 + " Einheiten kannst du setzen");
 							int einheiten = IO.readInt();
@@ -318,9 +320,10 @@ public class RisikoClientCUI {
 							}else{
 								System.out.println("Bitte gebe eine Korrekte Zahl ein");
 							}
-						}
+						}while(!genugEinheiten);
 							
-					}while(!genugEinheiten);
+					}
+				}
 
 			}while(erneutAngreifen);
 			
