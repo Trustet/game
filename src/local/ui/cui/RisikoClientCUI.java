@@ -40,12 +40,15 @@ public class RisikoClientCUI {
 		
 	}
 
-	public void spielen(RisikoClientCUI cui){
+	public void spielen(RisikoClientCUI cui) throws IOException{
 		//Phasenablauf
-				boolean gewonnen = false;
 				
+				boolean gewonnen = false;
+				sp.speicherSpieler();
+				sp.speicherLaender();
 				do{
 					Spieler spieler = sp.getAktiverSpieler();
+					
 					//Zum testen
 //					Mission ms = new LaenderMission(spieler,3,3,sp.getLaenderListe());
 //					System.out.println(ms.getBeschreibung());

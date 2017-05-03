@@ -72,6 +72,13 @@ public class Weltverwaltung {
 		*/
 	//}
 
+	public void speicherLaender() throws IOException{
+		pm.schreibkanalOeffnen("saveLaender.txt");
+		for(Land l : laenderListe){
+			pm.speichereWelt(l);
+		}
+		pm.close();
+	}
 	
 	/**
 	 * erstellt Länder

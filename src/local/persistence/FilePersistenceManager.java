@@ -58,13 +58,28 @@ public class FilePersistenceManager {
 			}
 			return new MissionAlt(beschreibung,null);
 	}
-	
+	public boolean speichereSpieler(Spieler spieler) throws IOException {
+		// Titel, Nummer und Verfügbarkeit schreiben
+		schreibeZeile(spieler.getName());
+		return true;
+	}
+	public boolean speichereWelt(Land land) throws IOException {
+		schreibeZeile(land.getName());
+		schreibeZeile(land.getBesitzer().getName());
+		schreibeZeile(land.getEinheiten()+"");
+		schreibeZeile(land.getKuerzel());
+		return true;
+	}
 	private String liesZeile() throws IOException{
 		if(reader != null){
 			return reader.readLine();
 		}else{
 			return "";
 		}
+	}
+	private void schreibeZeile(String daten) {
+		if (writer != null)
+			writer.println(daten);
 	}
 //	/**
 //	 * BufferedWriter mit FileWriter Funktion aus der Vorlesung rauskopiert

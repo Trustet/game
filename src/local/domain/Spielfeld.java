@@ -179,6 +179,12 @@ public class Spielfeld {
 	public List<Land> getLaenderListe(){
 		return weltVw.getLaenderListe();
 	}
+	public void speicherSpieler() throws IOException{
+		spielerVw.speicherSpieler();
+	}
+	public void speicherLaender() throws IOException{
+		weltVw.speicherLaender();
+	}
 }
 
 

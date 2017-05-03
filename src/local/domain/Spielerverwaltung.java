@@ -1,8 +1,10 @@
 package local.domain;
+import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
 import local.domain.exceptions.SpielerExistiertBereitsException;
+import local.persistence.FilePersistenceManager;
 import local.valueobjects.Land;
 import local.valueobjects.Spieler;
 
@@ -10,6 +12,15 @@ public class Spielerverwaltung {
 
 	private List<Spieler> spielerListe = new Vector<Spieler>();
 	private int spielerNummer = 0;
+	private FilePersistenceManager pm = new FilePersistenceManager();
+	
+	public void speicherSpieler() throws IOException{
+		pm.schreibkanalOeffnen("saveSpieler.txt");
+		for(Spieler s : spielerListe){
+			pm.speichereSpieler(s);
+		}
+		pm.close();
+	}
 	/**
 	 * Gibt einen bestimmten Spieler aus der Liste zurück
 	 * @param index

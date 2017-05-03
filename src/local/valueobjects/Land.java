@@ -38,6 +38,9 @@ public class Land {
 	public void setEinheiten(int einheiten) {
 		this.einheiten = einheiten;
 	}
+	public String getKuerzel(){
+		return kurzel;
+	}
 
 	public String toString() {
 		return "Land [name=" + name + ", besitzer=" + besitzer.getName() + ", einheiten=" + einheiten + "]";
