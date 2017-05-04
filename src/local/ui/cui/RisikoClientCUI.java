@@ -20,8 +20,8 @@ public class RisikoClientCUI {
 	
 	//Domain-Komponente, welche die Verwaltungen verwaltet
 	private Spielfeld sp;
-	private  phasen Phase;
-	private boolean gewonnen = false;
+	//private  phasen Phase;
+	//private boolean gewonnen = false;
 	private boolean startPhase;
 	
 	public RisikoClientCUI() throws IOException{
@@ -88,7 +88,7 @@ public class RisikoClientCUI {
 //			    Thread.currentThread().interrupt();
 //			}
 //		}
-		System.out.println("");
+//		System.out.println("");
 		String name = "";
 		int anzahlSpieler = 0;
 		int aktiveSpieler = 0;
@@ -210,105 +210,19 @@ public class RisikoClientCUI {
 		Land aLand = null;
 		Land vLand = null;
 		boolean genugEinheiten = false;
-		boolean erneutAngreifen = false;
 		boolean phaseBeendet = false;
-		//List<String> eroberung;  //auskommentiert, wird das überhaupt verwendet?
 		String weiterangreifen;
-		Angriff angriff;
-		AngriffRueckgabe angriffRueckgabe;
 		
 		System.out.println("Phase: " + sp.getTurn());
-		
 		aLand = cui.angriffslandAbfrage(cui, spieler, genugEinheiten);
 		
 		do{
-			//muss hier der Spieler übergeben werden?
-			System.out.println(sp.moeglicheAngriffsziele(aLand, spieler));
+			System.out.println(sp.moeglicheAngriffsziele(aLand));
 			sp.landBenutzen(aLand);
-			
 			vLand = cui.verteidigendesLandAbfrage(spieler, aLand);
+			cui.angriffAusgabeUndErneutAngreifenAbfrage(aLand, vLand, genugEinheiten);
 				
-				do {
-				erneutAngreifen = false;	
-				angriff = new Angriff(aLand, vLand);
-				angriffRueckgabe = sp.befreiungsAktion(angriff);
-				
-				System.out.print(aLand.getBesitzer().getName() + " hat ");
-				
-				if(angriffRueckgabe.getWuerfelAngreifer().size() == 2)
-				{
-					System.out.print(angriffRueckgabe.getWuerfelAngreifer().get(0) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(1));
-				} else if (angriffRueckgabe.getWuerfelAngreifer().size() == 3)
-				{
-					System.out.print(angriffRueckgabe.getWuerfelAngreifer().get(0) + ", " + angriffRueckgabe.getWuerfelAngreifer().get(1) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(2));
-				}
-					System.out.print(" gew�rfelt.\n");
-				
-				System.out.print(vLand.getBesitzer().getName() + " hat ");
-					
-				if(angriffRueckgabe.getWuerfelVerteidiger().size() == 1)
-				{
-					System.out.print(" eine " + angriffRueckgabe.getWuerfelVerteidiger().get(0));
-				} else if (angriffRueckgabe.getWuerfelVerteidiger().size() == 2)
-				{
-					System.out.print(angriffRueckgabe.getWuerfelVerteidiger().get(0) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(1));
-				}
-				
-				System.out.print(" gew�rfelt.\n");
-					
-				if(angriffRueckgabe.isErobert() != true){
-						
-					if (angriffRueckgabe.getVerlusteVerteidiger() < angriffRueckgabe.getVerlusteAngreifer()){
-							System.out.println(vLand.getBesitzer().getName() + " hat gewonnen." );
-							System.out.println(aLand.getBesitzer().getName() + " hat " + angriffRueckgabe.getVerlusteAngreifer() + " verloren.");
-							
-					}else if(angriffRueckgabe.getVerlusteVerteidiger() > angriffRueckgabe.getVerlusteAngreifer()){
-							System.out.println(aLand.getBesitzer().getName() + " hat gewonnen." );
-							System.out.println(vLand.getBesitzer().getName() + " hat " + angriffRueckgabe.getVerlusteVerteidiger() + " verloren.");
-							
-					}else if(angriffRueckgabe.getVerlusteVerteidiger() == angriffRueckgabe.getVerlusteAngreifer()){
-							System.out.println("Ihr habt unentschieden gespielt, beide verlieren eine Einheit." );
-					}
-					
-					if (aLand.getEinheiten() < 2){
-						System.out.println("Du kannst mit diesem Land nicht weiter angreifen.");
-						
-					} else {
-						System.out.println("M\u00F6chtest du weiter angreifen? Ja/Nein");
-						String selberAngriff = IO.readString();
-						if(selberAngriff.equalsIgnoreCase("Ja"))
-						{
-							erneutAngreifen = true;
-						}
-					}
-				} else {
-					System.out.println(aLand.getBesitzer().getName() + " hat das Land erobert." );
-					genugEinheiten = false;
-						if(aLand.getEinheiten() == 2) {
-							System.out.println("Eine Einheit wird auf " + vLand.getName() + " gesetzt.");
-							sp.eroberungBesetzen(aLand, vLand, 1); 
-							System.out.println(sp.einheitenAusgabe(aLand, vLand));
-							genugEinheiten = true;
-						} else {
-							do{
-							System.out.println("Wie viele Einheiten m\u00F6chtest du auf " + vLand.getName() + " setzen?");
-							System.out.println(aLand.getEinheiten() - 1 + " Einheiten kannst du setzen");
-							int einheiten = IO.readInt();
-							if(einheiten < aLand.getEinheiten() && einheiten > 0){
-								sp.eroberungBesetzen(aLand, vLand, einheiten); 
-								System.out.println(sp.einheitenAusgabe(aLand, vLand));
-								genugEinheiten = true;
-							}else{
-								System.out.println("Bitte gebe eine Korrekte Zahl ein");
-							}
-						}while(!genugEinheiten);
-							
-							
-					}
-				}
-			}while(erneutAngreifen);
-			
-			System.out.println("M\u00F6chtest du mit einem weiteren Land angreifen?Ja/Nein");
+			System.out.println("Möchtest du mit einem weiteren Land angreifen?Ja/Nein");
 			weiterangreifen = IO.readString();
 			if(!weiterangreifen.equalsIgnoreCase("Ja")){
 				phaseBeendet = true;
@@ -367,6 +281,92 @@ public class RisikoClientCUI {
 		}while(!gegnerNachbar);
 		
 		return vLand;
+	}
+	
+	private void angriffAusgabeUndErneutAngreifenAbfrage(Land aLand, Land vLand, boolean genugEinheiten){
+		boolean erneutAngreifen;
+		Angriff angriff;
+		AngriffRueckgabe angriffRueckgabe;
+		do {
+			erneutAngreifen = false;	
+			
+			angriff = new Angriff(aLand, vLand);
+			angriffRueckgabe = sp.befreiungsAktion(angriff);
+			
+			System.out.print(aLand.getBesitzer().getName() + " hat ");
+			
+			if(angriffRueckgabe.getWuerfelAngreifer().size() == 2)
+			{
+				System.out.print(angriffRueckgabe.getWuerfelAngreifer().get(0) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(1));
+			} else if (angriffRueckgabe.getWuerfelAngreifer().size() == 3)
+			{
+				System.out.print(angriffRueckgabe.getWuerfelAngreifer().get(0) + ", " + angriffRueckgabe.getWuerfelAngreifer().get(1) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(2));
+			}
+				System.out.print(" gew�rfelt.\n");
+			
+			System.out.print(vLand.getBesitzer().getName() + " hat ");
+				
+			if(angriffRueckgabe.getWuerfelVerteidiger().size() == 1)
+			{
+				System.out.print(" eine " + angriffRueckgabe.getWuerfelVerteidiger().get(0));
+			} else if (angriffRueckgabe.getWuerfelVerteidiger().size() == 2)
+			{
+				System.out.print(angriffRueckgabe.getWuerfelVerteidiger().get(0) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(1));
+			}
+			
+			System.out.print(" gew�rfelt.\n");
+				
+			if(angriffRueckgabe.isErobert() != true){
+					
+				if (angriffRueckgabe.getVerlusteVerteidiger() < angriffRueckgabe.getVerlusteAngreifer()){
+						System.out.println(vLand.getBesitzer().getName() + " hat gewonnen." );
+						System.out.println(aLand.getBesitzer().getName() + " hat " + angriffRueckgabe.getVerlusteAngreifer() + " verloren.");
+						
+				}else if(angriffRueckgabe.getVerlusteVerteidiger() > angriffRueckgabe.getVerlusteAngreifer()){
+						System.out.println(aLand.getBesitzer().getName() + " hat gewonnen." );
+						System.out.println(vLand.getBesitzer().getName() + " hat " + angriffRueckgabe.getVerlusteVerteidiger() + " verloren.");
+						
+				}else if(angriffRueckgabe.getVerlusteVerteidiger() == angriffRueckgabe.getVerlusteAngreifer()){
+						System.out.println("Ihr habt unentschieden gespielt, beide verlieren eine Einheit." );
+				}
+				
+				if (aLand.getEinheiten() < 2){
+					System.out.println("Du kannst mit diesem Land nicht weiter angreifen.");
+					
+				} else {
+					System.out.println("M\u00F6chtest du weiter angreifen? Ja/Nein");
+					String selberAngriff = IO.readString();
+					if(selberAngriff.equalsIgnoreCase("Ja"))
+					{
+						erneutAngreifen = true;
+					}
+				}
+			} else {
+				System.out.println(aLand.getBesitzer().getName() + " hat das Land erobert." );
+				genugEinheiten = false;
+					if(aLand.getEinheiten() == 2) {
+						System.out.println("Eine Einheit wird auf " + vLand.getName() + " gesetzt.");
+						sp.eroberungBesetzen(aLand, vLand, 1); 
+						System.out.println(sp.einheitenAusgabe(aLand, vLand));
+						genugEinheiten = true;
+					} else {
+						do{
+						System.out.println("Wie viele Einheiten m\u00F6chtest du auf " + vLand.getName() + " setzen?");
+						System.out.println(aLand.getEinheiten() - 1 + " Einheiten kannst du setzen");
+						int einheiten = IO.readInt();
+						if(einheiten < aLand.getEinheiten() && einheiten > 0){
+							sp.eroberungBesetzen(aLand, vLand, einheiten); 
+							System.out.println(sp.einheitenAusgabe(aLand, vLand));
+							genugEinheiten = true;
+						}else{
+							System.out.println("Bitte gebe eine Korrekte Zahl ein");
+						}
+					}while(!genugEinheiten);
+						
+						
+				}
+			}
+		}while(erneutAngreifen);
 	}
 	
 	/**

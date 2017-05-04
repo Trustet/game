@@ -34,11 +34,12 @@ private List<Land> benutzteLaender = new Vector<Land>();
 	 * @param spieler
 	 * @return Vector<Land>
 	 */
-	public String moeglicheAngriffsziele(Land land, Spieler spieler) {
+	public String moeglicheAngriffsziele(Land land) {
 		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);	
 		String ausgabe;
 		String puffer;
-					
+		Spieler spieler = land.getBesitzer();
+		//TODO String darf hier nicht erstellt werden	
 		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
 		for(Land l : nachbarLaender) {
 			if(!spieler.equals(l.getBesitzer())) {
@@ -65,6 +66,7 @@ private List<Land> benutzteLaender = new Vector<Land>();
 	public String eigeneNachbarn(String landString, Spieler spieler) {
 		Land land = weltVw.stringToLand(landString);
 		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);
+		//TODO String darf hier nicht erstellt werden	
 		String nachbarLaenderString = "\nDu kannst mit " + landString + " auf folgende L\u00E4nder verschieben: ";
 		
 		for(Land l : nachbarLaender) {
@@ -343,7 +345,7 @@ private List<Land> benutzteLaender = new Vector<Land>();
 		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);	
 		String ausgabe;
 		String puffer;
-					
+		//TODO String darf hier nicht erstellt werden	
 		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
 		for(Land l : nachbarLaender) {
 			if(spieler.equals(l.getBesitzer())) {

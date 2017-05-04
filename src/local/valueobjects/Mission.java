@@ -24,6 +24,4 @@ public abstract class Mission {
 	public Spieler getSpieler() {
 		return spieler;
 	}
-
-
 }
