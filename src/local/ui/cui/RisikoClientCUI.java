@@ -207,60 +207,26 @@ public class RisikoClientCUI {
 	 * @param Spieler
 	 */
 	public void angreifen(Spieler spieler, RisikoClientCUI cui) {
-		String angriffsLandString;
-		String verteidigungsLandString;
 		Land aLand = null;
 		Land vLand = null;
 		boolean genugEinheiten = false;
-		boolean gegnerNachbar = false;
 		boolean erneutAngreifen = false;
 		boolean phaseBeendet = false;
-		List<String> eroberung;
+		//List<String> eroberung;  //auskommentiert, wird das überhaupt verwendet?
 		String weiterangreifen;
 		Angriff angriff;
 		AngriffRueckgabe angriffRueckgabe;
 		
 		System.out.println("Phase: " + sp.getTurn());
 		
+		aLand = cui.angriffslandAbfrage(cui, spieler, genugEinheiten);
+		
 		do{
-			do{ 	
-				System.out.println(spieler.getName() + " mit welchem Land m\u00F6chtest du angreifen?");
-				System.out.println(cui.laenderZumAngreifen(spieler));
-				angriffsLandString = IO.readString();
-					/* Bis ein Land eingegeben wird, das dem Spieler gehoert
-					 * und genug Einheiten hat.*/	
-				try{
-					sp.landWaehlen(angriffsLandString,spieler);
-					genugEinheiten = sp.checkEinheiten(angriffsLandString,1);
-				}catch(KannLandNichtBenutzenException lene ){
-					System.out.println(lene.getMessage());
-				}catch(NichtGenugEinheitenException ngee){
-					System.out.println(ngee.getMessage());
-				}
-			}while(!genugEinheiten);
-			
-			System.out.println(sp.moeglicheAngriffsziele(angriffsLandString, spieler));
-			aLand = sp.stringToLand(angriffsLandString);
+			//muss hier der Spieler übergeben werden?
+			System.out.println(sp.moeglicheAngriffsziele(aLand, spieler));
 			sp.landBenutzen(aLand);
 			
-			do{
-				System.out.println("\nWelches Land willst du angreifen?");
-				verteidigungsLandString = IO.readString();
-				try{
-					sp.landExistiert(verteidigungsLandString);
-					vLand = sp.stringToLand(verteidigungsLandString);
-					sp.istNachbar(aLand,vLand,spieler);
-					gegnerNachbar = sp.istGegner(verteidigungsLandString,spieler);
-				}catch(LandExistiertNichtException lene ){
-					System.out.println(lene.getMessage());
-				}catch(KeinNachbarlandException ngee){
-					System.out.println(ngee.getMessage());
-				}catch(KeinGegnerException kge){
-					System.out.println(kge.getMessage());
-				}
-			}while(!gegnerNachbar);
-			
-			
+			vLand = cui.verteidigendesLandAbfrage(spieler, aLand);
 				
 				do {
 				erneutAngreifen = false;	
@@ -319,13 +285,13 @@ public class RisikoClientCUI {
 					System.out.println(aLand.getBesitzer().getName() + " hat das Land erobert." );
 					genugEinheiten = false;
 						if(aLand.getEinheiten() == 2) {
-							System.out.println("Eine Einheit wird auf " + verteidigungsLandString + " gesetzt.");
+							System.out.println("Eine Einheit wird auf " + vLand.getName() + " gesetzt.");
 							sp.eroberungBesetzen(aLand, vLand, 1); 
 							System.out.println(sp.einheitenAusgabe(aLand, vLand));
 							genugEinheiten = true;
 						} else {
 							do{
-							System.out.println("Wie viele Einheiten m\u00F6chtest du auf " + verteidigungsLandString + " setzen?");
+							System.out.println("Wie viele Einheiten m\u00F6chtest du auf " + vLand.getName() + " setzen?");
 							System.out.println(aLand.getEinheiten() - 1 + " Einheiten kannst du setzen");
 							int einheiten = IO.readInt();
 							if(einheiten < aLand.getEinheiten() && einheiten > 0){
@@ -349,8 +315,59 @@ public class RisikoClientCUI {
 			}
 		}while(!phaseBeendet);
 	}
+	
+	//Ab hier Unterfunktionen für die Angriffphase
 
 	
+	private Land angriffslandAbfrage(RisikoClientCUI cui, Spieler spieler, boolean genugEinheiten){
+		String angriffsLandString;
+		Land aLand;
+		
+		do{ 	
+			System.out.println(spieler.getName() + " mit welchem Land m\u00F6chtest du angreifen?");
+			System.out.println(cui.laenderZumAngreifen(spieler));
+			angriffsLandString = IO.readString();
+				/* Bis ein Land eingegeben wird, das dem Spieler gehoert
+				 * und genug Einheiten hat.*/	
+			try{
+				sp.landWaehlen(angriffsLandString,spieler);
+				genugEinheiten = sp.checkEinheiten(angriffsLandString,1);
+			}catch(KannLandNichtBenutzenException lene ){
+				System.out.println(lene.getMessage());
+			}catch(NichtGenugEinheitenException ngee){
+				System.out.println(ngee.getMessage());
+			}
+		}while(!genugEinheiten);
+		
+		aLand = sp.stringToLand(angriffsLandString);
+		
+		return aLand;
+	}
+	
+	private Land verteidigendesLandAbfrage(Spieler spieler, Land aLand){
+		String verteidigungsLandString;
+		Land vLand = new Land("Platzhalter", new Spieler("PLatzhalter"), 0,"Platzhalter");
+		boolean gegnerNachbar = false;
+		
+		do{
+			System.out.println("\nWelches Land willst du angreifen?");
+			verteidigungsLandString = IO.readString();
+			try{
+				sp.landExistiert(verteidigungsLandString);
+				vLand = sp.stringToLand(verteidigungsLandString);
+				sp.istNachbar(aLand,vLand,spieler);
+				gegnerNachbar = sp.istGegner(verteidigungsLandString,spieler);
+			}catch(LandExistiertNichtException lene ){
+				System.out.println(lene.getMessage());
+			}catch(KeinNachbarlandException ngee){
+				System.out.println(ngee.getMessage());
+			}catch(KeinGegnerException kge){
+				System.out.println(kge.getMessage());
+			}
+		}while(!gegnerNachbar);
+		
+		return vLand;
+	}
 	
 	/**
 	 * Verschiebenphase

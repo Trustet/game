@@ -34,8 +34,7 @@ private List<Land> benutzteLaender = new Vector<Land>();
 	 * @param spieler
 	 * @return Vector<Land>
 	 */
-	public String moeglicheAngriffsziele(String landString, Spieler spieler) {
-		Land land = weltVw.stringToLand(landString);
+	public String moeglicheAngriffsziele(Land land, Spieler spieler) {
 		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);	
 		String ausgabe;
 		String puffer;

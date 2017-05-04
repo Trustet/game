@@ -113,8 +113,8 @@ public class Spielfeld {
 	public void einheitenPositionieren(int anzahl, Land land) {
 		kriegsVw.einheitenPositionieren(anzahl, land);
 	}
-	public String moeglicheAngriffsziele(String landString, Spieler spieler) {
-		return kriegsVw.moeglicheAngriffsziele(landString, spieler);
+	public String moeglicheAngriffsziele(Land land, Spieler spieler) {
+		return kriegsVw.moeglicheAngriffsziele(land, spieler);
 	}
 	public AngriffRueckgabe befreiungsAktion(Angriff angriff) {
 		return kriegsVw.befreiungsAktion(angriff);
