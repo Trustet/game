@@ -31,8 +31,9 @@ public class RisikoClientCUI {
 	 * Main-Methode der CUI
 	 * @param args
 	 * @throws IOException 
+	 * @throws SpielerExistiertBereitsException 
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, SpielerExistiertBereitsException {
 		
 		RisikoClientCUI cui = new RisikoClientCUI();
 		cui.spielStarten(cui);	
@@ -40,9 +41,8 @@ public class RisikoClientCUI {
 		
 	}
 
-	public void spielen(RisikoClientCUI cui) throws IOException{
+	public void spielen(RisikoClientCUI cui) throws IOException, SpielerExistiertBereitsException{
 		//Phasenablauf
-				
 				boolean gewonnen = false;
 				sp.speicherSpieler();
 				sp.speicherLaender();
@@ -60,6 +60,11 @@ public class RisikoClientCUI {
 					case ANGRIFF:
 						cui.angreifen(spieler, cui);
 						sp.nextTurn();
+//						Zum testen
+//						System.out.println("In welcher datei soll das Spiel gespeichert werden?");
+//						String antwort = IO.readString();
+//						sp.spielSpeichern(antwort);
+						
 						break;
 					case VERSCHIEBEN:
 						cui.verschieben(spieler, cui);

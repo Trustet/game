@@ -1,11 +1,14 @@
 package local.domain;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Collections;
 
 import java.util.List;
 import java.util.Vector;
 
 import local.domain.exceptions.*;
+import local.persistence.FilePersistenceManager;
 import local.valueobjects.*;
 
 
@@ -13,18 +16,21 @@ public class Kriegsverwaltung {
 
 private Spielerverwaltung spielerVw;
 private Weltverwaltung weltVw;
-public phasen Phase;
+private Missionsverwaltung missionVw;
+private phasen Phase;
 //public List<Mission> missionsListe = new Vector<Mission>();
 private List<Land> benutzteLaender = new Vector<Land>();
+private FilePersistenceManager pm = new FilePersistenceManager();
 	
 	/**
 	 * Konstruktor Kriegsverwaltung
 	 * @param spielerVw
 	 * @param weltVw
 	 */
-	public Kriegsverwaltung(Spielerverwaltung spielerVw, Weltverwaltung weltVw) {
+	public Kriegsverwaltung(Spielerverwaltung spielerVw, Weltverwaltung weltVw, Missionsverwaltung missionVw) {
 	this.spielerVw = spielerVw;
 	this.weltVw = weltVw;
+	this.missionVw = missionVw;
 	Phase = phasen.VERTEILEN;
 	}
 
@@ -473,5 +479,29 @@ private List<Land> benutzteLaender = new Vector<Land>();
 		}
 		return rueckgabeLaender;
 	}
+	public void spielSpeichern(String datei) throws IOException{
+		pm.schreibkanalOeffnen(datei);
+		pm.spielSpeichern(weltVw.getLaenderListe(), spielerVw.getSpielerList(), Phase+"", spielerVw.getAktiverSpieler(), missionVw.getMissionsListe() );
+		pm.close();
+	}
+//	public void spielLaden(String datei) throws IOException, SpielerExistiertBereitsException {
+//		pm.lesekanalOeffnen(datei);
+//		pm.schreibkanalOeffnen2("test.txt");
+//		if(pm.spielstandLaden().equals("ANGRIFF")){
+//			Phase = phasen.ANGRIFF;
+//			pm.schreiben(pm.spielstandLaden());
+//		}else if(pm.spielstandLaden().equals("VERSCHIEBEN")){
+//			Phase = phasen.VERSCHIEBEN;
+//			pm.schreiben(pm.spielstandLaden());
+//		}else if(pm.spielstandLaden().equals("VERTEILEN")){
+//			Phase = phasen.VERTEILEN;
+//			pm.schreiben(pm.spielstandLaden());
+//		}
+//		do{
+//			String Spieler = pm.spielstandLaden();
+//			spielerVw.neuerSpieler(Spieler);
+//			pm.schreiben(pm.spielstandLaden());
+//		}while(!pm.spielstandLaden().equals(""));
+//	}
 	
 }

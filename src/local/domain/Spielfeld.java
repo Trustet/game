@@ -28,8 +28,8 @@ public class Spielfeld {
 		
 		this.spielerVw = new Spielerverwaltung();
 		this.weltVw = new Weltverwaltung();
-		this.kriegsVw = new Kriegsverwaltung(spielerVw, weltVw);
 		this.missionVw = new Missionsverwaltung();
+		this.kriegsVw = new Kriegsverwaltung(spielerVw, weltVw, missionVw);
 	}
 	
 	/**
@@ -185,6 +185,12 @@ public class Spielfeld {
 	public void speicherLaender() throws IOException{
 		weltVw.speicherLaender();
 	}
+	public void spielSpeichern(String datei) throws IOException{
+		kriegsVw.spielSpeichern(datei);
+	}
+//	public void spielLaden(String datei) throws IOException, SpielerExistiertBereitsException{
+//		kriegsVw.spielLaden(datei);
+//	}
 }
 
 

@@ -61,4 +61,7 @@ public class Missionsverwaltung {
 		}
 		return ausgabe;
 	}
+	public List<MissionAlt> getMissionsListe(){
+		return this.missionsListe;
+	}
 }
