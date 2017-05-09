@@ -45,7 +45,7 @@ public class Einheitenkartenverwaltung {
 		return false;		
 	}
 	
-	public void einheitenkartenEinloesen()
+	public int einheitenkartenEinloesen()
 	{
 		int einheiten = 0;
 		switch(kartenEingeloest){
@@ -68,5 +68,7 @@ public class Einheitenkartenverwaltung {
 		}
 		
 		kartenEingeloest++;
+		
+		return einheiten;
 	}
 }
