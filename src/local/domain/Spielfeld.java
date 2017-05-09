@@ -17,6 +17,7 @@ public class Spielfeld {
 	public Weltverwaltung weltVw;
 	public Kriegsverwaltung kriegsVw;
 	public Missionsverwaltung missionVw;
+	public Einheitenkartenverwaltung einheitenVw;
 	public phasen Phase;
 	
 	
@@ -29,6 +30,7 @@ public class Spielfeld {
 		this.spielerVw = new Spielerverwaltung();
 		this.weltVw = new Weltverwaltung();
 		this.missionVw = new Missionsverwaltung();
+		this.einheitenVw = new Einheitenkartenverwaltung();
 		this.kriegsVw = new Kriegsverwaltung(spielerVw, weltVw, missionVw);
 	}
 	
@@ -191,6 +193,11 @@ public class Spielfeld {
 //	public void spielLaden(String datei) throws IOException, SpielerExistiertBereitsException{
 //		kriegsVw.spielLaden(datei);
 //	}
+
+	public Einheitenkarten einheitenKarteZiehen(Spieler spieler) {
+		return einheitenVw.karteNehmen(spieler);
+		
+	}
 }
 
 

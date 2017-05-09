@@ -11,6 +11,11 @@ public class Einheitenkartenverwaltung {
 	private List<Einheitenkarten> kartenstapel;
 	private int kartenEingeloest;
 	
+	
+	public Einheitenkartenverwaltung() {
+		kartenstapelErstellen();
+	}
+
 	public List<Einheitenkarten> kartenstapelErstellen()
 	{
 		kartenstapel = new Vector<Einheitenkarten>();
@@ -29,11 +34,13 @@ public class Einheitenkartenverwaltung {
 		return kartenstapel;
 	}
 	
-	public void karteNehmen(Spieler spieler)
+	public Einheitenkarten karteNehmen(Spieler spieler)
 	{
 		Einheitenkarten karte = kartenstapel.get(0);
 		spieler.karteNehmen(karte);
 		kartenstapel.remove(0);
+		
+		return karte;
 	}
 	
 	public boolean spielerkartenAuswerten(Spieler spieler)

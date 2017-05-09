@@ -69,6 +69,7 @@ public class RisikoClientCUI {
 					case VERSCHIEBEN:
 						cui.verschieben(spieler, cui);
 						sp.nextTurn();
+						//TODO Wenn spieler erobert wurde, aus allem rausnehmen
 						sp.naechsterSpieler();
 						sp.benutzteLaenderLoeschen();
 						break;	
@@ -170,6 +171,7 @@ public class RisikoClientCUI {
 		boolean genugEinheiten = false;
 		boolean kannLandBenutzen = false;
 		
+		//TODO Karten einlösen aufrufen
 		if(startPhase != true)
 		{
 		System.out.println("\n" + sp.getAktiverSpieler().getName() + " ist jetzt dran.");
@@ -219,6 +221,7 @@ public class RisikoClientCUI {
 		String weiterangreifen;
 		
 		System.out.println("Phase: " + sp.getTurn());
+		//TODO falls kein Land zum angreifen, fehlermeldung und weiter
 		aLand = cui.angriffslandAbfrage(cui, spieler, genugEinheiten);
 		
 		do{
@@ -386,6 +389,7 @@ public class RisikoClientCUI {
 		boolean kannLandBenutzen = false;
 		boolean genugEinheiten = false;
 		String zielLand;
+		Einheitenkarten gezogeneKarte;
 		
 		System.out.println("Phase: " + sp.getTurn());
 		System.out.println("\nM\u00F6chtest du Einheiten verschieben? Ja/Nein");
@@ -447,6 +451,15 @@ public class RisikoClientCUI {
 					sp.einheitenPositionieren(einheiten, zweitesLand);
 					sp.einheitenPositionieren(-einheiten, erstesLand);
 					System.out.println(sp.einheitenAusgabe(erstesLand, zweitesLand));
+		}
+		
+		//Einheiten Karte ziehen
+		gezogeneKarte = sp.einheitenKarteZiehen(spieler);
+		System.out.println("Du hast die Karte " + gezogeneKarte.getKartenwert() + " gezogen.");
+		System.out.println("Du besitzt nun die Karten :");
+		for(Einheitenkarten k : spieler.getEinheitenkarten())
+		{
+			System.out.print(" " + k.getKartenwert());
 		}
 	}
 	public String laenderZumVerschieben(Spieler spieler){
