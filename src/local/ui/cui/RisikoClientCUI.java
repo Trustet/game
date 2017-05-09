@@ -134,7 +134,7 @@ public class RisikoClientCUI {
 		sp.laenderAufteilen(anzahlSpieler);
 		sp.missionsListeErstellen();
 		sp.missionenVerteilen();
-		
+		//TODO hier ist von den Spielregeln noch ein Fehler der Anzahl von zu verteilender Einheiten
 		//verteilen der Einheiten am Anfang für jeden Spieler
 				for(Spieler spieler : sp.getSpielerList()) {
 					System.out.println(spieler.getName() + " ist dran und darf nun seine ersten Einheiten verteilen.");

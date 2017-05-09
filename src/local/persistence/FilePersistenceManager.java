@@ -15,7 +15,7 @@ import local.valueobjects.MissionAlt;
 import local.valueobjects.Spieler;
 
 public class FilePersistenceManager {
-	
+	//TODO EINLESEN UND SPEICHERN implementieren (keine Ahnung was Yannik schon gemacht hat^^)
 	private BufferedReader reader = null;
 	private PrintWriter writer = null;
 	
