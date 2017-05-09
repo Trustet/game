@@ -9,6 +9,7 @@ import local.valueobjects.*;
 public class Einheitenkartenverwaltung {
 
 	private List<Einheitenkarten> kartenstapel;
+	private int kartenEingeloest;
 	
 	public List<Einheitenkarten> kartenstapelErstellen()
 	{
@@ -35,12 +36,37 @@ public class Einheitenkartenverwaltung {
 		kartenstapel.remove(0);
 	}
 	
-	public void spielerkartenAuswerten(Spieler spieler)
+	public boolean spielerkartenAuswerten(Spieler spieler)
 	{
 		for(Einheitenkarten k : spieler.getEinheitenkarten())
 		{
 			//TODO auswertung
 		}
-			
+		return false;		
+	}
+	
+	public void einheitenkartenEinloesen()
+	{
+		int einheiten = 0;
+		switch(kartenEingeloest){
+		case 1: einheiten = 4;
+				break;
+		case 2: einheiten = 6;
+				break;
+		case 3: einheiten = 8;
+				break;
+		case 4: einheiten = 10;
+				break;
+		case 5: einheiten = 12;
+				break;
+		case 6: einheiten = 15;
+				break;
+		}
+		if(kartenEingeloest > 6)
+		{
+			einheiten = 15 + (kartenEingeloest - 6) * 5;
+		}
+		
+		kartenEingeloest++;
 	}
 }
