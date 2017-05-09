@@ -26,6 +26,9 @@ public class FilePersistenceManager {
 	public void schreibkanalOeffnen(String datei) throws IOException{
 		writer = new PrintWriter(new BufferedWriter(new FileWriter(datei)));
 	}
+	public void schreibkanalOeffnen2(String datei) throws IOException{
+		writer = new PrintWriter(new BufferedWriter(new FileWriter(datei,true)));
+	}
 	
 	public boolean close(){
 		if(writer != null){
@@ -70,6 +73,36 @@ public class FilePersistenceManager {
 		schreibeZeile(land.getKuerzel());
 		return true;
 	}
+	public boolean spielSpeichern(List<Land> welt, List<Spieler> spielerListe, String phase, Spieler aktiverSpieler, List<MissionAlt> missionen){
+		schreibeZeile(phase);
+		for(Spieler s : spielerListe){
+			schreibeZeile(s.getName());
+		}
+		schreibeZeile("");
+		for(Land l : welt){
+			schreibeZeile(l.getName());
+			schreibeZeile(l.getBesitzer().getName());
+			schreibeZeile(l.getEinheiten()+"");
+			schreibeZeile(l.getKuerzel());
+		}
+		schreibeZeile("");
+		for(MissionAlt m : missionen){
+			if(m.getMissionSpieler() != null){
+				schreibeZeile(m.getBeschreibung());
+				schreibeZeile(m.getMissionSpieler().getName());
+			}
+		}
+		schreibeZeile("");
+		schreibeZeile(aktiverSpieler.getName());
+		
+		return true;
+	}
+	public String spielstandLaden() throws IOException{
+		return liesZeile();
+	}
+	public void schreiben(String daten){
+		schreibeZeile(daten);
+	}
 	private String liesZeile() throws IOException{
 		if(reader != null){
 			return reader.readLine();
@@ -81,6 +114,7 @@ public class FilePersistenceManager {
 		if (writer != null)
 			writer.println(daten);
 	}
+	
 //	/**
 //	 * BufferedWriter mit FileWriter Funktion aus der Vorlesung rauskopiert
 //	 */
