@@ -29,6 +29,7 @@ public class Spieler {
 	public List<Einheitenkarten> getEinheitenkarten() {
 		return einheitenkarten;
 	}
+	
 	public void setEinheitenkarten(List<Einheitenkarten> einheitenkarten) {
 		this.einheitenkarten = einheitenkarten;
 	}
