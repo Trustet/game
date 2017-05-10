@@ -1,14 +1,16 @@
 package local.valueobjects;
+
 import java.util.List;
-public class LaenderMission extends Mission {
+
+public class KontinentenMission extends Mission {
 
 	private int anzahlLaender = 0;
 	private int anzahlEinheiten = 0;	
 	private Spieler spieler;
 	private List<Land> laender;
 	
-	public LaenderMission(Spieler spieler, int anzahlLaender, int anzahlEinheiten, List<Land> laender) {
-		super("Erobern Sie " + anzahlLaender + " und besetzen Sie jedes mit " + anzahlEinheiten + ".", spieler);
+	public KontinentenMission(Spieler spieler, List<Kontinent> kontinente, List<Land> laender) {
+		super("Erobern Sie folgene Kontinente : " +  kontinente.toString() ,spieler);
 		this.anzahlLaender = anzahlLaender;
 		this.anzahlEinheiten = anzahlEinheiten;
 		this.spieler = spieler;

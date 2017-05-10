@@ -10,7 +10,6 @@ public abstract class Mission {
 	
 	//TODO Unterklassen erstellen Ländermission etc.
 	public Mission(String beschreibung, Spieler spieler) {
-		super();
 		this.beschreibung = beschreibung;
 		this.spieler = spieler;
 	}

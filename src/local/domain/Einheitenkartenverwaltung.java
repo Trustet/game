@@ -68,7 +68,6 @@ public class Einheitenkartenverwaltung {
 			}
 		}
 	
-		//drei von einer Sorte
 		if(soldat <= 3){
 			kartenZumAbgeben.add(soldatKarte);
 			kartenZumAbgeben.add(soldatKarte);
