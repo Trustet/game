@@ -511,7 +511,6 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 				return false;
 			}
 		}
-		System.out.println("Hier bin ich");
 		spielerVw.getSpielerList().remove(spieler);
 		return true;
 	}

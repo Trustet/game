@@ -40,7 +40,9 @@ public class RisikoClientCUI {
 		cui.spielen(cui);
 	}
 
+
 	public void konfigurieren(RisikoClientCUI cui) {
+
 		//Spiel laden
 		System.out.println("Moechtest du ein Spiel laden?");
 		String spielLaden = IO.readString();
@@ -119,7 +121,6 @@ public class RisikoClientCUI {
 					Spieler spieler = sp.getAktiverSpieler();
 					switch(sp.getTurn()){
 					case VERTEILEN:
-						System.out.println("Erinnerung Mission von" + sp.getAktiverSpieler() + ": " + sp.missionAusgeben(spieler));
 						cui.einheitenVerteilen(spieler, cui);
 						sp.nextTurn();
 						break;
@@ -142,6 +143,7 @@ public class RisikoClientCUI {
 						sp.nextTurn();
 						sp.naechsterSpieler();
 						sp.benutzteLaenderLoeschen();
+						gewonnen = sp.getSpielerMission(spieler).istAbgeschlossen();
 						break;	
 					}
 					spielerRaus();
@@ -149,6 +151,7 @@ public class RisikoClientCUI {
 						System.out.println(sp.getSpielerList().get(0).getName() + " hat gewonnen");
 						gewonnen = true;
 					}
+
 					System.out.println("Spiel speichern? Ja/Nein");
 					String antwort = IO.readString();
 					if(antwort.equalsIgnoreCase("ja")){
@@ -159,6 +162,7 @@ public class RisikoClientCUI {
 						}
 					}
 				//	gewonnen = sp.getSpielerMission(spieler).istAbgeschlossen();
+
 				}while(!gewonnen);
 				System.out.println("Fertig");
 	}
@@ -192,7 +196,8 @@ public class RisikoClientCUI {
 		if(startPhase != true)
 		{
 		System.out.println("\n" + sp.getAktiverSpieler().getName() + " ist jetzt dran.");
-		System.out.println("Phase: " + sp.getTurn());
+		System.out.println("Erinnerung Mission von" + sp.getAktiverSpieler().getName() + ": " + sp.missionAusgeben(spieler));
+		System.out.println("\nPhase: " + sp.getTurn());
 		}
 		
 		cui.spielerstandAusgeben(spieler,cui);
@@ -236,23 +241,27 @@ public class RisikoClientCUI {
 		boolean genugEinheiten = false;
 		boolean phaseBeendet = false;
 		String weiterangreifen;
+		String angreifenAbfrage;
 		
 		System.out.println("Phase: " + sp.getTurn());
-		
-		aLand = cui.angriffslandAbfrage(cui, spieler, genugEinheiten);
-		
-		do{
-			System.out.println(moeglicheAngriffszieleAusgabe(aLand));
-			sp.landBenutzen(aLand);
-			vLand = cui.verteidigendesLandAbfrage(spieler, aLand);
-			cui.angriffAusgabeUndErneutAngreifenAbfrage(aLand, vLand, genugEinheiten);
-				
-			System.out.println("Möchtest du mit einem weiteren Land angreifen?Ja/Nein");
-			weiterangreifen = IO.readString();
-			if(!weiterangreifen.equalsIgnoreCase("Ja")){
-				phaseBeendet = true;
-			}
-		}while(!phaseBeendet);
+		System.out.println("Möchtest du etwas in der Angriffsphase machen(Ansonsten direkt zur Verschieben Phase übergehen)? ja/nein");
+		angreifenAbfrage = IO.readString();
+		if(angreifenAbfrage.equalsIgnoreCase("ja"))
+		{
+			do{
+				aLand = cui.angriffslandAbfrage(cui, spieler, genugEinheiten);
+				System.out.println(moeglicheAngriffszieleAusgabe(aLand));
+				sp.landBenutzen(aLand);
+				vLand = cui.verteidigendesLandAbfrage(spieler, aLand);
+				cui.angriffAusgabeUndErneutAngreifenAbfrage(aLand, vLand, genugEinheiten);
+					
+				System.out.println("Möchtest du mit einem weiteren Land angreifen?Ja/Nein");
+				weiterangreifen = IO.readString();
+				if(!weiterangreifen.equalsIgnoreCase("Ja")){
+					phaseBeendet = true;
+				}
+			}while(!phaseBeendet);
+		}
 	}
 	
 	//Ab hier Unterfunktionen für die Angriffphase
@@ -273,6 +282,7 @@ public class RisikoClientCUI {
 				genugEinheiten = sp.checkEinheiten(angriffsLandString,1);
 				sp.landZumAngreifen(spieler, sp.stringToLand(angriffsLandString));
 			}catch(KeinLandZumAngreifenException klzae){
+				//TODO sagt zwar das kein angreifbares Land da ist, springt aber trotzdem nicht zu mit welchem land möchtest du angreifen zurück
 				System.out.println(klzae.getMessage());
 			}catch(KannLandNichtBenutzenException lene ){
 				System.out.println(lene.getMessage());
