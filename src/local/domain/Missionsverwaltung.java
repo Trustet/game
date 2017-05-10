@@ -58,7 +58,7 @@ public class Missionsverwaltung {
 		//TODO hier müssen Länder des Spielers noch immer mit übergeben werden?
 		missionsListe.add(new LaenderMission(null, 18, 2, null));
 		//Befreien Sie alle Länder von den roten Armeen
-		//missionsListe.add(e)
+		missionsListe.add(new SpielerMission(null, null));
 	}
 	public void missionenVerteilen(List<Spieler> spielerListe){
 		List<Mission> speicher = new Vector<Mission>();
