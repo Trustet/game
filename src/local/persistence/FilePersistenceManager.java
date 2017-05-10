@@ -72,7 +72,7 @@ public class FilePersistenceManager {
 		schreibeZeile(land.getKuerzel());
 		return true;
 	}
-	public boolean spielSpeichern(List<Land> welt, List<Spieler> spielerListe, String phase, int aktiverSpieler, List<Mission> missionen){
+	public boolean spielSpeichern(List<Land> welt, List<Spieler> spielerListe, String phase, int aktiverSpieler){
 		schreibeZeile(phase);
 		for(Spieler s : spielerListe){
 			schreibeZeile(s.getName());
@@ -85,6 +85,7 @@ public class FilePersistenceManager {
 			schreibeZeile(l.getKuerzel());
 		}
 		schreibeZeile("");
+		
 		schreibeZeile(aktiverSpieler+"");
 		
 		return true;

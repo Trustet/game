@@ -34,7 +34,7 @@ public class RisikoClientCUI {
 	 * @throws IOException 
 	 * @throws SpielerExistiertBereitsException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args){
 		RisikoClientCUI cui = new RisikoClientCUI();	
 		cui.konfigurieren(cui);
 		cui.spielen(cui);
@@ -48,7 +48,7 @@ public class RisikoClientCUI {
 		String spielLaden = IO.readString();
 		if(spielLaden.equalsIgnoreCase("ja")){
 			try{
-			sp.spielLaden("./save/Game2.txt");
+			sp.spielLaden("Game2.txt");
 			} catch(Exception e) {
 				System.out.println("Kann nicht geladen werden");
 			}
@@ -59,7 +59,7 @@ public class RisikoClientCUI {
 				sp.laenderErstellen();
 				sp.missionsListeErstellen();
 			}catch(IOException e){
-				System.out.println("Datei konnte nicht gefunden werden " + e.getMessage());
+				System.out.println("Das spiel konnte nicht erstellt werden " + e.getMessage());
 			}
 			sp.laenderverbindungenUndKontinenteErstellen();
 			sp.missionenVerteilen();
@@ -115,7 +115,7 @@ public class RisikoClientCUI {
 		}	
 	}
 	
-	public void spielen(RisikoClientCUI cui){
+	public void spielen(RisikoClientCUI cui) {
 		//Phasenablauf
 				do{
 					Spieler spieler = sp.getAktiverSpieler();
@@ -136,7 +136,6 @@ public class RisikoClientCUI {
 						}	
 						sp.nextTurn();
 						
-						
 						break;
 					case VERSCHIEBEN:
 						cui.verschieben(spieler, cui);
@@ -155,14 +154,13 @@ public class RisikoClientCUI {
 					System.out.println("Spiel speichern? Ja/Nein");
 					String antwort = IO.readString();
 					if(antwort.equalsIgnoreCase("ja")){
-						try{
 							spielSpeichern();
-						}catch(IOException e){
-							System.out.println("Das Spiel konnte nicht gespeichert werden " + e.getMessage());
-						}
+					
 					}
 				//	gewonnen = sp.getSpielerMission(spieler).istAbgeschlossen();
 
+
+					gewonnen = sp.getSpielerMission(spieler).istAbgeschlossen();
 				}while(!gewonnen);
 				System.out.println("Fertig");
 	}
@@ -602,11 +600,11 @@ public class RisikoClientCUI {
 		}
 		System.out.println(ausgabe);
 	}
-	private void spielSpeichern() throws IOException{
+	public void spielSpeichern(){
 		try{
-			sp.spielSpeichern("./save/Game2.txt");
+			sp.spielSpeichern("Game2.txt");
 		}catch(IOException e){
-			System.out.println("Das Spiel konnte nicht gespeichert werden");
+			System.out.println("Spiel konnte nicht gespeichert werden" + e.getMessage());
 		}
 	}
 }

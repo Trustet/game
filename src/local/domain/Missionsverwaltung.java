@@ -18,7 +18,7 @@ public class Missionsverwaltung {
 	 * @param laenderListe 
 	 * @throws IOException 
 	 */
-	public void missionsListeErstellen(List<Land> laenderListe, List<Kontinent> kontinentenListe, List<Spieler> spielerListe) throws IOException{
+	public void missionsListeErstellen(List<Land> laenderListe, List<Kontinent> kontinentenListe, List<Spieler> spielerListe) {
 //		missionsListe.add(new LaenderMission(1,null,3,2,laenderListe));
 //		missionsListe.add(new LaenderMission(2,null,3,2,laenderListe));
 		Spieler platzhalterSpieler = new Spieler("Platzhalter"); //weil er sonst nullpointer bei abfrage auf nicht verwendete missionen hat

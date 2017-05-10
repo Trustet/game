@@ -22,7 +22,7 @@ public class Weltverwaltung {
 	 * @param spielerVw
 	 * @throws IOException 
 	 */
-	public Weltverwaltung() {
+	public Weltverwaltung(){
 		laenderAufteilung = new boolean[laenderAnzahl][laenderAnzahl];
 		
 		for(int spalte = 0; spalte < laenderAnzahl;spalte++) {
@@ -85,7 +85,7 @@ public class Weltverwaltung {
 	 * erstellt Länder
 	 */
 	public void laenderErstellen()	throws IOException{
-		pm.lesekanalOeffnen("./loading/Welt.txt");
+		pm.lesekanalOeffnen("Welt.txt");
 		Land land;
 		do{
 				land = pm.ladeLand();
