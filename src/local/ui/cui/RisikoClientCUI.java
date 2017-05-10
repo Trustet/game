@@ -22,7 +22,7 @@ public class RisikoClientCUI {
 	//Domain-Komponente, welche die Verwaltungen verwaltet
 	private Spielfeld sp;
 	//private  phasen Phase;
-	//private boolean gewonnen = false;
+	private boolean gewonnen = false;
 	private boolean startPhase;
 	
 	public RisikoClientCUI() throws IOException{
@@ -35,41 +35,88 @@ public class RisikoClientCUI {
 	 * @throws SpielerExistiertBereitsException 
 	 */
 	public static void main(String[] args) throws IOException, SpielerExistiertBereitsException {
-		
 		RisikoClientCUI cui = new RisikoClientCUI();	
+		cui.konfigurieren(cui);
 		cui.spielen(cui);
-		
 	}
 
+	public void konfigurieren(RisikoClientCUI cui) throws IOException{
+		//Spiel laden
+		System.out.println("Moechtest du ein Spiel laden?");
+		String spielLaden = IO.readString();
+		if(spielLaden.equalsIgnoreCase("ja")){
+			try{
+			sp.spielLaden("Game2.txt");
+			//TODO Platzhalter exception
+			} catch(Exception e) {
+				System.out.println("Kann nicht geladen werden");
+			}
+		}else{
+			//neues Spiel starten
+			cui.spielerErstellen(cui);
+			sp.laenderErstellen();
+			sp.laenderverbindungenUndKontinenteErstellen();
+			sp.missionsListeErstellen();
+			sp.missionenVerteilen();
+			sp.laenderAufteilen();
+			//TODO hier ist von den Spielregeln noch ein Fehler der Anzahl von zu verteilender Einheiten
+			//verteilen der Einheiten am Anfang für jeden Spieler
+			for(Spieler spieler : sp.getSpielerList()) {
+				System.out.println(spieler.getName() + " ist dran und darf nun seine ersten Einheiten verteilen.");
+				cui.einheitenVerteilen(spieler, cui);
+				sp.naechsterSpieler();
+			}	
+			startPhase = false;
+		}
+	}
+	
+	/**
+	 * Spieler erstellen
+	 * @throws IOException 
+	 */
+	private void spielerErstellen(RisikoClientCUI cui) throws IOException	{
+		String name = "";
+		int anzahlSpieler = 0;
+		int aktiveSpieler = 0;
+		
+		startPhase = true;
+		//endlose Schleife bis richtige Eingabe um Spieler zu erstellen
+		while(true)	{
+			//anzahlSpieler der Spieler einlesen
+			System.out.println("Wie viele Spieler spielen mit? (2-6)");
+			anzahlSpieler = IO.readInt();
+			
+			//Bei Eingaben zwischen 2 und 6, werden die neuen Spieler mit eingegebenen Namen erstellt
+			if(anzahlSpieler > 1 && anzahlSpieler < 7 )	{
+
+				do {
+					System.out.println("Hallo Spieler " + (aktiveSpieler+1) + ", wie heisst du?");
+					name = IO.readString();
+					
+					try {
+						sp.erstelleSpieler(name);
+						aktiveSpieler++;
+					} catch (SpielerExistiertBereitsException sebe) {
+						String message = sebe.getMessage();
+						System.out.println(message);
+						System.out.println("Bitte w\u00E4hlen Sie einen anderen Namen!");
+					}
+				} while (aktiveSpieler < anzahlSpieler);
+				break;
+			} else {
+				//Ausgabe bei falscher Eingabe
+				System.out.println("Falsche Eingabe.");
+			}
+		}	
+	}
+	
 	public void spielen(RisikoClientCUI cui) throws IOException, SpielerExistiertBereitsException{
 		//Phasenablauf
-				boolean gewonnen = false;
-				System.out.println("Moechtest du ein Spiel laden?");
-				String spielLaden = IO.readString();
-				if(spielLaden.equalsIgnoreCase("ja")){
-					sp.spielLaden("Game2.txt");
-				}else{
-					sp.laenderErstellen();
-					cui.spielStarten(cui);
-				}
-				sp.erstellen();
-				//Zum testen
-				for(Land l : sp.getLaenderListe()){
-					if(l.getBesitzer().getName().equals("darian")){
-						l.setBesitzer(sp.getSpielerList().get(0));
-					}
-				}
-				sp.missionsListeErstellen();
-				sp.missionenVerteilen();
-				
 				do{
 					Spieler spieler = sp.getAktiverSpieler();
-					System.out.println(sp.missionAusgeben(spieler));
-					//Zum testen
-//					Mission ms = new LaenderMission(spieler,3,3,sp.getLaenderListe());
-//					System.out.println(ms.getBeschreibung());
 					switch(sp.getTurn()){
 					case VERTEILEN:
+						System.out.println("Erinnerung Mission von" + sp.getAktiverSpieler() + ": " + sp.missionAusgeben(spieler));
 						cui.einheitenVerteilen(spieler, cui);
 						sp.nextTurn();
 						break;
@@ -100,76 +147,8 @@ public class RisikoClientCUI {
 						gewonnen = true;
 					}
 					gewonnen = sp.getSpielerMission(spieler).istAbgeschlossen();
-					//zum testen
-//					gewonnen = ms.istAbgeschlossen();
 				}while(!gewonnen);
 				System.out.println("Fertig");
-	}
-	
-	/**
-	 * startet das Spiel
-	 * @throws IOException 
-	 */
-	private void spielStarten(RisikoClientCUI cui) throws IOException	{
-//		List<String> willkommen = sp.willkommenNachricht();
-//		for(String s : willkommen){
-//			System.out.print(s);
-//			try {
-//			    Thread.sleep(300);
-//			} catch(InterruptedException ex) {
-//			    Thread.currentThread().interrupt();
-//			}
-//		}
-//		System.out.println("");
-		String name = "";
-		int anzahlSpieler = 0;
-		int aktiveSpieler = 0;
-		
-		startPhase = true;
-		//endlose Schleife bis richtige Eingabe um Spieler zu erstellen
-		while(true)	{
-			//anzahlSpieler der Spieler einlesen
-			System.out.println("Wie viele Spieler spielen mit? (2-6)");
-			anzahlSpieler = IO.readInt();
-			
-			//Bei Eingaben zwischen 2 und 6, werden die neuen Spieler mit eingegebenen Namen erstellt
-			if(anzahlSpieler > 1 && anzahlSpieler < 7 )	{
-
-				do {
-					System.out.println("Hallo Spieler " + (aktiveSpieler+1) + ", wie heisst du?");
-					name = IO.readString();
-					
-					try {
-						sp.erstelleSpieler(name);
-						aktiveSpieler++;
-					} catch (SpielerExistiertBereitsException sebe) {
-						String message = sebe.getMessage();
-						System.out.println(message);
-						System.out.println("Bitte w\u00E4hlen Sie einen anderen Namen!");
-					}
-				
-				} while (aktiveSpieler < anzahlSpieler);
-				
-				break;
-			} else {
-				//Ausgabe bei falscher Eingabe
-				System.out.println("Falsche Eingabe.");
-			}
-		}	
-
-		sp.laenderAufteilen(anzahlSpieler);
-		//sp.missionsListeErstellen();
-		//sp.missionenVerteilen();
-		//TODO hier ist von den Spielregeln noch ein Fehler der Anzahl von zu verteilender Einheiten
-		//verteilen der Einheiten am Anfang für jeden Spieler
-				for(Spieler spieler : sp.getSpielerList()) {
-					System.out.println(spieler.getName() + " ist dran und darf nun seine ersten Einheiten verteilen.");
-					cui.einheitenVerteilen(spieler, cui);
-					
-					sp.naechsterSpieler();
-				}
-				
-		startPhase = false;
 	}
 
 	/**
@@ -177,12 +156,12 @@ public class RisikoClientCUI {
 	 * @param Spieler
 	 */
 	public void spielerstandAusgeben(Spieler spieler, RisikoClientCUI cui) {
-		System.out.println("\n" + spieler.getName() +" besitzt die L\u00E4nder: ");
-		System.out.println(cui.eigeneLaender(spieler));
-		System.out.println("\nund bekommt " + sp.bekommtEinheiten(spieler) + " Einheiten\n");
 		if(startPhase){
 			System.out.println(spieler.getName() + " du hast die Mission: \n" + sp.missionAusgeben(spieler) + "\n\n");
 		}
+		System.out.println("\n" + spieler.getName() +" besitzt die L\u00E4nder: ");
+		System.out.println(cui.eigeneLaender(spieler));
+		System.out.println("\nund bekommt " + sp.bekommtEinheiten(spieler) + " Einheiten\n");
 	}
 
 	/**

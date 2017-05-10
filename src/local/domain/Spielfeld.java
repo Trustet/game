@@ -43,7 +43,7 @@ public class Spielfeld {
 	/**
 	 * @param anzahlSpieler
 	 */
-	public void laenderAufteilen(int anzahlSpieler) {		
+	public void laenderAufteilen() {		
 		List<Spieler> spielerListe = spielerVw.getSpielerList();
 		weltVw.laenderAufteilen(spielerListe);		
 	}
@@ -209,7 +209,7 @@ public class Spielfeld {
 	public void laenderErstellen() throws IOException{
 		weltVw.laenderErstellen();
 	}
-	public void erstellen(){
+	public void laenderverbindungenUndKontinenteErstellen(){
 		weltVw.erstellen();
 	}
 	public Mission getSpielerMission(Spieler spieler){

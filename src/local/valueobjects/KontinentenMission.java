@@ -4,13 +4,10 @@ import java.util.List;
 
 public class KontinentenMission extends Mission {
 
-	private Spieler spieler;
 	private List<Kontinent> kontinente;
-	private List<Land> laender;
+	
 	public KontinentenMission(int id, Spieler spieler, List<Kontinent> kontinente, List<Land> laender) {
 		super(id, "Erobern Sie folgene Kontinente : " +  kontinente.toString() ,spieler);
-
-		this.spieler = spieler;
 		this.laender = laender;
 		this.kontinente = kontinente;
 	}

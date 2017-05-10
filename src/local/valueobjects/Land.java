@@ -41,10 +41,6 @@ public class Land {
 	public String getKuerzel(){
 		return kurzel;
 	}
-
-	public String toString() {
-		return "Land [name=" + name + ", besitzer=" + besitzer.getName() + ", einheiten=" + einheiten + "]";
-	}
 	
 	
 }

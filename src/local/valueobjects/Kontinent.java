@@ -14,7 +14,7 @@ public class Kontinent {
 
 
 	public String toString() {
-		return "Kontinent [name=" + name + ", laender=" + laender.toString() + "]";
+		return name;
 	}
 
 

@@ -208,13 +208,13 @@ public class Weltverwaltung {
 	 * Erstellt alle Kontinente
 	 */
 	public void kontinenteErstellen() {
-		List<Land> eu = new Vector<Land>();
+		List<Land> europa = new Vector<Land>();
 		
 		for(int i = 0;i < 7;i++) {
-			eu.add(laenderListe.get(i));
+			europa.add(laenderListe.get(i));
 		}
 	
-		kontinentenListe.add(new Kontinent("Europa",eu));
+		kontinentenListe.add(new Kontinent("Europa",europa));
 		List<Land> asien = new Vector<Land>();
 		
 		for (int i=7;i < 19;i++){
