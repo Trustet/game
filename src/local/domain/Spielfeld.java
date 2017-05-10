@@ -202,12 +202,10 @@ public class Spielfeld {
 	public boolean spielerRaus(Spieler spieler){
 		return kriegsVw.spielerRaus(spieler);
 	}
-<<<<<<< HEAD
 
 	public void kartenEinloesen(Spieler spieler) {
 		einheitenVw.spielerkartenAuswerten(spieler);
-		
-=======
+	}
 	public void spielLaden(String datei) throws IOException, SpielerExistiertBereitsException{
 		kriegsVw.spielLaden(datei);
 	}
@@ -216,8 +214,8 @@ public class Spielfeld {
 	}
 	public void erstellen(){
 		weltVw.erstellen();
->>>>>>> origin/master
 	}
+
 }
 
 

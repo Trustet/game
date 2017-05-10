@@ -59,9 +59,12 @@ public class RisikoClientCUI {
 						l.setBesitzer(sp.getSpielerList().get(0));
 					}
 				}
+				sp.missionsListeErstellen();
+				sp.missionenVerteilen();
+				
 				do{
 					Spieler spieler = sp.getAktiverSpieler();
-					
+					System.out.println(sp.missionAusgeben(spieler));
 					//Zum testen
 //					Mission ms = new LaenderMission(spieler,3,3,sp.getLaenderListe());
 //					System.out.println(ms.getBeschreibung());
