@@ -40,27 +40,16 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 	 * @param spieler
 	 * @return Vector<Land>
 	 */
-	public String moeglicheAngriffsziele(Land land) {
+	public List<Land> moeglicheAngriffsziele(Land land) {
 		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);	
-		String ausgabe;
-		String puffer;
 		Spieler spieler = land.getBesitzer();
-		//TODO String darf hier nicht erstellt werden	
-		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
-		for(Land l : nachbarLaender) {
-			if(!spieler.equals(l.getBesitzer())) {
-				puffer = l.getName();
-				while(puffer.length() < 24){
-					puffer += " ";
-				}
-				puffer += "|";
-				while(puffer.length() < 30){
-					puffer += " ";
-				}
-				ausgabe += puffer + l.getEinheiten() + "\n";
+		List<Land> rueckgabe = new Vector<Land>();
+		for(Land l : nachbarLaender){
+			if(!l.getBesitzer().equals(spieler)){
+				rueckgabe.add(l);
 			}
 		}
-		return ausgabe;
+		return rueckgabe;
 	}
 	
 	/**
@@ -506,5 +495,36 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 //			pm.schreiben(pm.spielstandLaden());
 //		}while(!pm.spielstandLaden().equals(""));
 //	}
+	public boolean landZumAngreifen(Spieler spieler) throws KeinLandZumAngreifenException{
+		List<Land> nachbarn = new Vector<Land>();
+		for(Land l : weltVw.getLaenderListe()){
+			if(l.getBesitzer().equals(spieler) && l.getEinheiten() > 1){
+				nachbarn = this.moeglicheAngriffsziele(l);
+				if(nachbarn.size() > 0){
+					return true;
+				}
+			}
+		}
+		throw new KeinLandZumAngreifenException("Du hast kein Land mit dem du angreifen kannst");
+	}
+	public boolean landZumAngreifen(Spieler spieler,Land land) throws KeinLandZumAngreifenException{
+		List<Land> nachbarn = new Vector<Land>();
+		nachbarn = this.moeglicheAngriffsziele(land);
+			if(nachbarn.size() > 0){
+				return true;
+			}
+		throw new KeinLandZumAngreifenException("Dieses Land hat keine feindlichen Nachbarn");
+	}
 	
+	public boolean spielerRaus(Spieler spieler){
+		for(Land l : weltVw.getLaenderListe()){
+			if(l.getBesitzer().equals(spieler)){
+				return false;
+			}
+		}
+		System.out.println("Hier bin ich");
+		spielerVw.getSpielerList().remove(spieler);
+		return true;
+	}
+
 }

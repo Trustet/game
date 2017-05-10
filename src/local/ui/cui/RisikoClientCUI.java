@@ -9,6 +9,7 @@ package local.ui.cui;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Vector;
 
 import local.domain.Spielfeld;
 import local.domain.Kriegsverwaltung.phasen;
@@ -46,6 +47,12 @@ public class RisikoClientCUI {
 				boolean gewonnen = false;
 				sp.speicherSpieler();
 				sp.speicherLaender();
+				//Zum testen
+				for(Land l : sp.getLaenderListe()){
+					if(l.getBesitzer().getName().equals("darian")){
+						l.setBesitzer(sp.getSpielerList().get(0));
+					}
+				}
 				do{
 					Spieler spieler = sp.getAktiverSpieler();
 					
@@ -58,7 +65,15 @@ public class RisikoClientCUI {
 						sp.nextTurn();
 						break;
 					case ANGRIFF:
-						cui.angreifen(spieler, cui);
+						boolean kannAngreifen = false;
+						try{
+							kannAngreifen = sp.landZumAngreifen(spieler);
+						}catch (KeinLandZumAngreifenException klzae){
+							System.out.println(klzae.getMessage());
+						}
+						if(kannAngreifen){
+							cui.angreifen(spieler, cui);
+						}	
 						sp.nextTurn();
 //						Zum testen
 //						System.out.println("In welcher datei soll das Spiel gespeichert werden?");
@@ -69,15 +84,18 @@ public class RisikoClientCUI {
 					case VERSCHIEBEN:
 						cui.verschieben(spieler, cui);
 						sp.nextTurn();
-						//TODO Wenn spieler erobert wurde, aus allem rausnehmen
 						sp.naechsterSpieler();
 						sp.benutzteLaenderLoeschen();
 						break;	
-					}	
+					}
+					spielerRaus();
+					if(sp.getSpielerList().size() == 1){
+						System.out.println(sp.getSpielerList().get(0).getName() + " hat gewonnen");
+						gewonnen = true;
+					}
 					//zum testen
 //					gewonnen = ms.istAbgeschlossen();
 				}while(!gewonnen);
-				System.out.println("Du hast gewonnen");
 	}
 	
 	/**
@@ -221,11 +239,11 @@ public class RisikoClientCUI {
 		String weiterangreifen;
 		
 		System.out.println("Phase: " + sp.getTurn());
-		//TODO falls kein Land zum angreifen, fehlermeldung und weiter
+		
 		aLand = cui.angriffslandAbfrage(cui, spieler, genugEinheiten);
 		
 		do{
-			System.out.println(sp.moeglicheAngriffsziele(aLand));
+			System.out.println(moeglicheAngriffszieleAusgabe(aLand));
 			sp.landBenutzen(aLand);
 			vLand = cui.verteidigendesLandAbfrage(spieler, aLand);
 			cui.angriffAusgabeUndErneutAngreifenAbfrage(aLand, vLand, genugEinheiten);
@@ -254,6 +272,9 @@ public class RisikoClientCUI {
 			try{
 				sp.landWaehlen(angriffsLandString,spieler);
 				genugEinheiten = sp.checkEinheiten(angriffsLandString,1);
+				sp.landZumAngreifen(spieler, sp.stringToLand(angriffsLandString));
+			}catch(KeinLandZumAngreifenException klzae){
+				System.out.println(klzae.getMessage());
 			}catch(KannLandNichtBenutzenException lene ){
 				System.out.println(lene.getMessage());
 			}catch(NichtGenugEinheitenException ngee){
@@ -520,6 +541,37 @@ public class RisikoClientCUI {
 			}
 		}
 		return ausgabe;
+	}
+	public String moeglicheAngriffszieleAusgabe(Land land) {
+		List<Land> ziele = new Vector<Land>();
+		ziele = sp.moeglicheAngriffsziele(land);
+		String ausgabe;
+		String puffer;
+		Spieler spieler = land.getBesitzer();
+		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
+			for(Land l : ziele){
+				puffer = l.getName();
+				while(puffer.length() < 24){
+					puffer += " ";
+				}
+				puffer += "|";
+				while(puffer.length() < 30){
+					puffer += " ";
+				}
+				ausgabe += puffer + l.getEinheiten() + "\n";
+			}
+		return ausgabe;
+	}
+	private void spielerRaus(){
+		List<Spieler> spielerListe = sp.getSpielerList();
+		for(Spieler s : spielerListe){
+			String name = s.getName();
+			if(sp.spielerRaus(s)){
+				System.out.println("Der Spieler " + name + " hat verloren und ist raus");
+				spielerRaus();
+				break;
+			}
+		}
 	}
 }
 

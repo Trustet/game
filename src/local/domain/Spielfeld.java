@@ -7,10 +7,7 @@ import local.domain.Kriegsverwaltung.phasen;
 import local.domain.exceptions.*;
 import local.valueobjects.*;
 
-/**
- * @author yannik
- *
- */
+
 public class Spielfeld {
 	
 	public Spielerverwaltung spielerVw;
@@ -115,7 +112,7 @@ public class Spielfeld {
 	public void einheitenPositionieren(int anzahl, Land land) {
 		kriegsVw.einheitenPositionieren(anzahl, land);
 	}
-	public String moeglicheAngriffsziele(Land land) {
+	public List<Land> moeglicheAngriffsziele(Land land) {
 		return kriegsVw.moeglicheAngriffsziele(land);
 	}
 	public AngriffRueckgabe befreiungsAktion(Angriff angriff) {
@@ -202,6 +199,17 @@ public class Spielfeld {
 	}
 	public boolean missionIstAbgeschlossen(Mission mission){
 		return mission.istAbgeschlossen();
+	}
+	
+	public boolean landZumAngreifen(Spieler spieler) throws KeinLandZumAngreifenException{
+		return kriegsVw.landZumAngreifen(spieler);
+	}
+	public boolean landZumAngreifen(Spieler spieler, Land land) throws KeinLandZumAngreifenException{
+		return kriegsVw.landZumAngreifen(spieler, land);
+	}
+	
+	public boolean spielerRaus(Spieler spieler){
+		return kriegsVw.spielerRaus(spieler);
 	}
 }
 
