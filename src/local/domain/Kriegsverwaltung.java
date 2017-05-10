@@ -53,26 +53,6 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 	}
 	
 	/**
-	 * Gibt eine Auflistung der eigenen Nachbarländer von einem Land wieder
-	 * @param landString
-	 * @param spieler
-	 * @return String
-	 */
-	public String eigeneNachbarn(String landString, Spieler spieler) {
-		Land land = weltVw.stringToLand(landString);
-		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);
-		//TODO String darf hier nicht erstellt werden	
-		String nachbarLaenderString = "\nDu kannst mit " + landString + " auf folgende L\u00E4nder verschieben: ";
-		
-		for(Land l : nachbarLaender) {
-			if(l.getBesitzer().equals(spieler)) {
-				nachbarLaenderString += l.getName() + " | ";
-			}
-		}	
-		
-		return nachbarLaenderString;	
-	}
-	/**
 	 * Überprüft ob die beiden Länder Nachbarn sind
 	 * @param wahlLand
 	 * @param landZiel
@@ -337,26 +317,15 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 	 * @param spieler
 	 * @return String
 	 */
-	public String moeglicheVerschiebeZiele(Land land, Spieler spieler){
-		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);	
-		String ausgabe;
-		String puffer;
-		//TODO String darf hier nicht erstellt werden	
-		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
+	public List<Land> moeglicheVerschiebeZiele(Land land, Spieler spieler){
+		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);
+		List<Land> rueckgabe = new Vector<Land>();
 		for(Land l : nachbarLaender) {
 			if(spieler.equals(l.getBesitzer())) {
-				puffer = l.getName();
-				while(puffer.length() < 24){
-					puffer += " ";
-				}
-				puffer += "|";
-				while(puffer.length() < 30){
-					puffer += " ";
-				}
-				ausgabe += puffer + l.getEinheiten() + "\n";
+				rueckgabe.add(l);
 			}
 		}
-		return ausgabe;
+		return rueckgabe;
 	}
 	/**
 	 * Gibt zurück, ob das übergebene Land in der Runde für einen Angriff benutzt wurde

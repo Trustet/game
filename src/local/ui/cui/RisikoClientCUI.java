@@ -445,7 +445,7 @@ public class RisikoClientCUI {
 					
 					//So lange, bis ein korrektes Zielland gewählt wird
 					do{
-						System.out.println(sp.moeglicheVerschiebeZiele(erstesLand, spieler));
+						moeglicheVerschiebeZieleAusgabe(erstesLand, spieler);
 						zielLand = IO.readString();
 						//Überprüft ob das Land existiert und dem Spieler gehört
 						try{
@@ -575,6 +575,26 @@ public class RisikoClientCUI {
 				break;
 			}
 		}
+	}
+	private void moeglicheVerschiebeZieleAusgabe(Land land,Spieler spieler){
+		List<Land> laender = sp.moeglicheVerschiebeZiele(land, spieler);
+		String ausgabe;
+		String puffer;
+		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
+		for(Land l : laender) {
+			if(spieler.equals(l.getBesitzer())) {
+				puffer = l.getName();
+				while(puffer.length() < 24){
+					puffer += " ";
+				}
+				puffer += "|";
+				while(puffer.length() < 30){
+					puffer += " ";
+				}
+				ausgabe += puffer + l.getEinheiten() + "\n";
+			}
+		}
+		System.out.println(ausgabe);
 	}
 }
 

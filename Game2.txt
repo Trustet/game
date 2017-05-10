@@ -74,7 +74,7 @@ b
 mo
 Indien
 b
-1
+4
 in
 Siam
 a
@@ -121,12 +121,12 @@ b
 1
 ma
 Argentinien
-c
+b
 1
 ar
 Peru
 b
-3
+1
 pe
 Brasilien
 a
