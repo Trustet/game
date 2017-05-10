@@ -18,7 +18,7 @@ public class LaenderMission extends Mission {
 	public boolean istAbgeschlossen() {
 		int counter = 0;
 		for(Land l : laender){
-			if(l.getBesitzer().equals(spieler)){
+			if(l.getBesitzer().equals(spieler) && (l.getEinheiten() >= anzahlEinheiten)){
 				counter++;
 			}
 		}

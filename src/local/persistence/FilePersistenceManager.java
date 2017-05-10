@@ -54,12 +54,12 @@ public class FilePersistenceManager {
 		return new Land(name,null,1,kuerzel);
 		
 	}
-	public MissionAlt ladeMission() throws IOException{
+	public Mission ladeMission() throws IOException{
 		String beschreibung = liesZeile();
 			if(beschreibung == null){
 				return null;
 			}
-			return new MissionAlt(beschreibung,null);
+			return new Mission(beschreibung,null);
 	}
 	public boolean speichereSpieler(Spieler spieler) throws IOException {
 		// Titel, Nummer und Verfügbarkeit schreiben
