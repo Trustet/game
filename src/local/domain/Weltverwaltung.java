@@ -30,11 +30,12 @@ public class Weltverwaltung {
 				laenderAufteilung[spalte][zeile] = false;
 			}
 		}
-		this.laenderErstellen();
+	}
+
+	public void erstellen(){
 		this.verbindungenErstellen();
 		this.kontinenteErstellen();
 	}
-
 	/**
 	 * Teilt die Länder auf
 	 * @param anzahlSpieler
@@ -83,7 +84,7 @@ public class Weltverwaltung {
 	/**
 	 * erstellt Länder
 	 */
-	private void laenderErstellen()	throws IOException{
+	public void laenderErstellen()	throws IOException{
 		pm.lesekanalOeffnen("Welt.txt");
 		Land land;
 		do{

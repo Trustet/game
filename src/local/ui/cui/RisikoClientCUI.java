@@ -36,8 +36,7 @@ public class RisikoClientCUI {
 	 */
 	public static void main(String[] args) throws IOException, SpielerExistiertBereitsException {
 		
-		RisikoClientCUI cui = new RisikoClientCUI();
-		cui.spielStarten(cui);	
+		RisikoClientCUI cui = new RisikoClientCUI();	
 		cui.spielen(cui);
 		
 	}
@@ -45,8 +44,15 @@ public class RisikoClientCUI {
 	public void spielen(RisikoClientCUI cui) throws IOException, SpielerExistiertBereitsException{
 		//Phasenablauf
 				boolean gewonnen = false;
-				sp.speicherSpieler();
-				sp.speicherLaender();
+				System.out.println("Moechtest du ein Spiel laden?");
+				String spielLaden = IO.readString();
+				if(spielLaden.equalsIgnoreCase("ja")){
+					sp.spielLaden("Game2.txt");
+				}else{
+					sp.laenderErstellen();
+					cui.spielStarten(cui);
+				}
+				sp.erstellen();
 				//Zum testen
 				for(Land l : sp.getLaenderListe()){
 					if(l.getBesitzer().getName().equals("darian")){
@@ -75,10 +81,7 @@ public class RisikoClientCUI {
 							cui.angreifen(spieler, cui);
 						}	
 						sp.nextTurn();
-//						Zum testen
-//						System.out.println("In welcher datei soll das Spiel gespeichert werden?");
-//						String antwort = IO.readString();
-//						sp.spielSpeichern(antwort);
+						sp.spielSpeichern("Game2.txt");
 						
 						break;
 					case VERSCHIEBEN:
@@ -150,8 +153,8 @@ public class RisikoClientCUI {
 		}	
 
 		sp.laenderAufteilen(anzahlSpieler);
-		sp.missionsListeErstellen();
-		sp.missionenVerteilen();
+		//sp.missionsListeErstellen();
+		//sp.missionenVerteilen();
 		//TODO hier ist von den Spielregeln noch ein Fehler der Anzahl von zu verteilender Einheiten
 		//verteilen der Einheiten am Anfang für jeden Spieler
 				for(Spieler spieler : sp.getSpielerList()) {
@@ -442,7 +445,7 @@ public class RisikoClientCUI {
 					
 					//So lange, bis ein korrektes Zielland gewählt wird
 					do{
-						System.out.println(sp.moeglicheVerschiebeZiele(erstesLand, spieler));
+						moeglicheVerschiebeZieleAusgabe(erstesLand, spieler);
 						zielLand = IO.readString();
 						//Überprüft ob das Land existiert und dem Spieler gehört
 						try{
@@ -572,6 +575,26 @@ public class RisikoClientCUI {
 				break;
 			}
 		}
+	}
+	private void moeglicheVerschiebeZieleAusgabe(Land land,Spieler spieler){
+		List<Land> laender = sp.moeglicheVerschiebeZiele(land, spieler);
+		String ausgabe;
+		String puffer;
+		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
+		for(Land l : laender) {
+			if(spieler.equals(l.getBesitzer())) {
+				puffer = l.getName();
+				while(puffer.length() < 24){
+					puffer += " ";
+				}
+				puffer += "|";
+				while(puffer.length() < 30){
+					puffer += " ";
+				}
+				ausgabe += puffer + l.getEinheiten() + "\n";
+			}
+		}
+		System.out.println(ausgabe);
 	}
 }
 

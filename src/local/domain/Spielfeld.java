@@ -91,16 +91,7 @@ public class Spielfeld {
 	public void naechsterSpieler(){
 		spielerVw.naechsterSpieler();
 	}
-	/**
-	 * Leitet die Ausgabe von eigeneNachbarn aus der KriegsVerwaltung weiter
-	 * @param landString
-	 * @param spieler
-	 * @return String
-	 */
-	public String eigeneNachbarn(String landString, Spieler spieler){
-		return kriegsVw.eigeneNachbarn(landString, spieler);
-	}
-	
+
 	/**
 	 * Leitet das Land aus stringToLand weiter
 	 * @param angriffsLandString
@@ -142,7 +133,7 @@ public class Spielfeld {
 	public boolean istGegner(String land,Spieler spieler) throws KeinGegnerException{
 		return weltVw.istGegner(land, spieler);
 	}
-	public String moeglicheVerschiebeZiele(Land land, Spieler spieler){
+	public List<Land> moeglicheVerschiebeZiele(Land land, Spieler spieler){
 		return kriegsVw.moeglicheVerschiebeZiele(land, spieler);
 	}
 	public boolean benutzeLaender(Land land) throws LandBereitsBenutztException{
@@ -211,10 +202,21 @@ public class Spielfeld {
 	public boolean spielerRaus(Spieler spieler){
 		return kriegsVw.spielerRaus(spieler);
 	}
+<<<<<<< HEAD
 
 	public void kartenEinloesen(Spieler spieler) {
 		einheitenVw.spielerkartenAuswerten(spieler);
 		
+=======
+	public void spielLaden(String datei) throws IOException, SpielerExistiertBereitsException{
+		kriegsVw.spielLaden(datei);
+	}
+	public void laenderErstellen() throws IOException{
+		weltVw.laenderErstellen();
+	}
+	public void erstellen(){
+		weltVw.erstellen();
+>>>>>>> origin/master
 	}
 }
 
