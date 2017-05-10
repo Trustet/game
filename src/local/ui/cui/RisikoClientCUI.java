@@ -9,6 +9,7 @@ package local.ui.cui;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Vector;
 
 import local.domain.Spielfeld;
 import local.domain.Kriegsverwaltung.phasen;
@@ -58,7 +59,15 @@ public class RisikoClientCUI {
 						sp.nextTurn();
 						break;
 					case ANGRIFF:
-						cui.angreifen(spieler, cui);
+						boolean kannAngreifen = false;
+						try{
+							kannAngreifen = sp.landZumAngreifen(spieler);
+						}catch (KeinLandZumAngreifenException klzae){
+							System.out.println(klzae.getMessage());
+						}
+						if(kannAngreifen){
+							cui.angreifen(spieler, cui);
+						}	
 						sp.nextTurn();
 //						Zum testen
 //						System.out.println("In welcher datei soll das Spiel gespeichert werden?");
@@ -254,6 +263,9 @@ public class RisikoClientCUI {
 			try{
 				sp.landWaehlen(angriffsLandString,spieler);
 				genugEinheiten = sp.checkEinheiten(angriffsLandString,1);
+				sp.landZumAngreifen(spieler, sp.stringToLand(angriffsLandString));
+			}catch(KeinLandZumAngreifenException klzae){
+				System.out.println(klzae.getMessage());
 			}catch(KannLandNichtBenutzenException lene ){
 				System.out.println(lene.getMessage());
 			}catch(NichtGenugEinheitenException ngee){
@@ -519,6 +531,26 @@ public class RisikoClientCUI {
 				ausgabe += puffer + land.getEinheiten() + "\n";
 			}
 		}
+		return ausgabe;
+	}
+	public String moeglicheAngriffszieleAusgabe(Land land) {
+		List<Land> ziele = new Vector<Land>();
+		ziele = sp.moeglicheAngriffsziele(land);
+		String ausgabe;
+		String puffer;
+		Spieler spieler = land.getBesitzer();
+		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
+			for(Land l : ziele){
+				puffer = l.getName();
+				while(puffer.length() < 24){
+					puffer += " ";
+				}
+				puffer += "|";
+				while(puffer.length() < 30){
+					puffer += " ";
+				}
+				ausgabe += puffer + l.getEinheiten() + "\n";
+			}
 		return ausgabe;
 	}
 }
