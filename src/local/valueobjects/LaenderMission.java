@@ -6,8 +6,8 @@ public class LaenderMission extends Mission {
 	private int anzahlEinheiten = 0;	
 	private Spieler spieler;
 	
-	public LaenderMission(Spieler spieler, int anzahlLaender, int anzahlEinheiten, List<Land> laender) {
-		super("Erobern Sie " + anzahlLaender + " und besetzen Sie jedes mit " + anzahlEinheiten + ".", spieler);
+	public LaenderMission(int id, Spieler spieler, int anzahlLaender, int anzahlEinheiten, List<Land> laender) {
+		super(id,"Erobern Sie " + anzahlLaender + " und besetzen Sie jedes mit " + anzahlEinheiten + ".", spieler);
 		this.anzahlLaender = anzahlLaender;
 		this.anzahlEinheiten = anzahlEinheiten;
 		this.spieler = spieler;

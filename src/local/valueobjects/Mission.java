@@ -8,12 +8,22 @@ public abstract class Mission {
 	private String beschreibung;
 	private Spieler spieler;
 	protected List<Land> laender;
+	private int id;
 
-	public Mission(String beschreibung, Spieler spieler) {
+	public Mission(int id, String beschreibung, Spieler spieler) {
 		this.beschreibung = beschreibung;
 		this.spieler = spieler;
+		this.id = id;
 	}
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public List<Land> getLaender() {
 		return laender;
 	}

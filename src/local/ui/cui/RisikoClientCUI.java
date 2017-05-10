@@ -189,7 +189,7 @@ public class RisikoClientCUI {
 		boolean genugEinheiten = false;
 		boolean kannLandBenutzen = false;
 		
-		//TODO Karten einlösen aufrufen
+		sp.kartenEinloesen(spieler);
 		if(startPhase != true)
 		{
 		System.out.println("\n" + sp.getAktiverSpieler().getName() + " ist jetzt dran.");

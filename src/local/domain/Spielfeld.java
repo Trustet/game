@@ -211,6 +211,11 @@ public class Spielfeld {
 	public boolean spielerRaus(Spieler spieler){
 		return kriegsVw.spielerRaus(spieler);
 	}
+
+	public void kartenEinloesen(Spieler spieler) {
+		einheitenVw.spielerkartenAuswerten(spieler);
+		
+	}
 }
 
 

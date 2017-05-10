@@ -6,8 +6,8 @@ public class KontinentenMission extends Mission {
 
 	private Spieler spieler;
 	
-	public KontinentenMission(Spieler spieler, List<Kontinent> kontinente, List<Land> laender) {
-		super("Erobern Sie folgene Kontinente : " +  kontinente.toString() ,spieler);
+	public KontinentenMission(int id, Spieler spieler, List<Kontinent> kontinente, List<Land> laender) {
+		super(id, "Erobern Sie folgene Kontinente : " +  kontinente.toString() ,spieler);
 
 		this.spieler = spieler;
 		this.laender = laender;

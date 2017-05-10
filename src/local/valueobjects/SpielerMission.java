@@ -6,8 +6,8 @@ public class SpielerMission extends Mission {
 
 	private Spieler spieler;
 	
-	public SpielerMission(Spieler spieler,List<Land> laenderListeAndererSpieler) {
-		super("Erobern Sie alle Länder von " +  laenderListeAndererSpieler.get(0).getBesitzer().getName(),spieler);
+	public SpielerMission(int id, Spieler spieler,List<Land> laenderListeAndererSpieler) {
+		super(id, "Erobern Sie alle Länder von " +  laenderListeAndererSpieler.get(0).getBesitzer().getName(),spieler);
 		this.spieler = spieler; 
 		this.laender = laenderListeAndererSpieler;
 	}
