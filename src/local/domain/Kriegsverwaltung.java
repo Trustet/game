@@ -473,28 +473,48 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 	}
 	public void spielSpeichern(String datei) throws IOException{
 		pm.schreibkanalOeffnen(datei);
-		pm.spielSpeichern(weltVw.getLaenderListe(), spielerVw.getSpielerList(), Phase+"", spielerVw.getAktiverSpieler() );
+		pm.spielSpeichern(weltVw.getLaenderListe(), spielerVw.getSpielerList(), Phase+"", spielerVw.getAktiverSpielerNummer() );
 		pm.close();
 	}
-//	public void spielLaden(String datei) throws IOException, SpielerExistiertBereitsException {
-//		pm.lesekanalOeffnen(datei);
-//		pm.schreibkanalOeffnen2("test.txt");
-//		if(pm.spielstandLaden().equals("ANGRIFF")){
-//			Phase = phasen.ANGRIFF;
-//			pm.schreiben(pm.spielstandLaden());
-//		}else if(pm.spielstandLaden().equals("VERSCHIEBEN")){
-//			Phase = phasen.VERSCHIEBEN;
-//			pm.schreiben(pm.spielstandLaden());
-//		}else if(pm.spielstandLaden().equals("VERTEILEN")){
-//			Phase = phasen.VERTEILEN;
-//			pm.schreiben(pm.spielstandLaden());
-//		}
-//		do{
-//			String Spieler = pm.spielstandLaden();
-//			spielerVw.neuerSpieler(Spieler);
-//			pm.schreiben(pm.spielstandLaden());
-//		}while(!pm.spielstandLaden().equals(""));
-//	}
+	public void spielLaden(String datei) throws IOException, SpielerExistiertBereitsException {
+		pm.lesekanalOeffnen(datei);
+		String phase = pm.spielstandLaden();
+		String spieler = "";
+		String land = "";
+		String kuerzel = "";
+		int einheiten = 0;
+		switch(phase){
+		case "ANGRIFF":
+			Phase = phasen.ANGRIFF;
+		case "Verschieben":
+			Phase = phasen.VERSCHIEBEN;
+		case "VERTEILEN":
+			Phase = phasen.VERTEILEN;
+		}
+		do{
+			spieler = pm.spielstandLaden();
+			if(spieler.length() != 0){
+				spielerVw.neuerSpieler(spieler);
+			}
+		}while(spieler.length() != 0);
+		
+		do{
+			land = pm.spielstandLaden();
+			if(land.length() != 0){
+				spieler = pm.spielstandLaden();
+				einheiten = Integer.parseInt(pm.spielstandLaden());
+				kuerzel = pm.spielstandLaden();
+				for(Spieler s : spielerVw.getSpielerList()){
+					if(s.getName().equals(spieler)){
+						weltVw.getLaenderListe().add(new Land(land,s,einheiten,kuerzel));
+					}
+				}
+			}	
+		}while(land.length() != 0);
+		int spielerNummer = Integer.parseInt(pm.spielstandLaden());
+		spielerVw.setAktiverSpieler(spielerNummer);
+		pm.close();
+	}
 	public boolean landZumAngreifen(Spieler spieler) throws KeinLandZumAngreifenException{
 		List<Land> nachbarn = new Vector<Land>();
 		for(Land l : weltVw.getLaenderListe()){

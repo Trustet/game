@@ -211,6 +211,15 @@ public class Spielfeld {
 	public boolean spielerRaus(Spieler spieler){
 		return kriegsVw.spielerRaus(spieler);
 	}
+	public void spielLaden(String datei) throws IOException, SpielerExistiertBereitsException{
+		kriegsVw.spielLaden(datei);
+	}
+	public void laenderErstellen() throws IOException{
+		weltVw.laenderErstellen();
+	}
+	public void erstellen(){
+		weltVw.erstellen();
+	}
 }
 
 

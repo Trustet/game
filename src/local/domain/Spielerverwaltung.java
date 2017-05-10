@@ -38,6 +38,10 @@ public class Spielerverwaltung {
 		return this.spielerListe.get(spielerNummer);
 	}
 	
+	public int getAktiverSpielerNummer(){
+		return spielerNummer;
+	}
+	
 	/**
 	 * Setzt den neuenSpieler für die nächste Runde
 	 */
@@ -68,6 +72,10 @@ public class Spielerverwaltung {
 	 */
 	public List<Spieler> getSpielerList() {
 		return spielerListe;
+	}
+	
+	public void setAktiverSpieler(int spieler){
+		this.spielerNummer = spieler;
 	}
 	
 
