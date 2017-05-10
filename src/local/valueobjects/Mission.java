@@ -6,7 +6,7 @@ import java.util.Vector;
 public abstract class Mission{
 
 	private String beschreibung;
-	private Spieler spieler;
+	protected Spieler spieler;
 	protected List<Land> laender;
 	private int id;
 

@@ -20,7 +20,7 @@ public class LaenderMission extends Mission {
 		int counter = 0;
 		
 		for(Land l : laender){
-			if(l.getBesitzer().equals(spieler)){
+			if(l.getBesitzer().equals(this.spieler)){
 				counter++;
 			}
 		}
@@ -32,6 +32,9 @@ public class LaenderMission extends Mission {
 	}
 	public void setLaenderListe(List<Land> laender){
 		this.laender = laender;
+	}
+	public void setSpieler(Spieler spieler) {
+		this.spieler = spieler;
 	}
 
 }
