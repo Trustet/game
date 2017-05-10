@@ -22,7 +22,7 @@ public class Spielfeld {
 	 * Konstruktor erstellt die Verwaltungen, so dass sie sich untereinander kennen
 	 * @throws IOException 
 	 */
-	public Spielfeld() throws IOException {
+	public Spielfeld(){
 		
 		this.spielerVw = new Spielerverwaltung();
 		this.weltVw = new Weltverwaltung();

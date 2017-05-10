@@ -25,7 +25,7 @@ public class RisikoClientCUI {
 	private boolean gewonnen = false;
 	private boolean startPhase;
 	
-	public RisikoClientCUI() throws IOException{
+	public RisikoClientCUI(){
 		sp = new Spielfeld();
 	}
 	/**
@@ -34,29 +34,32 @@ public class RisikoClientCUI {
 	 * @throws IOException 
 	 * @throws SpielerExistiertBereitsException 
 	 */
-	public static void main(String[] args) throws IOException, SpielerExistiertBereitsException {
+	public static void main(String[] args) {
 		RisikoClientCUI cui = new RisikoClientCUI();	
 		cui.konfigurieren(cui);
 		cui.spielen(cui);
 	}
 
-	public void konfigurieren(RisikoClientCUI cui) throws IOException{
+	public void konfigurieren(RisikoClientCUI cui) {
 		//Spiel laden
 		System.out.println("Moechtest du ein Spiel laden?");
 		String spielLaden = IO.readString();
 		if(spielLaden.equalsIgnoreCase("ja")){
 			try{
-			sp.spielLaden("Game2.txt");
-			//TODO Platzhalter exception
+			sp.spielLaden("./save/Game2.txt");
 			} catch(Exception e) {
 				System.out.println("Kann nicht geladen werden");
 			}
 		}else{
 			//neues Spiel starten
 			cui.spielerErstellen(cui);
-			sp.laenderErstellen();
+			try{
+				sp.laenderErstellen();
+				sp.missionsListeErstellen();
+			}catch(IOException e){
+				System.out.println("Datei konnte nicht gefunden werden " + e.getMessage());
+			}
 			sp.laenderverbindungenUndKontinenteErstellen();
-			sp.missionsListeErstellen();
 			sp.missionenVerteilen();
 			sp.laenderAufteilen();
 			//TODO hier ist von den Spielregeln noch ein Fehler der Anzahl von zu verteilender Einheiten
@@ -74,7 +77,7 @@ public class RisikoClientCUI {
 	 * Spieler erstellen
 	 * @throws IOException 
 	 */
-	private void spielerErstellen(RisikoClientCUI cui) throws IOException	{
+	private void spielerErstellen(RisikoClientCUI cui){
 		String name = "";
 		int anzahlSpieler = 0;
 		int aktiveSpieler = 0;
@@ -110,7 +113,7 @@ public class RisikoClientCUI {
 		}	
 	}
 	
-	public void spielen(RisikoClientCUI cui) throws IOException, SpielerExistiertBereitsException{
+	public void spielen(RisikoClientCUI cui){
 		//Phasenablauf
 				do{
 					Spieler spieler = sp.getAktiverSpieler();
@@ -131,7 +134,7 @@ public class RisikoClientCUI {
 							cui.angreifen(spieler, cui);
 						}	
 						sp.nextTurn();
-						sp.spielSpeichern("Game2.txt");
+						
 						
 						break;
 					case VERSCHIEBEN:
@@ -146,7 +149,16 @@ public class RisikoClientCUI {
 						System.out.println(sp.getSpielerList().get(0).getName() + " hat gewonnen");
 						gewonnen = true;
 					}
-					gewonnen = sp.getSpielerMission(spieler).istAbgeschlossen();
+					System.out.println("Spiel speichern? Ja/Nein");
+					String antwort = IO.readString();
+					if(antwort.equalsIgnoreCase("ja")){
+						try{
+							spielSpeichern();
+						}catch(IOException e){
+							System.out.println("Das Spiel konnte nicht gespeichert werden " + e.getMessage());
+						}
+					}
+				//	gewonnen = sp.getSpielerMission(spieler).istAbgeschlossen();
 				}while(!gewonnen);
 				System.out.println("Fertig");
 	}
@@ -579,6 +591,13 @@ public class RisikoClientCUI {
 			}
 		}
 		System.out.println(ausgabe);
+	}
+	private void spielSpeichern() throws IOException{
+		try{
+			sp.spielSpeichern("./save/Game2.txt");
+		}catch(IOException e){
+			System.out.println("Das Spiel konnte nicht gespeichert werden");
+		}
 	}
 }
 
