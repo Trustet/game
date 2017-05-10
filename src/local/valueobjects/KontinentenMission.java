@@ -5,7 +5,6 @@ import java.util.List;
 public class KontinentenMission extends Mission {
 
 	private Spieler spieler;
-	private List<Land> laender;
 	
 	public KontinentenMission(Spieler spieler, List<Kontinent> kontinente, List<Land> laender) {
 		super("Erobern Sie folgene Kontinente : " +  kontinente.toString() ,spieler);

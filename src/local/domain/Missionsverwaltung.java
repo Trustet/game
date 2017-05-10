@@ -70,10 +70,21 @@ public class Missionsverwaltung {
 			random = (int)(Math.random() * speicher.size());
 			for(Mission m : this.missionsListe){
 				if(m.getBeschreibung().equals(speicher.get(random).getBeschreibung())){
-					m.setSpieler(s);
+					//m.setSpieler(s);
+					if(m instanceof LaenderMission){
+						m.setSpieler(s);
+						//Länder des Spielers setzen
+						m.setLaender(/*TODO Länder des Spielers*/null);
+					} else if(m instanceof SpielerMission) {
+						m.setSpieler(s);
+						//Länder des gegnerischen Spielers setzen
+						m.setLaender(/*TODO Länder des generischen Spielers*/null);
+					} else if(m instanceof KontinentenMission){
+						m.setSpieler(s);
+					}
+					speicher.remove(random);
 				}
 			}
-			speicher.remove(random);
 		}
 		
 	}
