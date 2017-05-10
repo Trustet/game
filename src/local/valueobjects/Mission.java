@@ -3,7 +3,7 @@ package local.valueobjects;
 import java.util.List;
 import java.util.Vector;
 
-public abstract class Mission {
+public abstract class Mission{
 
 	private String beschreibung;
 	private Spieler spieler;
@@ -45,5 +45,6 @@ public abstract class Mission {
 	public void setSpieler(Spieler spieler) {
 		this.spieler = spieler;
 	}
+
 	
 }

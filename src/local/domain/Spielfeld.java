@@ -161,10 +161,7 @@ public class Spielfeld {
 		return missionVw.missionAusgeben(spieler);
 	}
 	public void missionsListeErstellen() throws IOException{
-		List<Land> laenderListe = weltVw.getLaenderListe();
-		List<Kontinent> kontinentenListe = weltVw.getKontinentenListe();
-		List<Spieler> spielerListe = spielerVw.getSpielerList();
-		missionVw.missionsListeErstellen(laenderListe, kontinentenListe, spielerListe);
+		missionVw.missionsListeErstellen(weltVw.getLaenderListe(), weltVw.getKontinentenListe(), spielerVw.getSpielerList());
 	}
 	public List<String> willkommenNachricht(){
 		return kriegsVw.willkommenNachricht();
@@ -214,6 +211,12 @@ public class Spielfeld {
 	}
 	public void erstellen(){
 		weltVw.erstellen();
+	}
+	public Mission getSpielerMission(Spieler spieler){
+		return missionVw.getSpielerMission(spieler);
+	}
+	public List<Mission> getMissionsListe(){
+		return missionVw.getMissionsListe();
 	}
 
 }

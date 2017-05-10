@@ -99,9 +99,15 @@ public class RisikoClientCUI {
 						System.out.println(sp.getSpielerList().get(0).getName() + " hat gewonnen");
 						gewonnen = true;
 					}
+					for(Mission m : sp.getMissionsListe()){
+						System.out.println(m.getSpieler().getName());
+					}
+					sp.getSpielerMission(spieler).setLaender(sp.getLaenderListe());
+					gewonnen = sp.getSpielerMission(spieler).istAbgeschlossen();
 					//zum testen
 //					gewonnen = ms.istAbgeschlossen();
 				}while(!gewonnen);
+				System.out.println("Fertig");
 	}
 	
 	/**
