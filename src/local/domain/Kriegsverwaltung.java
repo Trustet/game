@@ -45,7 +45,7 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 		Spieler spieler = land.getBesitzer();
 		List<Land> rueckgabe = new Vector<Land>();
 		for(Land l : nachbarLaender){
-			if(!spieler.equals(spieler)){
+			if(!l.getBesitzer().equals(spieler)){
 				rueckgabe.add(l);
 			}
 		}

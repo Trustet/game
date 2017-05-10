@@ -230,11 +230,11 @@ public class RisikoClientCUI {
 		String weiterangreifen;
 		
 		System.out.println("Phase: " + sp.getTurn());
-		//TODO falls kein Land zum angreifen, fehlermeldung und weiter
+		
 		aLand = cui.angriffslandAbfrage(cui, spieler, genugEinheiten);
 		
 		do{
-			System.out.println(sp.moeglicheAngriffsziele(aLand));
+			System.out.println(moeglicheAngriffszieleAusgabe(aLand));
 			sp.landBenutzen(aLand);
 			vLand = cui.verteidigendesLandAbfrage(spieler, aLand);
 			cui.angriffAusgabeUndErneutAngreifenAbfrage(aLand, vLand, genugEinheiten);
