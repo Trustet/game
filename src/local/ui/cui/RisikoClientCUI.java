@@ -47,6 +47,12 @@ public class RisikoClientCUI {
 				boolean gewonnen = false;
 				sp.speicherSpieler();
 				sp.speicherLaender();
+				//Zum testen
+				for(Land l : sp.getLaenderListe()){
+					if(l.getBesitzer().getName().equals("darian")){
+						l.setBesitzer(sp.getSpielerList().get(0));
+					}
+				}
 				do{
 					Spieler spieler = sp.getAktiverSpieler();
 					
@@ -78,15 +84,18 @@ public class RisikoClientCUI {
 					case VERSCHIEBEN:
 						cui.verschieben(spieler, cui);
 						sp.nextTurn();
-						//TODO Wenn spieler erobert wurde, aus allem rausnehmen
 						sp.naechsterSpieler();
 						sp.benutzteLaenderLoeschen();
 						break;	
-					}	
+					}
+					spielerRaus();
+					if(sp.getSpielerList().size() == 1){
+						System.out.println(sp.getSpielerList().get(0).getName() + " hat gewonnen");
+						gewonnen = true;
+					}
 					//zum testen
 //					gewonnen = ms.istAbgeschlossen();
 				}while(!gewonnen);
-				System.out.println("Du hast gewonnen");
 	}
 	
 	/**
@@ -552,6 +561,17 @@ public class RisikoClientCUI {
 				ausgabe += puffer + l.getEinheiten() + "\n";
 			}
 		return ausgabe;
+	}
+	private void spielerRaus(){
+		List<Spieler> spielerListe = sp.getSpielerList();
+		for(Spieler s : spielerListe){
+			String name = s.getName();
+			if(sp.spielerRaus(s)){
+				System.out.println("Der Spieler " + name + " hat verloren und ist raus");
+				spielerRaus();
+				break;
+			}
+		}
 	}
 }
 

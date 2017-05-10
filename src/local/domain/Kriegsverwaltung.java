@@ -515,4 +515,16 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 			}
 		throw new KeinLandZumAngreifenException("Dieses Land hat keine feindlichen Nachbarn");
 	}
+	
+	public boolean spielerRaus(Spieler spieler){
+		for(Land l : weltVw.getLaenderListe()){
+			if(l.getBesitzer().equals(spieler)){
+				return false;
+			}
+		}
+		System.out.println("Hier bin ich");
+		spielerVw.getSpielerList().remove(spieler);
+		return true;
+	}
+
 }

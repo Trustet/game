@@ -202,6 +202,10 @@ public class Spielfeld {
 	public boolean landZumAngreifen(Spieler spieler, Land land) throws KeinLandZumAngreifenException{
 		return kriegsVw.landZumAngreifen(spieler, land);
 	}
+	
+	public boolean spielerRaus(Spieler spieler){
+		return kriegsVw.spielerRaus(spieler);
+	}
 }
 
 
