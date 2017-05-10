@@ -11,7 +11,6 @@ import java.util.List;
 
 import local.valueobjects.Land;
 import local.valueobjects.Mission;
-import local.valueobjects.MissionAlt;
 import local.valueobjects.Spieler;
 
 public class FilePersistenceManager {
@@ -54,13 +53,13 @@ public class FilePersistenceManager {
 		return new Land(name,null,1,kuerzel);
 		
 	}
-	public Mission ladeMission() throws IOException{
-		String beschreibung = liesZeile();
-			if(beschreibung == null){
-				return null;
-			}
-			return new Mission(beschreibung,null);
-	}
+//	public Mission ladeMission() throws IOException{
+//		String beschreibung = liesZeile();
+//			if(beschreibung == null){
+//				return null;
+//			}
+//			return new Mission(beschreibung,null);
+//	}
 	public boolean speichereSpieler(Spieler spieler) throws IOException {
 		// Titel, Nummer und Verfügbarkeit schreiben
 		schreibeZeile(spieler.getName());
@@ -73,7 +72,7 @@ public class FilePersistenceManager {
 		schreibeZeile(land.getKuerzel());
 		return true;
 	}
-	public boolean spielSpeichern(List<Land> welt, List<Spieler> spielerListe, String phase, Spieler aktiverSpieler, List<MissionAlt> missionen){
+	public boolean spielSpeichern(List<Land> welt, List<Spieler> spielerListe, String phase, Spieler aktiverSpieler){
 		schreibeZeile(phase);
 		for(Spieler s : spielerListe){
 			schreibeZeile(s.getName());
@@ -86,13 +85,7 @@ public class FilePersistenceManager {
 			schreibeZeile(l.getKuerzel());
 		}
 		schreibeZeile("");
-		for(MissionAlt m : missionen){
-			if(m.getMissionSpieler() != null){
-				schreibeZeile(m.getBeschreibung());
-				schreibeZeile(m.getMissionSpieler().getName());
-			}
-		}
-		schreibeZeile("");
+		
 		schreibeZeile(aktiverSpieler.getName());
 		
 		return true;

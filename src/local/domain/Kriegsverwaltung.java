@@ -473,7 +473,7 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 	}
 	public void spielSpeichern(String datei) throws IOException{
 		pm.schreibkanalOeffnen(datei);
-		pm.spielSpeichern(weltVw.getLaenderListe(), spielerVw.getSpielerList(), Phase+"", spielerVw.getAktiverSpieler(), missionVw.getMissionsListe() );
+		pm.spielSpeichern(weltVw.getLaenderListe(), spielerVw.getSpielerList(), Phase+"", spielerVw.getAktiverSpieler() );
 		pm.close();
 	}
 //	public void spielLaden(String datei) throws IOException, SpielerExistiertBereitsException {
