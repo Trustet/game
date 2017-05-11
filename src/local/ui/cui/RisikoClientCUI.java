@@ -119,6 +119,15 @@ public class RisikoClientCUI {
 		boolean missionErfuellt = false;
 		Spieler spieler;
 		//Phasenablauf
+		
+		//Zum testen
+		for(Land l : sp.getLaenderListe()){
+			if(l.getBesitzer().getName().equals("darian")){
+				l.setBesitzer(sp.getSpielerList().get(0));
+			}
+		}
+		
+		
 				do{
 					spieler = sp.getAktiverSpieler();
 					switch(sp.getTurn()){

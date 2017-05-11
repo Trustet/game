@@ -59,7 +59,8 @@ public class Missionsverwaltung {
 //		Befreien Sie 18 Laender und setzen Sie in jedes Land mindestens 2 Armeen
 //		missionsListe.add(new LaenderMission(6,null, 18, 2, null));
 //		Befreien Sie alle Länder von den roten Armeen
-//		missionsListe.add(new SpielerMission(7,null, null));
+//		missionsListe.add(new SpielerMission(7,platzhalterSpieler, platzhalterSpieler, spielerListe));
+
 	}
 	public void missionenVerteilen(List<Spieler> spielerListe){
 		List<Mission> speicher = new Vector<Mission>();
@@ -80,8 +81,7 @@ public class Missionsverwaltung {
 						m.setLaender(/*TODO Länder des Spielers*/null);
 					} else if(m instanceof SpielerMission) {
 						m.setSpieler(s);
-						//Länder des gegnerischen Spielers setzen
-						m.setLaender(/*TODO Länder des generischen Spielers*/null);
+						((SpielerMission) m).setSpieler2(spielerListe.get(1));
 					} else if(m instanceof KontinentenMission){
 						m.setSpieler(s);
 					}
