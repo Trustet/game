@@ -14,13 +14,6 @@ public class Spielerverwaltung {
 	private int spielerNummer = 0;
 	private FilePersistenceManager pm = new FilePersistenceManager();
 	
-	public void speicherSpieler() throws IOException{
-		pm.schreibkanalOeffnen("saveSpieler.txt");
-		for(Spieler s : spielerListe){
-			pm.speichereSpieler(s);
-		}
-		pm.close();
-	}
 	/**
 	 * Gibt einen bestimmten Spieler aus der Liste zurück
 	 * @param index

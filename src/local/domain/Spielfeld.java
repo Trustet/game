@@ -169,12 +169,7 @@ public class Spielfeld {
 	public List<Land> getLaenderListe(){
 		return weltVw.getLaenderListe();
 	}
-	public void speicherSpieler() throws IOException{
-		spielerVw.speicherSpieler();
-	}
-	public void speicherLaender() throws IOException{
-		weltVw.speicherLaender();
-	}
+
 	public void spielSpeichern(String datei) throws IOException{
 		kriegsVw.spielSpeichern(datei);
 	}
@@ -218,7 +213,7 @@ public class Spielfeld {
 	public List<Mission> getMissionsListe(){
 		return missionVw.getMissionsListe();
 	}
-	
+
 
 }
 

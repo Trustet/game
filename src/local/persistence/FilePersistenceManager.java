@@ -2,27 +2,18 @@ package local.persistence;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.List;
-
 import local.valueobjects.Land;
-import local.valueobjects.Mission;
 import local.valueobjects.Spieler;
 
 public class FilePersistenceManager {
-	//TODO EINLESEN UND SPEICHERN implementieren (keine Ahnung was Yannik schon gemacht hat^^)
 	private BufferedReader reader = null;
 	private PrintWriter writer = null;
-	private FileOutputStream fos = null;
-	private FileInputStream fis = null;
 	
 	public void lesekanalOeffnen(String datei) throws FileNotFoundException{
 		reader = new BufferedReader(new FileReader(datei));
@@ -31,28 +22,7 @@ public class FilePersistenceManager {
 	public void schreibkanalOeffnen(String datei) throws IOException{
 		writer = new PrintWriter(new BufferedWriter(new FileWriter(datei)));
 	}
-	public void schreibkanalOeffnen2(String datei) throws IOException{
-		writer = new PrintWriter(new BufferedWriter(new FileWriter(datei,true)));
-	}
-	public void objectLesekanal(){
-		try {
-			fis = new FileInputStream( "LandObjekte.txt" );
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
 
-	public void objectKanalOeffnen(String datei){
-		try {
-			fos = new FileOutputStream( "LandObjekte.txt" );
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	public boolean close(){
 		if(writer != null){
 			writer.close();
@@ -65,22 +35,7 @@ public class FilePersistenceManager {
 				return false;
 			}
 		}
-		if(fos != null){
-			try {
-				fos.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if(fis != null){
-			try {
-				fis.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		
 		return true;
 	}
 	public Land ladeLand() throws IOException{
@@ -93,25 +48,7 @@ public class FilePersistenceManager {
 		return new Land(name,null,1,kuerzel);
 		
 	}
-//	public Mission ladeMission() throws IOException{
-//		String beschreibung = liesZeile();
-//			if(beschreibung == null){
-//				return null;
-//			}
-//			return new Mission(beschreibung,null);
-//	}
-	public boolean speichereSpieler(Spieler spieler) throws IOException {
-		// Titel, Nummer und Verfügbarkeit schreiben
-		schreibeZeile(spieler.getName());
-		return true;
-	}
-	public boolean speichereWelt(Land land) throws IOException {
-		schreibeZeile(land.getName());
-		schreibeZeile(land.getBesitzer().getName());
-		schreibeZeile(land.getEinheiten()+"");
-		schreibeZeile(land.getKuerzel());
-		return true;
-	}
+
 	public boolean spielSpeichern(List<Land> welt, List<Spieler> spielerListe, String phase, int aktiverSpieler){
 		schreibeZeile(phase);
 		for(Spieler s : spielerListe){
@@ -133,9 +70,7 @@ public class FilePersistenceManager {
 	public String spielstandLaden() throws IOException{
 		return liesZeile();
 	}
-	public void schreiben(String daten){
-		schreibeZeile(daten);
-	}
+
 	private String liesZeile() throws IOException{
 		if(reader != null){
 			return reader.readLine();
@@ -147,54 +82,5 @@ public class FilePersistenceManager {
 		if (writer != null)
 			writer.println(daten);
 	}
-	public void objektSpeicher(Land land){
-	
-		try {
-			
-			ObjectOutputStream o = new ObjectOutputStream( fos );
-			o.writeObject( land );
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch ( IOException e){
-			
-		}
-		  
-	}
-	public Land objektLesen() {
-		ObjectInputStream o;
-		Land land = null;
-		try {
-			o = new ObjectInputStream( fis );
-			land = (Land) o.readObject();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e){
-			
-		}
-		return land;
-		
-	}
-//	/**
-//	 * BufferedWriter mit FileWriter Funktion aus der Vorlesung rauskopiert
-//	 */
-//	public void schreibeLaender(List<Land> laender) {
-//		 try (FileWriter fw = new FileWriter("buffer.txt");
-//			 BufferedWriter bw = new BufferedWriter(fw)) {
-//			 
-//			 for (Land land : laender) { 
-//			 bw.write(land.getName());
-//			 bw.newLine();
-//			 bw.write(land.getBesitzer().getName());
-//			 bw.newLine();
-//			 bw.write(land.getEinheiten() + "");
-//			 bw.newLine();
-//			}
-//		 } catch (IOException e) { 	 
-//		}
-//	}
 
-	//für Adjazenzmatrix brauch man einen Printwriter
 }

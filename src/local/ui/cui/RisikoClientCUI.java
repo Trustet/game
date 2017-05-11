@@ -116,9 +116,11 @@ public class RisikoClientCUI {
 	}
 	
 	public void spielen(RisikoClientCUI cui) {
+		boolean missionErfuellt = false;
+		Spieler spieler;
 		//Phasenablauf
 				do{
-					Spieler spieler = sp.getAktiverSpieler();
+					spieler = sp.getAktiverSpieler();
 					switch(sp.getTurn()){
 					case VERTEILEN:
 						cui.einheitenVerteilen(spieler, cui);
@@ -142,7 +144,7 @@ public class RisikoClientCUI {
 						sp.nextTurn();
 						sp.naechsterSpieler();
 						sp.benutzteLaenderLoeschen();
-						gewonnen = sp.getSpielerMission(spieler).istAbgeschlossen();
+						missionErfuellt = sp.getSpielerMission(spieler).istAbgeschlossen();
 						
 						System.out.println("\n\nSpiel speichern? Ja/Nein");
 						String antwort = IO.readString();
@@ -159,8 +161,10 @@ public class RisikoClientCUI {
 						gewonnen = true;
 					}
 					
-				}while(!gewonnen);
-				System.out.println("Fertig");
+				}while(!gewonnen || !missionErfuellt);
+				if(missionErfuellt){
+					System.out.println("Spieler " + spieler + " hat seine Mission abgeschlossen und gewonnen");
+				}
 	}
 
 	/**
@@ -559,7 +563,6 @@ public class RisikoClientCUI {
 		ziele = sp.moeglicheAngriffsziele(land);
 		String ausgabe;
 		String puffer;
-		Spieler spieler = land.getBesitzer();
 		ausgabe = "\n        Land            |   Einheiten   \n------------------------|---------------\n";
 			for(Land l : ziele){
 				puffer = l.getName();

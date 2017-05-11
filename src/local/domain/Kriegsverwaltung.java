@@ -514,5 +514,5 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 		spielerVw.getSpielerList().remove(spieler);
 		return true;
 	}
-
+	
 }
