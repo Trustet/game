@@ -57,11 +57,11 @@ public class RisikoClientCUI {
 			cui.spielerErstellen(cui);
 			try{
 				sp.laenderErstellen();
+				sp.laenderverbindungenUndKontinenteErstellen();
 				sp.missionsListeErstellen();
 			}catch(IOException e){
 				System.out.println("Das spiel konnte nicht erstellt werden " + e.getMessage());
 			}
-			sp.laenderverbindungenUndKontinenteErstellen();
 			sp.missionenVerteilen();
 			sp.laenderAufteilen();
 			//TODO hier ist von den Spielregeln noch ein Fehler der Anzahl von zu verteilender Einheiten
@@ -143,6 +143,14 @@ public class RisikoClientCUI {
 						sp.naechsterSpieler();
 						sp.benutzteLaenderLoeschen();
 						gewonnen = sp.getSpielerMission(spieler).istAbgeschlossen();
+						
+						System.out.println("\n\nSpiel speichern? Ja/Nein");
+						String antwort = IO.readString();
+						if(antwort.equalsIgnoreCase("ja")){
+								spielSpeichern();
+						
+						}
+						
 						break;	
 					}
 					spielerRaus();
@@ -150,17 +158,7 @@ public class RisikoClientCUI {
 						System.out.println(sp.getSpielerList().get(0).getName() + " hat gewonnen");
 						gewonnen = true;
 					}
-
-					System.out.println("Spiel speichern? Ja/Nein");
-					String antwort = IO.readString();
-					if(antwort.equalsIgnoreCase("ja")){
-							spielSpeichern();
 					
-					}
-				//	gewonnen = sp.getSpielerMission(spieler).istAbgeschlossen();
-
-
-					gewonnen = sp.getSpielerMission(spieler).istAbgeschlossen();
 				}while(!gewonnen);
 				System.out.println("Fertig");
 	}
