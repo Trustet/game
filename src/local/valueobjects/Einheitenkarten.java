@@ -16,4 +16,13 @@ public class Einheitenkarten {
 		this.kartenwert = kartenwert;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Einheitenkarten) {
+			Einheitenkarten andereKarte = (Einheitenkarten) obj;
+			return this.kartenwert == andereKarte.kartenwert;
+		}
+		return false;
+	}
+	
 }

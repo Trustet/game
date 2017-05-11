@@ -36,15 +36,27 @@ public class Einheitenkartenverwaltung {
 	
 	public Einheitenkarten karteNehmen(Spieler spieler)
 	{
-		Einheitenkarten karte = kartenstapel.get(0);
+		Einheitenkarten karte = kartenstapel.remove(0);
 		spieler.karteNehmen(karte);
-		kartenstapel.remove(0);
+//		kartenstapel.remove(0);
 		
 		return karte;
 	}
 	
 	public boolean spielerkartenAuswerten(Spieler spieler)
 	{
+		/*
+		Bitvektor für Soldat/Kanone/Pferd: 
+			100
+			010
+			001
+			OR: 111
+			
+			111
+			111
+			111
+			OR: 111
+			*/
 		int soldat = 0;
 		int pferd = 0;
 		int panzer = 0;
@@ -148,17 +160,22 @@ public class Einheitenkartenverwaltung {
 	
 	private void einheitenKartenVonSpielerEntfernen(Spieler spieler, List<Einheitenkarten> benutzteKarten)
 	{
-		for(Einheitenkarten karteAbgeben : benutzteKarten)
-		{
-			for(int i = 0; i < spieler.getEinheitenkarten().size();i++)
-			{
-				if(spieler.getEinheitenkarten().get(i).equals(karteAbgeben))
-					{
-						spieler.getEinheitenkarten().remove(i);
-						break;
-					}
-			}
+		List<Einheitenkarten> kartenListe = spieler.getEinheitenkarten();
+		for (Einheitenkarten karte: benutzteKarten) {
+			kartenListe.remove(karte);
 		}
+
+//		for(Einheitenkarten karteAbgeben : benutzteKarten)
+//		{
+//			for(int i = 0; i < spieler.getEinheitenkarten().size();i++)
+//			{
+//				if(spieler.getEinheitenkarten().get(i).equals(karteAbgeben))
+//					{
+//						spieler.getEinheitenkarten().remove(i);
+//						break;
+//					}
+//			}
+//		}
 	}
 	
 	public int einheitenkartenEinloesen(Spieler spieler)

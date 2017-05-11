@@ -14,18 +14,20 @@ public class KontinentenMission extends Mission {
 	}
 
 	public boolean istAbgeschlossen() {
-		int counter = 0;
-		int anzahlLaender = laender.size();
+		
+//		kontinente.get(0).getLaender()
+//		int counter = 0;
+//		int anzahlLaender = laender.size();
 		for(Land l : laender){
-			if(l.getBesitzer().equals(spieler)){
-				counter++;
+			if(! l.getBesitzer().equals(spieler)){
+				return false;
 			}
 		}
-		if(counter >= anzahlLaender){
-			return true;
-		}
+//		if(counter >= anzahlLaender){
+//			return true;
+//		}
 		
-		return false;
+		return true;
 	}
 
 }

@@ -106,7 +106,7 @@ public class Spielfeld {
 	public List<Land> moeglicheAngriffsziele(Land land) {
 		return kriegsVw.moeglicheAngriffsziele(land);
 	}
-	public AngriffRueckgabe befreiungsAktion(Angriff angriff) {
+	public AngriffRueckgabe befreiungsAktion(Angriff angriff) throws KeinNachbarlandException {
 		return kriegsVw.befreiungsAktion(angriff);
 	}
 	public List<Spieler> getSpielerList() {

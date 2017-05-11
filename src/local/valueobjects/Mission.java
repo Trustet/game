@@ -7,7 +7,6 @@ public abstract class Mission{
 
 	private String beschreibung;
 	protected Spieler spieler;
-	protected List<Land> laender;
 	private int id;
 
 	public Mission(int id, String beschreibung, Spieler spieler) {
@@ -22,14 +21,6 @@ public abstract class Mission{
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public List<Land> getLaender() {
-		return laender;
-	}
-
-	public void setLaender(List<Land> laender) {
-		this.laender = laender;
 	}
 
 	public abstract boolean istAbgeschlossen();

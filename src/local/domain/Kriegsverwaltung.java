@@ -91,12 +91,16 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 	 * @param angreifendesLand
 	 * @param verteidigendesLand
 	 * @return Vector<Integer> Verluste
+	 * @throws KeinNachbarlandException 
 	 */
 
 //	public AttackResult befreiungsAktion(Attack attack) {
 //		Attack -> Angreifer, Verteidiger, vielleicht noch wie viele Würfel
 //		AttackResult -> AngreiferLand, VerteidigerLand, Gewinner / Verluste 
-	public AngriffRueckgabe befreiungsAktion(Angriff angriff) {
+	public AngriffRueckgabe befreiungsAktion(Angriff angriff) throws KeinNachbarlandException {
+		
+		istNachbar(angriff.getAngriffsland(), angriff.getVerteidigungsland(), null);
+		
 		Land angreifendesLand = angriff.getAngriffsland();
 		Land verteidigendesLand = angriff.getVerteidigungsland();
 		int angreiferEinheiten = angreifendesLand.getEinheiten();
