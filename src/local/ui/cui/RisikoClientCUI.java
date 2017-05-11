@@ -117,6 +117,15 @@ public class RisikoClientCUI {
 	
 	public void spielen(RisikoClientCUI cui) {
 		//Phasenablauf
+		
+		//Zum testen
+		for(Land l : sp.getLaenderListe()){
+			if(l.getBesitzer().getName().equals("darian")){
+				l.setBesitzer(sp.getSpielerList().get(0));
+			}
+		}
+		
+		
 				do{
 					Spieler spieler = sp.getAktiverSpieler();
 					switch(sp.getTurn()){
