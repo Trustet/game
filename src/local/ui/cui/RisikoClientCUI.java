@@ -144,7 +144,12 @@ public class RisikoClientCUI {
 						}
 						if(kannAngreifen){
 							cui.angreifen(spieler, cui);
-						}	
+						}
+						istSpielerRaus();
+						if(sp.getSpielerList().size() == 1){
+							System.out.println(sp.getSpielerList().get(0).getName() + " hat gewonnen");
+							gewonnen = true;
+						}
 						sp.nextTurn();
 						
 						break;
@@ -164,11 +169,7 @@ public class RisikoClientCUI {
 						
 						break;	
 					}
-					spielerRaus();
-					if(sp.getSpielerList().size() == 1){
-						System.out.println(sp.getSpielerList().get(0).getName() + " hat gewonnen");
-						gewonnen = true;
-					}
+					
 					
 				}while(!gewonnen || !missionErfuellt);
 				if(missionErfuellt){
@@ -586,13 +587,14 @@ public class RisikoClientCUI {
 			}
 		return ausgabe;
 	}
-	private void spielerRaus(){
+	
+	private void istSpielerRaus(){
 		List<Spieler> spielerListe = sp.getSpielerList();
 		for(Spieler s : spielerListe){
 			String name = s.getName();
 			if(sp.spielerRaus(s)){
 				System.out.println("Der Spieler " + name + " hat verloren und ist raus");
-				spielerRaus();
+				istSpielerRaus();
 				break;
 			}
 		}
