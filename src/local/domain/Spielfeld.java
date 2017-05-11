@@ -218,6 +218,7 @@ public class Spielfeld {
 	public List<Mission> getMissionsListe(){
 		return missionVw.getMissionsListe();
 	}
+	
 
 }
 

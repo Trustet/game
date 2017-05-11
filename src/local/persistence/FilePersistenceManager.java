@@ -2,10 +2,14 @@ package local.persistence;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -17,6 +21,8 @@ public class FilePersistenceManager {
 	//TODO EINLESEN UND SPEICHERN implementieren (keine Ahnung was Yannik schon gemacht hat^^)
 	private BufferedReader reader = null;
 	private PrintWriter writer = null;
+	private FileOutputStream fos = null;
+	private FileInputStream fis = null;
 	
 	public void lesekanalOeffnen(String datei) throws FileNotFoundException{
 		reader = new BufferedReader(new FileReader(datei));
@@ -27,6 +33,24 @@ public class FilePersistenceManager {
 	}
 	public void schreibkanalOeffnen2(String datei) throws IOException{
 		writer = new PrintWriter(new BufferedWriter(new FileWriter(datei,true)));
+	}
+	public void objectLesekanal(){
+		try {
+			fis = new FileInputStream( "LandObjekte.txt" );
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void objectKanalOeffnen(String datei){
+		try {
+			fos = new FileOutputStream( "LandObjekte.txt" );
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean close(){
@@ -39,6 +63,22 @@ public class FilePersistenceManager {
 			}catch(IOException e){
 				e.printStackTrace();
 				return false;
+			}
+		}
+		if(fos != null){
+			try {
+				fos.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(fis != null){
+			try {
+				fis.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		return true;
@@ -107,7 +147,36 @@ public class FilePersistenceManager {
 		if (writer != null)
 			writer.println(daten);
 	}
+	public void objektSpeicher(Land land){
 	
+		try {
+			
+			ObjectOutputStream o = new ObjectOutputStream( fos );
+			o.writeObject( land );
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch ( IOException e){
+			
+		}
+		  
+	}
+	public Land objektLesen() {
+		ObjectInputStream o;
+		Land land = null;
+		try {
+			o = new ObjectInputStream( fis );
+			land = (Land) o.readObject();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e){
+			
+		}
+		return land;
+		
+	}
 //	/**
 //	 * BufferedWriter mit FileWriter Funktion aus der Vorlesung rauskopiert
 //	 */

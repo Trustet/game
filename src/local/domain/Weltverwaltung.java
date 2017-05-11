@@ -94,6 +94,11 @@ public class Weltverwaltung {
 			}
 		}while(land != null);
 		pm.close();
+		pm.objectKanalOeffnen("Objekte");
+		for(Land l : laenderListe){
+			pm.objektSpeicher(l);
+		}
+		pm.close();
 //		Spieler leer = new Spieler("Unbekannt");
 //		//42
 //		//Europa 7
