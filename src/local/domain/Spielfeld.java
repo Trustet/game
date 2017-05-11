@@ -200,8 +200,8 @@ public class Spielfeld {
 		return kriegsVw.spielerRaus(spieler);
 	}
 
-	public void kartenEinloesen(Spieler spieler) {
-		einheitenVw.spielerkartenAuswerten(spieler);
+	public int kartenEinloesen(Spieler spieler) {
+		return einheitenVw.einheitenkartenEinloesen(spieler);
 	}
 	public void spielLaden(String datei) throws IOException, SpielerExistiertBereitsException{
 		kriegsVw.spielLaden(datei);

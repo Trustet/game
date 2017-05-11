@@ -148,7 +148,7 @@ public class RisikoClientCUI {
 						String antwort = IO.readString();
 						if(antwort.equalsIgnoreCase("ja")){
 								spielSpeichern();
-						
+								System.out.println("Spiel wurde gespeichert.");
 						}
 						
 						break;	
@@ -167,13 +167,13 @@ public class RisikoClientCUI {
 	 * Zeigt an welcher Spieler an der Reihe ist und welche Länder er besitzt und Einheiten er bekommt
 	 * @param Spieler
 	 */
-	public void spielerstandAusgeben(Spieler spieler, RisikoClientCUI cui) {
+	public void spielerstandAusgeben(Spieler spieler, RisikoClientCUI cui, int einheiten) {
 		if(startPhase){
 			System.out.println(spieler.getName() + " du hast die Mission: \n" + sp.missionAusgeben(spieler) + "\n\n");
 		}
 		System.out.println("\n" + spieler.getName() +" besitzt die L\u00E4nder: ");
 		System.out.println(cui.eigeneLaender(spieler));
-		System.out.println("\nund bekommt " + sp.bekommtEinheiten(spieler) + " Einheiten\n");
+		System.out.println("\nund bekommt " + einheiten + " Einheiten\n");
 	}
 
 	/**
@@ -184,11 +184,11 @@ public class RisikoClientCUI {
 		int einheitenAnzahl = sp.bekommtEinheiten(spieler);
 		String landString;
 		Land land;
-		int einheiten;
+		int einheitenSetzen;
+		int eingeloest;
 		boolean genugEinheiten = false;
 		boolean kannLandBenutzen = false;
 		
-		sp.kartenEinloesen(spieler);
 		if(startPhase != true)
 		{
 		System.out.println("\n" + sp.getAktiverSpieler().getName() + " ist jetzt dran.");
@@ -196,7 +196,14 @@ public class RisikoClientCUI {
 		System.out.println("\nPhase: " + sp.getTurn());
 		}
 		
-		cui.spielerstandAusgeben(spieler,cui);
+		eingeloest = sp.kartenEinloesen(spieler);
+		if(eingeloest > 0)
+		{
+			einheitenAnzahl += eingeloest;
+			System.out.println("Karten wurden eingelöst, du erhälst " + eingeloest + " zusätzliche Einheiten.\n");
+		}
+		
+		cui.spielerstandAusgeben(spieler,cui, einheitenAnzahl);
 		
 		while(einheitenAnzahl > 0) {
 			genugEinheiten = false;
@@ -213,16 +220,16 @@ public class RisikoClientCUI {
 			System.out.println("Wie viele Einheiten m\u00F6chtest du auf " + land.getName() + " setzen?");
 			do{
 				System.out.println("Du kannst " + einheitenAnzahl + " Einheiten setzen");
-				einheiten = IO.readInt();
+				einheitenSetzen = IO.readInt();
 				try{
-					genugEinheiten = sp.checkEinheitenVerteilen(einheiten,einheitenAnzahl,spieler);
+					genugEinheiten = sp.checkEinheitenVerteilen(einheitenSetzen,einheitenAnzahl,spieler);
 				}catch(KannEinheitenNichtVerschiebenException cev){
 					System.out.println(cev.getMessage());
 				}
 			}while(!genugEinheiten);
-			sp.einheitenPositionieren(einheiten, land);
+			sp.einheitenPositionieren(einheitenSetzen, land);
 			System.out.println(land.getName() + " hat jetzt " + land.getEinheiten() + " Einheiten.\n\n");
-			einheitenAnzahl -= einheiten;
+			einheitenAnzahl -= einheitenSetzen;
 		}
 	}
 

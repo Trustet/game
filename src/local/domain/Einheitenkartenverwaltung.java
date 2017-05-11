@@ -68,23 +68,23 @@ public class Einheitenkartenverwaltung {
 			}
 		}
 	
-		if(soldat <= 3){
+		if(soldat >= 3){
 			kartenZumAbgeben.add(soldatKarte);
 			kartenZumAbgeben.add(soldatKarte);
 			kartenZumAbgeben.add(soldatKarte);
-		}else if(pferd <= 3){
+		}else if(pferd >= 3){
 			kartenZumAbgeben.add(pferdKarte);
 			kartenZumAbgeben.add(pferdKarte);
 			kartenZumAbgeben.add(pferdKarte);
-		}else if(panzer <= 3){
+		}else if(panzer >= 3){
 			kartenZumAbgeben.add(panzerKarte);
 			kartenZumAbgeben.add(panzerKarte);
 			kartenZumAbgeben.add(panzerKarte);
-		}else if(soldat <= 1 && pferd <= 1 && panzer <= 1){
+		}else if(soldat >= 1 && pferd >= 1 && panzer >= 1){
 			kartenZumAbgeben.add(panzerKarte);
 			kartenZumAbgeben.add(pferdKarte);
 			kartenZumAbgeben.add(soldatKarte);
-		}else if((panzer + joker) <=3){
+		}else if((panzer + joker) >=3){
 			if(joker != 2)
 			{
 				kartenZumAbgeben.add(panzerKarte);
@@ -94,7 +94,7 @@ public class Einheitenkartenverwaltung {
 			kartenZumAbgeben.add(panzerKarte);
 			kartenZumAbgeben.add(jokerKarte);
 			kartenZumAbgeben.add(jokerKarte);
-		}else if((pferd + joker) <=3){
+		}else if((pferd + joker) >=3){
 			if(joker != 2)
 			{
 				kartenZumAbgeben.add(pferdKarte);
@@ -104,7 +104,7 @@ public class Einheitenkartenverwaltung {
 			kartenZumAbgeben.add(pferdKarte);
 			kartenZumAbgeben.add(jokerKarte);
 			kartenZumAbgeben.add(jokerKarte);
-		}else if((soldat + joker) <=3){ 
+		}else if((soldat + joker) >=3){ 
 			if(joker != 2)
 			{
 				kartenZumAbgeben.add(soldatKarte);
@@ -114,27 +114,27 @@ public class Einheitenkartenverwaltung {
 			kartenZumAbgeben.add(soldatKarte);
 			kartenZumAbgeben.add(jokerKarte);
 			kartenZumAbgeben.add(jokerKarte);
-		}else if(soldat <= 1 && pferd <= 1 && joker <= 1){
+		}else if(soldat >= 1 && pferd >= 1 && joker >= 1){
 			kartenZumAbgeben.add(jokerKarte);
 			kartenZumAbgeben.add(pferdKarte);
 			kartenZumAbgeben.add(soldatKarte);
-		}else if(soldat <= 1 && joker <= 1 && panzer <= 1){
+		}else if(soldat >= 1 && joker >= 1 && panzer >= 1){
 			kartenZumAbgeben.add(panzerKarte);
 			kartenZumAbgeben.add(jokerKarte);
 			kartenZumAbgeben.add(soldatKarte);
-		}else if(joker <= 1 && pferd <= 1 && panzer <= 1){
+		}else if(joker >= 1 && pferd >= 1 && panzer >= 1){
 			kartenZumAbgeben.add(panzerKarte);
 			kartenZumAbgeben.add(pferdKarte);
 			kartenZumAbgeben.add(jokerKarte);
-		}else if(joker == 2 && panzer <= 1){
+		}else if(joker == 2 && panzer >= 1){
 			kartenZumAbgeben.add(panzerKarte);
 			kartenZumAbgeben.add(jokerKarte);
 			kartenZumAbgeben.add(jokerKarte);
-		}else if(joker == 2 && pferd <= 1){
+		}else if(joker == 2 && pferd >= 1){
 			kartenZumAbgeben.add(pferdKarte);
 			kartenZumAbgeben.add(pferdKarte);
 			kartenZumAbgeben.add(jokerKarte);
-		}else if(joker == 2 && soldat <= 1){
+		}else if(joker == 2 && soldat >= 1){
 			kartenZumAbgeben.add(soldatKarte);
 			kartenZumAbgeben.add(soldatKarte);
 			kartenZumAbgeben.add(jokerKarte);
@@ -152,7 +152,7 @@ public class Einheitenkartenverwaltung {
 		{
 			for(int i = 0; i < spieler.getEinheitenkarten().size();i++)
 			{
-				if(spieler.getEinheitenkarten().get(i).getKartenwert().equals(karteAbgeben.getKartenwert()))
+				if(spieler.getEinheitenkarten().get(i).equals(karteAbgeben))
 					{
 						spieler.getEinheitenkarten().remove(i);
 						break;
@@ -161,30 +161,34 @@ public class Einheitenkartenverwaltung {
 		}
 	}
 	
-	public int einheitenkartenEinloesen()
+	public int einheitenkartenEinloesen(Spieler spieler)
 	{
-		int einheiten = 0;
-		switch(kartenEingeloest){
-		case 1: einheiten = 4;
-				break;
-		case 2: einheiten = 6;
-				break;
-		case 3: einheiten = 8;
-				break;
-		case 4: einheiten = 10;
-				break;
-		case 5: einheiten = 12;
-				break;
-		case 6: einheiten = 15;
-				break;
-		}
-		if(kartenEingeloest > 6)
+		if(spielerkartenAuswerten(spieler))
 		{
-			einheiten = 15 + (kartenEingeloest - 6) * 5;
+			int einheiten = 0;
+			switch(kartenEingeloest){
+			case 1: einheiten = 4;
+					break;
+			case 2: einheiten = 6;
+					break;
+			case 3: einheiten = 8;
+					break;
+			case 4: einheiten = 10;
+					break;
+			case 5: einheiten = 12;
+					break;
+			case 6: einheiten = 15;
+					break;
+			}
+			if(kartenEingeloest > 6)
+			{
+				einheiten = 15 + (kartenEingeloest - 6) * 5;
+			}
+			
+			kartenEingeloest++;
+			
+			return einheiten;
 		}
-		
-		kartenEingeloest++;
-		
-		return einheiten;
+		return 0;
 	}
 }
