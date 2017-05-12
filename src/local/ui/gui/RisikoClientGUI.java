@@ -14,6 +14,7 @@ import java.awt.Label;
 import java.awt.Panel;
 import java.awt.TextArea;
 import java.awt.TextField;
+import java.awt.Window;
 import java.io.IOException;
 import java.awt.List;
 import java.util.Vector;
@@ -24,6 +25,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -86,16 +88,21 @@ public class RisikoClientGUI extends Frame{
 		spielerName.setPreferredSize(new Dimension(200,30));
 		erstellen.addActionListener(add -> spielerErstellen(spielerName.getText()));
 		JButton spielStarten = new JButton("Spiel starten");
-		spielStarten.addActionListener(starten -> this.risiko());
 		erstellen.setMaximumSize(new Dimension(200,30));
 		erstellen.setPreferredSize(new Dimension(200,30));
 		spielStarten.setMaximumSize(new Dimension(200,30));
 		spielStarten.setPreferredSize(new Dimension(200,30));
+		String[] auswahl = {"Erde","Mordor"};
+		final JComboBox<String> mapWahl = new JComboBox<String>(auswahl);
+		spielStarten.addActionListener(starten -> this.risiko(mapWahl.getSelectedItem().toString()));
+		mapWahl.setMaximumSize(new Dimension(200,30));
 		hauptContainer.add(spielerNameLab);
 		hauptContainer.add(spielerName);
 		hauptContainer.add(erstellen);
 		hauptContainer.add(spielStarten);
+		hauptContainer.add(mapWahl);
 		hauptContainer.add(fehlerLab);
+		this.setLocation(200,200);
 		this.add(hauptContainer);
 		this.pack();
 		this.setVisible(true);
@@ -121,7 +128,8 @@ public class RisikoClientGUI extends Frame{
 		
 	}
 	
-	public void risiko(){
+	public void risiko(String mapWahl){
+		fehlerLab.setText(mapWahl);
 		if(sp.getSpielerList().size() >= 2){
 			try{
 				sp.laenderErstellen();
@@ -169,7 +177,7 @@ public class RisikoClientGUI extends Frame{
 			//Platzhalter
 			Label lab1 = new Label("");
 			spielerAusgabe.add(lab1);
-	//		lab1.setMinimumSize(new Dimension(100,1200));
+
 			lab1.setMaximumSize(new Dimension(100,800));
 		
 			//Container unten
@@ -215,9 +223,16 @@ public class RisikoClientGUI extends Frame{
 			schliessenBtn.addActionListener(schliessen -> System.exit(0));
 			
 			//Weltkarte
-			 ImageIcon karte = new ImageIcon ("./welt.jpg");
-		     JLabel karteAusgabe = new JLabel (karte);
-		     containerOben.add(karteAusgabe);
+			JLabel karteAusgabe;
+			ImageIcon karte;
+			if(mapWahl.equals("Mordor")){
+				karte = new ImageIcon ("./mordor.jpg");
+				karteAusgabe = new JLabel (karte);
+			}else{
+				karte = new ImageIcon ("./welt.jpg");
+				karteAusgabe = new JLabel (karte);
+			}
+			containerOben.add(karteAusgabe);
 			
 			
 			//Fügt die Container dem Hauptfenster zu
