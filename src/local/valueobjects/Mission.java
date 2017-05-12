@@ -36,6 +36,4 @@ public abstract class Mission{
 	public void setSpieler(Spieler spieler) {
 		this.spieler = spieler;
 	}
-
-	
 }

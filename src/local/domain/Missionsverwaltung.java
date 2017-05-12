@@ -78,7 +78,7 @@ public class Missionsverwaltung {
 					if(m instanceof LaenderMission){
 						m.setSpieler(s);
 						//Länder des Spielers setzen
-						m.setLaender(/*TODO Länder des Spielers*/null);
+						//m.setLaender(/*TODO Länder des Spielers*/null);
 					} else if(m instanceof SpielerMission) {
 						m.setSpieler(s);
 						((SpielerMission) m).setSpieler2(spielerListe.get(1));
