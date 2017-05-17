@@ -11,7 +11,7 @@ import local.domain.exceptions.*;
 import local.persistence.FilePersistenceManager;
 import local.valueobjects.*;
 
-
+//Test
 public class Kriegsverwaltung {
 
 private Spielerverwaltung spielerVw;
