@@ -5,11 +5,20 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Label;
 import java.awt.Panel;
 import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.awt.List;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -17,8 +26,11 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -48,17 +60,20 @@ public class RisikoClientGUI extends JFrame{
 	}
 	public void start(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getContentPane().setLayout(new BorderLayout());
-		this.setMinimumSize(new Dimension(400, 400));
-		this.setPreferredSize(new Dimension(400, 400));
-		this.setMaximumSize(new Dimension(400,400));
+		getContentPane().setLayout(new FlowLayout());
+		this.setMinimumSize(new Dimension(400, 200));
+		this.setPreferredSize(new Dimension(400, 200));
+		this.setMaximumSize(new Dimension(400,200));
 		JPanel hauptContainer = new JPanel();
-		hauptContainer.setLayout(new BoxLayout(hauptContainer, BoxLayout.Y_AXIS));
+		hauptContainer.setLayout(new BoxLayout(hauptContainer, BoxLayout.PAGE_AXIS));
 		Label spielerNameLab = new Label("Spieler:");
 		spielerNameLab.setMaximumSize(new Dimension(200,30));
 		spielerNameLab.setPreferredSize(new Dimension(200,30));
-		spielerName.setMaximumSize(new Dimension(270,30));
+		spielerName.setMaximumSize(new Dimension(200,30));
 		spielerName.setPreferredSize(new Dimension(200,30));
+		JPanel buttons = new JPanel();
+		buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
+		buttons.setMaximumSize(new Dimension(250,100));
 		erstellen.addActionListener(add -> spielerErstellen(spielerName.getText()));
 		JButton spielStarten = new JButton("Spiel starten");
 		erstellen.setMaximumSize(new Dimension(200,30));
@@ -71,8 +86,9 @@ public class RisikoClientGUI extends JFrame{
 		mapWahl.setMaximumSize(new Dimension(200,30));
 		hauptContainer.add(spielerNameLab);
 		hauptContainer.add(spielerName);
-		hauptContainer.add(erstellen);
-		hauptContainer.add(spielStarten);
+		buttons.add(erstellen);
+		buttons.add(spielStarten);
+		hauptContainer.add(buttons);
 		hauptContainer.add(mapWahl);
 		hauptContainer.add(fehlerLab);
 		this.setLocation(200,200);
@@ -102,6 +118,12 @@ public class RisikoClientGUI extends JFrame{
 	}
 	
 	public void risiko(String mapWahl){
+		MenuBar bar = new MenuBar();
+		this.setMenuBar(bar);
+		
+		Menu fileMenu = new FileMenu();
+		bar.add(fileMenu);
+		
 		fehlerLab.setText(mapWahl);
 		if(sp.getSpielerList().size() >= 2){
 			this.dispose();
@@ -120,12 +142,12 @@ public class RisikoClientGUI extends JFrame{
 			getContentPane().setLayout(new BorderLayout());
 //			spielfeld.setMinimumSize(new Dimension(800, 600));
 			spielfeld.setPreferredSize(new Dimension(1920, 1080));
-			spielfeld.setMaximumSize(new Dimension(5000,1080));
+//			spielfeld.setMaximumSize(new Dimension(5000,1080));
 			
 			//Container oben
 			JPanel containerOben = new JPanel();
 			containerOben.setLayout(new BoxLayout(containerOben, BoxLayout.X_AXIS));
-			containerOben.setMaximumSize(new Dimension(1920,730));
+//			containerOben.setMaximumSize(new Dimension(1920,730));
 			containerOben.setBackground(Color.GREEN);
 		
 			
@@ -133,14 +155,14 @@ public class RisikoClientGUI extends JFrame{
 			JPanel spielerAusgabe = new JPanel();
 			spielerAusgabe.setLayout(new BoxLayout(spielerAusgabe, BoxLayout.Y_AXIS));
 			spielerAusgabe.setPreferredSize(new Dimension(150, 730));
-			spielerAusgabe.setMaximumSize(new Dimension(150,730));
+//			spielerAusgabe.setMaximumSize(new Dimension(150,730));
 			spielerAusgabe.setBackground(Color.BLUE);
 			containerOben.add(spielerAusgabe);
 	
 			//Label im Spielerausgabe Container
 			JLabel spielerLab = new JLabel("Spieler");
 			spielerLab.setPreferredSize(new Dimension(100,30));
-			spielerLab.setMaximumSize(new Dimension(100,30));
+//			spielerLab.setMaximumSize(new Dimension(100,30));
 			spielerAusgabe.add(spielerLab);
 	
 			
@@ -161,14 +183,14 @@ public class RisikoClientGUI extends JFrame{
 			containerUnten.setLayout(new BoxLayout(containerUnten, BoxLayout.X_AXIS));
 //			containerUnten.setMinimumSize(new Dimension(1920,180));
 			containerUnten.setPreferredSize(new Dimension(1920, 300));
-			containerUnten.setMaximumSize(new Dimension(1920,300));
+//			containerUnten.setMaximumSize(new Dimension(1920,300));
 			containerUnten.setBackground(Color.RED);
 			
 			//MissionsPanel
 			JPanel missionsPanel = new JPanel();
 			missionsPanel.setLayout(new BoxLayout(missionsPanel, BoxLayout.LINE_AXIS));
 			missionsPanel.setPreferredSize(new Dimension(200,300));
-			missionsPanel.setMaximumSize(new Dimension(200,300));
+//			missionsPanel.setMaximumSize(new Dimension(200,300));
 			missionsPanel.setBackground(Color.BLACK);
 			containerUnten.add(missionsPanel);
 			
@@ -179,7 +201,7 @@ public class RisikoClientGUI extends JFrame{
 			mission.setLineWrap(true);
 			mission.setEditable(false);
 			mission.setPreferredSize(new Dimension(100,100));
-			mission.setMaximumSize(new Dimension(100,100));
+//			mission.setMaximumSize(new Dimension(100,100));
 			mission.setMinimumSize(new Dimension(100,100));
 			mission.setBackground(Color.CYAN);
 			missionsPanel.add(mission);
@@ -189,7 +211,7 @@ public class RisikoClientGUI extends JFrame{
 			//Karten
 			JPanel karten = new JPanel();
 			karten.setLayout(new BoxLayout(karten, BoxLayout.X_AXIS));
-			karten.setMaximumSize(new Dimension(1000,300));
+//			karten.setMaximumSize(new Dimension(1000,300));
 			karten.setPreferredSize(new Dimension(1000,300));
 			karten.setBackground(Color.ORANGE);
 			containerUnten.add(karten);
@@ -197,7 +219,7 @@ public class RisikoClientGUI extends JFrame{
 			//Buttoncontainer
 			JPanel buttons = new JPanel();
 			buttons.setLayout(new BoxLayout(buttons, BoxLayout.PAGE_AXIS));
-			buttons.setMaximumSize(new Dimension(250,300));
+			//buttons.setMaximumSize(new Dimension(250,300));
 			buttons.setPreferredSize(new Dimension(250,300));
 			containerUnten.add(buttons);
 			buttons.setBackground(Color.GRAY);
@@ -218,6 +240,11 @@ public class RisikoClientGUI extends JFrame{
 			schliessenBtn.addActionListener(schliessen -> System.exit(0));
 			schliessenBtn.setPreferredSize(new Dimension(150,40));
 			
+			//Weltcontainer
+			JPanel weltContainer = new JPanel();
+			weltContainer.setLayout(new BoxLayout(weltContainer, BoxLayout.PAGE_AXIS));
+//			weltContainer.setMaximumSize(new Dimension(1000,800));
+			containerOben.add(weltContainer);
 			
 			//Weltkarte
 			JLabel karteAusgabe;
@@ -229,7 +256,8 @@ public class RisikoClientGUI extends JFrame{
 				karte = new ImageIcon ("./welt.jpg");
 				karteAusgabe = new JLabel (karte);
 			}
-			containerOben.add(karteAusgabe);
+			
+			weltContainer.add(karteAusgabe);
 			
 			
 			//Fügt die Container dem Hauptfenster zu
@@ -252,9 +280,9 @@ public class RisikoClientGUI extends JFrame{
 	public void speichern(){
 		JFrame speicherFenster = new JFrame("Speichern");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getContentPane().setLayout(new BorderLayout());
-		speicherFenster.setMinimumSize(new Dimension(200,200));
-		speicherFenster.setMaximumSize(new Dimension(200,200));
+		speicherFenster.setLayout(new BorderLayout());
+		speicherFenster.setMinimumSize(new Dimension(600,600));
+		speicherFenster.setMaximumSize(new Dimension(600,600));
 		JLabel speicherLab = new JLabel("Speichern:");
 		speicherLab.setMaximumSize(new Dimension(100,30));
 		speicherFenster.add(speicherLab);
@@ -263,12 +291,27 @@ public class RisikoClientGUI extends JFrame{
 		JButton speicherBtn = new JButton("Speichern");
 		speicherBtn.addActionListener(event -> spielSpeichern(speicherEingabe.getText()));
 		speicherFenster.add(speicherBtn);
-		JButton schließenBtn = new JButton("Schließen");
-		schließenBtn.addActionListener(schließen -> speicherFenster.dispose());
-		speicherFenster.add(schließenBtn);
+		JButton schliessenBtn = new JButton("Schließen");
+		schliessenBtn.addActionListener(schließen -> speicherFenster.dispose());
+		schliessenBtn.setMaximumSize(new Dimension(200,30));
+		speicherFenster.add(schliessenBtn);
 		speicherFenster.addWindowListener(new FensterSchliessen());
 		speicherFenster.setLocation(300, 300);
 		speicherFenster.setVisible(true);
+		
+	}
+	public void speichern2(){
+		//String s = (String)JOptionPane.showInputDialog(null,"Spiel speichern?",JOptionPane.PLAIN_MESSAGE);
+
+	}
+	public void testFenster(){
+		JFrame fenster = new JFrame("Test");
+		fenster.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		JLabel lab1 = new JLabel("Spieler");
+		JList list1 = new JList();
+		JList list2 = new JList();
+		JButton btn1 = new JButton("Drücken");
 		
 	}
 	public void spielSpeichern(String datei){
@@ -281,7 +324,27 @@ public class RisikoClientGUI extends JFrame{
 		}
 		
 	}
+
+	class FileMenu extends Menu{
+		
+		public FileMenu() {
+			super("File");
+			
+			MenuItem mi = new MenuItem("Save");
+			mi.addActionListener(save -> speichern2());
+			add(mi);
+			
+			addSeparator();
+			
+			mi = new MenuItem("Quit");
+			mi.addActionListener(quit -> System.exit(0));
+			add(mi);
+		}
+		
+	}
 	
+		
+}
 	
 
-}
+
