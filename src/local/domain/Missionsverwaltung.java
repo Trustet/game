@@ -26,34 +26,22 @@ public class Missionsverwaltung {
 		List<Kontinent> mission1Kontinente = new Vector<Kontinent>();
 		mission1Kontinente.add(kontinentenListe.get(3));
 		mission1Kontinente.add(kontinentenListe.get(5));
-		List<Land> mission1Laender = new Vector<Land>();
-		mission1Laender.addAll(mission1Kontinente.get(0).getLaender());
-		mission1Laender.addAll(mission1Kontinente.get(1).getLaender());
-		missionsListe.add(new KontinentenMission(1,platzhalterSpieler,mission1Kontinente,mission1Laender));
+		missionsListe.add(new KontinentenMission(1,platzhalterSpieler,mission1Kontinente));
 		//Befreien Sie Nordamerika und Australien
 		List<Kontinent> mission2Kontinente = new Vector<Kontinent>();
 		mission2Kontinente.add(kontinentenListe.get(2));
 		mission2Kontinente.add(kontinentenListe.get(5));
-		List<Land> mission2Laender = new Vector<Land>();
-		mission2Laender.addAll(mission2Kontinente.get(0).getLaender());
-		mission2Laender.addAll(mission2Kontinente.get(1).getLaender());
-		missionsListe.add(new KontinentenMission(2,platzhalterSpieler,mission2Kontinente,mission2Laender));
+		missionsListe.add(new KontinentenMission(2,platzhalterSpieler,mission2Kontinente));
 		//Befreien Sie Asien und Südamerika
 		List<Kontinent> mission3Kontinente = new Vector<Kontinent>();
 		mission3Kontinente.add(kontinentenListe.get(1));
 		mission3Kontinente.add(kontinentenListe.get(4));
-		List<Land> mission3Laender = new Vector<Land>();
-		mission3Laender.addAll(mission3Kontinente.get(0).getLaender());
-		mission3Laender.addAll(mission3Kontinente.get(1).getLaender());
-		missionsListe.add(new KontinentenMission(3,platzhalterSpieler,mission3Kontinente,mission3Laender));
+		missionsListe.add(new KontinentenMission(3,platzhalterSpieler,mission3Kontinente));
 		//Befreien Sie Afrika und Asien
 		List<Kontinent> mission4Kontinente = new Vector<Kontinent>();
 		mission4Kontinente.add(kontinentenListe.get(1));
 		mission4Kontinente.add(kontinentenListe.get(3));
-		List<Land> mission4Laender = new Vector<Land>();
-		mission4Laender.addAll(mission4Kontinente.get(0).getLaender());
-		mission4Laender.addAll(mission4Kontinente.get(1).getLaender());
-		missionsListe.add(new KontinentenMission(4,platzhalterSpieler,mission4Kontinente,mission4Laender));
+		missionsListe.add(new KontinentenMission(4,platzhalterSpieler,mission4Kontinente));
 //		Befreien Sie 24 Laender Ihrer Wahl
 //		missionsListe.add(new LaenderMission(5,null, 24, 1, null));
 //		Befreien Sie 18 Laender und setzen Sie in jedes Land mindestens 2 Armeen
