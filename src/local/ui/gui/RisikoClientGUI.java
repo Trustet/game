@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -15,17 +17,28 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import local.domain.Spielfeld;
+import local.domain.exceptions.SpielerExistiertBereitsException;
+import local.valueobjects.Spieler;
 import net.miginfocom.swing.MigLayout;
 
 
 public class RisikoClientGUI extends JFrame{
+	Spielfeld sp = new Spielfeld();
 	Border schwarz = BorderFactory.createLineBorder(Color.black);
-	
+	JLabel spieler1Lab = new JLabel();
+    JLabel spieler2Lab = new JLabel();
+    JLabel spieler3Lab = new JLabel();
+    JLabel spieler4Lab = new JLabel();
+    JLabel spieler5Lab = new JLabel();
+    JLabel spieler6Lab = new JLabel();
+    
 	public RisikoClientGUI(){
 		this.start();
 	}
@@ -33,11 +46,12 @@ public class RisikoClientGUI extends JFrame{
 		JFrame fenster = new RisikoClientGUI();
 
 	}
-	public void start(){
+	public void start() {
 		JFrame frame = new JFrame("Spiel starten");
 		frame.setSize(500,700);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setBackground(Color.GRAY);
+	
 		JPanel panel = new JPanel(new MigLayout("wrap1","[]","[][][][][]"));
 		BufferedImage background;
 		BufferedImage logoImg;
@@ -86,7 +100,7 @@ public class RisikoClientGUI extends JFrame{
 		JComboBox anzahlCBox = new JComboBox(zahlen);
 		JButton startBtn = new JButton("Spiel starten");
 		
-		startBtn.addActionListener(start -> spiel(nameText.getText(), Integer.parseInt((String)anzahlCBox.getSelectedItem())));
+		startBtn.addActionListener(start -> spiel(nameText.getText(), Integer.parseInt((String)anzahlCBox.getSelectedItem()),frame));
 		panel.add(nameLab,"right");
 		panel.add(nameText,"left,growx");
 		panel.add(ipLab,"right");
@@ -97,75 +111,123 @@ public class RisikoClientGUI extends JFrame{
 		
 		frame.add(panel);
 		frame.setVisible(true);
+	
 	}
-    public void spiel(String name, int anzahl) {
-    	
-        JFrame frame = new JFrame("Risiko");
-        frame.setSize(1400,750);
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        JPanel panel = new JPanel(new MigLayout("debug,wrap2","[][]","[][30][30][30][30][30][30][][][]"));
-        frame.add(panel);
-        //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
-        JTextArea platzhalter = new JTextArea("platzhalter",10,20);
-        JLabel spieler1Lab = new JLabel("Warten auf Spieler...");
-        JLabel spieler2Lab = new JLabel("Warten auf Spieler...");
-        JLabel spieler3Lab = new JLabel("Warten auf Spieler...");
-        JLabel spieler4Lab = new JLabel("Warten auf Spieler...");
-        JLabel spieler5Lab = new JLabel("Warten auf Spieler...");
-        JLabel spieler6Lab = new JLabel("Warten auf Spieler...");
-        System.out.print(anzahl);
-        spieler1Lab.setText(name);
-        for(int i = 2; i <= anzahl; i++){
-        	switch(i){
-        		case 2: 
-        			spieler2Lab.setText("Hans");
-        			break;
-        		case 3: 
-        			spieler3Lab.setText("Peter");
-        			break;
-        		case 4: 
-        			spieler4Lab.setText("Mark");
-        			break;
-        	}
-        }
-        
-        JTextArea missionen = new JTextArea("Missionen",10,20);
-        JTextArea karten = new JTextArea("Karten",10,20);
-        JTextArea statistik = new JTextArea("Statistik",15,20);
-        JButton next = new JButton("Naechste Phase");
-        JLabel spielfeld = null;
-        BufferedImage myPicture;
-		try {
-			myPicture = ImageIO.read(new File("./welt.jpg"));
-			spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(1050, 550, Image.SCALE_FAST)));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-  
-		platzhalter.setBorder(schwarz);
-        missionen.setBorder(schwarz);
-        karten.setBorder(schwarz);
-        statistik.setBorder(schwarz);
-        spielfeld.setBorder(schwarz);
-        
-        
-        panel.add(spielfeld,"left,spany 8,growx,growy");
-        panel.add(platzhalter,"left");
-        panel.add(spieler1Lab,"center");
-        panel.add(spieler2Lab,"center");
-        panel.add(spieler3Lab,"center");
-        panel.add(spieler4Lab,"center");
-        panel.add(spieler5Lab,"center");
-        panel.add(spieler6Lab,"center");
-        panel.add(statistik,"left,top,growy");
-        panel.add(missionen,"left,split2");
-        panel.add(karten,"left,growx");
-        panel.add(next,"center,growy,growx");
-        frame.setResizable(false);
-        frame.setVisible(true);
+    public void spiel(String name, int anzahl,JFrame frameStart) {
+    	try{
+    		sp.erstelleSpieler(name);
+	    	
+	    	frameStart.dispose();
+	    	spieler1Lab.setText(name);
+	    	for(int i = 1; i < anzahl; i++){
+	    		neuerSpieler();
+	    		switch(i){
+	    		case 1:
+	    			spieler2Lab.setText("Warten auf Spieler...");
+	    			break;
+	    		case 2:
+	    			spieler3Lab.setText("Warten auf Spieler...");
+	    			break;
+	    		case 3:
+	    			spieler4Lab.setText("Warten auf Spieler...");
+	    			break;
+	    		case 4:
+	    			spieler5Lab.setText("Warten auf Spieler...");
+	    			break;
+	    		case 5:
+	    			spieler6Lab.setText("Warten auf Spieler...");
+	    			break;
+	    		}
+	    	}
+	    	List<String> spielerListe = new Vector<String>();
+	    	spielerListe.add(name);
+	        JFrame frame = new JFrame("Risiko");
+	        frame.setSize(1400,750);
+	        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	        JPanel panel = new JPanel(new MigLayout("wrap2","[][]","[][30][30][30][30][30][30][][][]"));
+	        frame.add(panel);
+	        //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
+	        JTextArea platzhalter = new JTextArea("platzhalter",10,20);
+	        
+	   
+	      
+	        JTextArea missionen = new JTextArea("Missionen",10,20);
+	        JTextArea karten = new JTextArea("Karten",10,20);
+	        JTextArea statistik = new JTextArea("Statistik",15,20);
+	        JButton next = new JButton("Naechste Phase");
+	        JLabel spielfeld = null;
+	        BufferedImage myPicture;
+			try {
+				myPicture = ImageIO.read(new File("./welt.jpg"));
+				spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(1050, 550, Image.SCALE_FAST)));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	  
+			platzhalter.setBorder(schwarz);
+	        missionen.setBorder(schwarz);
+	        karten.setBorder(schwarz);
+	        statistik.setBorder(schwarz);
+	        spielfeld.setBorder(schwarz);
+	        
+	        
+	        panel.add(spielfeld,"left,spany 8,growx,growy");
+	        panel.add(platzhalter,"left");
+	        panel.add(spieler1Lab,"center");
+	        panel.add(spieler2Lab,"center");
+	        panel.add(spieler3Lab,"center");
+	        panel.add(spieler4Lab,"center");
+	        panel.add(spieler5Lab,"center");
+	        panel.add(spieler6Lab,"center");
+	        panel.add(statistik,"left,top,growy");
+	        panel.add(missionen,"left,split2");
+	        panel.add(karten,"left,growx");
+	        panel.add(next,"center,growy,growx");
+	        frame.setResizable(false);
+	        frame.setVisible(true);
+    	}catch(SpielerExistiertBereitsException sebe){
+    		JOptionPane.showMessageDialog(null,sebe.getMessage(),"Name vergeben",JOptionPane.WARNING_MESSAGE);
+    	}
     }
-
+    public void neuerSpieler(){
+    	JFrame frame = new JFrame("Spieler erstellen");
+    	frame.setSize(150, 300);
+    	frame.setLayout(new MigLayout("wrap 2","[][100]","[][]"));
+    	JLabel nameLab = new JLabel("Name:");
+    	JTextField nameText = new JTextField();
+    	JButton erstellenBtn = new JButton("Erstellen");
+    	
+    	erstellenBtn.addActionListener(erstellen -> spielerErstellen(frame,nameText.getText()));
+    	
+    	frame.add(nameLab,"right");
+    	frame.add(nameText, "left,growx");
+    	frame.add(erstellenBtn, "center,spanx 2");
+    	frame.setVisible(true);
+    }
+    public void spielerErstellen(JFrame frame, String name){
+    	try{
+    		sp.erstelleSpieler(name);
+    		frame.dispose();
+        	if(spieler1Lab.getText().equals("Warten auf Spieler...")){
+        		spieler1Lab.setText(name);
+        	}else if(spieler2Lab.getText().equals("Warten auf Spieler...")){
+        		spieler2Lab.setText(name);
+        	}else if(spieler3Lab.getText().equals("Warten auf Spieler...")){
+        		spieler3Lab.setText(name);
+        	}else if(spieler4Lab.getText().equals("Warten auf Spieler...")){
+        		spieler4Lab.setText(name);
+        	}else if(spieler5Lab.getText().equals("Warten auf Spieler...")){
+        		spieler5Lab.setText(name);
+        	}else if(spieler6Lab.getText().equals("Warten auf Spieler...")){
+        		spieler6Lab.setText(name);
+        	}
+        
+    	}catch (SpielerExistiertBereitsException sebe) {
+    		 JOptionPane.showMessageDialog(null,sebe.getMessage(),"Name vergeben",JOptionPane.WARNING_MESSAGE);
+    	}
+    	
+    }
 
 		//spielStarten.addActionListener(starten -> this.risiko(mapWahl.getSelectedItem().toString()));
     class ImagePanel extends JComponent {
