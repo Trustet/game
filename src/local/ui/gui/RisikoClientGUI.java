@@ -1,8 +1,8 @@
 package local.ui.gui;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.List;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,39 +11,61 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import local.domain.Spielfeld;
 import net.miginfocom.swing.MigLayout;
 
 
 public class RisikoClientGUI extends JFrame{
-	private Spielfeld sp;
-	private List spielerListe = new List();
-	JTextField speicherEingabe = new JTextField();
-	JTextField spielerName = new JTextField();
-	JLabel fehlerLab = new JLabel("");
-	JButton erstellen = new JButton("Erstellen");
+	Border schwarz = BorderFactory.createLineBorder(Color.black);
 	
 	public RisikoClientGUI(){
-		this.start();
+		this.spiel();
 	}
 	public static void main(String[] args) {
 		JFrame fenster = new RisikoClientGUI();
 
 	}
+	public void start(){
+		JFrame frame = new JFrame("Spiel starten");
+		frame.setSize(500,700);
+		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		frame.setLayout(new MigLayout("debug,insets 0,wrap1","[]","[][][][]"));
+		//JPanel panel = new JPanel(new MigLayout("wrap1","[]","[][][][]"));
+		BufferedImage background;
+		BufferedImage logoImg;
+		JLabel logo = new JLabel();
+		try {
+			background = ImageIO.read(new File("./holz.jpg"));
+			JLabel backgroundImg = new JLabel(new ImageIcon(background.getScaledInstance(500, 700, Image.SCALE_FAST)));
+			frame.getContentPane().add(backgroundImg,"cell 0 0,grow");
+			
+			logoImg = ImageIO.read(new File("./logo.jpeg"));
+			logo = new JLabel(new ImageIcon(logoImg.getScaledInstance(200, 100, Image.SCALE_FAST)));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-    public void start() {
-    	Border schwarz = BorderFactory.createLineBorder(Color.black);
+		frame.add(logo);
+		frame.pack();
+		frame.setVisible(true);
+
+		
+		
+	}
+
+    public void spiel() {
+    	
         JFrame frame = new JFrame("Finden");
-        frame.setSize(1400,950);
+        frame.setSize(1400,750);
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        JPanel panel = new JPanel(new MigLayout("wrap2","[][]","[][][][]"));
+        JPanel panel = new JPanel(new MigLayout("debug,wrap2","[][]","[][][][]"));
         frame.add(panel);
         //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
         JTextArea platzhalter = new JTextArea("platzhalter",10,20);
@@ -51,12 +73,12 @@ public class RisikoClientGUI extends JFrame{
         JTextArea missionen = new JTextArea("Missionen",10,20);
         JTextArea karten = new JTextArea("Karten",10,20);
         JTextArea statistik = new JTextArea("Statistik",15,20);
-        JButton next = new JButton("Nächste Phase");
+        JButton next = new JButton("Naechste Phase");
         JLabel spielfeld = null;
         BufferedImage myPicture;
 		try {
 			myPicture = ImageIO.read(new File("./welt.jpg"));
-			spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(1050, 750, Image.SCALE_FAST)));
+			spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(1050, 550, Image.SCALE_FAST)));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,7 +92,7 @@ public class RisikoClientGUI extends JFrame{
         spielfeld.setBorder(schwarz);
         
         
-        panel.add(spielfeld,"left,spany 3,growx");
+        panel.add(spielfeld,"left,spany 3,growx,growy");
         panel.add(platzhalter,"left");
         panel.add(spieler,"left,top");
         panel.add(statistik,"left,top,growy");
@@ -83,9 +105,25 @@ public class RisikoClientGUI extends JFrame{
 
 
 		//spielStarten.addActionListener(starten -> this.risiko(mapWahl.getSelectedItem().toString()));
-
+    class ImagePanel extends JComponent {
+        private Image image;
+        private int b;
+        private int h;
+        public ImagePanel(Image image,int b, int h) {
+            this.image = image;
+            this.b = b;
+            this.h = h;
+        }
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(image, 0, 0, b, h, this);
+        }
+    }
 
 }
 	
+
+
 
 
