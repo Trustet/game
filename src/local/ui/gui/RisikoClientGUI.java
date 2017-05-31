@@ -25,10 +25,7 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import local.domain.Spielfeld;
-import local.domain.exceptions.KeinLandZumAngreifenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
-import local.ui.cui.IO;
-import local.valueobjects.Spieler;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -58,30 +55,37 @@ public class RisikoClientGUI extends JFrame{
 
 	}
 	public void start() {
+		
+		//Frame und Layout
 		JFrame frame = new JFrame("Spiel starten");
+		JPanel panel = new JPanel(new MigLayout("debug, wrap1","[]","[][][][][][]"));
+		frame.setLocationRelativeTo(null);
 		frame.setSize(500,700);
-		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setBackground(Color.GRAY);
-	
-		JPanel panel = new JPanel(new MigLayout("wrap1","[]","[][][][][]"));
-		BufferedImage background;
+		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+		//Logo wird eingebunden
 		BufferedImage logoImg;
 		JLabel logo = new JLabel();
 		try {
 			logoImg = ImageIO.read(new File("./logo.jpeg"));
 			logo = new JLabel(new ImageIcon(logoImg.getScaledInstance(300, 150, Image.SCALE_FAST)));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		//Objekte erstellen
 		JButton startBtn = new JButton("Spiel erstellen");
 		JButton ladenBtn = new JButton("Spiel laden");
 		JButton optionBtn = new JButton("Optionen");
 		JButton beendenBtn = new JButton("Beenden");
 		
+		
+		//ActionListener
 		startBtn.addActionListener(start -> spielErstellen(frame));
 		beendenBtn.addActionListener(close -> System.exit(0));
 		
+		//Objekte hinzufügen
 		panel.add(logo,"center");
 		panel.add(startBtn,"center,growx");
 		panel.add(ladenBtn,"center,growx");
@@ -96,22 +100,32 @@ public class RisikoClientGUI extends JFrame{
 	}
 
 	public void spielErstellen(JFrame frameStart){
+		
+		//Schließt das vorherige Fenster
 		frameStart.dispose();
-		String[] zahlen = {"2","3","4","5","6"};
+		
+		//Frame und Layout
 		JFrame frame = new JFrame("Spiel erstellen");
-		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		frame.setSize(300, 200);
 		JPanel panel = new JPanel(new MigLayout("wrap2","[][150]","[40][][40][]"));
+		frame.setLocationRelativeTo(null);
+		frame.setSize(300, 200);
+		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		//Objekte erstellen
 		JLabel nameLab = new JLabel("Name:");
 		JTextField nameText = new JTextField();
 		nameText.setSize(150, 30);
 		JLabel ipLab = new JLabel("IP:");
 		JTextField ipText = new JTextField();
+		String[] zahlen = {"2","3","4","5","6"};
 		JLabel anzahlLab = new JLabel("Spieler Anzahl:");
-		JComboBox anzahlCBox = new JComboBox(zahlen);
+		JComboBox<String> anzahlCBox = new JComboBox<String>(zahlen);
 		JButton startBtn = new JButton("Spiel starten");
 		
+		//Actionlistener
 		startBtn.addActionListener(start -> spiel(nameText.getText(), Integer.parseInt((String)anzahlCBox.getSelectedItem()),frame));
+		
+		//Objekte hinzufügen
 		panel.add(nameLab,"right");
 		panel.add(nameText,"left,growx");
 		panel.add(ipLab,"right");
@@ -119,7 +133,6 @@ public class RisikoClientGUI extends JFrame{
 		panel.add(anzahlLab,"left");
 		panel.add(anzahlCBox,"left");
 		panel.add(startBtn,"center,spanx2");
-		
 		frame.add(panel);
 		frame.setVisible(true);
 	
@@ -154,9 +167,10 @@ public class RisikoClientGUI extends JFrame{
 	    	List<String> spielerListe = new Vector<String>();
 	    	spielerListe.add(name);
 	        JFrame frame = new JFrame("Risiko");
+	        frame.setLocationRelativeTo(null);
 	        frame.setSize(1400,750);
 	        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	        JPanel panel = new JPanel(new MigLayout("wrap2","[][]","[][30][30][30][30][30][30][][][]"));
+	        JPanel panel = new JPanel(new MigLayout("debug, wrap2","[][]","[][30][30][30][30][30][30][][][]"));
 	        frame.add(panel);
 	        //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
 	        JTextArea platzhalter = new JTextArea("platzhalter",10,20);
