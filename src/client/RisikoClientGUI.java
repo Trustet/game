@@ -1,12 +1,16 @@
-package local.ui.gui;
+package client;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.Socket;
 import java.util.List;
 import java.util.Vector;
 
@@ -41,7 +45,24 @@ public class RisikoClientGUI extends JFrame{
     JLabel missionen = new JLabel();
     int anzahl;
     
+    private Socket socket = null;
+    private BufferedReader in;
+    private PrintStream out;
+    
 	public RisikoClientGUI(){
+		try{
+			socket = new Socket("localhost",9119);
+			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			out = new PrintStream(socket.getOutputStream());
+		}catch(IOException e){
+			
+		}
+		try{
+			String message = in.readLine();
+			System.out.print(message);
+		}catch(IOException e){
+			
+		}
 	    spieler1Lab.setFont(new Font("Impact", Font.PLAIN,30));
 		spieler2Lab.setFont(new Font("Impact", Font.PLAIN,30));
 		spieler3Lab.setFont(new Font("Impact", Font.PLAIN,30));
@@ -187,6 +208,8 @@ public class RisikoClientGUI extends JFrame{
 				e.printStackTrace();
 			}
 	  
+			next.addActionListener(phase -> phaseAusgeben());
+			
 			platzhalter.setBorder(schwarz);
 	        missionen.setBorder(schwarz);
 	        karten.setBorder(schwarz);
@@ -261,6 +284,18 @@ public class RisikoClientGUI extends JFrame{
 			missionen.setText(sp.getSpielerMission(sp.getAktiverSpieler()).getBeschreibung());
     	}
     	
+    	
+    }
+    
+    public void phaseAusgeben(){
+    	out.println("Phase");
+    	
+    	try{
+    		String phase = in.readLine();
+    		System.out.println(phase);
+    	}catch(IOException e){
+    		
+    	}
     }
 
 
