@@ -195,7 +195,7 @@ public class RisikoClientGUI extends JFrame{
 	        JLabel spielfeld = null;
 	        BufferedImage myPicture;
 			try {
-				myPicture = ImageIO.read(new File("./welt.jpg"));
+				myPicture = ImageIO.read(new File("./weltkarte.jpg"));
 				spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(1050, 550, Image.SCALE_FAST)));
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
