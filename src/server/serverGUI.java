@@ -14,6 +14,7 @@ public class serverGUI extends JFrame{
 
 	private JTextField portText;
 	private risikoServer server;
+	
 	public static void main(String[] args) {
 		serverGUI gui = new serverGUI();
 		

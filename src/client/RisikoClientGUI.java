@@ -67,7 +67,7 @@ public class RisikoClientGUI extends JFrame{
 		
 		//Frame und Layout
 		JFrame frame = new JFrame("Spiel starten");
-		JPanel panel = new JPanel(new MigLayout("debug, wrap1","[]","[][][][][][]"));
+		JPanel panel = new JPanel(new MigLayout("wrap1","[]","[][][][][][]"));
 		frame.setLocationRelativeTo(null);
 		frame.setSize(500,700);
 		frame.setBackground(Color.GRAY);
@@ -185,7 +185,7 @@ public class RisikoClientGUI extends JFrame{
 	        frame.setLocationRelativeTo(null);
 	        frame.setSize(1400,750);
 	        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	        JPanel panel = new JPanel(new MigLayout("debug, wrap2","[][]","[][30][30][30][30][30][30][][][]"));
+	        JPanel panel = new JPanel(new MigLayout("wrap2","[][]","[][30][30][30][30][30][30][][][]"));
 	        frame.add(panel);
 	        //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
 	        JTextArea platzhalter = new JTextArea("platzhalter",10,20);
