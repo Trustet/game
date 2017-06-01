@@ -28,7 +28,10 @@ public class LaenderMission extends Mission {
 		
 		for(Land l : laender){
 			if(l.getBesitzer().equals(this.spieler)){
-				counter++;
+				if (l.getEinheiten()>= 3){
+					counter++;
+				}
+			
 			}
 		}
 		if(counter >= anzahlLaender){

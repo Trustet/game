@@ -20,6 +20,7 @@ public class Missionsverwaltung {
 	 */
 	public void missionsListeErstellen(List<Land> laenderListe, List<Kontinent> kontinentenListe, List<Spieler> spielerListe) {
 //		missionsListe.add(new LaenderMission(1,null,3,2,laenderListe));
+		List<Mission> speicher= new Vector<Mission>();
 //		missionsListe.add(new LaenderMission(2,null,3,2,laenderListe));
 		Spieler platzhalterSpieler = new Spieler("Platzhalter"); //weil er sonst nullpointer bei abfrage auf nicht verwendete missionen hat
 		//Befreien Sie Nordamerika und Afrika
@@ -47,19 +48,14 @@ public class Missionsverwaltung {
 //		Befreien Sie 18 Laender und setzen Sie in jedes Land mindestens 2 Armeen
 //		missionsListe.add(new LaenderMission(6,null, 18, 2, null));
 //		Befreien Sie alle Länder von den roten Armeen
-//		missionsListe.add(new SpielerMission(7,platzhalterSpieler, platzhalterSpieler, spielerListe));
-
-	}
-	public void missionenVerteilen(List<Spieler> spielerListe){
-		List<Mission> speicher = new Vector<Mission>();
-		int random;
+		missionsListe.add(new SpielerMission(5,platzhalterSpieler,platzhalterSpieler,spielerListe));
 		//Missionen abspeichern
 		for(Mission m : this.missionsListe){
 			speicher.add(m);
 		}
 		
 		for(Spieler s : spielerListe){
-			random = (int)(Math.random() * speicher.size());
+			int random = (int)(Math.random() * speicher.size());
 			for(Mission m : this.missionsListe){
 				if(m.getId() == speicher.get(random).getId()){
 					
@@ -68,8 +64,17 @@ public class Missionsverwaltung {
 						//Länder des Spielers setzen
 						//m.setLaender(/*TODO Länder des Spielers*/null);
 					} else if(m instanceof SpielerMission) {
+						boolean gegner= false;
+						do{
+							
+							int random2= (int)(Math.random() * spielerListe.size());
+							if (!s.equals(spielerListe.get(random2))){
+								((SpielerMission) m).setSpieler2(spielerListe.get(random2));
+								gegner= true;
+							}
+						} while(gegner==false);
 						m.setSpieler(s);
-						((SpielerMission) m).setSpieler2(spielerListe.get(1));
+						
 					} else if(m instanceof KontinentenMission){
 						m.setSpieler(s);
 					}
