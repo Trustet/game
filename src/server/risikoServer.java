@@ -17,7 +17,7 @@ public class risikoServer {
 		verbindungsAufbau();
 	}
 	public static void main(String[] args) {
-		risikoServer server = new risikoServer(9119);
+		
 		
 	}
 	

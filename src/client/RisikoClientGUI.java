@@ -50,19 +50,7 @@ public class RisikoClientGUI extends JFrame{
     private PrintStream out;
     
 	public RisikoClientGUI(){
-		try{
-			socket = new Socket("localhost",9119);
-			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			out = new PrintStream(socket.getOutputStream());
-		}catch(IOException e){
-			
-		}
-		try{
-			String message = in.readLine();
-			System.out.print(message);
-		}catch(IOException e){
-			
-		}
+		
 	    spieler1Lab.setFont(new Font("Impact", Font.PLAIN,30));
 		spieler2Lab.setFont(new Font("Impact", Font.PLAIN,30));
 		spieler3Lab.setFont(new Font("Impact", Font.PLAIN,30));
@@ -115,6 +103,7 @@ public class RisikoClientGUI extends JFrame{
 		frame.add(panel);
 		frame.pack();
 		frame.setVisible(true);
+		
 
 
 		
@@ -127,7 +116,7 @@ public class RisikoClientGUI extends JFrame{
 		
 		//Frame und Layout
 		JFrame frame = new JFrame("Spiel erstellen");
-		JPanel panel = new JPanel(new MigLayout("wrap2","[][150]","[40][][40][]"));
+		JPanel panel = new JPanel(new MigLayout("wrap2","[][150]","[][][][][]"));
 		frame.setLocationRelativeTo(null);
 		frame.setSize(300, 200);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -138,19 +127,23 @@ public class RisikoClientGUI extends JFrame{
 		nameText.setSize(150, 30);
 		JLabel ipLab = new JLabel("IP:");
 		JTextField ipText = new JTextField();
+		JLabel portLab = new JLabel("Port:");
+		JTextField portText = new JTextField();
 		String[] zahlen = {"2","3","4","5","6"};
 		JLabel anzahlLab = new JLabel("Spieler Anzahl:");
 		JComboBox<String> anzahlCBox = new JComboBox<String>(zahlen);
 		JButton startBtn = new JButton("Spiel starten");
 		
 		//Actionlistener
-		startBtn.addActionListener(start -> spiel(nameText.getText(), Integer.parseInt((String)anzahlCBox.getSelectedItem()),frame));
+		startBtn.addActionListener(start -> spiel(nameText.getText(), Integer.parseInt((String)anzahlCBox.getSelectedItem()),frame,ipText.getText(),Integer.parseInt(portText.getText())));
 		
 		//Objekte hinzufügen
 		panel.add(nameLab,"right");
 		panel.add(nameText,"left,growx");
 		panel.add(ipLab,"right");
 		panel.add(ipText,"left,growx");
+		panel.add(portLab,"right");
+		panel.add(portText,"left,growx");
 		panel.add(anzahlLab,"left");
 		panel.add(anzahlCBox,"left");
 		panel.add(startBtn,"center,spanx2");
@@ -158,7 +151,8 @@ public class RisikoClientGUI extends JFrame{
 		frame.setVisible(true);
 	
 	}
-    public void spiel(String name, int anzahl,JFrame frameStart) {
+    public void spiel(String name, int anzahl,JFrame frameStart,String ip, int port) {
+    	verbindungAufbauen(ip,port);
     	this.anzahl = anzahl;
     	try{
     		sp.erstelleSpieler(name);
@@ -296,6 +290,21 @@ public class RisikoClientGUI extends JFrame{
     	}catch(IOException e){
     		
     	}
+    }
+    public void verbindungAufbauen(String host, int port){
+    	try{
+			socket = new Socket(host,port);
+			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			out = new PrintStream(socket.getOutputStream());
+		}catch(IOException e){
+			
+		}
+		try{
+			String message = in.readLine();
+			System.out.print(message);
+		}catch(IOException e){
+			
+		}
     }
 
 

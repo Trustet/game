@@ -14,6 +14,7 @@ public class anfragenVerwaltung {
 	private BufferedReader in;
 	private PrintStream out;
 	public anfragenVerwaltung(Socket socket){
+		System.out.println("Server gestartet");
 		sp = new Spielfeld();
 		cSocket = socket;
 		try{
