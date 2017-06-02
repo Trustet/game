@@ -1,14 +1,12 @@
 package client;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.List;
@@ -45,6 +43,9 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
     JLabel spieler6Lab = new JLabel();
     JLabel missionen = new JLabel();
     int anzahl;
+    SpielerPanel spielerListPanel;
+    MissionPanel missionPanel;
+    JFrame spielFrame;
     
     private Socket socket = null;
     private BufferedReader in;
@@ -52,12 +53,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
     
 	public RisikoClientGUI(){
 		
-	    spieler1Lab.setFont(new Font("Impact", Font.PLAIN,30));
-		spieler2Lab.setFont(new Font("Impact", Font.PLAIN,30));
-		spieler3Lab.setFont(new Font("Impact", Font.PLAIN,30));
-		spieler4Lab.setFont(new Font("Impact", Font.PLAIN,30));
-		spieler5Lab.setFont(new Font("Impact", Font.PLAIN,30));
-		spieler6Lab.setFont(new Font("Impact", Font.PLAIN,30));
+	   
 		this.start();
 	}
 	public static void main(String[] args) {
@@ -138,7 +134,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 		
 		//Actionlistener
 		startBtn.addActionListener(start -> spiel(nameText.getText(), Integer.parseInt((String)anzahlCBox.getSelectedItem()),frame,ipText.getText(),Integer.parseInt(portText.getText())));
-		
+	
 		//Objekte hinzuf√ºgen
 		panel.add(nameLab,"right");
 		panel.add(nameText,"left,growx");
@@ -160,35 +156,13 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
     		sp.erstelleSpieler(name);
 	    	
 	    	frameStart.dispose();
-	    	spieler1Lab.setText(name);
-	    	for(int i = 1; i < anzahl; i++){
-	    		neuerSpieler();
-	    		switch(i){
-	    		case 1:
-	    			spieler2Lab.setText("Warten auf Spieler...");
-	    			break;
-	    		case 2:
-	    			spieler3Lab.setText("Warten auf Spieler...");
-	    			break;
-	    		case 3:
-	    			spieler4Lab.setText("Warten auf Spieler...");
-	    			break;
-	    		case 4:
-	    			spieler5Lab.setText("Warten auf Spieler...");
-	    			break;
-	    		case 5:
-	    			spieler6Lab.setText("Warten auf Spieler...");
-	    			break;
-	    		}
-	    	}
-	    	List<String> spielerListe = new Vector<String>();
-	    	spielerListe.add(name);
-	        JFrame frame = new JFrame("Risiko");
-	        frame.setLocationRelativeTo(null);
-	        frame.setSize(1400,750);
-	        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	        JPanel panel = new JPanel(new MigLayout("wrap2","[][]","[][30][30][30][30][30][30][][][]"));
-	        frame.add(panel);
+	    	
+	        spielFrame = new JFrame("Risiko");
+	        spielFrame.setLocationRelativeTo(null);
+	        spielFrame.setSize(1400,750);
+	        spielFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	        JPanel panel = new JPanel(new MigLayout("debug,wrap2","[][]","[][][][]"));
+	        spielFrame.add(panel);
 	        //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
 	        JTextArea platzhalter = new JTextArea("platzhalter",10,20);
 	        JTextArea karten = new JTextArea("Karten",10,20);
@@ -204,6 +178,9 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 //				e.printStackTrace();
 //			}
 	        MapPanel spielfeld = new MapPanel(this);
+	        spielerListPanel = new SpielerPanel();
+	        missionPanel = new MissionPanel();
+	        
 	        
 			next.addActionListener(phase -> phaseAusgeben());
 			
@@ -213,21 +190,18 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 	        statistik.setBorder(schwarz);
 	        spielfeld.setBorder(schwarz);
 	        
-	        
-	        panel.add(spielfeld,"left,spany 8,growx,growy");
+	  
+	        panel.add(spielfeld,"left,spany 3,growx,growy");
 	        panel.add(platzhalter,"left");
-	        panel.add(spieler1Lab,"center");
-	        panel.add(spieler2Lab,"center");
-	        panel.add(spieler3Lab,"center");
-	        panel.add(spieler4Lab,"center");
-	        panel.add(spieler5Lab,"center");
-	        panel.add(spieler6Lab,"center");
+	        panel.add(spielerListPanel,"growx,growy");
 	        panel.add(statistik,"left,top,growy");
-	        panel.add(missionen,"left,split2,wmin 200,hmin 150");
+	        panel.add(missionPanel,"left,split2");
 	        panel.add(karten,"left,growx");
 	        panel.add(next,"center,growy,growx");
-	        frame.setResizable(false);
-	        frame.setVisible(true);
+	        spielFrame.setResizable(false);
+	        spielFrame.setVisible(true);
+
+	  	        
     	}catch(SpielerExistiertBereitsException sebe){
     		JOptionPane.showMessageDialog(null,sebe.getMessage(),"Name vergeben",JOptionPane.WARNING_MESSAGE);
     	}
@@ -285,14 +259,17 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
     }
     
     public void phaseAusgeben(){
-    	out.println("Phase");
+    	spielerListPanel.setLabel(1, "Yannik");
+    	missionPanel.setMBeschreibung(1, "‹bernehme volgende Laender", "Asien und Europa");
     	
-    	try{
-    		String phase = in.readLine();
-    		System.out.println(phase);
-    	}catch(IOException e){
-    		
-    	}
+//    	out.println("Phase");
+//    	
+//    	try{
+//    		String phase = in.readLine();
+//    		System.out.println(phase);
+//    	}catch(IOException e){
+//    		
+//    	}
     }
 //    public void verbindungAufbauen(String host, int port){
 //    	try{
