@@ -28,12 +28,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import client.MapPanel.MapClickHandler;
 import local.domain.Spielfeld;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import net.miginfocom.swing.MigLayout;
 
 
-public class RisikoClientGUI extends JFrame{
+public class RisikoClientGUI extends JFrame implements MapClickHandler {
 	Spielfeld sp = new Spielfeld();
 	Border schwarz = BorderFactory.createLineBorder(Color.black);
 	JLabel spieler1Lab = new JLabel();
@@ -102,6 +103,7 @@ public class RisikoClientGUI extends JFrame{
 		panel.add(beendenBtn,"center,growx");
 		frame.add(panel);
 		frame.pack();
+		frame.setResizable(false);
 		frame.setVisible(true);
 		
 
@@ -152,7 +154,7 @@ public class RisikoClientGUI extends JFrame{
 	
 	}
     public void spiel(String name, int anzahl,JFrame frameStart,String ip, int port) {
-    	verbindungAufbauen(ip,port);
+    	//verbindungAufbauen(ip,port);
     	this.anzahl = anzahl;
     	try{
     		sp.erstelleSpieler(name);
@@ -192,16 +194,17 @@ public class RisikoClientGUI extends JFrame{
 	        JTextArea karten = new JTextArea("Karten",10,20);
 	        JTextArea statistik = new JTextArea("Statistik",15,20);
 	        JButton next = new JButton("Naechste Phase");
-	        JLabel spielfeld = null;
-	        BufferedImage myPicture;
-			try {
-				myPicture = ImageIO.read(new File("./weltkarte.jpg"));
-				spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(1050, 550, Image.SCALE_FAST)));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	  
+
+//	        BufferedImage myPicture;
+//			try {
+//				myPicture = ImageIO.read(new File("./weltkarte.jpg"));
+//				spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(1050, 550, Image.SCALE_FAST)));
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+	        MapPanel spielfeld = new MapPanel(this);
+	        
 			next.addActionListener(phase -> phaseAusgeben());
 			
 			platzhalter.setBorder(schwarz);
@@ -291,21 +294,21 @@ public class RisikoClientGUI extends JFrame{
     		
     	}
     }
-    public void verbindungAufbauen(String host, int port){
-    	try{
-			socket = new Socket(host,port);
-			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			out = new PrintStream(socket.getOutputStream());
-		}catch(IOException e){
-			
-		}
-		try{
-			String message = in.readLine();
-			System.out.print(message);
-		}catch(IOException e){
-			
-		}
-    }
+//    public void verbindungAufbauen(String host, int port){
+//    	try{
+//			socket = new Socket(host,port);
+//			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//			out = new PrintStream(socket.getOutputStream());
+//		}catch(IOException e){
+//			
+//		}
+//		try{
+//			String message = in.readLine();
+//			System.out.print(message);
+//		}catch(IOException e){
+//			
+//		}
+//    }
 
 
 		//spielStarten.addActionListener(starten -> this.risiko(mapWahl.getSelectedItem().toString()));
@@ -324,6 +327,12 @@ public class RisikoClientGUI extends JFrame{
             g.drawImage(image, 0, 0, b, h, this);
         }
     }
+
+
+	@Override
+	public void processMouseClick(int x, int y) {
+		System.out.println("Aktion an Koordinaten [" + x + "/" + y + "]");
+	}
 
 }
 	
