@@ -308,8 +308,9 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 
 
 	@Override
-	public void processMouseClick(int x, int y) {
-		System.out.println("Aktion an Koordinaten [" + x + "/" + y + "]");
+	public void processMouseClick(int x, int y, Color color) {
+		
+		System.out.println("Farbcode an der Stelle [" + x + "/" + y + "] = " + color.getRed() + color.getGreen() + color.getBlue());
 	}
 
 }
