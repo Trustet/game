@@ -153,6 +153,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
     	//verbindungAufbauen(ip,port);
     	this.anzahl = anzahl;
     	try{
+    		sp.erstelleSpieler("Yannik");
     		sp.erstelleSpieler(name);
 	    	
 	    	frameStart.dispose();
@@ -164,10 +165,9 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 	        JPanel panel = new JPanel(new MigLayout("debug,wrap2","[][]","[][][][]"));
 	        spielFrame.add(panel);
 	        //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
-	        JTextArea platzhalter = new JTextArea("platzhalter",10,20);
 	        JTextArea karten = new JTextArea("Karten",10,20);
 	        JTextArea statistik = new JTextArea("Statistik",15,20);
-	        JButton next = new JButton("Naechste Phase");
+
 
 //	        BufferedImage myPicture;
 //			try {
@@ -180,11 +180,12 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 	        MapPanel spielfeld = new MapPanel(this);
 	        spielerListPanel = new SpielerPanel();
 	        missionPanel = new MissionPanel();
+	        InfoPanel infoPanel = new InfoPanel(sp.getTurn()+"",sp.getAktiverSpieler().getName());
+	        ButtonPanel buttonPanel = new ButtonPanel(infoPanel,sp);
 	        
-	        
-			next.addActionListener(phase -> phaseAusgeben());
+//			next.addActionListener(phase -> phaseAusgeben());
 			
-			platzhalter.setBorder(schwarz);
+
 	        missionen.setBorder(schwarz);
 	        karten.setBorder(schwarz);
 	        statistik.setBorder(schwarz);
@@ -192,12 +193,12 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 	        
 	  
 	        panel.add(spielfeld,"left,spany 3,growx,growy");
-	        panel.add(platzhalter,"left");
+	        panel.add(infoPanel,"left");
 	        panel.add(spielerListPanel,"growx,growy");
 	        panel.add(statistik,"left,top,growy");
 	        panel.add(missionPanel,"left,split2");
 	        panel.add(karten,"left,growx");
-	        panel.add(next,"center,growy,growx");
+	        panel.add(buttonPanel,"center,growy,growx");
 	        spielFrame.setResizable(false);
 	        spielFrame.setVisible(true);
 

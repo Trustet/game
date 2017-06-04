@@ -223,6 +223,7 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 				break;
 			case VERTEILEN:
 				Phase = phasen.ANGRIFF;
+				spielerVw.naechsterSpieler();
 				break;
 				
 		}
