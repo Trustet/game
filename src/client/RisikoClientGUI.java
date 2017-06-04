@@ -9,8 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.util.List;
-import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -133,7 +131,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 		JButton startBtn = new JButton("Spiel starten");
 		
 		//Actionlistener
-		startBtn.addActionListener(start -> spiel(nameText.getText(), Integer.parseInt((String)anzahlCBox.getSelectedItem()),frame,ipText.getText(),Integer.parseInt(portText.getText())));
+		startBtn.addActionListener(start -> spiel(nameText.getText(), Integer.parseInt((String)anzahlCBox.getSelectedItem()),frame));
 	
 		//Objekte hinzufügen
 		panel.add(nameLab,"right");
@@ -149,11 +147,13 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 		frame.setVisible(true);
 	
 	}
-    public void spiel(String name, int anzahl,JFrame frameStart,String ip, int port) {
+    public void spiel(String name, int anzahl,JFrame frameStart) {
     	//verbindungAufbauen(ip,port);
     	this.anzahl = anzahl;
+    	for(int i = 0; i < anzahl; i++ ){
+    		neuerSpieler();
+    	}
     	try{
-    		sp.erstelleSpieler("Yannik");
     		sp.erstelleSpieler(name);
 	    	
 	    	frameStart.dispose();
@@ -169,15 +169,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 	        JTextArea statistik = new JTextArea("Statistik",15,20);
 
 
-//	        BufferedImage myPicture;
-//			try {
-//				myPicture = ImageIO.read(new File("./weltkarte.jpg"));
-//				spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(1050, 550, Image.SCALE_FAST)));
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-	        MapPanel spielfeld = new MapPanel(this);
+	        MapPanel spielfeld = new MapPanel(this, sp);
 	        spielerListPanel = new SpielerPanel();
 	        missionPanel = new MissionPanel();
 	        InfoPanel infoPanel = new InfoPanel(sp.getTurn()+"",sp.getAktiverSpieler().getName());
@@ -206,7 +198,10 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
     	}catch(SpielerExistiertBereitsException sebe){
     		JOptionPane.showMessageDialog(null,sebe.getMessage(),"Name vergeben",JOptionPane.WARNING_MESSAGE);
     	}
-    }
+    	
+    	
+		}
+ 
     public void neuerSpieler(){
     	JFrame frame = new JFrame("Spieler erstellen");
     	frame.setSize(150, 300);
@@ -226,20 +221,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
     	try{
     		sp.erstelleSpieler(name);
     		frame.dispose();
-        	if(spieler1Lab.getText().equals("Warten auf Spieler...")){
-        		spieler1Lab.setText(name);
-        	}else if(spieler2Lab.getText().equals("Warten auf Spieler...")){
-        		spieler2Lab.setText(name);
-        	}else if(spieler3Lab.getText().equals("Warten auf Spieler...")){
-        		spieler3Lab.setText(name);
-        	}else if(spieler4Lab.getText().equals("Warten auf Spieler...")){
-        		spieler4Lab.setText(name);
-        	}else if(spieler5Lab.getText().equals("Warten auf Spieler...")){
-        		spieler5Lab.setText(name);
-        	}else if(spieler6Lab.getText().equals("Warten auf Spieler...")){
-        		spieler6Lab.setText(name);
-        	}
-        
+      
     	}catch (SpielerExistiertBereitsException sebe) {
     		 JOptionPane.showMessageDialog(null,sebe.getMessage(),"Name vergeben",JOptionPane.WARNING_MESSAGE);
     	}

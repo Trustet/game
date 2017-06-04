@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,10 +11,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import javax.imageio.ImageIO;
-import java.awt.Color;
+import local.domain.Spielfeld;
+import local.domain.exceptions.KannLandNichtBenutzenException;
 
 public class MapPanel extends JPanel {
 
@@ -25,8 +27,10 @@ public class MapPanel extends JPanel {
 	private JLabel weltKarteBuntLab = null;
 	private MapClickHandler handler = null;
 	private BufferedImage weltKarteBunt;
+	private Spielfeld sp;
 	
-	public MapPanel(MapClickHandler handler) {
+	public MapPanel(MapClickHandler handler, Spielfeld sp) {
+		this.sp = sp;
 		this.handler = handler;
 		initialize();
 	}
@@ -37,7 +41,7 @@ public class MapPanel extends JPanel {
         try {
 			myPicture = ImageIO.read(new File("./weltkarte.jpg"));
 			spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(1050, 550, Image.SCALE_FAST)));
-			weltKarteBunt = ImageIO.read(new File("./weltkarte_bunt.jpg"));
+			weltKarteBunt = ImageIO.read(new File("./weltkarte_bunt.png"));
 			weltKarteBuntLab = new JLabel(new ImageIcon(weltKarteBunt));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -52,7 +56,12 @@ public class MapPanel extends JPanel {
 				Color color = new Color(farbenInt, true);
 				String colorSwitch = Integer.toString(color.getRed()) + "" + Integer.toString(color.getGreen()) + "" + Integer.toString(color.getBlue());
 				switch(colorSwitch){
-				case "8932189": System.out.println("Ukraine");
+				case "3917935": System.out.println("Alaska");
+					try {
+						sp.landWaehlen("Alaska", sp.getAktiverSpieler());
+					} catch (KannLandNichtBenutzenException e1) {
+						JOptionPane.showMessageDialog(null,e1.getMessage(),"Fehler",JOptionPane.WARNING_MESSAGE);
+					}
 					break;
 				case "212161104": System.out.println("NordwestAfrika");
 					break;
