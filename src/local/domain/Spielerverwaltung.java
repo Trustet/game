@@ -1,11 +1,9 @@
 package local.domain;
-import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.persistence.FilePersistenceManager;
-import local.valueobjects.Land;
 import local.valueobjects.Spieler;
 
 public class Spielerverwaltung {

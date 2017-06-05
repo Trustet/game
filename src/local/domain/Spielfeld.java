@@ -4,8 +4,21 @@ import java.io.IOException;
 import java.util.List;
 
 import local.domain.Kriegsverwaltung.phasen;
-import local.domain.exceptions.*;
-import local.valueobjects.*;
+import local.domain.exceptions.KannEinheitenNichtVerschiebenException;
+import local.domain.exceptions.KannLandNichtBenutzenException;
+import local.domain.exceptions.KeinGegnerException;
+import local.domain.exceptions.KeinLandZumAngreifenException;
+import local.domain.exceptions.KeinNachbarlandException;
+import local.domain.exceptions.LandBereitsBenutztException;
+import local.domain.exceptions.LandExistiertNichtException;
+import local.domain.exceptions.NichtGenugEinheitenException;
+import local.domain.exceptions.SpielerExistiertBereitsException;
+import local.valueobjects.Angriff;
+import local.valueobjects.AngriffRueckgabe;
+import local.valueobjects.Einheitenkarten;
+import local.valueobjects.Land;
+import local.valueobjects.Mission;
+import local.valueobjects.Spieler;
 
 
 public class Spielfeld {

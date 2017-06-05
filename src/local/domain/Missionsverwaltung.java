@@ -66,17 +66,17 @@ public class Missionsverwaltung {
 						m.setSpieler(s);
 						//Länder des Spielers setzen
 						//m.setLaender(/*TODO Länder des Spielers*/null);
-//					} else if(m instanceof SpielerMission) {
-//						boolean gegner= false;
-//						do{
-//							
-//							int random2= (int)(Math.random() * spielerListe.size());
-//							if (!s.equals(spielerListe.get(random2))){
-//								((SpielerMission) m).setSpieler2(spielerListe.get(random2));
-//								gegner= true;
-//							}
-//						} while(gegner==false);
-//						m.setSpieler(s);
+					} else if(m instanceof SpielerMission) {
+						boolean gegner= false;
+						do{
+							
+							int random2= (int)(Math.random() * spielerListe.size());
+							if (!s.equals(spielerListe.get(random2))){
+								((SpielerMission) m).setSpieler2(spielerListe.get(random2));
+								gegner= true;
+							}
+						} while(gegner==false);
+						m.setSpieler(s);
 						
 					} else if(m instanceof KontinentenMission){
 						m.setSpieler(s);
