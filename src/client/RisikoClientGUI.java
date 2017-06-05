@@ -184,7 +184,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 	        spielfeld.setBorder(schwarz);
 	        
 	  
-	        panel.add(spielfeld,"left,spany 3,growx,growy");
+	        panel.add(spielfeld,"left,spany 3,growx,growy,hmin 550, wmin 1050");
 	        panel.add(infoPanel,"left");
 	        panel.add(spielerListPanel,"growx,growy");
 	        panel.add(statistik,"left,top,growy");
@@ -243,7 +243,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
     
     public void phaseAusgeben(){
     	spielerListPanel.setLabel(1, "Yannik");
-    	missionPanel.setMBeschreibung(1, "Übernehme volgende Laender", "Asien und Europa");
+    	missionPanel.setMBeschreibung(1, "ï¿½bernehme volgende Laender", "Asien und Europa");
     	
 //    	out.println("Phase");
 //    	

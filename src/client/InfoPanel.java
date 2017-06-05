@@ -26,8 +26,8 @@ public class InfoPanel extends JPanel{
 		spielerLab = new JLabel(spieler);
 		this.add(header,"center");
 		this.add(phaseLab,"center");
-		this.add(sheader);
-		this.add(spielerLab);
+		this.add(sheader,"center");
+		this.add(spielerLab,"center");
 	}
 	
 	public void setInfo(String phase, String spieler){

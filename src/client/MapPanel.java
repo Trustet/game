@@ -1,6 +1,7 @@
 package client;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,13 +12,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import local.domain.Spielfeld;
 import local.domain.exceptions.KannLandNichtBenutzenException;
 
-public class MapPanel extends JPanel {
+public class MapPanel extends JLayeredPane {
 
 	public interface MapClickHandler {
 		public void processMouseClick(int x, int y, Color color);
@@ -25,9 +26,11 @@ public class MapPanel extends JPanel {
 	
 	private JLabel spielfeld = null;
 	private JLabel weltKarteBuntLab = null;
+	private JLabel  fahneLab = null;
 	private MapClickHandler handler = null;
 	private BufferedImage weltKarteBunt;
 	private Spielfeld sp;
+	
 	
 	public MapPanel(MapClickHandler handler, Spielfeld sp) {
 		this.sp = sp;
@@ -37,12 +40,15 @@ public class MapPanel extends JPanel {
 	
 	public void initialize() {
         BufferedImage myPicture;
+        BufferedImage fahneImg;
         
         try {
 			myPicture = ImageIO.read(new File("./weltkarte.jpg"));
 			spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(1050, 550, Image.SCALE_FAST)));
 			weltKarteBunt = ImageIO.read(new File("./weltkarte_bunt.png"));
 			weltKarteBuntLab = new JLabel(new ImageIcon(weltKarteBunt));
+			fahneImg = ImageIO.read(new File("./fahne_rot.jpg"));
+			fahneLab = new JLabel(new ImageIcon(fahneImg.getScaledInstance(50, 50, Image.SCALE_FAST)));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -74,11 +80,17 @@ public class MapPanel extends JPanel {
 				handler.processMouseClick(e.getX(), e.getY(), color);
 			}
 		});
+        JLabel testLab = new JLabel("2");
         
+        testLab.setBounds(20, 30, 10, 10);
+        fahneLab.setBounds(20, 20, 100, 100);
         spielfeld.setBounds(0, 0, 1050, 550);
         weltKarteBuntLab.setBounds(0, 0, 1050, 550);
         weltKarteBuntLab.setVisible(false);
-        this.add(spielfeld);
+        this.add(spielfeld,new Integer(2), 1);
         this.add(weltKarteBuntLab);
+        this.add(fahneLab,new Integer(2), 0);
+        this.add(testLab, new Integer(2), 0);
+        this.setPreferredSize(new Dimension(1050,550));
 	}
 }
