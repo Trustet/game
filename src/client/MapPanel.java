@@ -2,6 +2,7 @@ package client;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -47,8 +48,8 @@ public class MapPanel extends JLayeredPane {
 			spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(1050, 550, Image.SCALE_FAST)));
 			weltKarteBunt = ImageIO.read(new File("./weltkarte_bunt.png"));
 			weltKarteBuntLab = new JLabel(new ImageIcon(weltKarteBunt));
-			fahneImg = ImageIO.read(new File("./fahne_rot.jpg"));
-			fahneLab = new JLabel(new ImageIcon(fahneImg.getScaledInstance(50, 50, Image.SCALE_FAST)));
+			fahneImg = ImageIO.read(new File("./Fahne_Rot.png"));
+			fahneLab = new JLabel(new ImageIcon(fahneImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,9 +82,9 @@ public class MapPanel extends JLayeredPane {
 			}
 		});
         JLabel testLab = new JLabel("2");
-        
-        testLab.setBounds(20, 30, 10, 10);
-        fahneLab.setBounds(20, 20, 100, 100);
+//        testLab.setFont(new Font("Impact", Font.BOLD,30));
+        testLab.setBounds(46, 84, 10, 10);
+        fahneLab.setBounds(46, 64, 20, 20);
         spielfeld.setBounds(0, 0, 1050, 550);
         weltKarteBuntLab.setBounds(0, 0, 1050, 550);
         weltKarteBuntLab.setVisible(false);
