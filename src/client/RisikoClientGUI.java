@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.List;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -27,6 +29,7 @@ import javax.swing.border.Border;
 import client.MapPanel.MapClickHandler;
 import local.domain.Spielfeld;
 import local.domain.exceptions.SpielerExistiertBereitsException;
+import local.valueobjects.Spieler;
 import net.miginfocom.swing.MigLayout;
 
 
@@ -44,6 +47,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
     SpielerPanel spielerListPanel;
     MissionPanel missionPanel;
     JFrame spielFrame;
+    private MapPanel spielfeld;
     
     private Socket socket = null;
     private BufferedReader in;
@@ -169,7 +173,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 	        JTextArea statistik = new JTextArea("Statistik",15,20);
 
 
-	        MapPanel spielfeld = new MapPanel(this, sp);
+	        spielfeld = new MapPanel(this, sp);
 	        spielerListPanel = new SpielerPanel();
 	        missionPanel = new MissionPanel();
 	        InfoPanel infoPanel = new InfoPanel(sp.getTurn()+"",sp.getAktiverSpieler().getName());
@@ -235,6 +239,12 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 			}
 			sp.missionenVerteilen();
 			sp.laenderAufteilen();
+			farbenVerteilen();
+			spielfeld.fahnenVerteilen();
+			for(Spieler s : sp.getSpielerList()){
+				System.out.println(s.getFarbe());
+			}
+			
 			missionen.setText(sp.getSpielerMission(sp.getAktiverSpieler()).getBeschreibung());
     	}
     	
@@ -271,6 +281,17 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 //    }
 
 
+    public void farbenVerteilen(){
+    	List<String> farben = new Vector<String>();
+    	farben.add("rot");
+    	farben.add("gruen");
+    	farben.add("blau");
+    	
+    	for(Spieler s : sp.getSpielerList()){
+    		s.setFarbe(farben.get(0));
+    		farben.remove(0);
+    	}
+    }
 		//spielStarten.addActionListener(starten -> this.risiko(mapWahl.getSelectedItem().toString()));
     class ImagePanel extends JComponent {
         private Image image;

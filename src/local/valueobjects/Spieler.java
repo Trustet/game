@@ -7,6 +7,7 @@ import local.domain.exceptions.KannLandNichtBenutzenException;
 
 public class Spieler {
 	
+	private String farbe;
 	private String name;
 	private List<Einheitenkarten> einheitenkarten;
 	
@@ -41,5 +42,11 @@ public class Spieler {
 			return this.name.equals(andererSpieler.getName());
 		}
 		return false;
+	}
+	public void setFarbe(String farbe){
+		this.farbe = farbe;
+	}
+	public String getFarbe(){
+		return this.farbe;
 	}
 }

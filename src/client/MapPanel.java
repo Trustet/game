@@ -2,13 +2,14 @@ package client;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -18,19 +19,26 @@ import javax.swing.JOptionPane;
 
 import local.domain.Spielfeld;
 import local.domain.exceptions.KannLandNichtBenutzenException;
+import local.valueobjects.Land;
 
 public class MapPanel extends JLayeredPane {
 
+	private List<JLabel> fahnen = new Vector<JLabel>();
 	public interface MapClickHandler {
 		public void processMouseClick(int x, int y, Color color);
 	}
 	
 	private JLabel spielfeld = null;
 	private JLabel weltKarteBuntLab = null;
-	private JLabel  fahneLab = null;
+	private JLabel  fahneRotLab = null;
+	private JLabel  fahneBlauLab = null;
+	private JLabel  fahneGruenLab = null;
 	private MapClickHandler handler = null;
 	private BufferedImage weltKarteBunt;
 	private Spielfeld sp;
+    private BufferedImage fahneRotImg;
+    private BufferedImage fahneBlauImg;
+    private BufferedImage fahneGruenImg;
 	
 	
 	public MapPanel(MapClickHandler handler, Spielfeld sp) {
@@ -41,15 +49,19 @@ public class MapPanel extends JLayeredPane {
 	
 	public void initialize() {
         BufferedImage myPicture;
-        BufferedImage fahneImg;
+   
         
         try {
 			myPicture = ImageIO.read(new File("./weltkarte.jpg"));
 			spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(1050, 550, Image.SCALE_FAST)));
 			weltKarteBunt = ImageIO.read(new File("./weltkarte_bunt.png"));
 			weltKarteBuntLab = new JLabel(new ImageIcon(weltKarteBunt));
-			fahneImg = ImageIO.read(new File("./Fahne_Rot.png"));
-			fahneLab = new JLabel(new ImageIcon(fahneImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
+			fahneRotImg = ImageIO.read(new File("./Fahne_Rot.png"));
+//			fahneRotLab = new JLabel(new ImageIcon(fahneGruenImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
+			fahneGruenImg = ImageIO.read(new File("./Fahne_Gruen.png"));
+//			fahneGruenLab = new JLabel(new ImageIcon(fahneGruenImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
+			fahneBlauImg = ImageIO.read(new File("./Fahne_Blau.png"));
+//			fahneBlauLab = new JLabel(new ImageIcon(fahneBlauImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,17 +93,38 @@ public class MapPanel extends JLayeredPane {
 				handler.processMouseClick(e.getX(), e.getY(), color);
 			}
 		});
-        JLabel testLab = new JLabel("2");
-//        testLab.setFont(new Font("Impact", Font.BOLD,30));
-        testLab.setBounds(46, 84, 10, 10);
-        fahneLab.setBounds(46, 64, 20, 20);
+
+
+
+//        fahneLab.setBounds(46, 64, 20, 20);
         spielfeld.setBounds(0, 0, 1050, 550);
         weltKarteBuntLab.setBounds(0, 0, 1050, 550);
         weltKarteBuntLab.setVisible(false);
         this.add(spielfeld,new Integer(2), 1);
         this.add(weltKarteBuntLab);
-        this.add(fahneLab,new Integer(2), 0);
-        this.add(testLab, new Integer(2), 0);
+//        this.add(fahneLab,new Integer(2), 0);
+
         this.setPreferredSize(new Dimension(1050,550));
+        
+	}
+	
+	public void fahnenVerteilen(){
+		String farbe = "";
+		JLabel fahne = null;
+		for(Land l : sp.getLaenderListe()){
+			farbe = l.getBesitzer().getFarbe();
+			switch(farbe){
+			case "rot":	fahne = new JLabel(new ImageIcon(fahneRotImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
+							break;
+			case "blau":	fahne = new JLabel(new ImageIcon(fahneBlauImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
+							break;
+			case "gruen":		fahne = new JLabel(new ImageIcon(fahneGruenImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
+							break;
+			}
+			fahne.setBounds(l.getFahneX(), l.getFahneY(), 20, 20);
+			fahnen.add(fahne);
+			this.add(fahne, new Integer(2), 0);
+		}
+
 	}
 }

@@ -6,13 +6,17 @@ public class Land {
 	private Spieler besitzer;
 	private int einheiten;
 	private String kurzel;
+	private int fahneX;
+	private int fahneY;
 	
 
-	public Land(String name, Spieler besitzer, int einheiten, String kurzel) {
+	public Land(String name, Spieler besitzer, int einheiten, String kurzel, int fahneX, int fahneY) {
 		this.name = name;
 		this.besitzer = besitzer;
 		this.einheiten = einheiten;
 		this.kurzel = kurzel;
+		this.fahneX = fahneX;
+		this.fahneY = fahneY;
 	}
 
 	public String getName() {
@@ -40,6 +44,19 @@ public class Land {
 	}
 	public String getKuerzel(){
 		return kurzel;
+	}
+	
+	public void setFahne(int x, int y){
+		this.fahneX = x;
+		this.fahneY = y;
+	}
+	
+	public int getFahneX(){
+		return fahneX;
+	}
+	
+	public int getFahneY(){
+		return fahneY;
 	}
 	
 	

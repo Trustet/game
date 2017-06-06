@@ -44,8 +44,10 @@ public class FilePersistenceManager {
 			return null;
 		}
 		String kuerzel = liesZeile();
+		int fahneX = Integer.parseInt(liesZeile());
+		int fahneY = Integer.parseInt(liesZeile());
 		
-		return new Land(name,null,1,kuerzel);
+		return new Land(name,null,1,kuerzel,fahneX, fahneY);
 		
 	}
 

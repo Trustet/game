@@ -478,9 +478,11 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 				spieler = pm.spielstandLaden();
 				einheiten = Integer.parseInt(pm.spielstandLaden());
 				kuerzel = pm.spielstandLaden();
+				int fahneX = Integer.parseInt(pm.spielstandLaden());
+				int fahneY = Integer.parseInt(pm.spielstandLaden());
 				for(Spieler s : spielerVw.getSpielerList()){
 					if(s.getName().equals(spieler)){
-						weltVw.getLaenderListe().add(new Land(land,s,einheiten,kuerzel));
+						weltVw.getLaenderListe().add(new Land(land,s,einheiten,kuerzel, fahneX, fahneY));
 					}
 				}
 			}	
