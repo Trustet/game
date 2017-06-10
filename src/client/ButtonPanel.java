@@ -1,12 +1,10 @@
 package client;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import local.domain.Spielfeld;
+import local.valueobjects.Land;
 import net.miginfocom.swing.MigLayout;
 
 public class ButtonPanel extends JPanel{
@@ -31,6 +29,8 @@ public class ButtonPanel extends JPanel{
 		sp.nextTurn();
 		ip.setInfo(sp.getTurn()+"", sp.getAktiverSpieler().getName());
 		System.out.println(sp.getTurn() + "     " + sp.getAktiverSpieler().getName());
+		
+		
 		
 	}
 }

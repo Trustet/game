@@ -36,9 +36,7 @@ public class MapPanel extends JLayeredPane {
 	private MapClickHandler handler = null;
 	private BufferedImage weltKarteBunt;
 	private Spielfeld sp;
-    private BufferedImage fahneRotImg;
-    private BufferedImage fahneBlauImg;
-    private BufferedImage fahneGruenImg;
+  
 	
 	
 	public MapPanel(MapClickHandler handler, Spielfeld sp) {
@@ -56,11 +54,7 @@ public class MapPanel extends JLayeredPane {
 			spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(1050, 550, Image.SCALE_FAST)));
 			weltKarteBunt = ImageIO.read(new File("./weltkarte_bunt.png"));
 			weltKarteBuntLab = new JLabel(new ImageIcon(weltKarteBunt));
-			fahneRotImg = ImageIO.read(new File("./Fahne_Rot.png"));
-//			fahneRotLab = new JLabel(new ImageIcon(fahneGruenImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
-			fahneGruenImg = ImageIO.read(new File("./Fahne_Gruen.png"));
-//			fahneGruenLab = new JLabel(new ImageIcon(fahneGruenImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
-			fahneBlauImg = ImageIO.read(new File("./Fahne_Blau.png"));
+			
 //			fahneBlauLab = new JLabel(new ImageIcon(fahneBlauImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -112,19 +106,16 @@ public class MapPanel extends JLayeredPane {
 		String farbe = "";
 		JLabel fahne = null;
 		for(Land l : sp.getLaenderListe()){
-			farbe = l.getBesitzer().getFarbe();
-			switch(farbe){
-			case "rot":	fahne = new JLabel(new ImageIcon(fahneRotImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
-							break;
-			case "blau":	fahne = new JLabel(new ImageIcon(fahneBlauImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
-							break;
-			case "gruen":		fahne = new JLabel(new ImageIcon(fahneGruenImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
-							break;
-			}
-			fahne.setBounds(l.getFahneX(), l.getFahneY(), 20, 20);
+			l.setFahne(l.getBesitzer().getFarbe());
+			fahne = l.getFahne();	
 			fahnen.add(fahne);
 			this.add(fahne, new Integer(2), 0);
 		}
+		
 
+	}
+	
+	public List<JLabel> getFahnenList(){
+		return this.fahnen;
 	}
 }
