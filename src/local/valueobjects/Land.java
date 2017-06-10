@@ -1,5 +1,7 @@
 package local.valueobjects;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -17,6 +19,7 @@ public class Land {
 	private int fahneX;
 	private int fahneY;
 	private JLabel fahne;
+	private JLabel einheitenLab;
 	private BufferedImage fahneRotImg;
 	private BufferedImage fahneBlauImg;
 	private BufferedImage fahneGruenImg;
@@ -81,14 +84,22 @@ public class Land {
 	public void setFahne(String farbe){
 		
 		switch(farbe){
-		case "rot":		fahne = new JLabel(new ImageIcon(fahneRotImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
+		case "rot":		fahne = new JLabel(new ImageIcon(fahneRotImg.getScaledInstance(40, 40, Image.SCALE_FAST)));
 		break;
-		case "blau":	fahne = new JLabel(new ImageIcon(fahneBlauImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
+		case "blau":	fahne = new JLabel(new ImageIcon(fahneBlauImg.getScaledInstance(40, 40, Image.SCALE_FAST)));
 		break;
-		case "gruen":	fahne = new JLabel(new ImageIcon(fahneGruenImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
+		case "gruen":	fahne = new JLabel(new ImageIcon(fahneGruenImg.getScaledInstance(40, 40, Image.SCALE_FAST)));
 		break;
 		}
-		fahne.setBounds(fahneX, fahneY, 20, 20);
+		fahne.setBounds(fahneX + 10, fahneY -20, 40, 40);
+	}
+	
+	public JLabel getEinheitenLab(){
+		einheitenLab = new JLabel(einheiten+"");
+		einheitenLab.setBounds(fahneX +15, fahneY -20, 25, 25);
+		einheitenLab.setFont(new Font("Courier New", Font.BOLD, 20));
+	    einheitenLab.setForeground(Color.WHITE);
+		return einheitenLab;
 	}
 	
 	public JLabel getFahne(){

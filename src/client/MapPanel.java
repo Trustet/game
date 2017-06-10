@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 import local.domain.Spielfeld;
 import local.domain.exceptions.KannLandNichtBenutzenException;
@@ -37,6 +38,8 @@ public class MapPanel extends JLayeredPane {
 	private BufferedImage weltKarteBunt;
 	private Spielfeld sp;
   
+	private JLabel land = null;
+	private JLabel einheitenLab = null;
 	
 	
 	public MapPanel(MapClickHandler handler, Spielfeld sp) {
@@ -75,6 +78,8 @@ public class MapPanel extends JLayeredPane {
 					} catch (KannLandNichtBenutzenException e1) {
 						JOptionPane.showMessageDialog(null,e1.getMessage(),"Fehler",JOptionPane.WARNING_MESSAGE);
 					}
+					land.setText("Land: Alaska");
+					einheitenLab.setText("Einheiten: 1");
 					break;
 				case "212161104": System.out.println("NordwestAfrika");
 					break;
@@ -88,16 +93,25 @@ public class MapPanel extends JLayeredPane {
 			}
 		});
 
-
-
+        
+//        JTextArea ta = new JTextArea("Infos",10,20);
+//        ta.setBounds(500, 0, 100, 50);
+        land = new JLabel("Land:");
+        einheitenLab = new JLabel("Einheiten:");
+        land.setBounds(400,0,100,20);
+        einheitenLab.setBounds(400, 20, 100, 30);
+        
+        
 //        fahneLab.setBounds(46, 64, 20, 20);
         spielfeld.setBounds(0, 0, 1050, 550);
         weltKarteBuntLab.setBounds(0, 0, 1050, 550);
         weltKarteBuntLab.setVisible(false);
         this.add(spielfeld,new Integer(2), 1);
-        this.add(weltKarteBuntLab);
-//        this.add(fahneLab,new Integer(2), 0);
 
+        this.add(weltKarteBuntLab);
+//      this.add(fahneLab,new Integer(2), 0);
+        this.add(land,new Integer(2), 0);
+        this.add(einheitenLab,new Integer(2), 0);
         this.setPreferredSize(new Dimension(1050,550));
         
 	}
@@ -105,11 +119,15 @@ public class MapPanel extends JLayeredPane {
 	public void fahnenVerteilen(){
 		String farbe = "";
 		JLabel fahne = null;
+		JLabel einheiten = null;
 		for(Land l : sp.getLaenderListe()){
 			l.setFahne(l.getBesitzer().getFarbe());
 			fahne = l.getFahne();	
 			fahnen.add(fahne);
+			einheiten = l.getEinheitenLab();
+			
 			this.add(fahne, new Integer(2), 0);
+			this.add(einheiten, new Integer(2),0);
 		}
 		
 
