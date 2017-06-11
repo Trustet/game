@@ -37,15 +37,13 @@ public class MapPanel extends JLayeredPane {
 	private JLabel  fahneGruenLab = null;
 	private MapClickHandler handler = null;
 	private BufferedImage weltKarteBunt;
-	private Spielfeld sp;
   
 	public JLabel landLab = null;
 	public JLabel einheitenLab = null;
 	public JLabel besitzerLab = null;
 	
 	
-	public MapPanel(MapClickHandler handler, Spielfeld sp) {
-		this.sp = sp;
+	public MapPanel(MapClickHandler handler) {
 		this.handler = handler;
 		initialize();
 	}
@@ -105,11 +103,11 @@ public class MapPanel extends JLayeredPane {
         
 	}
 	
-	public void fahnenVerteilen(){
+	public void fahnenVerteilen(List<Land> laender){
 		String farbe = "";
 		JLabel fahne = null;
 		JLabel einheiten = null;
-		for(Land l : sp.getLaenderListe()){
+		for(Land l : laender){
 			l.setFahne(l.getBesitzer().getFarbe());
 			fahne = l.getFahne();	
 			fahnen.add(fahne);

@@ -1,31 +1,27 @@
 package client;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.Socket;
 import java.util.List;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
+import client.ButtonPanel.ButtonClickHandler;
 import client.MapPanel.MapClickHandler;
 import local.domain.Spielfeld;
 import local.domain.exceptions.KannLandNichtBenutzenException;
@@ -35,25 +31,20 @@ import local.valueobjects.Spieler;
 import net.miginfocom.swing.MigLayout;
 
 
-public class RisikoClientGUI extends JFrame implements MapClickHandler {
+public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonClickHandler {
 	Spielfeld sp = new Spielfeld();
-	Border schwarz = BorderFactory.createLineBorder(Color.black);
-	JLabel spieler1Lab = new JLabel();
-    JLabel spieler2Lab = new JLabel();
-    JLabel spieler3Lab = new JLabel();
-    JLabel spieler4Lab = new JLabel();
-    JLabel spieler5Lab = new JLabel();
-    JLabel spieler6Lab = new JLabel();
-    JLabel missionen = new JLabel();
+
     int anzahlSpieler; //von anzahl in anzahlSpieler umbenannt
-    SpielerPanel spielerListPanel;
-    MissionPanel missionPanel;
-    JFrame spielFrame;
+    private SpielerPanel spielerListPanel;
+    private MissionPanel missionPanel;
+    private JFrame spielFrame;
     private MapPanel spielfeld;
+    private InfoPanel infoPanel;
     
-    private Socket socket = null;
-    private BufferedReader in;
-    private PrintStream out;
+//    private Socket socket = null;
+//    private BufferedReader in;
+//    private PrintStream out;
+    
     
 	public RisikoClientGUI(){
 		this.start();
@@ -172,20 +163,12 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 	        JTextArea statistik = new JTextArea("Statistik",8,20);
 
 
-	        spielfeld = new MapPanel(this, sp);
+	        spielfeld = new MapPanel(this);
 	        spielerListPanel = new SpielerPanel();
 	        missionPanel = new MissionPanel();
-	        InfoPanel infoPanel = new InfoPanel(sp.getTurn()+"",sp.getAktiverSpieler().getName());
-	        ButtonPanel buttonPanel = new ButtonPanel(infoPanel,sp);
-	        
-//			next.addActionListener(phase -> phaseAusgeben());
-			
-
-	        missionen.setBorder(schwarz);
-	        karten.setBorder(schwarz);
-	        statistik.setBorder(schwarz);
-	        spielfeld.setBorder(schwarz);
-	        
+	        infoPanel = new InfoPanel(sp.getTurn()+"",sp.getAktiverSpieler().getName());
+	        ButtonPanel buttonPanel = new ButtonPanel(this);
+		
 	  
 	        panel.add(spielfeld,"left,spany 3,growx,growy,hmin 550, wmin 1050");
 	        panel.add(infoPanel,"left");
@@ -240,14 +223,14 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 			sp.missionenVerteilen();
 			sp.laenderAufteilen();
 			farbenVerteilen();
-			spielfeld.fahnenVerteilen();
+			spielfeld.fahnenVerteilen(sp.getLaenderListe());
 			int spielerNr = 1;
     		for(Spieler s : sp.getSpielerList()){
     			spielerListPanel.setLabel(spielerNr, s.getName(), s.getFarbe());
     			spielerNr++;
     		}
 			
-			missionen.setText(sp.getSpielerMission(sp.getAktiverSpieler()).getBeschreibung());
+		
     	}
     }
     
@@ -283,6 +266,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 				break;
 			case VERTEILEN:
 				try{
+					
 					boolean kannLandBenutzen = sp.landWaehlen(landstring,sp.getAktiverSpieler());
 					sp.einheitenPositionieren(1, land);
 					spielfeld.labelsSetzen("", land.getEinheiten(), "");
@@ -294,6 +278,12 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 				break;
 			}
 		}
+	}
+	@Override
+	public void buttonClicked(String test) {
+		sp.nextTurn();
+		infoPanel.changePanel(sp.getTurn()+"");
+		
 	}
 
 }
