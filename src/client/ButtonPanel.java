@@ -13,7 +13,7 @@ public class ButtonPanel extends JPanel{
 	private ButtonClickHandler handler = null;
 	
 	public interface ButtonClickHandler {
-		public void buttonClicked(String test);
+		public void buttonClicked();
 	}
 	
 
@@ -24,7 +24,7 @@ public class ButtonPanel extends JPanel{
 		
 		JButton nextTurn = new JButton("Naechste Phase");
 		
-		nextTurn.addActionListener(next -> handler.buttonClicked("Test"));
+		nextTurn.addActionListener(next -> handler.buttonClicked());
 		
 		
 		this.add(nextTurn,"center,growx,growy");

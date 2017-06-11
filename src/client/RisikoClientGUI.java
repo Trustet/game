@@ -280,9 +280,9 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		}
 	}
 	@Override
-	public void buttonClicked(String test) {
+	public void buttonClicked() {
 		sp.nextTurn();
-		infoPanel.changePanel(sp.getTurn()+"");
+		infoPanel.changePanel(sp.getTurn()+"",sp.getAktiverSpieler().getName());
 		
 	}
 

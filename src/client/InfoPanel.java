@@ -34,17 +34,22 @@ public class InfoPanel extends JPanel{
 		phaseLab.setText(phase);
 		spielerLab.setText(spieler);
 	}
-	public void changePanel(String phase){
+	public void changePanel(String phase, String spieler){
 		switch(phase){
 		case "VERTEILEN":
+			this.setInfo("VERTEILEN", spieler);
+			this.repaint();
+			this.revalidate();
 			break;
 		case "ANGRIFF":
-			this.removeAll();
-			this.add(new JLabel("Hier bin ich"));
+			this.setInfo("ANGRIFF", spieler);
 			this.repaint();
 			this.revalidate();
 			break;
 		case "VERSCHIEBEN":
+			this.setInfo("VERSCHIEBEN", spieler);
+			this.repaint();
+			this.revalidate();
 			break;
 		}
 	}
