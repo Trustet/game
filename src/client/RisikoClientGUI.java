@@ -270,6 +270,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 					boolean kannLandBenutzen = sp.landWaehlen(landstring,sp.getAktiverSpieler());
 					sp.einheitenPositionieren(1, land);
 					spielfeld.labelsSetzen("", land.getEinheiten(), "");
+					spielfeld.fahneEinheit(land.getEinheitenLab());
 				}catch(KannLandNichtBenutzenException lene ){
 					System.out.println(lene.getMessage());
 				}

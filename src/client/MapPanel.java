@@ -24,7 +24,8 @@ import local.valueobjects.Land;
 
 public class MapPanel extends JLayeredPane {
 
-	private List<JLabel> fahnen = new Vector<JLabel>();
+	private List<JLabel> fahnenLabs = new Vector<JLabel>();
+	private List<JLabel> einheitenLabs = new Vector<JLabel>();
 	
 	public interface MapClickHandler {
 		public void processMouseClick(int x, int y, Color color);
@@ -110,9 +111,9 @@ public class MapPanel extends JLayeredPane {
 		for(Land l : laender){
 			l.setFahne(l.getBesitzer().getFarbe());
 			fahne = l.getFahne();	
-			fahnen.add(fahne);
+			fahnenLabs.add(fahne);
 			einheiten = l.getEinheitenLab();
-			
+			einheitenLabs.add(einheiten);
 			this.add(fahne, new Integer(2), 0);
 			this.add(einheiten, new Integer(2),0);
 		}
@@ -120,8 +121,16 @@ public class MapPanel extends JLayeredPane {
 
 	}
 	
+	public void fahneEinheit(JLabel einheitenNeu){
+		for(JLabel l : einheitenLabs){
+			if(l.equals(einheitenNeu)){
+				l = einheitenNeu;
+			}
+		}
+	}
+	
 	public List<JLabel> getFahnenList(){
-		return this.fahnen;
+		return this.fahnenLabs;
 	}
 	
 	public void labelsSetzen(String lName, int lEinheiten, String lBesitzer){
