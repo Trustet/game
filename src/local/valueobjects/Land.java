@@ -95,8 +95,8 @@ public class Land {
 	}
 	
 	public JLabel getEinheitenLab(){
-		einheitenLab = new JLabel(einheiten+"");
-		einheitenLab.setBounds(fahneX +15, fahneY -20, 25, 25);
+		einheitenLab = new JLabel("10");
+		einheitenLab.setBounds(fahneX +25, fahneY -22, 25, 25);
 		einheitenLab.setFont(new Font("Courier New", Font.BOLD, 20));
 	    einheitenLab.setForeground(Color.WHITE);
 		return einheitenLab;
