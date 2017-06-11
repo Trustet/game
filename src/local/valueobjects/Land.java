@@ -91,12 +91,12 @@ public class Land {
 		case "gruen":	fahne = new JLabel(new ImageIcon(fahneGruenImg.getScaledInstance(40, 40, Image.SCALE_FAST)));
 		break;
 		}
-		fahne.setBounds(fahneX + 10, fahneY -20, 40, 40);
+		fahne.setBounds(fahneX + 15, fahneY -40, 40, 40);
 	}
 	
 	public JLabel getEinheitenLab(){
 		einheitenLab = new JLabel("10");
-		einheitenLab.setBounds(fahneX +25, fahneY -22, 25, 25);
+		einheitenLab.setBounds(fahneX +30, fahneY -42, 25, 25);
 		einheitenLab.setFont(new Font("Courier New", Font.BOLD, 20));
 	    einheitenLab.setForeground(Color.WHITE);
 		return einheitenLab;
