@@ -303,6 +303,20 @@ public class MapPanel extends JLayeredPane {
 			landLab.setText("Land: " + land.getName());
 			einheitenLab.setText("Einheiten: " + land.getEinheiten());
 			besitzerLab.setText("Besitzer: " + land.getBesitzer().getName());
+			switch(sp.getTurn()){
+			case ANGRIFF:
+				break;
+			case VERTEILEN:
+				try{
+					boolean kannLandBenutzen = sp.landWaehlen(landstring,sp.getAktiverSpieler());
+					sp.einheitenPositionieren(1, land);
+				}catch(KannLandNichtBenutzenException lene ){
+					System.out.println(lene.getMessage());
+				}
+				break;
+			case VERSCHIEBEN:
+				break;
+			}
 		}
 	}
 }
