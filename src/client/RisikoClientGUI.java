@@ -113,15 +113,14 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 		
 		//Frame und Layout
 		JFrame frame = new JFrame("Spiel erstellen");
-		JPanel panel = new JPanel(new MigLayout("debug, wrap2","[][150]","[][][][][]")); //FRAGE: was ist wrap2
-		frame.setLocationRelativeTo(null); //FRAGE: Wofür?
+		JPanel panel = new JPanel(new MigLayout("debug, wrap2","[][150]","[][][][][]")); 
+		frame.setLocationRelativeTo(null); 
 		frame.setSize(280, 200); //von 300 auf 280 gestellt //FRAGE: kann man panel zentrieren?
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		//Objekte erstellen
 		JLabel nameLab = new JLabel("Name:");
 		JTextField nameText = new JTextField();
-		nameText.setSize(150, 30); //FRAGE: ist das nicht automatisch 150?
 		JLabel ipLab = new JLabel("IP:");
 		JTextField ipText = new JTextField();
 		JLabel portLab = new JLabel("Port:");
@@ -133,7 +132,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 		
 		//Actionlistener
 		startBtn.addActionListener(start -> spiel(nameText.getText(), Integer.parseInt((String)anzahlCBox.getSelectedItem()),frame));
-		//FRAGE: Wofür wird das frame übergeben?
+		
 		
 		//Objekte hinzufügen
 		panel.add(nameLab,"right");
@@ -152,11 +151,11 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
     public void spiel(String name, int anzahlSpieler,JFrame frameStart) {
     	//verbindungAufbauen(ip,port);
     	this.anzahlSpieler = anzahlSpieler;
-    	for(int i = 1; i < anzahlSpieler; i++ ){ // i=1 statt 0, da erster Spieler schon existiert
+    	for(int i = 1; i < anzahlSpieler; i++ ){
     		neuerSpieler();
     	}
     	try{
-    		sp.erstelleSpieler(name); //FRAGE: Wieso wird hier nochmal estelleSpieler aufgerufen?
+    		sp.erstelleSpieler(name); 
 	    	
 	    	frameStart.dispose();
 	    	
@@ -167,8 +166,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 	        JPanel panel = new JPanel(new MigLayout("debug,wrap2","[][]","[][][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
 	        spielFrame.add(panel);
 	        //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
-	        JTextArea karten = new JTextArea("Karten",10,20); //FRAGE: Wofür stehen die Zahlen?
-	        JTextArea statistik = new JTextArea("Statistik",15,20);
+	        JTextArea karten = new JTextArea("Karten",10,20);
+	        JTextArea statistik = new JTextArea("Statistik",8,20);
 
 
 	        spielfeld = new MapPanel(this, sp);
@@ -236,6 +235,11 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 			}catch(IOException e){
 				JOptionPane.showMessageDialog(null,e.getMessage(),"Fehler",JOptionPane.WARNING_MESSAGE);
 			}
+    		int spielerNr = 1;
+    		for(Spieler s : sp.getSpielerList()){
+    			spielerListPanel.setLabel(spielerNr, s.getName());
+    			spielerNr++;
+    		}
 			sp.missionenVerteilen();
 			sp.laenderAufteilen();
 			farbenVerteilen();
@@ -291,22 +295,6 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
     }
 		//spielStarten.addActionListener(starten -> this.risiko(mapWahl.getSelectedItem().toString()));
     
-    //FRAGE: was genau ist dieses ImagePanel?
-    class ImagePanel extends JComponent {
-        private Image image;
-        private int b;
-        private int h;
-        public ImagePanel(Image image,int b, int h) {
-            this.image = image;
-            this.b = b;
-            this.h = h;
-        }
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.drawImage(image, 0, 0, b, h, this);
-        }
-    }
 
 
 	@Override

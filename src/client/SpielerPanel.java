@@ -1,5 +1,6 @@
 package client;
 
+import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JLabel;
@@ -21,7 +22,7 @@ public class SpielerPanel extends JPanel{
 	public void initialize(){
 		this.setLayout(new MigLayout("wrap1","[]","[][][][][][][]"));
 		JLabel header = new JLabel("Spieler:");
-		//FRAGE: was genau passiert hier?
+		header.setFont(new Font("Impact", Font.PLAIN,30));
 		spieler1.setFont(new Font("Impact", Font.PLAIN,30));
 		spieler2.setFont(new Font("Impact", Font.PLAIN,30));
 		spieler3.setFont(new Font("Impact", Font.PLAIN,30));
@@ -36,6 +37,8 @@ public class SpielerPanel extends JPanel{
 		this.add(spieler4,"center");
 		this.add(spieler5,"center");
 		this.add(spieler6,"center");
+		
+		this.setPreferredSize(new Dimension(200,350));
 	}
 	
 	public void setLabel(int nummer, String text){
