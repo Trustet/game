@@ -19,7 +19,7 @@ public class Land {
 	private int fahneX;
 	private int fahneY;
 	private JLabel fahne;
-	private JLabel einheitenLab;
+	private JLabel einheitenLab = new JLabel();
 	private BufferedImage fahneRotImg;
 	private BufferedImage fahneBlauImg;
 	private BufferedImage fahneGruenImg;
@@ -95,8 +95,14 @@ public class Land {
 	}
 	
 	public JLabel getEinheitenLab(){
-		einheitenLab = new JLabel("10");
-		einheitenLab.setBounds(fahneX +30, fahneY -42, 25, 25);
+		einheitenLab.setText(einheiten + "");
+		if(einheiten < 10){
+			einheitenLab.setBounds(fahneX +30, fahneY -42, 40, 25);
+		}else if(einheiten < 100){
+			einheitenLab.setBounds(fahneX +23, fahneY -42, 40, 25);
+		}else{
+			einheitenLab.setBounds(fahneX +18, fahneY -42, 40, 25);
+		}
 		einheitenLab.setFont(new Font("Courier New", Font.BOLD, 20));
 	    einheitenLab.setForeground(Color.WHITE);
 		return einheitenLab;
