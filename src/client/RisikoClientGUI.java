@@ -235,53 +235,21 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 			}catch(IOException e){
 				JOptionPane.showMessageDialog(null,e.getMessage(),"Fehler",JOptionPane.WARNING_MESSAGE);
 			}
-    		int spielerNr = 1;
-    		for(Spieler s : sp.getSpielerList()){
-    			spielerListPanel.setLabel(spielerNr, s.getName());
-    			spielerNr++;
-    		}
 			sp.missionenVerteilen();
 			sp.laenderAufteilen();
 			farbenVerteilen();
 			spielfeld.fahnenVerteilen();
-			for(Spieler s : sp.getSpielerList()){
-				System.out.println(s.getFarbe());
-			}
+			int spielerNr = 1;
+    		for(Spieler s : sp.getSpielerList()){
+    			spielerListPanel.setLabel(spielerNr, s.getName(), s.getFarbe());
+    			spielerNr++;
+    		}
 			
 			missionen.setText(sp.getSpielerMission(sp.getAktiverSpieler()).getBeschreibung());
     	}
     }
     
-    public void phaseAusgeben(){
-    	spielerListPanel.setLabel(1, "Yannik");
-    	missionPanel.setMBeschreibung(1, "�bernehme volgende Laender", "Asien und Europa");
-    	
-//    	out.println("Phase");
-//    	
-//    	try{
-//    		String phase = in.readLine();
-//    		System.out.println(phase);
-//    	}catch(IOException e){
-//    		
-//    	}
-    }
-//    public void verbindungAufbauen(String host, int port){
-//    	try{
-//			socket = new Socket(host,port);
-//			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//			out = new PrintStream(socket.getOutputStream());
-//		}catch(IOException e){
-//			
-//		}
-//		try{
-//			String message = in.readLine();
-//			System.out.print(message);
-//		}catch(IOException e){
-//			
-//		}
-//    }
-
-
+  
     public void farbenVerteilen(){
     	List<String> farben = new Vector<String>();
     	farben.add("rot");
