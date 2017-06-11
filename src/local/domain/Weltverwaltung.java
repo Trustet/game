@@ -370,4 +370,179 @@ public class Weltverwaltung {
 		String ausgabe = "Das Land " + erstesLand.getName() + " hat " + erstesLand.getEinheiten() + " Einheiten \n Das Land " + zweitesLand.getName() + " hat " + zweitesLand.getEinheiten() + " Einheiten";
 		return ausgabe;
 	}
+	
+	public String getLandVonFarbcode(String farbe){
+		String landstring = "";
+		switch(farbe){
+		//Alaska
+		case "3917935":
+			landstring = "Alaska";
+			break;
+		//Nordwest-Terretorium
+		case "1791340":
+			landstring = "Nordwest-Territorium";
+			break;
+		//Alberta
+		case "0162179":
+			landstring = "Alberta";
+			break;
+		//Ontario
+		case "1791680":
+			landstring = "Ontario";
+			break;
+		//Weststaaten
+		case "17917879":
+			landstring = "Weststaaten";
+			break;
+		//Quebeck
+		case "241790":
+			landstring = "Quebec";
+			break;
+		//Groenland
+		case "1793926":
+			landstring = "Groenland";
+			break;
+		//Oststaaten
+		case "117179111":
+			landstring = "Oststaaten";
+			break;
+		//Mittelamerika
+		case "1791510":
+			landstring = "Mittelamerika";
+			break;
+		//Venezuela
+		case "17915858":
+			landstring = "Venezuela";
+			break;
+		//Peru
+		case "179160100":
+			landstring = "Peru";
+			break;
+		//Argentinien
+		case "1791160":
+			landstring = "Argentinien";
+			break;
+		//Brasilien
+		case "17913757":
+			landstring = "Brasilien";
+			break;
+		//Nordwestafrika
+		case "179350":
+			landstring = "Nordwestafrika";
+			break;
+		//Aegypten
+		case "1798555":
+			landstring = "Aegypten";
+			break;
+		//Ostafrika
+		case "17911097":
+			landstring = "Ostafrika";
+			break;
+		//Kongo
+		case "1799764":
+			landstring = "Kongo";
+			break;
+		//Suedafrika
+		case "17910042":
+			landstring = "Suedafrika";
+			break;
+		//Madagaskar
+		case "179900":
+			landstring = "Madagaskar";
+			break;
+		//Westeuropa
+		case "179062":
+			landstring = "West-Europa";
+			break;
+		//Suedeuropa
+		case "8750179":
+			landstring = "Sued-Europa";
+			break;
+		//Mitteleuropa
+		case "13247179":
+			landstring = "Mittel-Europa";
+			break;
+		//Grossbritannien
+		case "17960":
+			landstring = "Grossbritannien";
+			break;
+		//Island
+		case "2552442":
+			landstring = "Island";
+			break;
+		//Skandinavien
+		case "17931158":
+			landstring = "Skandinavien";
+			break;
+		//Ukraine
+		case "13982179":
+			landstring = "Ukraine";
+			break;
+		//Mittlerer Osten
+		case "174110179":
+			landstring = "Mittlerer Osten";
+			break;
+		//Indien
+		case "52121179":
+			landstring = "Indien";
+			break;
+		//Siam
+		case "0128179":
+			landstring = "Siam";
+			break;
+		//China
+		case "61168179":
+			landstring = "China";
+			break;
+		//Afghanistan
+		case "179135160":
+			landstring = "Afghanistan";
+			break;
+		//Ural
+		case "170111179":
+			landstring = "Ural";
+			break;
+		//Mongolei
+		case "40179123":
+			landstring = "Mongolei";
+			break;
+		//Sibirien
+		case "151121179":
+			landstring = "Sibirien";
+			break;
+		//Irtusk
+		case "1031790":
+			landstring = "Irtusk";
+			break;
+		//Jakutien
+		case "7017925":
+			landstring = "Jakutien";
+			break;
+		//Kamtschatka
+		case "3817950":
+			landstring = "Kamtschatka";
+			break;
+		//Japan
+		case "21179158":
+			landstring = "Japan";
+			break;
+		//Indonesien
+		case "061179":
+			landstring = "Indonesien";
+			break;
+		//Neuguniea
+		case "010179":
+			landstring = "Neu-Guinea";
+			break;
+		//Westaustralien
+		case "109107179":
+			landstring = "Westaustralien";
+			break;
+		//Ostaustralien
+		case "6765179":
+			landstring = "Ostaustralien";
+			break;
+		}
+		return landstring;
+	}
 }

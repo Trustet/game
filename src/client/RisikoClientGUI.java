@@ -28,7 +28,9 @@ import javax.swing.border.Border;
 
 import client.MapPanel.MapClickHandler;
 import local.domain.Spielfeld;
+import local.domain.exceptions.KannLandNichtBenutzenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
+import local.valueobjects.Land;
 import local.valueobjects.Spieler;
 import net.miginfocom.swing.MigLayout;
 
@@ -267,8 +269,31 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 
 	@Override
 	public void processMouseClick(int x, int y, Color color) {
+		String landcode = Integer.toString(color.getRed()) + "" + Integer.toString(color.getGreen()) + "" + Integer.toString(color.getBlue());
+		landWaehlen(landcode);
 		
-		System.out.println("Farbcode an der Stelle [" + x + "/" + y + "] = " + color.getRed() + color.getGreen() + color.getBlue());
+	}
+	public void landWaehlen(String landcode){
+		String landstring = sp.getLandVonFarbcode(landcode);
+		Land land = sp.stringToLand(landstring);
+		if(land != null){
+			spielfeld.labelsSetzen(land.getName(), land.getEinheiten(), land.getBesitzer().getName());
+			switch(sp.getTurn()){
+			case ANGRIFF:
+				break;
+			case VERTEILEN:
+				try{
+					boolean kannLandBenutzen = sp.landWaehlen(landstring,sp.getAktiverSpieler());
+					sp.einheitenPositionieren(1, land);
+					spielfeld.labelsSetzen("", land.getEinheiten(), "");
+				}catch(KannLandNichtBenutzenException lene ){
+					System.out.println(lene.getMessage());
+				}
+				break;
+			case VERSCHIEBEN:
+				break;
+			}
+		}
 	}
 
 }

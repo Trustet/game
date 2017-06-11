@@ -226,6 +226,10 @@ public class Spielfeld {
 	public List<Mission> getMissionsListe(){
 		return missionVw.getMissionsListe();
 	}
+	
+	public String getLandVonFarbcode(String farbe){
+		return weltVw.getLandVonFarbcode(farbe);
+	}
 
 
 }
