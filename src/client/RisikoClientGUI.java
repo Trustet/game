@@ -43,7 +43,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
     JLabel spieler5Lab = new JLabel();
     JLabel spieler6Lab = new JLabel();
     JLabel missionen = new JLabel();
-    int anzahl;
+    int anzahlSpieler; //von anzahl in anzahlSpieler umbenannt
     SpielerPanel spielerListPanel;
     MissionPanel missionPanel;
     JFrame spielFrame;
@@ -54,13 +54,10 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
     private PrintStream out;
     
 	public RisikoClientGUI(){
-		
-	   
 		this.start();
 	}
 	public static void main(String[] args) {
 		JFrame fenster = new RisikoClientGUI();
-
 	}
 	public void start() {
 		
@@ -116,15 +113,15 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 		
 		//Frame und Layout
 		JFrame frame = new JFrame("Spiel erstellen");
-		JPanel panel = new JPanel(new MigLayout("wrap2","[][150]","[][][][][]"));
-		frame.setLocationRelativeTo(null);
-		frame.setSize(300, 200);
+		JPanel panel = new JPanel(new MigLayout("debug, wrap2","[][150]","[][][][][]")); //FRAGE: was ist wrap2
+		frame.setLocationRelativeTo(null); //FRAGE: Wofür?
+		frame.setSize(280, 200); //von 300 auf 280 gestellt //FRAGE: kann man panel zentrieren?
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		//Objekte erstellen
 		JLabel nameLab = new JLabel("Name:");
 		JTextField nameText = new JTextField();
-		nameText.setSize(150, 30);
+		nameText.setSize(150, 30); //FRAGE: ist das nicht automatisch 150?
 		JLabel ipLab = new JLabel("IP:");
 		JTextField ipText = new JTextField();
 		JLabel portLab = new JLabel("Port:");
@@ -136,7 +133,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 		
 		//Actionlistener
 		startBtn.addActionListener(start -> spiel(nameText.getText(), Integer.parseInt((String)anzahlCBox.getSelectedItem()),frame));
-	
+		//FRAGE: Wofür wird das frame übergeben?
+		
 		//Objekte hinzufügen
 		panel.add(nameLab,"right");
 		panel.add(nameText,"left,growx");
@@ -151,14 +149,14 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 		frame.setVisible(true);
 	
 	}
-    public void spiel(String name, int anzahl,JFrame frameStart) {
+    public void spiel(String name, int anzahlSpieler,JFrame frameStart) {
     	//verbindungAufbauen(ip,port);
-    	this.anzahl = anzahl;
-    	for(int i = 0; i < anzahl; i++ ){
+    	this.anzahlSpieler = anzahlSpieler;
+    	for(int i = 1; i < anzahlSpieler; i++ ){ // i=1 statt 0, da erster Spieler schon existiert
     		neuerSpieler();
     	}
     	try{
-    		sp.erstelleSpieler(name);
+    		sp.erstelleSpieler(name); //FRAGE: Wieso wird hier nochmal estelleSpieler aufgerufen?
 	    	
 	    	frameStart.dispose();
 	    	
@@ -166,10 +164,10 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 	        spielFrame.setLocationRelativeTo(null);
 	        spielFrame.setSize(1400,750);
 	        spielFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	        JPanel panel = new JPanel(new MigLayout("debug,wrap2","[][]","[][][][]"));
+	        JPanel panel = new JPanel(new MigLayout("debug,wrap2","[][]","[][][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
 	        spielFrame.add(panel);
 	        //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
-	        JTextArea karten = new JTextArea("Karten",10,20);
+	        JTextArea karten = new JTextArea("Karten",10,20); //FRAGE: Wofür stehen die Zahlen?
 	        JTextArea statistik = new JTextArea("Statistik",15,20);
 
 
@@ -229,7 +227,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
     	}catch (SpielerExistiertBereitsException sebe) {
     		 JOptionPane.showMessageDialog(null,sebe.getMessage(),"Name vergeben",JOptionPane.WARNING_MESSAGE);
     	}
-    	if(sp.getSpielerList().size() == anzahl){
+    	
+    	if(sp.getSpielerList().size() == anzahlSpieler){
     		try{
 				sp.laenderErstellen();
 				sp.laenderverbindungenUndKontinenteErstellen();
@@ -247,8 +246,6 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
 			
 			missionen.setText(sp.getSpielerMission(sp.getAktiverSpieler()).getBeschreibung());
     	}
-    	
-    	
     }
     
     public void phaseAusgeben(){
@@ -293,6 +290,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler {
     	}
     }
 		//spielStarten.addActionListener(starten -> this.risiko(mapWahl.getSelectedItem().toString()));
+    
+    //FRAGE: was genau ist dieses ImagePanel?
     class ImagePanel extends JComponent {
         private Image image;
         private int b;

@@ -65,6 +65,7 @@ public class MapPanel extends JLayeredPane {
 			e.printStackTrace();
 		}
         
+        //FRAGE: wie genau geht das hier?
         spielfeld.addMouseListener(new MouseAdapter() {
 			
 			@Override
@@ -94,7 +95,7 @@ public class MapPanel extends JLayeredPane {
         spielfeld.setBounds(0, 0, 1050, 550);
         weltKarteBuntLab.setBounds(0, 0, 1050, 550);
         weltKarteBuntLab.setVisible(false);
-        this.add(spielfeld,new Integer(2), 1);
+        this.add(spielfeld,new Integer(2), 1); //FRAGE: new Integer(2)
 
         this.add(weltKarteBuntLab);
 //      this.add(fahneLab,new Integer(2), 0);

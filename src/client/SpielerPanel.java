@@ -21,7 +21,7 @@ public class SpielerPanel extends JPanel{
 	public void initialize(){
 		this.setLayout(new MigLayout("wrap1","[]","[][][][][][][]"));
 		JLabel header = new JLabel("Spieler:");
-		
+		//FRAGE: was genau passiert hier?
 		spieler1.setFont(new Font("Impact", Font.PLAIN,30));
 		spieler2.setFont(new Font("Impact", Font.PLAIN,30));
 		spieler3.setFont(new Font("Impact", Font.PLAIN,30));
