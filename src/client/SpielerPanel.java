@@ -24,6 +24,9 @@ public class SpielerPanel extends JPanel{
 	JLabel spieler1Fahne = new JLabel();
 	JLabel spieler2Fahne = new JLabel();
 	JLabel spieler3Fahne = new JLabel();
+	JLabel spieler4Fahne = new JLabel();
+	JLabel spieler5Fahne = new JLabel();
+	JLabel spieler6Fahne = new JLabel();
 	private BufferedImage fahneRotImg;
 	private BufferedImage fahneBlauImg;
 	private BufferedImage fahneGruenImg;
@@ -59,8 +62,11 @@ public class SpielerPanel extends JPanel{
 		this.add(spieler3,"center");
 		this.add(spieler3Fahne, "left");
 		this.add(spieler4,"center");
+		this.add(spieler4Fahne, "left");
 		this.add(spieler5,"center");
+		this.add(spieler5Fahne, "left");
 		this.add(spieler6,"center");
+		this.add(spieler6Fahne, "left");
 		
 		
 //		this.setPreferredSize(new Dimension(200,350));
@@ -88,10 +94,13 @@ public class SpielerPanel extends JPanel{
 					spieler3Fahne.setIcon(fahne);
 					break;
 			case 4: spieler4.setText(text);
+					spieler4Fahne.setIcon(fahne);
 					break;
 			case 5: spieler5.setText(text);
+					spieler5Fahne.setIcon(fahne);
 					break;
 			case 6: spieler6.setText(text);
+					spieler6Fahne.setIcon(fahne);
 					break;
 		}
 	}

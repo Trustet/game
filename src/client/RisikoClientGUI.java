@@ -154,13 +154,17 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	    	
 	        spielFrame = new JFrame("Risiko");
 	        spielFrame.setLocationRelativeTo(null);
-//	        spielFrame.setSize(1400,750);
+	        spielFrame.setPreferredSize(new Dimension(1250,780));
 	        spielFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+<<<<<<< HEAD
 <<<<<<< HEAD
 	        JPanel panel = new JPanel(new MigLayout("debug,wrap2","[][300]","[][][300]")); // hier "debug,wrap2" schreiben für Debug-Modus
 =======
 	        JPanel panel = new JPanel(new MigLayout(" wrap2","[][]","[][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
 >>>>>>> origin/master
+=======
+	        JPanel panel = new JPanel(new MigLayout("debug,wrap2","[][]","[][][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
+>>>>>>> 5ff71bcf8964067a53b8cb57c7b34d64bbb7cdc3
 	        spielFrame.add(panel);
 	        //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
 //	        JTextArea karten = new JTextArea("Karten",10,20);
@@ -176,15 +180,15 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	        consolePanel = new ConsolePanel();
 		
 	  
-	        panel.add(spielfeld,"left,spany 2,growx,growy,hmin 550, wmin 1050");
+	        panel.add(spielfeld,"left,spany 3,growx,growy,hmin 550, wmin 1050");
+	        panel.add(infoPanel,"left,growx");
 	        panel.add(spielerListPanel,"growx");
-	        panel.add(statistikPanel,"left,growx,growy");
+	        panel.add(statistikPanel,"left,top,growx,spany 2");
 //	        panel.add(statistik,"left,top,growy");
-	        panel.add(missionPanel,"left,split3,growy");
+	        panel.add(missionPanel,"left,top,split3");
 //	        panel.add(karten,"left,growx");
-	        panel.add(consolePanel,"left,growy");
+	        panel.add(consolePanel,"left, top");
 	        panel.add(buttonPanel,"right,growy");
-	        panel.add(infoPanel,"left,growx,growy");
 	        spielFrame.setResizable(false);
 	        spielFrame.setVisible(true);
 	        spielFrame.pack();
@@ -237,6 +241,9 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     		for(Spieler s : sp.getSpielerList()){
     			spielerListPanel.setLabel(spielerNr, s.getName(), s.getFarbe());
     			spielerNr++;
+    		}
+    		for(int i = 4; i < 7; i++){
+    			spielerListPanel.setLabel(i, "Testname", "rot");
     		}
 			
 		
