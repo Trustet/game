@@ -12,36 +12,45 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import local.valueobjects.Land;
+import local.valueobjects.Spieler;
 import net.miginfocom.swing.MigLayout;
 
 public class StatistikPanel extends JPanel{
 
-	private List<Land> laenderliste;
+	private List<Land> laenderListe;
+	private List<Spieler> spielerListe;
 	BufferedImage iconLand;
 	BufferedImage iconEinheiten;
 	BufferedImage iconKarten;
-	JLabel sp1Laender;
-	JLabel sp1Einheiten;
-	JLabel sp1Karten;
-	JLabel sp2Laender;
-	JLabel sp2Einheiten;
-	JLabel sp2Karten;
-	JLabel sp3Laender;
-	JLabel sp3Einheiten;
-	JLabel sp3Karten;
-	JLabel sp4Laender;
-	JLabel sp4Einheiten;
-	JLabel sp4Karten;
-	JLabel sp5Laender;
-	JLabel sp5Einheiten;
-	JLabel sp5Karten;
-	JLabel sp6Laender;
-	JLabel sp6Einheiten;
-	JLabel sp6Karten;
+//	JLabel sp1Laender;
+//	JLabel sp1Einheiten;
+//	JLabel sp1Karten;
+//	JLabel sp2Laender;
+//	JLabel sp2Einheiten;
+//	JLabel sp2Karten;
+//	JLabel sp3Laender;
+//	JLabel sp3Einheiten;
+//	JLabel sp3Karten;
+//	JLabel sp4Laender;
+//	JLabel sp4Einheiten;
+//	JLabel sp4Karten;
+//	JLabel sp5Laender;
+//	JLabel sp5Einheiten;
+//	JLabel sp5Karten;
+//	JLabel sp6Laender;
+//	JLabel sp6Einheiten;
+//	JLabel sp6Karten;
+	List<JLabel> laenderVonSpielerLabel;
+	List<JLabel> einheitenVonSpielerLabel;
+	List<JLabel> kartenVonSpielerLabel;	
+	List<Integer> laenderVonSpieler;
+	List<Integer> einheitenVonSpieler;
+	List<Integer> kartenVonSpieler;
 	
-	public StatistikPanel(List<Land> laenderliste){
-	this.laenderliste = laenderliste;
 	
+	public StatistikPanel(List<Spieler> spielerListe, List<Land> laenderListe, int spielerAnzahl){
+	this.laenderListe = laenderListe;
+	this.spielerListe = spielerListe;
 	initialize();
 	}
 	
@@ -62,29 +71,45 @@ public class StatistikPanel extends JPanel{
 		JLabel icon2 = new JLabel(new ImageIcon(iconEinheiten.getScaledInstance(40, 40, Image.SCALE_FAST)));
 		JLabel icon3 = new JLabel(new ImageIcon(iconKarten.getScaledInstance(40, 40, Image.SCALE_FAST)));
 		
-		sp1Laender = new JLabel("10");
-		sp1Einheiten = new JLabel("20");
-		sp1Karten = new JLabel("2");
 		
-		sp2Laender = new JLabel("13");
-		sp2Einheiten = new JLabel("40");
-		sp2Karten = new JLabel("5");
 		
-		sp3Laender = new JLabel("10");
-		sp3Einheiten = new JLabel("100");
-		sp3Karten = new JLabel("2");
+		for(int i = 0;i < laenderVonSpielerLabel.size();i++)
+		{
+			laenderVonSpielerLabel.get(i) =  new JLabel(laenderVonSpieler.get(i));
+		}
 		
-		sp4Laender = new JLabel("10");
-		sp4Einheiten = new JLabel("20");
-		sp4Karten = new JLabel("2");
+		for(int i = 0;i < einheitenVonSpielerLabel.size();i++)
+		{
+			einheitenVonSpielerLabel.get(i) =  new JLabel(einheitenVonSpieler.get(i));
+		}
 		
-		sp5Laender = new JLabel("10");
-		sp5Einheiten = new JLabel("20");
-		sp5Karten = new JLabel("2");
-		
-		sp6Laender = new JLabel("10");
-		sp6Einheiten = new JLabel("20");
-		sp6Karten = new JLabel("2");
+		for(int i = 0;i < kartenVonSpielerLabel.size();i++)
+		{
+			kartenVonSpielerLabel.get(i) =  new JLabel(kartenVonSpieler.get(i));
+		}
+//		sp1Laender = new JLabel("10");
+//		sp1Einheiten = new JLabel("20");
+//		sp1Karten = new JLabel("2");
+//		
+//		sp2Laender = new JLabel("13");
+//		sp2Einheiten = new JLabel("40");
+//		sp2Karten = new JLabel("5");
+//		
+//		sp3Laender = new JLabel("10");
+//		sp3Einheiten = new JLabel("100");
+//		sp3Karten = new JLabel("2");
+//		
+//		sp4Laender = new JLabel("10");
+//		sp4Einheiten = new JLabel("20");
+//		sp4Karten = new JLabel("2");
+//		
+//		sp5Laender = new JLabel("10");
+//		sp5Einheiten = new JLabel("20");
+//		sp5Karten = new JLabel("2");
+//		
+//		sp6Laender = new JLabel("10");
+//		sp6Einheiten = new JLabel("20");
+//		sp6Karten = new JLabel("2");
 		
 		this.add(header,"spanx 3,left");
 		this.add(icon1,"left");

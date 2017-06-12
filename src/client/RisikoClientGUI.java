@@ -1,13 +1,10 @@
 package client;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.util.List;
 import java.util.Vector;
 
@@ -19,7 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import client.ButtonPanel.ButtonClickHandler;
@@ -160,11 +156,11 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	        spielFrame.setLocationRelativeTo(null);
 	        spielFrame.setSize(1400,750);
 	        spielFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	        JPanel panel = new JPanel(new MigLayout("wrap2","[][]","[][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
+	        JPanel panel = new JPanel(new MigLayout("debug,wrap2","[][300]","[][][300]")); // hier "debug,wrap2" schreiben für Debug-Modus
 	        spielFrame.add(panel);
 	        //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
-	        JTextArea karten = new JTextArea("Karten",10,20);
-	        JTextArea statistik = new JTextArea("Statistik",8,20);
+//	        JTextArea karten = new JTextArea("Karten",10,20);
+//	        JTextArea statistik = new JTextArea("Statistik",8,20);
 
 
 	        spielfeld = new MapPanel(this);
@@ -172,7 +168,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	        missionPanel = new MissionPanel();
 	        infoPanel = new InfoPanel(sp.getTurn()+"",sp.getAktiverSpieler().getName());
 	        buttonPanel = new ButtonPanel(this);
-	        statistikPanel = new StatistikPanel(sp.getLaenderListe());
+	        statistikPanel = new StatistikPanel(sp.getSpielerList(), sp.getLaenderListe(), anzahlSpieler);
 	        consolePanel = new ConsolePanel();
 		
 	  
