@@ -1,6 +1,7 @@
 package client;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -156,15 +157,9 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	        spielFrame.setLocationRelativeTo(null);
 	        spielFrame.setPreferredSize(new Dimension(1250,780));
 	        spielFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-<<<<<<< HEAD
-<<<<<<< HEAD
-	        JPanel panel = new JPanel(new MigLayout("debug,wrap2","[][300]","[][][300]")); // hier "debug,wrap2" schreiben für Debug-Modus
-=======
+
 	        JPanel panel = new JPanel(new MigLayout(" wrap2","[][]","[][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
->>>>>>> origin/master
-=======
-	        JPanel panel = new JPanel(new MigLayout("debug,wrap2","[][]","[][][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
->>>>>>> 5ff71bcf8964067a53b8cb57c7b34d64bbb7cdc3
+
 	        spielFrame.add(panel);
 	        //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
 //	        JTextArea karten = new JTextArea("Karten",10,20);
@@ -176,7 +171,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	        missionPanel = new MissionPanel();
 	        infoPanel = new InfoPanel(sp.getTurn()+"",sp.getAktiverSpieler().getName());
 	        buttonPanel = new ButtonPanel(this);
-	        statistikPanel = new StatistikPanel(sp.getSpielerList(), sp.getLaenderListe(), anzahlSpieler);
+	        statistikPanel = new StatistikPanel(sp.getSpielerList(), sp.getLaenderListe());
 	        consolePanel = new ConsolePanel();
 		
 	  
@@ -242,9 +237,11 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     			spielerListPanel.setLabel(spielerNr, s.getName(), s.getFarbe());
     			spielerNr++;
     		}
-    		for(int i = 4; i < 7; i++){
-    			spielerListPanel.setLabel(i, "Testname", "rot");
-    		}
+    		
+    		statistikPanel.statistikPanelAktualisieren();
+//    		for(int i = 4; i < 7; i++){
+//    			spielerListPanel.setLabel(i, "Testname", "rot");
+//    		}
 			
 		
     	}
