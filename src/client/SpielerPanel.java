@@ -63,7 +63,7 @@ public class SpielerPanel extends JPanel{
 		this.add(spieler6,"center");
 		
 		
-		this.setPreferredSize(new Dimension(200,350));
+//		this.setPreferredSize(new Dimension(200,350));
 	}
 	
 	public void setLabel(int nummer, String text, String farbe){
