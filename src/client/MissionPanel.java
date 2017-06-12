@@ -10,8 +10,9 @@ import javax.swing.JTabbedPane;
 import net.miginfocom.swing.MigLayout;
 
 public class MissionPanel extends JPanel{
-		JLabel m1Art = new JLabel();
-		JLabel mBeschreibung1 = new JLabel();
+		JLabel mArt = new JLabel();
+		JLabel mBeschreibung = new JLabel();
+		JLabel kBeschreibung = new JLabel();
 		
 	public MissionPanel(){
 		initialize();
@@ -21,24 +22,31 @@ public class MissionPanel extends JPanel{
 		//könnte weg, sieht aber eig ganz cool aus
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
 		
-		JComponent mission1 = new JPanel();
-		mission1.setLayout(new MigLayout("wrap1","[]","[][][]"));
+		JComponent mission = new JPanel();
+		mission.setLayout(new MigLayout("wrap1","[]","[][][]"));
 		
+		mBeschreibung.setText("Erobere die Kontinente Afrika.");
+		mission.add(new JLabel("Mission:"),"left");
+		mission.add(mArt,"center");
+		mission.add(mBeschreibung,"center");
+		mission.setPreferredSize(new Dimension(230,130));
 		
-		mission1.add(new JLabel("Mission:"),"center");
-		mission1.add(m1Art,"center");
-		mission1.add(mBeschreibung1,"center");
-		mission1.setPreferredSize(new Dimension(230,130));
+		JComponent karten = new JPanel();
+		karten.setLayout(new MigLayout("wrap1","[]","[][][]"));
 		
-		tabbedPane.addTab("Mission1",mission1);
+		karten.add(new JLabel("Du hast folgende Karten:"),"center");
+		karten.add(kBeschreibung,"center");
+		karten.setPreferredSize(new Dimension(230,130));
 		
+		tabbedPane.addTab("Mission",mission);
+		tabbedPane.addTab("Karten", karten);
 		this.add(tabbedPane);
 			
 	}
 	
 	public void setMBeschreibung(int nummer, String art, String beschreibung){
 				
-		m1Art.setText(art);
-		mBeschreibung1.setText(beschreibung);
+		mArt.setText(art);
+		mBeschreibung.setText(beschreibung);
 	}
 }

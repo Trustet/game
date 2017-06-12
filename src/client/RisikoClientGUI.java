@@ -1,6 +1,7 @@
 package client;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -40,6 +41,9 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     private JFrame spielFrame;
     private MapPanel spielfeld;
     private InfoPanel infoPanel;
+    private ButtonPanel buttonPanel;
+    private StatistikPanel statistikPanel;
+    private ConsolePanel consolePanel;
     
 //    private Socket socket = null;
 //    private BufferedReader in;
@@ -156,7 +160,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	        spielFrame.setLocationRelativeTo(null);
 	        spielFrame.setSize(1400,750);
 	        spielFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	        JPanel panel = new JPanel(new MigLayout("debug,wrap2","[][]","[][][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
+	        JPanel panel = new JPanel(new MigLayout("debug,wrap2","[][]","[][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
 	        spielFrame.add(panel);
 	        //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
 	        JTextArea karten = new JTextArea("Karten",10,20);
@@ -167,16 +171,20 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	        spielerListPanel = new SpielerPanel();
 	        missionPanel = new MissionPanel();
 	        infoPanel = new InfoPanel(sp.getTurn()+"",sp.getAktiverSpieler().getName());
-	        ButtonPanel buttonPanel = new ButtonPanel(this);
+	        buttonPanel = new ButtonPanel(this);
+	        statistikPanel = new StatistikPanel(sp.getLaenderListe());
+	        consolePanel = new ConsolePanel();
 		
 	  
 	        panel.add(spielfeld,"left,spany 3,growx,growy,hmin 550, wmin 1050");
-	        panel.add(infoPanel,"left");
+	        panel.add(infoPanel,"left,growx");
 	        panel.add(spielerListPanel,"growx,growy");
-	        panel.add(statistik,"left,top,growy");
+//	        panel.add(statistik,"left,top,growy");
+	        panel.add(statistikPanel,"center,growx,growy");
 	        panel.add(missionPanel,"left,split2");
-	        panel.add(karten,"left,growx");
-	        panel.add(buttonPanel,"center,growy,growx");
+//	        panel.add(karten,"left,growx");
+	        panel.add(consolePanel,"left");
+	        panel.add(buttonPanel,"left");
 	        spielFrame.setResizable(false);
 	        spielFrame.setVisible(true);
 

@@ -11,6 +11,7 @@ public class InfoPanel extends JPanel{
 	private String spieler;
 	private JLabel phaseLab;
 	private JLabel spielerLab;
+	
 	public InfoPanel(String phase, String spieler){
 		this.phaseString = phase;
 		this.spieler = spieler;
