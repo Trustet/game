@@ -160,7 +160,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	        spielFrame.setLocationRelativeTo(null);
 	        spielFrame.setSize(1400,750);
 	        spielFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-	        JPanel panel = new JPanel(new MigLayout("debug,wrap2","[][]","[][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
+	        JPanel panel = new JPanel(new MigLayout("wrap2","[][]","[][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
 	        spielFrame.add(panel);
 	        //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
 	        JTextArea karten = new JTextArea("Karten",10,20);
@@ -176,15 +176,15 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	        consolePanel = new ConsolePanel();
 		
 	  
-	        panel.add(spielfeld,"left,spany 3,growx,growy,hmin 550, wmin 1050");
-	        panel.add(infoPanel,"left,growx");
+	        panel.add(spielfeld,"left,spany 2,growx,growy,hmin 550, wmin 1050");
 	        panel.add(spielerListPanel,"growx,growy");
+	        panel.add(statistikPanel,"left,growx");
 //	        panel.add(statistik,"left,top,growy");
-	        panel.add(statistikPanel,"center,growx,growy");
-	        panel.add(missionPanel,"left,split2");
+	        panel.add(missionPanel,"left,split3,growy");
 //	        panel.add(karten,"left,growx");
-	        panel.add(consolePanel,"left");
-	        panel.add(buttonPanel,"left");
+	        panel.add(consolePanel,"left,split3,growy,growx");
+	        panel.add(buttonPanel,"left,split3,growy");
+	        panel.add(infoPanel,"left,growx,growy");
 	        spielFrame.setResizable(false);
 	        spielFrame.setVisible(true);
 
