@@ -19,14 +19,14 @@ public class ConsolePanel extends JPanel{
 	
 	public void initialize(){
 		Border schwarz = BorderFactory.createLineBorder(Color.black);
-		this.setLayout(new MigLayout("wrap1","[640]","[][130]"));
+		this.setLayout(new MigLayout("wrap1","[640]","[][120]"));
 		this.setBorder(schwarz);
 		
 		JLabel header = new JLabel("Hier stehen irgendwelche Benachrichtigungen, die im Spielverlauf wichtig sind.");
 		JScrollBar consoleScrollBar = new JScrollBar();
 		
 		
-		this.add(header,"left, growx,growy");
+		this.add(header,"left, growx");
 		this.add(consoleScrollBar,"right,growy");
 	}
 }
