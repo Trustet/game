@@ -1,7 +1,16 @@
 package client;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,6 +22,7 @@ public class MissionPanel extends JPanel{
 		JLabel mArt = new JLabel();
 		JLabel mBeschreibung = new JLabel();
 		JLabel kBeschreibung = new JLabel();
+		BufferedImage iconEinheiten;
 		
 	public MissionPanel(){
 		initialize();
@@ -33,8 +43,24 @@ public class MissionPanel extends JPanel{
 		
 		JComponent karten = new JPanel();
 		karten.setLayout(new MigLayout("wrap1","[]","[][][]"));
+		try{
+			iconEinheiten = ImageIO.read(new File("./soldat.jpg"));
+		} catch (IOException e){
+			
+		}
+		
+		JLabel icon2 = new JLabel(new ImageIcon(iconEinheiten.getScaledInstance(20, 20, Image.SCALE_FAST)));
+		
+		icon2.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Du hast die Soldatenkarten eingetauscht");
+			}
+		});
 		
 		karten.add(new JLabel("Du hast folgende Karten:"),"center");
+		karten.add(icon2);
 		karten.add(kBeschreibung,"center");
 		karten.setPreferredSize(new Dimension(230,130));
 		

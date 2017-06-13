@@ -72,32 +72,18 @@ public class StatistikPanel extends JPanel{
 		JLabel icon2 = new JLabel(new ImageIcon(iconEinheiten.getScaledInstance(40, 40, Image.SCALE_FAST)));
 		JLabel icon3 = new JLabel(new ImageIcon(iconKarten.getScaledInstance(40, 40, Image.SCALE_FAST)));
 		
-		laenderVonSpieler = new Vector<>();
-		einheitenVonSpieler = new Vector<>();
-		kartenVonSpieler = new Vector<>();
+		laenderVonSpieler = new Vector<Integer>();
+		einheitenVonSpieler = new Vector<Integer>();
+		kartenVonSpieler = new Vector<Integer>();
 		
-		laenderVonSpielerLabel = new Vector<>();
-		einheitenVonSpielerLabel = new Vector<>();
-		kartenVonSpielerLabel = new Vector<>();
+		laenderVonSpielerLabel = new Vector<JLabel>();
+		einheitenVonSpielerLabel = new Vector<JLabel>();
+		kartenVonSpielerLabel = new Vector<JLabel>();
 		
-		statistikAktualisieren();
+//		statistikAktualisieren();
 
 
-		for(int laenderAnzahl : laenderVonSpieler)
-		{
-			laenderVonSpielerLabel.add(new JLabel(laenderAnzahl + ""));
-		}
-		
-		for(int einheitenAnzahl : einheitenVonSpieler)
-		{
-			einheitenVonSpielerLabel.add(new JLabel(einheitenAnzahl + ""));
-		}
-		
-		for(int kartenAnzahl : kartenVonSpieler)
-		{
-			kartenVonSpielerLabel.add(new JLabel(kartenAnzahl + ""));
-		}
-
+	
 		
 		
 //		sp1Laender = new JLabel("10");
@@ -129,12 +115,17 @@ public class StatistikPanel extends JPanel{
 		this.add(icon2,"center");
 		this.add(icon3,"right");
 		
-		for(int i = 0;i < laenderVonSpielerLabel.size();i++)
-		{
-			this.add(laenderVonSpielerLabel.get(i),"left");
-			this.add(einheitenVonSpielerLabel.get(i),"center");
-			this.add(kartenVonSpielerLabel.get(i),"right");
-		}
+		
+		
+//		for(int i = 0;i <= laenderVonSpielerLabel.size();i++)
+//		{
+//			this.add(laenderVonSpielerLabel.get(i),"left");
+//			this.add(einheitenVonSpielerLabel.get(i),"center");
+//			this.add(kartenVonSpielerLabel.get(i),"right");
+//		}
+		
+		this.repaint();
+		this.revalidate();
 		
 //		this.add(sp1Laender,"left");
 //		this.add(sp1Einheiten,"center");
@@ -163,28 +154,52 @@ public class StatistikPanel extends JPanel{
 	}
 	
 	public void statistikAktualisieren(){
+		
 		laenderVonSpieler.clear();
 		einheitenVonSpieler.clear();
 		kartenVonSpieler.clear();
 		
 		int anzahlLaender;
 		int anzahlEinheiten;
-		for(int i = 0; i < spielerListe.size(); i++)
+		for(Spieler s : spielerListe)
 		{
 			anzahlLaender = 0;
 			anzahlEinheiten = 0;
 			for(Land l: laenderListe)
 			{
-				if(l.getBesitzer().equals(spielerListe.get(i)))
+				if(l.getBesitzer().equals(s))
 				{
 					anzahlLaender++;
 					anzahlEinheiten += l.getEinheiten();
 				}
-				laenderVonSpieler.add(anzahlLaender);
-				einheitenVonSpieler.add(anzahlEinheiten);
-				kartenVonSpieler.add(3);
 			}
+			laenderVonSpieler.add(anzahlLaender);
+			einheitenVonSpieler.add(anzahlEinheiten);
+			kartenVonSpieler.add(3);
 			
+		}
+		//TODO Schriftfarbe ändern
+		for(int laenderAnzahl : laenderVonSpieler)
+		{
+			laenderVonSpielerLabel.add(new JLabel(laenderAnzahl + ""));
+		}
+		
+		for(int einheitenAnzahl : einheitenVonSpieler)
+		{
+			einheitenVonSpielerLabel.add(new JLabel(einheitenAnzahl + ""));
+		}
+		
+		for(int kartenAnzahl : kartenVonSpieler)
+		{
+			kartenVonSpielerLabel.add(new JLabel(kartenAnzahl + ""));
+		}
+
+		int i = 0;
+		for(JLabel lab : laenderVonSpielerLabel){
+			this.add(laenderVonSpielerLabel.get(i),"left");
+			this.add(einheitenVonSpielerLabel.get(i),"center");
+			this.add(kartenVonSpielerLabel.get(i),"right");
+			i++;
 		}
 	}
 	
@@ -195,5 +210,7 @@ public class StatistikPanel extends JPanel{
 		{
 			laenderVonSpielerLabel.get(i).setText(laenderVonSpieler.get(i) + "");
 		}
+		this.repaint();
+		this.revalidate();
 	}
 }
