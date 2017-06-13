@@ -291,7 +291,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 					spielfeld.labelsSetzen("", land.getEinheiten(), "");
 					spielfeld.fahneEinheit(land.getEinheitenLab());
 				}catch(KannLandNichtBenutzenException lene ){
-					System.out.println(lene.getMessage());
+					consolePanel.textSetzen(lene.getMessage());
 				}
 				break;
 			case VERSCHIEBEN:
