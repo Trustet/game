@@ -1,5 +1,7 @@
 package client;
 
+import java.awt.Font;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -11,24 +13,32 @@ public class InfoPanel extends JPanel{
 	private String spieler;
 	private JLabel phaseLab;
 	private JLabel spielerLab;
+	Font schrift;
+	Font uberschrift;
 	
-	public InfoPanel(String phase, String spieler){
+	public InfoPanel(String phase, String spieler,Font schrift,Font uberschrift){
 		this.phaseString = phase;
 		this.spieler = spieler;
+		this.schrift = schrift;
+		this.uberschrift = uberschrift;
 		initialize();
 	}
 	
 	public void initialize(){
 		this.setLayout(new MigLayout("wrap1","[]","[][][][]"));
 		
-		JLabel header = new JLabel("Aktuelle Phase:");
+		JLabel header = new JLabel("Phase:");
+		header.setFont(uberschrift);
 		phaseLab = new JLabel(phaseString);
-		JLabel sheader = new JLabel("Aktueller Spieler");
-		spielerLab = new JLabel(spieler);
-		this.add(header,"center");
-		this.add(phaseLab,"center");
-		this.add(sheader,"center");
-		this.add(spielerLab,"center");
+		phaseLab.setFont(schrift);
+//		JLabel sheader = new JLabel("Spieler");
+//		sheader.setFont(uberschrift);
+//		spielerLab = new JLabel(spieler);
+//		spielerLab.setFont(schrift);
+		this.add(header,"left");
+		this.add(phaseLab,"left");
+//		this.add(sheader,"center");
+//		this.add(spielerLab,"center");
 	}
 	
 	public void setInfo(String phase, String spieler){
@@ -38,17 +48,17 @@ public class InfoPanel extends JPanel{
 	public void changePanel(String phase, String spieler){
 		switch(phase){
 		case "VERTEILEN":
-			this.setInfo("VERTEILEN", spieler);
+			this.setInfo("Verteilen", spieler);
 			this.repaint();
 			this.revalidate();
 			break;
 		case "ANGRIFF":
-			this.setInfo("ANGRIFF", spieler);
+			this.setInfo("Angreifen", spieler);
 			this.repaint();
 			this.revalidate();
 			break;
 		case "VERSCHIEBEN":
-			this.setInfo("VERSCHIEBEN", spieler);
+			this.setInfo("Verschieben", spieler);
 			this.repaint();
 			this.revalidate();
 			break;

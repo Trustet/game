@@ -2,6 +2,7 @@ package client;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -41,6 +42,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     private ButtonPanel buttonPanel;
     private StatistikPanel statistikPanel;
     private ConsolePanel consolePanel;
+    private Font schrift;
+    private Font uberschrift;
     
 //    private Socket socket = null;
 //    private BufferedReader in;
@@ -54,6 +57,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		JFrame fenster = new RisikoClientGUI();
 	}
 	public void start() {
+		uberschrift = new Font(Font.SERIF, Font.BOLD,25);
+		schrift = new Font(Font.SANS_SERIF, Font.PLAIN,20);
 		
 		//Frame und Layout
 		JFrame frame = new JFrame("Spiel starten");
@@ -112,6 +117,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		frame.setSize(280, 200); //von 300 auf 280 gestellt //FRAGE: kann man panel zentrieren?
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
+		
 		//Objekte erstellen
 		JLabel nameLab = new JLabel("Name:");
 		JTextField nameText = new JTextField();
@@ -166,16 +172,16 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 //	        JTextArea statistik = new JTextArea("Statistik",8,20);
 
 
-	        spielfeld = new MapPanel(this);
-	        spielerListPanel = new SpielerPanel();
-	        missionPanel = new MissionPanel();
-	        infoPanel = new InfoPanel(sp.getTurn()+"",sp.getAktiverSpieler().getName());
+	        spielfeld = new MapPanel(this, schrift);
+	        spielerListPanel = new SpielerPanel(schrift, uberschrift);
+	        missionPanel = new MissionPanel(uberschrift, schrift);
+	        infoPanel = new InfoPanel(sp.getTurn()+"",sp.getAktiverSpieler().getName(), schrift, uberschrift);
 	        buttonPanel = new ButtonPanel(this);
-	        statistikPanel = new StatistikPanel(sp.getSpielerList(), sp.getLaenderListe());
-	        consolePanel = new ConsolePanel();
+	        statistikPanel = new StatistikPanel(sp.getSpielerList(), sp.getLaenderListe(), schrift, uberschrift);
+	        consolePanel = new ConsolePanel(schrift);
 		
 	  
-	        panel.add(spielfeld,"left,spany 3,growx,growy,hmin 550, wmin 1050");
+	        panel.add(spielfeld,"left,spany 3,grow,hmin 550, wmin 1050");
 	        panel.add(infoPanel,"left,growx");
 	        panel.add(spielerListPanel,"growx");
 	        panel.add(statistikPanel,"left,top,growx,spany 2");

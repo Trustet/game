@@ -2,6 +2,7 @@ package client;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,11 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 
-import local.domain.Spielfeld;
-import local.domain.exceptions.KannLandNichtBenutzenException;
 import local.valueobjects.Land;
 
 public class MapPanel extends JLayeredPane {
@@ -38,14 +35,16 @@ public class MapPanel extends JLayeredPane {
 	private JLabel  fahneGruenLab = null;
 	private MapClickHandler handler = null;
 	private BufferedImage weltKarteBunt;
+	private Font schrift;
   
 	public JLabel landLab = null;
 	public JLabel einheitenLab = null;
 	public JLabel besitzerLab = null;
 	
 	
-	public MapPanel(MapClickHandler handler) {
+	public MapPanel(MapClickHandler handler,Font schrift) {
 		this.handler = handler;
+		this.schrift = schrift;
 		initialize();
 	}
 	
@@ -81,12 +80,15 @@ public class MapPanel extends JLayeredPane {
         
 //        JTextArea ta = new JTextArea("Infos",10,20);
 //        ta.setBounds(500, 0, 100, 50);
-        landLab = new JLabel("Land:");
-        einheitenLab = new JLabel("Einheiten:");
-        besitzerLab = new JLabel("Besitzer:");
-        landLab.setBounds(400,0,200,15);
-        einheitenLab.setBounds(400, 15, 200, 15);
-        besitzerLab.setBounds(400, 30, 200, 15);
+        landLab = new JLabel("Land");
+        landLab.setFont(schrift);
+        einheitenLab = new JLabel("Einheiten");
+        einheitenLab.setFont(schrift);
+        besitzerLab = new JLabel("Besitzer");
+        besitzerLab.setFont(schrift);
+        landLab.setBounds(400,2,200,15);
+        einheitenLab.setBounds(400, 27, 200, 15);
+        besitzerLab.setBounds(400, 52, 200, 15);
         
         
 //        fahneLab.setBounds(46, 64, 20, 20);
@@ -133,15 +135,31 @@ public class MapPanel extends JLayeredPane {
 		return this.fahnenLabs;
 	}
 	
+//	public void labelsSetzen(String lName, int lEinheiten, String lBesitzer){
+//		if(lName.length() > 0){
+//			landLab.setText("Land: " + lName);
+//		}
+//		if(lEinheiten != 9119){
+//			einheitenLab.setText("Einheiten: " + lEinheiten);
+//		}
+//		if(lBesitzer.length() > 0){
+//			besitzerLab.setText("Besitzer: " + lBesitzer);
+//		}
 	public void labelsSetzen(String lName, int lEinheiten, String lBesitzer){
 		if(lName.length() > 0){
-			landLab.setText("Land: " + lName);
+			landLab.setText(lName);
+		}else{
+			landLab.setText("Land");
 		}
 		if(lEinheiten != 9119){
-			einheitenLab.setText("Einheiten: " + lEinheiten);
+			einheitenLab.setText(lEinheiten + "");
+		} else {
+			einheitenLab.setText("Einheiten");
 		}
 		if(lBesitzer.length() > 0){
-			besitzerLab.setText("Besitzer: " + lBesitzer);
+			besitzerLab.setText(lBesitzer);
+		} else	{
+			besitzerLab.setText("Besitzer");
 		}
 		
 	}

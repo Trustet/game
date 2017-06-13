@@ -30,21 +30,25 @@ public class SpielerPanel extends JPanel{
 	private BufferedImage fahneRotImg;
 	private BufferedImage fahneBlauImg;
 	private BufferedImage fahneGruenImg;
+	private Font schrift;
+	private Font uberschrift;
 	
-	public SpielerPanel(){
+	public SpielerPanel(Font schrift, Font uberschrift){
+		this.schrift = schrift;
+		this.uberschrift = uberschrift;
 		initialize();
 	}
 	
 	public void initialize(){
 		this.setLayout(new MigLayout("wrap2","[][]","[][][][][][][]"));
 		JLabel header = new JLabel("Spieler:");
-		header.setFont(new Font("Impact", Font.PLAIN,30));
-		spieler1.setFont(new Font("Impact", Font.PLAIN,30));
-		spieler2.setFont(new Font("Impact", Font.PLAIN,30));
-		spieler3.setFont(new Font("Impact", Font.PLAIN,30));
-		spieler4.setFont(new Font("Impact", Font.PLAIN,30));
-		spieler5.setFont(new Font("Impact", Font.PLAIN,30));
-		spieler6.setFont(new Font("Impact", Font.PLAIN,30));
+		header.setFont(uberschrift);
+		spieler1.setFont(schrift);
+		spieler2.setFont(schrift);
+		spieler3.setFont(schrift);
+		spieler4.setFont(schrift);
+		spieler5.setFont(schrift);
+		spieler6.setFont(schrift);
 		
 		try{
 			fahneRotImg = ImageIO.read(new File("./Fahne_Rot.png"));
@@ -55,17 +59,17 @@ public class SpielerPanel extends JPanel{
 			}
 		
 		this.add(header,"center,growx,wrap");
-		this.add(spieler1,"center");
+		this.add(spieler1,"left");
 		this.add(spieler1Fahne, "left");
-		this.add(spieler2,"center");
+		this.add(spieler2,"left");
 		this.add(spieler2Fahne, "left");
-		this.add(spieler3,"center");
+		this.add(spieler3,"left");
 		this.add(spieler3Fahne, "left");
-		this.add(spieler4,"center");
+		this.add(spieler4,"left");
 		this.add(spieler4Fahne, "left");
-		this.add(spieler5,"center");
+		this.add(spieler5,"left");
 		this.add(spieler5Fahne, "left");
-		this.add(spieler6,"center");
+		this.add(spieler6,"left");
 		this.add(spieler6Fahne, "left");
 		
 		

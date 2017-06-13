@@ -1,5 +1,7 @@
 package client;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,6 +14,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.w3c.dom.css.RGBColor;
+
 import local.valueobjects.Land;
 import local.valueobjects.Spieler;
 import net.miginfocom.swing.MigLayout;
@@ -23,35 +27,21 @@ public class StatistikPanel extends JPanel{
 	BufferedImage iconLand;
 	BufferedImage iconEinheiten;
 	BufferedImage iconKarten;
-//	JLabel sp1Laender;
-//	JLabel sp1Einheiten;
-//	JLabel sp1Karten;
-//	JLabel sp2Laender;
-//	JLabel sp2Einheiten;
-//	JLabel sp2Karten;
-//	JLabel sp3Laender;
-//	JLabel sp3Einheiten;
-//	JLabel sp3Karten;
-//	JLabel sp4Laender;
-//	JLabel sp4Einheiten;
-//	JLabel sp4Karten;
-//	JLabel sp5Laender;
-//	JLabel sp5Einheiten;
-//	JLabel sp5Karten;
-//	JLabel sp6Laender;
-//	JLabel sp6Einheiten;
-//	JLabel sp6Karten;
 	List<JLabel> laenderVonSpielerLabel;
 	List<JLabel> einheitenVonSpielerLabel;
 	List<JLabel> kartenVonSpielerLabel;	
 	List<Integer> laenderVonSpieler;
 	List<Integer> einheitenVonSpieler;
 	List<Integer> kartenVonSpieler;
+	Font schrift;
+	Font uberschrift;
 	
 	
-	public StatistikPanel(List<Spieler> spielerListe, List<Land> laenderListe){
+	public StatistikPanel(List<Spieler> spielerListe, List<Land> laenderListe,Font schrift,Font uberschrift){
 	this.laenderListe = laenderListe;
 	this.spielerListe = spielerListe;
+	this.schrift = schrift;
+	this.uberschrift = uberschrift;
 	initialize();
 	}
 	
@@ -59,6 +49,7 @@ public class StatistikPanel extends JPanel{
 		this.setLayout(new MigLayout("wrap3","[][][]","[][][][][][][][]"));
 		
 		JLabel header = new JLabel("Statistik:");
+		header.setFont(uberschrift);
 		
 		try{
 		iconLand = ImageIO.read(new File("./land.jpg"));
@@ -79,78 +70,14 @@ public class StatistikPanel extends JPanel{
 		laenderVonSpielerLabel = new Vector<JLabel>();
 		einheitenVonSpielerLabel = new Vector<JLabel>();
 		kartenVonSpielerLabel = new Vector<JLabel>();
-		
-//		statistikAktualisieren();
 
-
-	
-		
-		
-//		sp1Laender = new JLabel("10");
-//		sp1Einheiten = new JLabel("20");
-//		sp1Karten = new JLabel("2");
-//		
-//		sp2Laender = new JLabel("13");
-//		sp2Einheiten = new JLabel("40");
-//		sp2Karten = new JLabel("5");
-//		
-//		sp3Laender = new JLabel("10");
-//		sp3Einheiten = new JLabel("100");
-//		sp3Karten = new JLabel("2");
-//		
-//		sp4Laender = new JLabel("10");
-//		sp4Einheiten = new JLabel("20");
-//		sp4Karten = new JLabel("2");
-//		
-//		sp5Laender = new JLabel("10");
-//		sp5Einheiten = new JLabel("20");
-//		sp5Karten = new JLabel("2");
-//		
-//		sp6Laender = new JLabel("10");
-//		sp6Einheiten = new JLabel("20");
-//		sp6Karten = new JLabel("2");
-		
 		this.add(header,"spanx 3,left");
 		this.add(icon1,"left");
 		this.add(icon2,"center");
 		this.add(icon3,"right");
-		
-		
-		
-//		for(int i = 0;i <= laenderVonSpielerLabel.size();i++)
-//		{
-//			this.add(laenderVonSpielerLabel.get(i),"left");
-//			this.add(einheitenVonSpielerLabel.get(i),"center");
-//			this.add(kartenVonSpielerLabel.get(i),"right");
-//		}
-		
+
 		this.repaint();
-		this.revalidate();
-		
-//		this.add(sp1Laender,"left");
-//		this.add(sp1Einheiten,"center");
-//		this.add(sp1Karten,"right");
-//		
-//		this.add(sp2Laender,"left");
-//		this.add(sp2Einheiten,"center");
-//		this.add(sp2Karten,"right");
-//		
-//		this.add(sp3Laender,"left");
-//		this.add(sp3Einheiten,"center");
-//		this.add(sp3Karten,"right");
-//		
-//		this.add(sp4Laender,"left");
-//		this.add(sp4Einheiten,"center");
-//		this.add(sp4Karten,"right");
-//		
-//		this.add(sp5Laender,"left");
-//		this.add(sp5Einheiten,"center");
-//		this.add(sp5Karten,"right");
-//		
-//		this.add(sp6Laender,"left");
-//		this.add(sp6Einheiten,"center");
-//		this.add(sp6Karten,"right");
-		
+		this.revalidate();		
 	}
 	
 	public void statistikAktualisieren(){
@@ -194,11 +121,26 @@ public class StatistikPanel extends JPanel{
 			kartenVonSpielerLabel.add(new JLabel(kartenAnzahl + ""));
 		}
 
+		List<Color> farben = new Vector<>();
+		farben.add(new Color(175,42,0));
+		farben.add(new Color(133, 219, 24));
+		farben.add(new Color(38, 50, 237));
+		farben.add(Color.blue);
+		farben.add(Color.blue);
+		farben.add(Color.blue);
+		
 		int i = 0;
 		for(JLabel lab : laenderVonSpielerLabel){
-			this.add(laenderVonSpielerLabel.get(i),"left");
+			this.add(laenderVonSpielerLabel.get(i),"center");
 			this.add(einheitenVonSpielerLabel.get(i),"center");
-			this.add(kartenVonSpielerLabel.get(i),"right");
+			this.add(kartenVonSpielerLabel.get(i),"center");
+					
+			laenderVonSpielerLabel.get(i).setFont(schrift);
+			einheitenVonSpielerLabel.get(i).setFont(schrift);
+			kartenVonSpielerLabel.get(i).setFont(schrift);
+			laenderVonSpielerLabel.get(i).setForeground(farben.get(i));
+			einheitenVonSpielerLabel.get(i).setForeground(farben.get(i));
+			kartenVonSpielerLabel.get(i).setForeground(farben.get(i));
 			i++;
 		}
 	}

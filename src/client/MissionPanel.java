@@ -2,6 +2,7 @@ package client;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -23,21 +24,26 @@ public class MissionPanel extends JPanel{
 		JLabel mBeschreibung = new JLabel();
 		JLabel kBeschreibung = new JLabel();
 		BufferedImage iconEinheiten;
+		Font schrift;
+		Font uberschrift;
 		
-	public MissionPanel(){
+	public MissionPanel(Font uberschrift, Font schrift){
+		this.schrift = schrift;
+		this.uberschrift = uberschrift;
 		initialize();
 	}
 	
 	public void initialize(){
 		//könnte weg, sieht aber eig ganz cool aus
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
-		
+		tabbedPane.setFont(uberschrift);
 		JComponent mission = new JPanel();
 		mission.setLayout(new MigLayout("wrap1","[]","[][][]"));
 		
-		mBeschreibung.setText("Erobere die Kontinente Afrika.");
-		mission.add(new JLabel("Mission:"),"left");
-		mission.add(mArt,"center");
+		mBeschreibung.setText("Erobere.");
+		mBeschreibung.setFont(schrift);
+//		mission.add(new JLabel("Mission:"),"left");
+//		mission.add(mArt,"center");
 		mission.add(mBeschreibung,"center");
 		mission.setPreferredSize(new Dimension(230,130));
 		
