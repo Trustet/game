@@ -12,7 +12,6 @@ public class InfoPanel extends JPanel{
 	private String phaseString;
 	private String spieler;
 	private JLabel phaseLab;
-	private JLabel spielerLab;
 	Font schrift;
 	Font uberschrift;
 	
@@ -41,26 +40,22 @@ public class InfoPanel extends JPanel{
 //		this.add(spielerLab,"center");
 	}
 	
-	public void setInfo(String phase, String spieler){
+	public void setInfo(String phase){
 		phaseLab.setText(phase);
-		spielerLab.setText(spieler);
 	}
-	public void changePanel(String phase, String spieler){
+	public void changePanel(String phase){
 		switch(phase){
 		case "VERTEILEN":
-			this.setInfo("Verteilen", spieler);
-			this.repaint();
-			this.revalidate();
+			this.setInfo("Verteilen");
+			
 			break;
 		case "ANGRIFF":
-			this.setInfo("Angreifen", spieler);
-			this.repaint();
-			this.revalidate();
+			this.setInfo("Angreifen");
+			
 			break;
 		case "VERSCHIEBEN":
-			this.setInfo("Verschieben", spieler);
-			this.repaint();
-			this.revalidate();
+			this.setInfo("Verschieben");
+			
 			break;
 		}
 	}
