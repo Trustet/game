@@ -28,7 +28,6 @@ public class ConsolePanel extends JPanel{
 		consoleText = new JTextArea();
 		JScrollPane consoleScrollBar = new JScrollPane(consoleText);
 		consoleText.setLineWrap(true);
-//		consoleText.setText("Dies \nist \nein\nvorläufiger\ntest\nText\nzum\nscrollen");
 		header.setFont(schrift);
 		consoleText.setFont(new Font(Font.SANS_SERIF, Font.PLAIN,15));
 		this.add(header,"left, growx");

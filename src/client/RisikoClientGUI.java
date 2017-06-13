@@ -24,6 +24,7 @@ import client.ButtonPanel.ButtonClickHandler;
 import client.MapPanel.MapClickHandler;
 import local.domain.Spielfeld;
 import local.domain.exceptions.KannLandNichtBenutzenException;
+import local.domain.exceptions.KeinNachbarlandException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.valueobjects.Land;
 import local.valueobjects.Spieler;
@@ -44,6 +45,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     private ConsolePanel consolePanel;
     private Font schrift;
     private Font uberschrift;
+    private Land land1 = null;
+    private Land land2 = null;
     
 //    private Socket socket = null;
 //    private BufferedReader in;
@@ -276,12 +279,14 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		
 	}
 	public void landWaehlen(String landcode){
+		
 		String landstring = sp.getLandVonFarbcode(landcode);
 		Land land = sp.stringToLand(landstring);
 		if(land != null){
 			spielfeld.labelsSetzen(land.getName(), land.getEinheiten(), land.getBesitzer().getName());
 			switch(sp.getTurn()){
 			case ANGRIFF:
+				
 				break;
 			case VERTEILEN:
 				try{
@@ -295,6 +300,36 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 				}
 				break;
 			case VERSCHIEBEN:
+				if(land1 == null){
+					try{
+						sp.landWaehlen(landstring,sp.getAktiverSpieler());
+						land1 = land;
+					} catch(KannLandNichtBenutzenException lene){
+						consolePanel.textSetzen(lene.getMessage());
+					}
+				}else{
+					
+						try {
+							sp.istNachbar(land1, land, sp.getAktiverSpieler());
+							land2 = land;
+							sp.einheitenPositionieren(-1, land1);
+							sp.einheitenPositionieren(1, land2);
+							spielfeld.labelsSetzen("", land1.getEinheiten(), "");
+							spielfeld.fahneEinheit(land1.getEinheitenLab());
+							spielfeld.labelsSetzen("", land2.getEinheiten(), "");
+							spielfeld.fahneEinheit(land2.getEinheitenLab());
+							land1 = null;
+							land2 = null;
+						} catch (KeinNachbarlandException knle) {
+							try{
+								sp.landWaehlen(landstring,sp.getAktiverSpieler());
+								land1 = land;
+							} catch(KannLandNichtBenutzenException lene){
+								consolePanel.textSetzen(lene.getMessage());
+							}							
+						}
+					
+				}
 				break;
 			}
 		}
