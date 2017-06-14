@@ -248,7 +248,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     			spielerNr++;
     		}
     		
-    		statistikPanel.statistikPanelAktualisieren();
+    		statistikPanel.statistikAktualisieren();
 //    		for(int i = 4; i < 7; i++){
 //    			spielerListPanel.setLabel(i, "Testname", "rot");
 //    		}
@@ -330,7 +330,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 				anzahlSetzbareEinheiten--;
 				spielfeld.labelsSetzen("", land.getEinheiten(), "");
 				spielfeld.fahneEinheit(land.getEinheitenLab());
-				//statistikPanel.statistikPanelAktualisieren();
+				statistikPanel.statistikPanelAktualisieren();
 			} else {
 				consolePanel.textSetzen("Du hast alle Einheiten gesetzt.");
 				
