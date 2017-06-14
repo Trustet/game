@@ -8,7 +8,7 @@
 //TODO Kartenlogik
 //TODO Wuerfel im MapPanel anzeigen 
 //TODO Aktiver spieler anzeigen (Yannik)
-//TODO GUI komplett aufräumen (Vllt alles in ein Frame)
+//TODO GUI komplett aufrï¿½umen (Vllt alles in ein Frame)
 
 package client;
 
@@ -320,13 +320,16 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		switch(sp.getTurn()){
 		case ANGRIFF:
 			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun angreifen.");
+			buttonPanel.angreifenAktiv("angreifendes Land","verteidigendes Land");
 			break;
 		case VERTEILEN:
 			anzahlSetzbareEinheiten = sp.bekommtEinheiten(sp.getAktiverSpieler());
 			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst " + anzahlSetzbareEinheiten + " Einheiten setzen.");
+			buttonPanel.verteilenAktiv(anzahlSetzbareEinheiten);
 			break;
 		case VERSCHIEBEN:
 			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " verschiebe nun deine Einheiten.");
+			buttonPanel.verschiebenAktiv("erstes land","zweites land");
 			break;
 		}
 		
