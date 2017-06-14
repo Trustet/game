@@ -31,9 +31,7 @@ public class ButtonPanel extends JPanel{
 		nextTurn.setEnabled(true);
 	}
 	
-<<<<<<< HEAD
 
-=======
 	public void angreifenAktiv()	{
 		
 	}
@@ -53,13 +51,5 @@ public class ButtonPanel extends JPanel{
 	public void inaktiv()	{
 		
 	}
-	
-//	public void testMethode(){	
-//		sp.nextTurn();
-//		ip.setInfo(sp.getTurn()+"", sp.getAktiverSpieler().getName());
-//		System.out.println(sp.getTurn() + "     " + sp.getAktiverSpieler().getName());
-//		
-//		
-//	}
->>>>>>> origin/master
+
 }
