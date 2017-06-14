@@ -3,8 +3,6 @@ package local.valueobjects;
 import java.util.List;
 import java.util.Vector;
 
-import local.domain.exceptions.KannLandNichtBenutzenException;
-
 public class Spieler {
 	
 	private String farbe;

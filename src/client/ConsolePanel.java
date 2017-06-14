@@ -20,11 +20,10 @@ public class ConsolePanel extends JPanel{
 	}
 	
 	public void initialize(){
-//		Border schwarz = BorderFactory.createLineBorder(Color.black);
-		this.setLayout(new MigLayout("wrap1","[600]","[][140]"));
-//		this.setBorder(schwarz);
 		
-		JLabel header = new JLabel("Hier stehen irgendwelche Benachrichtigungen.");
+		this.setLayout(new MigLayout("wrap1","[600]","[][140]"));
+		
+		JLabel header = new JLabel("Benachrichtigung:");
 		consoleText = new JTextArea();
 		JScrollPane consoleScrollBar = new JScrollPane(consoleText);
 		consoleText.setLineWrap(true);
@@ -32,7 +31,6 @@ public class ConsolePanel extends JPanel{
 		consoleText.setFont(new Font(Font.SANS_SERIF, Font.PLAIN,15));
 		this.add(header,"left, growx");
 		this.add(consoleScrollBar,"growx,growy");
-		//this.add(consoleScrollBar,"right,growy,split2");
 	}
 	
 	public void textSetzen(String text){
