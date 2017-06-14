@@ -93,13 +93,14 @@ public class StatistikPanel extends JPanel{
 			kartenVonSpielerLabel.add(new JLabel(kartenAnzahl + ""));
 		}
 
+		//hier genaue RGB-Werte der Flaggen
 		List<Color> farben = new Vector<>();
-		farben.add(Color.red);
-		farben.add(Color.green);
-		farben.add(Color.blue);
-		farben.add(Color.YELLOW);
-		farben.add(Color.orange);
-		farben.add(Color.cyan);
+		farben.add(new Color(175,42,0));
+		farben.add(new Color(133, 219, 24));
+		farben.add(new Color(38, 50, 237));
+		farben.add(new Color(255, 255, 26));
+		farben.add(new Color(255, 140, 0));
+		farben.add(new Color(3, 195, 235));
 		
 		int i = 0;
 		for(JLabel lab : laenderVonSpielerLabel){

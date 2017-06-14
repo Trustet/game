@@ -86,11 +86,11 @@ public class SpielerPanel extends JPanel{
 	public void setLabel(int nummer, String text, String farbe){
 		ImageIcon fahne = null;
 		switch(farbe){
-		case "rot":		fahne = new ImageIcon(fahneRotImg.getScaledInstance(30, 30, Image.SCALE_FAST));
+		case "rot":		fahne = new ImageIcon(fahneRotImg.getScaledInstance(40, 40, Image.SCALE_FAST));
 		break;
-		case "blau":	fahne = new ImageIcon(fahneBlauImg.getScaledInstance(30, 30, Image.SCALE_FAST));
+		case "blau":	fahne = new ImageIcon(fahneBlauImg.getScaledInstance(40, 40, Image.SCALE_FAST));
 		break;
-		case "gruen":	fahne = new ImageIcon(fahneGruenImg.getScaledInstance(30, 30, Image.SCALE_FAST));
+		case "gruen":	fahne = new ImageIcon(fahneGruenImg.getScaledInstance(40, 40, Image.SCALE_FAST));
 		break;
 		case "gelb":	fahne = new ImageIcon(fahneGelbImg.getScaledInstance(40, 40, Image.SCALE_FAST));
 		break;

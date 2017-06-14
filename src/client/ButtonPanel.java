@@ -25,22 +25,17 @@ public class ButtonPanel extends JPanel{
 	
 	public ButtonPanel(ButtonClickHandler handler){
 		this.handler = handler;
-<<<<<<< HEAD
-		
-		this.setLayout(new MigLayout("wrap1","[]","[][][][][]"));
-		
-		//Angreifen
-		this.aLand = new JLabel("aLand");
-		this.vLand = new JLabel("vLand");
-		this.angreifen = new JButton("Angreifen");
-=======
 		initialize();	
 	}
 	
 	public void initialize(){
 		this.setLayout(new MigLayout("wrap1","[]","[][]"));
->>>>>>> origin/master
 		
+		//Angreifen
+		this.aLand = new JLabel("aLand");
+		this.vLand = new JLabel("vLand");
+		this.angreifen = new JButton("Angreifen");
+				
 		//Verschieben
 		this.land1 = new JLabel("land1");
 		this.land2 = new JLabel("land2");
@@ -67,8 +62,7 @@ public class ButtonPanel extends JPanel{
 	public void buttonFreigeben(){
 		nextTurn.setEnabled(true);
 	}
-	
-<<<<<<< HEAD
+
 	public void angreifenAktiv(String angriffsLand,String verteidigungsLand)	{
 		removeAll();
 		this.add(aLand,"center,grow");
@@ -77,11 +71,6 @@ public class ButtonPanel extends JPanel{
 		vLand.setText(verteidigungsLand);
 		this.add(angreifen,"center,grow");
 		this.add(nextTurn,"center,grow");
-=======
-
-	public void angreifenAktiv()	{
-		
->>>>>>> origin/master
 	}
 	
 	public void verschiebenNachAngreifenAktiv()	{
