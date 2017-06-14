@@ -146,7 +146,7 @@ public class StatistikPanel extends JPanel{
 	}
 	
 	public void statistikPanelAktualisieren(){
-		statistikAktualisieren();
+//		statistikAktualisieren();
 		
 		for(int i = 0; i < laenderVonSpielerLabel.size(); i++)
 		{

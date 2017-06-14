@@ -24,7 +24,7 @@ public class ConsolePanel extends JPanel{
 		this.setLayout(new MigLayout("wrap1","[600]","[][140]"));
 //		this.setBorder(schwarz);
 		
-		JLabel header = new JLabel("Hier stehen irgendwelche Benachrichtigungen, die im Spielverlauf wichtig sind.");
+		JLabel header = new JLabel("Hier stehen irgendwelche Benachrichtigungen.");
 		consoleText = new JTextArea();
 		JScrollPane consoleScrollBar = new JScrollPane(consoleText);
 		consoleText.setLineWrap(true);

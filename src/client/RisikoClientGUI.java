@@ -1,3 +1,6 @@
+//TODO Angriffsphase einbinden (Yannik)
+//TODO Einheitenverteilung zum start (Jesse)
+//TODO Statistik aktualisierung (Darian)
 package client;
 
 import java.awt.Color;
@@ -330,7 +333,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 				anzahlSetzbareEinheiten--;
 				spielfeld.labelsSetzen("", land.getEinheiten(), "");
 				spielfeld.fahneEinheit(land.getEinheitenLab());
-				//statistikPanel.statistikPanelAktualisieren();
+				statistikPanel.statistikPanelAktualisieren();
 			} else {
 				consolePanel.textSetzen("Du hast alle Einheiten gesetzt.");
 				
