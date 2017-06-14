@@ -372,8 +372,9 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     		{
     			startphase = false;
     			sp.naechsterSpieler();
-    			sp.setTurn("ANGREIFEN");
-    			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun angreifen.");
+    			buttonClicked();
+    			//button bisn hier sperren
+    			//consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun angreifen.");
 
     		} else {
     		anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
