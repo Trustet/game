@@ -51,6 +51,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     private Land land1 = null;
     private Land land2 = null;
     private int anzahlSetzbareEinheiten;
+    boolean startphase;
+    int spielerDieVerteiltHaben;
     
 //    private Socket socket = null;
 //    private BufferedReader in;
@@ -72,7 +74,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		JPanel panel = new JPanel(new MigLayout("wrap1","[]","[][][][][][]"));
 		frame.setLocationRelativeTo(null);
 		frame.setSize(500,700);
-		frame.setBackground(Color.GRAY);
+//		panel.setBackground(new Color(220,175,116));
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		//Logo wird eingebunden
@@ -121,6 +123,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		JFrame frame = new JFrame("Spiel erstellen");
 		JPanel panel = new JPanel(new MigLayout("debug, wrap2","[][150]","[][][][][]")); 
 		frame.setLocationRelativeTo(null); 
+//		panel.setBackground(new Color(220,175,116));
 		frame.setSize(280, 200); //von 300 auf 280 gestellt //FRAGE: kann man panel zentrieren?
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -173,6 +176,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 
 	        JPanel panel = new JPanel(new MigLayout(" wrap2","[][]","[][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
 
+//			panel.setBackground(new Color(220,175,116));
+			
 	        spielFrame.add(panel);
 	        //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
 //	        JTextArea karten = new JTextArea("Karten",10,20);
@@ -205,8 +210,13 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     	}catch(SpielerExistiertBereitsException sebe){
     		JOptionPane.showMessageDialog(null,sebe.getMessage(),"Name vergeben",JOptionPane.WARNING_MESSAGE);
     	}
-    	
-    	
+    		startphase = true;
+    		//ersteEinheitenVerteilen();
+    		
+    		sp.setTurn("VERTEILEN");
+    		spielerDieVerteiltHaben = 0;
+        	anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
+        	consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
 		}
  
     public void neuerSpieler(){
@@ -259,8 +269,6 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		
     	}
     }
-    
-  
     public void farbenVerteilen(){
     	List<String> farben = new Vector<String>();
     	farben.add("rot");
@@ -275,7 +283,13 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		//spielStarten.addActionListener(starten -> this.risiko(mapWahl.getSelectedItem().toString()));
     
 
-
+//    public void ersteEinheitenVerteilen()	{
+//    	sp.setTurn("VERTEILEN");
+//    	anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
+//    		consolePanel.textSetzen(s.getName() + " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
+//    	sp.setTurn("ANGREIFEN");
+//    }
+    
 	@Override
 	public void processMouseClick(int x, int y, Color color) {
 		String landcode = Integer.toString(color.getRed()) + "" + Integer.toString(color.getGreen()) + "" + Integer.toString(color.getBlue());
@@ -341,6 +355,24 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		}catch(KannLandNichtBenutzenException lene ){
 			consolePanel.textSetzen(lene.getMessage());
 		}
+		
+    	if((startphase == true) && (anzahlSetzbareEinheiten == 0))
+    	{
+    		spielerDieVerteiltHaben++;
+    		
+    		if(spielerDieVerteiltHaben == anzahlSpieler)
+    		{
+    			startphase = false;
+    			sp.naechsterSpieler();
+    			sp.setTurn("ANGREIFEN");
+    			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun angreifen.");
+
+    		} else {
+    		anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
+    		sp.naechsterSpieler();
+        	consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
+    		}
+    	}
 	}
 	
 	public void angreifen()	{

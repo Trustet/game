@@ -230,7 +230,14 @@ public class Spielfeld {
 	public String getLandVonFarbcode(String farbe){
 		return weltVw.getLandVonFarbcode(farbe);
 	}
-
+	
+	public void setTurn(String phase)	{
+		kriegsVw.setTurn(phase);
+	}
+	
+	public int checkAnfangsEinheiten()	{
+		return kriegsVw.checkAnfangseinheiten();
+	}
 
 }
 

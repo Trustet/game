@@ -210,6 +210,28 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 			return einheiten;
 		}
 	
+	public int checkAnfangseinheiten(){
+//		int einheiten = 0;
+//		switch(spielerVw.getSpielerList().size()){
+//		case 2:
+//			einheiten = 35;
+//			break;
+//		case 3:
+//			einheiten = 30;
+//			break;
+//		case 4:
+//			einheiten = 30;
+//			break;
+//		case 5:
+//			einheiten = 25;
+//			break;
+//		case 6:
+//			einheiten = 25;
+//			break;
+//		}
+		return 25;
+	}
+	
 	/**
 	 * Setzt die nächste Phase
 	 */
@@ -242,6 +264,20 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 	 */
 	public phasen getTurn(){
 		return Phase;
+	}
+	
+	public void setTurn(String phase){
+		switch(phase){
+		case "VERSCHIEBEN":
+			this.Phase = phasen.VERSCHIEBEN;
+			break;
+		case "ANGRIFF":
+			this.Phase = phasen.ANGRIFF;
+			break;
+		case "VERTEILEN":
+			this.Phase = phasen.VERTEILEN;
+			break;
+		}
 	}
 	
 	/**
