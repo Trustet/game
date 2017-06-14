@@ -221,6 +221,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     		startphase = true;
     		//ersteEinheitenVerteilen();
     		
+    		
     		sp.setTurn("VERTEILEN");
     		spielerDieVerteiltHaben = 0;
         	anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
@@ -373,8 +374,6 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     			startphase = false;
     			sp.naechsterSpieler();
     			buttonClicked();
-    			//button bisn hier sperren
-    			//consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun angreifen.");
 
     		} else {
     		anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
