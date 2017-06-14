@@ -33,6 +33,7 @@ import local.domain.Spielfeld;
 import local.domain.exceptions.KannLandNichtBenutzenException;
 import local.domain.exceptions.KeinGegnerException;
 import local.domain.exceptions.KeinNachbarlandException;
+import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.ui.cui.IO;
 import local.valueobjects.Angriff;
@@ -389,9 +390,12 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		if(land1 == null){	
 			try{
 				sp.landWaehlen(landstring,spieler);
+				sp.checkEinheiten(landstring, 2);
 				land1 = land;
 			} catch(KannLandNichtBenutzenException lene){
 				consolePanel.textSetzen(lene.getMessage());
+			} catch (NichtGenugEinheitenException e) {
+				consolePanel.textSetzen(e.getMessage());
 			}
 		}else{
 			

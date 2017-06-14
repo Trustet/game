@@ -129,6 +129,7 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 		wuerfeAngreifer = wuerfeln(angreifendeEinheiten);
 		wuerfeVerteidiger = wuerfeln(verteidigendeEinheiten);
 		//TODO irgendein Fall wurde hier noch nicht beachtet, jedes 10. mal oder so kommt eine Exception
+		//Angreifer Würfelanzahl wird nicht beachtet
 		if((wuerfeVerteidiger.size() == 1) && (wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(1))) {
 			 verluste.add(0);
 			 verluste.add(1);
