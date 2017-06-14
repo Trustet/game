@@ -24,17 +24,17 @@ public class StatistikPanel extends JPanel{
 
 	private List<Land> laenderListe;
 	private List<Spieler> spielerListe;
-	BufferedImage iconLand;
-	BufferedImage iconEinheiten;
-	BufferedImage iconKarten;
-	List<JLabel> laenderVonSpielerLabel;
-	List<JLabel> einheitenVonSpielerLabel;
-	List<JLabel> kartenVonSpielerLabel;	
-	List<Integer> laenderVonSpieler;
-	List<Integer> einheitenVonSpieler;
-	List<Integer> kartenVonSpieler;
-	Font schrift;
-	Font uberschrift;
+	private BufferedImage iconLand;
+	private BufferedImage iconEinheiten;
+	private BufferedImage iconKarten;
+	private List<JLabel> laenderVonSpielerLabel;
+	private List<JLabel> einheitenVonSpielerLabel;
+	private List<JLabel> kartenVonSpielerLabel;	
+	private List<Integer> laenderVonSpieler;
+	private List<Integer> einheitenVonSpieler;
+	private List<Integer> kartenVonSpieler;
+	private Font schrift;
+	private Font uberschrift;
 	
 	
 	public StatistikPanel(List<Spieler> spielerListe, List<Land> laenderListe,Font schrift,Font uberschrift){
@@ -75,14 +75,11 @@ public class StatistikPanel extends JPanel{
 		this.add(icon1,"left");
 		this.add(icon2,"center");
 		this.add(icon3,"right");
-
-		this.repaint();
-		this.revalidate();		
+	
 	}
 	
 	public void statistikAktualisieren(){
 		 statistikPanelAktualisieren();
-		//TODO Schriftfarbe ändern
 		for(int laenderAnzahl : laenderVonSpieler)
 		{
 			laenderVonSpielerLabel.add(new JLabel(laenderAnzahl + ""));
@@ -158,8 +155,7 @@ public class StatistikPanel extends JPanel{
 			einheitenVonSpielerLabel.get(i).setText(einheitenVonSpieler.get(i) + "");
 			kartenVonSpielerLabel.get(i).setText(kartenVonSpieler.get(i)+ "");
 		}
-		this.repaint();
-		this.revalidate();
+		
 	}
 	
 }

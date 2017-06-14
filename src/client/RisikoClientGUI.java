@@ -1,9 +1,14 @@
 //TODO Angriffsphase erweitern (Yannik)
 //TODO Verschieben vervollst√§ndigen (Jesse)
 //TODO Missionen ausgeben
+//TODO Missionenlogik
+//TODO Mehr missionen erstellen
+//TODO mehr Farben und Fahnen implementieren
 //TODO Karten ausgeben
+//TODO Kartenlogik
 //TODO Wuerfel im MapPanel anzeigen 
 //TODO Aktiver spieler anzeigen (Yannik)
+//TODO GUI komplett aufr‰umen (Vllt alles in ein Frame)
 
 package client;
 
@@ -35,7 +40,6 @@ import local.domain.exceptions.KeinGegnerException;
 import local.domain.exceptions.KeinNachbarlandException;
 import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
-import local.ui.cui.IO;
 import local.valueobjects.Angriff;
 import local.valueobjects.AngriffRueckgabe;
 import local.valueobjects.Land;
@@ -285,6 +289,9 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     	farben.add("rot");
     	farben.add("gruen");
     	farben.add("blau");
+    	farben.add("gelb");
+    	farben.add("orange");
+    	farben.add("cyan");
     	
     	for(Spieler s : sp.getSpielerList()){
     		s.setFarbe(farben.get(0));
@@ -303,7 +310,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     
 	@Override
 	public void processMouseClick(int x, int y, Color color) {
-		String landcode = Integer.toString(color.getRed()) + "" + Integer.toString(color.getGreen()) + "" + Integer.toString(color.getBlue());
+		String landcode = color.getRed() + "" + color.getGreen() + "" + color.getBlue();
 		landWaehlen(landcode);
 		
 	}

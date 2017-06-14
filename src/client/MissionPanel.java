@@ -20,12 +20,12 @@ import javax.swing.JTabbedPane;
 import net.miginfocom.swing.MigLayout;
 
 public class MissionPanel extends JPanel{
-		JLabel mArt = new JLabel();
-		JLabel mBeschreibung = new JLabel();
-		JLabel kBeschreibung = new JLabel();
-		BufferedImage iconEinheiten;
-		Font schrift;
-		Font uberschrift;
+		private JLabel mArt = new JLabel();
+		private JLabel mBeschreibung = new JLabel();
+		private JLabel kBeschreibung = new JLabel();
+		private BufferedImage iconEinheiten;
+		private Font schrift;
+		private Font uberschrift;
 		
 	public MissionPanel(Font uberschrift, Font schrift){
 		this.schrift = schrift;

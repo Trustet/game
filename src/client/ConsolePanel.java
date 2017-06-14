@@ -10,8 +10,8 @@ import javax.swing.JTextArea;
 import net.miginfocom.swing.MigLayout;
 
 public class ConsolePanel extends JPanel{
-	JTextArea consoleText;
-	Font schrift;
+	private JTextArea consoleText;
+	private Font schrift;
 	
 	public ConsolePanel(Font schrift)
 	{
