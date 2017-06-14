@@ -125,10 +125,6 @@ public class StatistikPanel extends JPanel{
 	}
 	
 	public void statistikPanelAktualisieren(){
-<<<<<<< HEAD
-		statistikAktualisieren();
-=======
-<<<<<<< HEAD
 		laenderVonSpieler.clear();
 		einheitenVonSpieler.clear();
 		kartenVonSpieler.clear();
@@ -152,10 +148,9 @@ public class StatistikPanel extends JPanel{
 			kartenVonSpieler.add(3);
 			
 		}
-=======
+
 //		statistikAktualisieren();
->>>>>>> origin/master
->>>>>>> origin/master
+
 		
 		for(int i = 0; i < laenderVonSpielerLabel.size(); i++)
 		{
