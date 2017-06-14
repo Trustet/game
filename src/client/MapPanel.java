@@ -25,14 +25,11 @@ public class MapPanel extends JLayeredPane {
 	private List<JLabel> einheitenLabs = new Vector<JLabel>();
 	
 	public interface MapClickHandler {
-		public void processMouseClick(int x, int y, Color color);
+		public void processMouseClick(Color color);
 	}
 	
 	private JLabel spielfeld = null;
 	private JLabel weltKarteBuntLab = null;
-	private JLabel  fahneRotLab = null;
-	private JLabel  fahneBlauLab = null;
-	private JLabel  fahneGruenLab = null;
 	private MapClickHandler handler = null;
 	private BufferedImage weltKarteBunt;
 	private Font schrift;
@@ -71,15 +68,11 @@ public class MapPanel extends JLayeredPane {
 			public void mouseClicked(MouseEvent e) {
 				int farbenInt =  weltKarteBunt.getRGB(e.getX(), e.getY());
 				Color color = new Color(farbenInt, true);
-//				System.out.println(farbenInt);
-//				System.out.println(Integer.toString(color.getRed()) + " " + Integer.toString(color.getGreen()) + " " + Integer.toString(color.getBlue()));
-				handler.processMouseClick(e.getX(), e.getY(), color);
+				handler.processMouseClick(color);
 			}
 		});
 
-        
-//        JTextArea ta = new JTextArea("Infos",10,20);
-//        ta.setBounds(500, 0, 100, 50);
+
         landLab = new JLabel("Land");
         landLab.setFont(schrift);
         einheitenLab = new JLabel("Einheiten");
@@ -90,15 +83,13 @@ public class MapPanel extends JLayeredPane {
         einheitenLab.setBounds(400, 27, 200, 15);
         besitzerLab.setBounds(400, 52, 200, 15);
         
-        
-//        fahneLab.setBounds(46, 64, 20, 20);
+
         spielfeld.setBounds(0, 0, 1050, 550);
         weltKarteBuntLab.setBounds(0, 0, 1050, 550);
         weltKarteBuntLab.setVisible(false);
         this.add(spielfeld,new Integer(2), 1); 
 
         this.add(weltKarteBuntLab);
-//      this.add(fahneLab,new Integer(2), 0);
         this.add(landLab,new Integer(2), 0);
         this.add(einheitenLab,new Integer(2), 0);
         this.add(besitzerLab, new Integer(2), 0);
@@ -107,7 +98,6 @@ public class MapPanel extends JLayeredPane {
 	}
 	
 	public void fahnenVerteilen(List<Land> laender){
-		String farbe = "";
 		JLabel fahne = null;
 		JLabel einheiten = null;
 		for(JLabel lab : fahnenLabs){
@@ -151,14 +141,7 @@ public class MapPanel extends JLayeredPane {
 		}
 	}
 	
-	public void mapAktualisieren(){
-		this.repaint();
-	}
-	
-	public void enableSetzen(boolean b){
-		this.setEnabled(b);
-		
-	}
+
 	
 	
 }

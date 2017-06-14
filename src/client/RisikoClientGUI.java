@@ -76,7 +76,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		this.start();
 	}
 	public static void main(String[] args) {
-		JFrame fenster = new RisikoClientGUI();
+		new RisikoClientGUI();
 	}
 	public void start() {
 		uberschrift = new Font(Font.SERIF, Font.BOLD,25);
@@ -287,7 +287,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     }
 
 	@Override
-	public void processMouseClick(int x, int y, Color color) {
+	public void processMouseClick(Color color) {
 		String landcode = color.getRed() + "" + color.getGreen() + "" + color.getBlue();
 		landWaehlen(landcode);
 		
@@ -339,7 +339,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	
 	public void verteilen(String landstring, Land land)	{
 		try{
-			boolean kannLandBenutzen = sp.landWaehlen(landstring,sp.getAktiverSpieler());
+			sp.landWaehlen(landstring,sp.getAktiverSpieler());
 			if(anzahlSetzbareEinheiten > 0)
 			{
 				sp.einheitenPositionieren(1, land);
@@ -448,7 +448,6 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	}
 	
 	private void angriff( boolean genugEinheiten, Spieler aSpieler) throws KeinNachbarlandException{
-		boolean erneutAngreifen;
 		Angriff angriff;
 		AngriffRueckgabe angriffRueckgabe;
 			Land aLand = land1;

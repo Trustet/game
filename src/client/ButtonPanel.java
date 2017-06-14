@@ -1,14 +1,10 @@
 package client;
 
-import java.awt.Color;
-
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import local.domain.Spielfeld;
-import local.valueobjects.Land;
 import net.miginfocom.swing.MigLayout;
 
 public class ButtonPanel extends JPanel{
@@ -27,9 +23,9 @@ public class ButtonPanel extends JPanel{
 		public void buttonClicked();
 	}
 	
-
 	public ButtonPanel(ButtonClickHandler handler){
 		this.handler = handler;
+<<<<<<< HEAD
 		
 		this.setLayout(new MigLayout("wrap1","[]","[][][][][]"));
 		
@@ -37,6 +33,13 @@ public class ButtonPanel extends JPanel{
 		this.aLand = new JLabel("aLand");
 		this.vLand = new JLabel("vLand");
 		this.angreifen = new JButton("Angreifen");
+=======
+		initialize();	
+	}
+	
+	public void initialize(){
+		this.setLayout(new MigLayout("wrap1","[]","[][]"));
+>>>>>>> origin/master
 		
 		//Verschieben
 		this.land1 = new JLabel("land1");
@@ -61,11 +64,11 @@ public class ButtonPanel extends JPanel{
 		this.add(anzahlEinheitenVerteilen,"center,grow");
 		inaktiv();
 	}
-	
 	public void buttonFreigeben(){
 		nextTurn.setEnabled(true);
 	}
 	
+<<<<<<< HEAD
 	public void angreifenAktiv(String angriffsLand,String verteidigungsLand)	{
 		removeAll();
 		this.add(aLand,"center,grow");
@@ -74,6 +77,11 @@ public class ButtonPanel extends JPanel{
 		vLand.setText(verteidigungsLand);
 		this.add(angreifen,"center,grow");
 		this.add(nextTurn,"center,grow");
+=======
+
+	public void angreifenAktiv()	{
+		
+>>>>>>> origin/master
 	}
 	
 	public void verschiebenNachAngreifenAktiv()	{
@@ -115,12 +123,5 @@ public class ButtonPanel extends JPanel{
 		this.remove(verschieben);
 		this.remove(anzahlEinheitenVerteilen);
 	}
-	
-//	public void testMethode(){	
-//		sp.nextTurn();
-//		ip.setInfo(sp.getTurn()+"", sp.getAktiverSpieler().getName());
-//		System.out.println(sp.getTurn() + "     " + sp.getAktiverSpieler().getName());
-//		
-//		
-//	}
+
 }

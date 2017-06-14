@@ -14,8 +14,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.w3c.dom.css.RGBColor;
-
 import local.valueobjects.Land;
 import local.valueobjects.Spieler;
 import net.miginfocom.swing.MigLayout;
@@ -96,9 +94,6 @@ public class StatistikPanel extends JPanel{
 		}
 
 		List<Color> farben = new Vector<>();
-//		farben.add(new Color(175,42,0));
-//		farben.add(new Color(133, 219, 24));
-//		farben.add(new Color(38, 50, 237));
 		farben.add(Color.red);
 		farben.add(Color.green);
 		farben.add(Color.blue);
@@ -148,8 +143,6 @@ public class StatistikPanel extends JPanel{
 			kartenVonSpieler.add(3);
 			
 		}
-
-//		statistikAktualisieren();
 
 		
 		for(int i = 0; i < laenderVonSpielerLabel.size(); i++)
