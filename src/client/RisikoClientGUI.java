@@ -306,12 +306,14 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		
 		switch(sp.getTurn()){
 		case ANGRIFF:
+			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun angreifen.");
 			break;
 		case VERTEILEN:
 			anzahlSetzbareEinheiten = sp.bekommtEinheiten(sp.getAktiverSpieler());
 			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst " + anzahlSetzbareEinheiten + " Einheiten setzen.");
 			break;
 		case VERSCHIEBEN:
+			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " verschiebe nun deine Einheiten.");
 			break;
 		}
 		
