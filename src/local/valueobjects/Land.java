@@ -91,6 +91,7 @@ public class Land {
 		case "gruen":	fahne = new JLabel(new ImageIcon(fahneGruenImg.getScaledInstance(40, 40, Image.SCALE_FAST)));
 		break;
 		}
+		
 		fahne.setBounds(fahneX + 15, fahneY -40, 40, 40);
 	}
 	

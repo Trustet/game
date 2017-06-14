@@ -110,6 +110,9 @@ public class MapPanel extends JLayeredPane {
 		String farbe = "";
 		JLabel fahne = null;
 		JLabel einheiten = null;
+		for(JLabel lab : fahnenLabs){
+			this.remove(lab);
+		}
 		for(Land l : laender){
 			l.setFahne(l.getBesitzer().getFarbe());
 			fahne = l.getFahne();	
@@ -162,6 +165,10 @@ public class MapPanel extends JLayeredPane {
 			besitzerLab.setText("Besitzer");
 		}
 		
+	}
+	
+	public void mapAktualisieren(){
+		this.repaint();
 	}
 	
 	
