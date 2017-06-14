@@ -43,6 +43,16 @@ public class Missionsverwaltung {
 		mission4Kontinente.add(kontinentenListe.get(1));
 		mission4Kontinente.add(kontinentenListe.get(3));
 		missionsListe.add(new KontinentenMission(4,platzhalterSpieler,mission4Kontinente));
+		
+		List<Kontinent> mission5Kontinente = new Vector<Kontinent>();
+		mission5Kontinente.add(kontinentenListe.get(1));
+		mission5Kontinente.add(kontinentenListe.get(3));
+		missionsListe.add(new KontinentenMission(5,platzhalterSpieler,mission5Kontinente));
+		
+		List<Kontinent> mission6Kontinente = new Vector<Kontinent>();
+		mission6Kontinente.add(kontinentenListe.get(1));
+		mission6Kontinente.add(kontinentenListe.get(3));
+		missionsListe.add(new KontinentenMission(6,platzhalterSpieler,mission6Kontinente));
 //		Befreien Sie 24 Laender Ihrer Wahl
 //		missionsListe.add(new LaenderMission(5,null, 24, 1, null));
 //		Befreien Sie 18 Laender und setzen Sie in jedes Land mindestens 2 Armeen

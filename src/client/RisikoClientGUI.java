@@ -188,14 +188,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	        spielFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 	        JPanel panel = new JPanel(new MigLayout(" wrap2","[][]","[][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
-
-//			panel.setBackground(new Color(220,175,116));
 			
 	        spielFrame.add(panel);
-	        //JTextArea spielfeld = new JTextArea("Weltkarte",30,20);
-//	        JTextArea karten = new JTextArea("Karten",10,20);
-//	        JTextArea statistik = new JTextArea("Statistik",8,20);
-
 
 	        spielfeld = new MapPanel(this, schrift);
 	        spielerListPanel = new SpielerPanel(schrift, uberschrift);
@@ -210,9 +204,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	        panel.add(infoPanel,"left,growx");
 	        panel.add(spielerListPanel,"growx");
 	        panel.add(statistikPanel,"left,top,growx,spany 2");
-//	        panel.add(statistik,"left,top,growy");
 	        panel.add(missionPanel,"left,top,split3");
-//	        panel.add(karten,"left,growx");
 	        panel.add(consolePanel,"left, top");
 	        panel.add(buttonPanel,"right,growy");
 	        spielFrame.setResizable(false);
@@ -225,7 +217,6 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     		JOptionPane.showMessageDialog(null,sebe.getMessage(),"Name vergeben",JOptionPane.WARNING_MESSAGE);
     	}
     		startphase = true;
-    		//ersteEinheitenVerteilen();
     		
     		
     		sp.setTurn("VERTEILEN");
@@ -277,10 +268,6 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     		}
     		
     		statistikPanel.statistikAktualisieren();
-//    		for(int i = 4; i < 7; i++){
-//    			spielerListPanel.setLabel(i, "Testname", "rot");
-//    		}
-			
 		
     	}
     }

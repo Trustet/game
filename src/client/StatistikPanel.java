@@ -96,12 +96,15 @@ public class StatistikPanel extends JPanel{
 		}
 
 		List<Color> farben = new Vector<>();
-		farben.add(new Color(175,42,0));
-		farben.add(new Color(133, 219, 24));
-		farben.add(new Color(38, 50, 237));
+//		farben.add(new Color(175,42,0));
+//		farben.add(new Color(133, 219, 24));
+//		farben.add(new Color(38, 50, 237));
+		farben.add(Color.red);
+		farben.add(Color.green);
 		farben.add(Color.blue);
-		farben.add(Color.blue);
-		farben.add(Color.blue);
+		farben.add(Color.YELLOW);
+		farben.add(Color.orange);
+		farben.add(Color.cyan);
 		
 		int i = 0;
 		for(JLabel lab : laenderVonSpielerLabel){

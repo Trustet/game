@@ -30,6 +30,9 @@ public class SpielerPanel extends JPanel{
 	private BufferedImage fahneRotImg;
 	private BufferedImage fahneBlauImg;
 	private BufferedImage fahneGruenImg;
+	private BufferedImage fahneGelbImg;
+	private BufferedImage fahneOrangeImg;
+	private BufferedImage fahneCyanImg;
 	private Font schrift;
 	private Font uberschrift;
 	
@@ -54,6 +57,10 @@ public class SpielerPanel extends JPanel{
 			fahneRotImg = ImageIO.read(new File("./Fahne_Rot.png"));
 			fahneGruenImg = ImageIO.read(new File("./Fahne_Gruen.png"));
 			fahneBlauImg = ImageIO.read(new File("./Fahne_Blau.png"));
+			fahneGelbImg = ImageIO.read(new File("./Fahne_Gelb.png"));
+			fahneOrangeImg = ImageIO.read(new File("./Fahne_Orange.png"));
+			fahneCyanImg = ImageIO.read(new File("./Fahne_Cyan.png"));
+			
 			}catch (IOException e){
 				
 			}
@@ -84,6 +91,12 @@ public class SpielerPanel extends JPanel{
 		case "blau":	fahne = new ImageIcon(fahneBlauImg.getScaledInstance(30, 30, Image.SCALE_FAST));
 		break;
 		case "gruen":	fahne = new ImageIcon(fahneGruenImg.getScaledInstance(30, 30, Image.SCALE_FAST));
+		break;
+		case "gelb":	fahne = new ImageIcon(fahneGelbImg.getScaledInstance(40, 40, Image.SCALE_FAST));
+		break;
+		case "orange":	fahne = new ImageIcon(fahneOrangeImg.getScaledInstance(40, 40, Image.SCALE_FAST));
+		break;
+		case "cyan":	fahne = new ImageIcon(fahneCyanImg.getScaledInstance(40, 40, Image.SCALE_FAST));
 		break;
 		}
 		
