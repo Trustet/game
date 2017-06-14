@@ -1,9 +1,9 @@
-//TODO Angriffsphase einbinden (Yannik)
-//TODO Einheitenverteilung zum start (Jesse)
-//TODO Statistik aktualisierung (Darian)
-//TODO Aktiver spieler anzeigen (Yannik)
+//TODO Angriffsphase erweitern (Yannik)
 //TODO Verschieben vervollständigen (Jesse)
+//TODO Missionen ausgeben
+//TODO Karten ausgeben
 //TODO Wuerfel im MapPanel anzeigen 
+//TODO Aktiver spieler anzeigen (Yannik)
 
 package client;
 
@@ -213,6 +213,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	        spielFrame.setResizable(false);
 	        spielFrame.setVisible(true);
 	        spielFrame.pack();
+	        
 
 	  	        
     	}catch(SpielerExistiertBereitsException sebe){
@@ -373,8 +374,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     			startphase = false;
     			sp.naechsterSpieler();
     			buttonClicked();
-    			//button bisn hier sperren
-    			//consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun angreifen.");
+    			buttonPanel.buttonFreigeben();
+    			
 
     		} else {
     		anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();

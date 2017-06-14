@@ -171,5 +171,10 @@ public class MapPanel extends JLayeredPane {
 		this.repaint();
 	}
 	
+	public void enableSetzen(boolean b){
+		this.setEnabled(b);
+		
+	}
+	
 	
 }
