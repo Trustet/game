@@ -1,3 +1,6 @@
+//TODO Angriffsphase einbinden (Yannik)
+//TODO Einheitenverteilung zum start (Jesse)
+//TODO Statistik aktualisierung (Darian)
 package client;
 
 import java.awt.Color;
