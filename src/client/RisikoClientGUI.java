@@ -1,6 +1,10 @@
 //TODO Angriffsphase einbinden (Yannik)
 //TODO Einheitenverteilung zum start (Jesse)
 //TODO Statistik aktualisierung (Darian)
+//TODO Aktiver spieler anzeigen (Yannik)
+//TODO Verschieben vervollständigen (Jesse)
+//TODO Wuerfel im MapPanel anzeigen 
+
 package client;
 
 import java.awt.Color;
@@ -27,8 +31,12 @@ import client.ButtonPanel.ButtonClickHandler;
 import client.MapPanel.MapClickHandler;
 import local.domain.Spielfeld;
 import local.domain.exceptions.KannLandNichtBenutzenException;
+import local.domain.exceptions.KeinGegnerException;
 import local.domain.exceptions.KeinNachbarlandException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
+import local.ui.cui.IO;
+import local.valueobjects.Angriff;
+import local.valueobjects.AngriffRueckgabe;
 import local.valueobjects.Land;
 import local.valueobjects.Spieler;
 import net.miginfocom.swing.MigLayout;
@@ -261,7 +269,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     			spielerNr++;
     		}
     		
-    		statistikPanel.statistikPanelAktualisieren();
+    		statistikPanel.statistikAktualisieren();
 //    		for(int i = 4; i < 7; i++){
 //    			spielerListPanel.setLabel(i, "Testname", "rot");
 //    		}
@@ -302,10 +310,10 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		Land land = sp.stringToLand(landstring);
 		if(land != null){
 			spielfeld.labelsSetzen(land.getName(), land.getEinheiten(), land.getBesitzer().getName());
-			
+			Spieler spieler = sp.getAktiverSpieler();
 			switch(sp.getTurn()){
 			case ANGRIFF:
-				angreifen();
+				angreifen(landstring, land, spieler);
 				break;
 			case VERTEILEN:
 				
@@ -375,8 +383,42 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     	}
 	}
 	
-	public void angreifen()	{
+	public void angreifen(String landstring, Land land, Spieler spieler)	{
 		
+		if(land1 == null){	
+			try{
+				sp.landWaehlen(landstring,spieler);
+				land1 = land;
+			} catch(KannLandNichtBenutzenException lene){
+				consolePanel.textSetzen(lene.getMessage());
+			}
+		}else{
+			
+				try {
+					sp.istNachbar(land1, land, spieler);
+					sp.istGegner(landstring, spieler);
+					land2 = land;
+					angriff(true, spieler);
+					spielfeld.fahneEinheit(land1.getEinheitenLab());
+					spielfeld.fahneEinheit(land2.getEinheitenLab());
+					land1 = null;
+					land2 = null;
+				} catch (KeinNachbarlandException knle) {
+					try{
+						sp.landWaehlen(landstring, spieler);
+						land1 = land;
+					} catch(KannLandNichtBenutzenException lene){
+						consolePanel.textSetzen(knle.getMessage());
+					}							
+				} catch(KeinGegnerException kge){
+					try{
+						sp.landWaehlen(landstring, spieler);
+					} catch(KannLandNichtBenutzenException lene){
+						consolePanel.textSetzen(lene.getMessage());
+					}
+				}
+			
+		}
 	}
 	
 	public void verschieben(String landstring, Land land)	{
@@ -410,6 +452,85 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 				}
 			
 		}
+	}
+	
+	private void angriff( boolean genugEinheiten, Spieler aSpieler) throws KeinNachbarlandException{
+		boolean erneutAngreifen;
+		Angriff angriff;
+		AngriffRueckgabe angriffRueckgabe;
+			Land aLand = land1;
+			Land vLand = land2;
+			angriff = new Angriff(aLand, vLand);
+			angriffRueckgabe = sp.befreiungsAktion(angriff);
+			String ausgabe;
+			
+			ausgabe = aLand.getBesitzer().getName() + " hat ";
+			
+			if(angriffRueckgabe.getWuerfelAngreifer().size() == 2)
+			{
+				ausgabe += angriffRueckgabe.getWuerfelAngreifer().get(0) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(1);
+			} else if (angriffRueckgabe.getWuerfelAngreifer().size() == 3)
+			{
+				ausgabe += angriffRueckgabe.getWuerfelAngreifer().get(0) + ", " + angriffRueckgabe.getWuerfelAngreifer().get(1) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(2);
+			}
+				ausgabe += (" gew�rfelt.\n");
+			
+			ausgabe += vLand.getBesitzer().getName() + " hat ";
+				
+			if(angriffRueckgabe.getWuerfelVerteidiger().size() == 1)
+			{
+				ausgabe += " eine " + angriffRueckgabe.getWuerfelVerteidiger().get(0);
+			} else if (angriffRueckgabe.getWuerfelVerteidiger().size() == 2)
+			{
+				ausgabe += angriffRueckgabe.getWuerfelVerteidiger().get(0) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(1);
+			}
+			
+			ausgabe += " gew�rfelt.\n";
+				
+			if(angriffRueckgabe.isErobert() != true){
+					
+				if (angriffRueckgabe.getVerlusteVerteidiger() < angriffRueckgabe.getVerlusteAngreifer()){
+						ausgabe += vLand.getBesitzer().getName() + " hat gewonnen." ;
+						ausgabe += aLand.getBesitzer().getName() + " hat " + angriffRueckgabe.getVerlusteAngreifer() + " verloren.";
+						
+				}else if(angriffRueckgabe.getVerlusteVerteidiger() > angriffRueckgabe.getVerlusteAngreifer()){
+						ausgabe += aLand.getBesitzer().getName() + " hat gewonnen." ;
+						ausgabe += vLand.getBesitzer().getName() + " hat " + angriffRueckgabe.getVerlusteVerteidiger() + " verloren.";
+						
+				}else if(angriffRueckgabe.getVerlusteVerteidiger() == angriffRueckgabe.getVerlusteAngreifer()){
+						ausgabe += "Ihr habt unentschieden gespielt, beide verlieren eine Einheit." ;
+				}
+				
+				
+			} else {
+				vLand.setFahne(aSpieler.getFarbe());
+				spielfeld.fahnenVerteilen(sp.getLaenderListe());
+				ausgabe += aLand.getBesitzer().getName() + " hat das Land erobert." ;
+				genugEinheiten = false;
+					if(aLand.getEinheiten() == 2) {
+						ausgabe += "Eine Einheit wird auf " + vLand.getName() + " gesetzt.";
+						sp.eroberungBesetzen(aLand, vLand, 1); 
+						ausgabe += sp.einheitenAusgabe(aLand, vLand);
+						genugEinheiten = true;
+					} else {
+					
+						ausgabe += "Wie viele Einheiten m\u00F6chtest du auf " + vLand.getName() + " setzen?";
+						ausgabe += aLand.getEinheiten() - 1 + " Einheiten kannst du setzen";
+						int einheiten = 1;
+						if(einheiten < aLand.getEinheiten() && einheiten > 0){
+							sp.eroberungBesetzen(aLand, vLand, einheiten); 
+							ausgabe += sp.einheitenAusgabe(aLand, vLand);
+							genugEinheiten = true;
+						}else{
+							ausgabe += "Bitte gebe eine Korrekte Zahl ein";
+						}
+					
+						
+						
+				}
+			}
+			
+			consolePanel.textSetzen(ausgabe);
 	}
 
 

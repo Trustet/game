@@ -81,30 +81,7 @@ public class StatistikPanel extends JPanel{
 	}
 	
 	public void statistikAktualisieren(){
-		
-		laenderVonSpieler.clear();
-		einheitenVonSpieler.clear();
-		kartenVonSpieler.clear();
-		
-		int anzahlLaender;
-		int anzahlEinheiten;
-		for(Spieler s : spielerListe)
-		{
-			anzahlLaender = 0;
-			anzahlEinheiten = 0;
-			for(Land l: laenderListe)
-			{
-				if(l.getBesitzer().equals(s))
-				{
-					anzahlLaender++;
-					anzahlEinheiten += l.getEinheiten();
-				}
-			}
-			laenderVonSpieler.add(anzahlLaender);
-			einheitenVonSpieler.add(anzahlEinheiten);
-			kartenVonSpieler.add(3);
-			
-		}
+		 statistikPanelAktualisieren();
 		//TODO Schriftfarbe ändern
 		for(int laenderAnzahl : laenderVonSpieler)
 		{
@@ -143,16 +120,46 @@ public class StatistikPanel extends JPanel{
 			kartenVonSpielerLabel.get(i).setForeground(farben.get(i));
 			i++;
 		}
+		this.repaint();
+		this.revalidate();
 	}
 	
 	public void statistikPanelAktualisieren(){
+		laenderVonSpieler.clear();
+		einheitenVonSpieler.clear();
+		kartenVonSpieler.clear();
+		
+		int anzahlLaender;
+		int anzahlEinheiten;
+		for(Spieler s : spielerListe)
+		{
+			anzahlLaender = 0;
+			anzahlEinheiten = 0;
+			for(Land l: laenderListe)
+			{
+				if(l.getBesitzer().equals(s))
+				{
+					anzahlLaender++;
+					anzahlEinheiten += l.getEinheiten();
+				}
+			}
+			laenderVonSpieler.add(anzahlLaender);
+			einheitenVonSpieler.add(anzahlEinheiten);
+			kartenVonSpieler.add(3);
+			
+		}
+
 //		statistikAktualisieren();
+
 		
 		for(int i = 0; i < laenderVonSpielerLabel.size(); i++)
 		{
 			laenderVonSpielerLabel.get(i).setText(laenderVonSpieler.get(i) + "");
+			einheitenVonSpielerLabel.get(i).setText(einheitenVonSpieler.get(i) + "");
+			kartenVonSpielerLabel.get(i).setText(kartenVonSpieler.get(i)+ "");
 		}
 		this.repaint();
 		this.revalidate();
 	}
+	
 }
