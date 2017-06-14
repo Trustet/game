@@ -138,33 +138,17 @@ public class MapPanel extends JLayeredPane {
 		return this.fahnenLabs;
 	}
 	
-//	public void labelsSetzen(String lName, int lEinheiten, String lBesitzer){
-//		if(lName.length() > 0){
-//			landLab.setText("Land: " + lName);
-//		}
-//		if(lEinheiten != 9119){
-//			einheitenLab.setText("Einheiten: " + lEinheiten);
-//		}
-//		if(lBesitzer.length() > 0){
-//			besitzerLab.setText("Besitzer: " + lBesitzer);
-//		}
+
 	public void labelsSetzen(String lName, int lEinheiten, String lBesitzer){
 		if(lName.length() > 0){
 			landLab.setText(lName);
-		}else{
-			landLab.setText("Land");
 		}
 		if(lEinheiten != 9119){
 			einheitenLab.setText(lEinheiten + "");
-		} else {
-			einheitenLab.setText("Einheiten");
 		}
 		if(lBesitzer.length() > 0){
 			besitzerLab.setText(lBesitzer);
-		} else	{
-			besitzerLab.setText("Besitzer");
 		}
-		
 	}
 	
 	public void mapAktualisieren(){

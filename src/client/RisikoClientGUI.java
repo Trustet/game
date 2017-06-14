@@ -285,16 +285,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     		farben.remove(0);
     	}
     }
-		//spielStarten.addActionListener(starten -> this.risiko(mapWahl.getSelectedItem().toString()));
-    
 
-//    public void ersteEinheitenVerteilen()	{
-//    	sp.setTurn("VERTEILEN");
-//    	anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
-//    		consolePanel.textSetzen(s.getName() + " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
-//    	sp.setTurn("ANGREIFEN");
-//    }
-    
 	@Override
 	public void processMouseClick(int x, int y, Color color) {
 		String landcode = color.getRed() + "" + color.getGreen() + "" + color.getBlue();
