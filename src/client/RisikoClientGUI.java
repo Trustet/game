@@ -375,12 +375,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     			startphase = false;
     			sp.naechsterSpieler();
     			buttonClicked();
-<<<<<<< HEAD
-=======
     			buttonPanel.buttonFreigeben();
-    			
->>>>>>> origin/master
-
     		} else {
     		anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
     		sp.naechsterSpieler();
