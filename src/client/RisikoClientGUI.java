@@ -259,7 +259,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     			spielerNr++;
     		}
     		
-    		statistikPanel.statistikPanelAktualisieren();
+    		statistikPanel.statistikAktualisieren();
 //    		for(int i = 4; i < 7; i++){
 //    			spielerListPanel.setLabel(i, "Testname", "rot");
 //    		}
