@@ -103,6 +103,7 @@ public class ButtonPanel extends JPanel{
 		removeAll();
 		this.add(nextTurn,"center,grow");
 		nextTurn.setEnabled(false);
+		this.repaint();
 	}
 	
 	public void removeAll()	{
@@ -115,6 +116,7 @@ public class ButtonPanel extends JPanel{
 		this.remove(anzahlEinheitenVerschieben);
 		this.remove(verschieben);
 		this.remove(anzahlEinheitenVerteilen);
+		this.repaint();
 	}
 
 }
