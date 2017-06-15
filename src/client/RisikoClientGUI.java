@@ -16,6 +16,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +34,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.plaf.basic.BasicBorders.MenuBarBorder;
 
 import client.ButtonPanel.ButtonClickHandler;
 import client.MapPanel.MapClickHandler;
@@ -59,6 +63,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     private ButtonPanel buttonPanel;
     private StatistikPanel statistikPanel;
     private ConsolePanel consolePanel;
+    private MenuBar menu;
     private Font schrift;
     private Font uberschrift;
     private Land land1 = null;
@@ -184,7 +189,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	    	
 	        spielFrame = new JFrame("Risiko");
 	        spielFrame.setLocationRelativeTo(null);
-	        spielFrame.setPreferredSize(new Dimension(1250,780));
+	        spielFrame.setPreferredSize(new Dimension(1250,780 + 37));
 	        spielFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 	        JPanel panel = new JPanel(new MigLayout(" wrap2","[][]","[][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
@@ -198,8 +203,21 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	        buttonPanel = new ButtonPanel(this);
 	        statistikPanel = new StatistikPanel(sp.getSpielerList(), sp.getLaenderListe(), schrift, uberschrift);
 	        consolePanel = new ConsolePanel(schrift);
-		
-	  
+	       
+	        //Menu auslagern
+	        menu = new MenuBar();
+	        Menu datei = new Menu("Datei");
+	        menu.add(datei);
+	        MenuItem speichern = new MenuItem("Speichern");
+	        MenuItem laden = new MenuItem("Laden");
+	        MenuItem schliessen = new MenuItem("Schließen");
+	        datei.add(speichern);
+	        datei.add(laden);
+	        datei.add(schliessen);
+	        menu.setFont(schrift);
+	        MenuBarBorder menuBorder = new MenuBarBorder(Color.black, Color.white);getContentPane();
+	        spielFrame.setMenuBar(menu);
+	        
 	        panel.add(spielfeld,"left,spany 3,grow,hmin 550, wmin 1050");
 	        panel.add(infoPanel,"left,growx");
 	        panel.add(spielerListPanel,"growx");
