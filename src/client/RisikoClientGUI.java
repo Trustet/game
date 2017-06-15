@@ -223,7 +223,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     		spielerDieVerteiltHaben = 0;
         	anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
         	consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
-		}
+//			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());	
+    }
  
     public void neuerSpieler(){
     	JFrame frame = new JFrame("Spieler erstellen");
@@ -312,6 +313,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 				break;
 			}
 		}
+		statistikPanel.statistikPanelAktualisieren();
 	}
 	@Override
 	public void buttonClicked() {
@@ -326,10 +328,11 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			anzahlSetzbareEinheiten = sp.bekommtEinheiten(sp.getAktiverSpieler());
 			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst " + anzahlSetzbareEinheiten + " Einheiten setzen.");
 			buttonPanel.verteilenAktiv(anzahlSetzbareEinheiten);
+			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 			break;
 		case VERSCHIEBEN:
 			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " verschiebe nun deine Einheiten.");
-			buttonPanel.verschiebenAktiv("erstes land","zweites land");
+			buttonPanel.verschiebenAktiv("erstes Land","zweites Land");
 			break;
 		}
 		
@@ -380,6 +383,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 				sp.landWaehlen(landstring,spieler);
 				sp.checkEinheiten(landstring, 2);
 				land1 = land;
+				//erstmal nur zum testen
+				buttonPanel.angreifenAktiv(land1.getName(), "verteidigendes land");
 			} catch(KannLandNichtBenutzenException lene){
 				consolePanel.textSetzen(lene.getMessage());
 			} catch (NichtGenugEinheitenException e) {
@@ -391,11 +396,14 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 					sp.istNachbar(land1, land, spieler);
 					sp.istGegner(landstring, spieler);
 					land2 = land;
+					//erstmal nur zum testen
+					buttonPanel.angreifenAktiv(land1.getName(), land2.getName());
 					angriff(true, spieler);
 					spielfeld.fahneEinheit(land1.getEinheitenLab());
 					spielfeld.fahneEinheit(land2.getEinheitenLab());
 					land1 = null;
 					land2 = null;
+					buttonPanel.angreifenAktiv("angreifendes Land","verteidigendes Land");
 				} catch (KeinNachbarlandException knle) {
 					try{
 						sp.landWaehlen(landstring, spieler);
@@ -415,35 +423,45 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	}
 	
 	public void verschieben(String landstring, Land land)	{
-		if(land1 == null){
-			try{
-				sp.landWaehlen(landstring,sp.getAktiverSpieler());
-				land1 = land;
-			} catch(KannLandNichtBenutzenException lene){
-				consolePanel.textSetzen(lene.getMessage());
-			}
-		}else{
-			
-				try {
-					sp.istNachbar(land1, land, sp.getAktiverSpieler());
-					land2 = land;
-					sp.einheitenPositionieren(-1, land1);
-					sp.einheitenPositionieren(1, land2);
-					spielfeld.labelsSetzen("", land1.getEinheiten(), "");
-					spielfeld.fahneEinheit(land1.getEinheitenLab());
-					spielfeld.labelsSetzen("", land2.getEinheiten(), "");
-					spielfeld.fahneEinheit(land2.getEinheitenLab());
-					land1 = null;
-					land2 = null;
-				} catch (KeinNachbarlandException knle) {
-					try{
-						sp.landWaehlen(landstring,sp.getAktiverSpieler());
-						land1 = land;
-					} catch(KannLandNichtBenutzenException lene){
-						consolePanel.textSetzen(lene.getMessage());
-					}							
+		if(land.getEinheiten() > 1)
+		{
+			if(land1 == null){
+				try{
+					sp.landWaehlen(landstring,sp.getAktiverSpieler());
+					land1 = land;
+					buttonPanel.verschiebenAktiv(land1.getName(), "zweites Land");
+				} catch(KannLandNichtBenutzenException lene){
+					consolePanel.textSetzen(lene.getMessage());
 				}
-			
+			}else{
+					try {
+						sp.istNachbar(land1, land, sp.getAktiverSpieler());
+						//geht das so oder mit exception/if-Abfrage?
+						//land1.getBesitzer().equals(land2.getBesitzer());
+						land2 = land;
+						//erstmal nur zum testen
+						buttonPanel.verschiebenAktiv(land1.getName(), land2.getName());
+						sp.einheitenPositionieren(-1, land1);
+						sp.einheitenPositionieren(1, land2);
+						spielfeld.labelsSetzen("", land1.getEinheiten(), "");
+						spielfeld.fahneEinheit(land1.getEinheitenLab());
+						spielfeld.labelsSetzen("", land2.getEinheiten(), "");
+						spielfeld.fahneEinheit(land2.getEinheitenLab());
+						land1 = null;
+						land2 = null;
+						buttonPanel.verschiebenAktiv("erstes Land","zweites Land");
+					} catch (KeinNachbarlandException knle) {
+						try{
+							sp.landWaehlen(landstring,sp.getAktiverSpieler());
+							land1 = land;
+						} catch(KannLandNichtBenutzenException lene){
+							consolePanel.textSetzen(lene.getMessage());
+						}							
+					}
+				
+			}
+		}	else	{
+			consolePanel.textSetzen("Du hast nicht genügend Einheiten auf diesem Land.");
 		}
 	}
 	

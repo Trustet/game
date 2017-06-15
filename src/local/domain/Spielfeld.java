@@ -238,6 +238,10 @@ public class Spielfeld {
 	public int checkAnfangsEinheiten()	{
 		return kriegsVw.checkAnfangseinheiten();
 	}
+	
+	public Mission getMissionVonAktivemSpieler()	{
+		return kriegsVw.getMissionVonAktivemSpieler();
+	}
 
 }
 

@@ -16,12 +16,13 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
 public class MissionPanel extends JPanel{
 		private JLabel mArt = new JLabel();
-		private JLabel mBeschreibung = new JLabel();
+		private JTextField mBeschreibung = new JTextField();
 		private JLabel kBeschreibung = new JLabel();
 		private BufferedImage iconEinheiten;
 		private Font schrift;
@@ -38,13 +39,13 @@ public class MissionPanel extends JPanel{
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabbedPane.setFont(uberschrift);
 		JComponent mission = new JPanel();
-		mission.setLayout(new MigLayout("wrap1","[]","[][][]"));
+		mission.setLayout(new MigLayout("wrap1","[]","[]"));
 		
-		mBeschreibung.setText("Erobere.");
+		mBeschreibung.setText("Missionsbeschreibung");
 		mBeschreibung.setFont(schrift);
 //		mission.add(new JLabel("Mission:"),"left");
 //		mission.add(mArt,"center");
-		mission.add(mBeschreibung,"center");
+		mission.add(mBeschreibung,"center, grow");
 		mission.setPreferredSize(new Dimension(230,130));
 		
 		JComponent karten = new JPanel();
@@ -76,9 +77,9 @@ public class MissionPanel extends JPanel{
 			
 	}
 	
-	public void setMBeschreibung(int nummer, String art, String beschreibung){
+	public void setMBeschreibung(String beschreibung){
 				
-		mArt.setText(art);
+//		mArt.setText(art);
 		mBeschreibung.setText(beschreibung);
 	}
 }

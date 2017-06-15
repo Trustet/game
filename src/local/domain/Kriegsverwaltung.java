@@ -559,4 +559,13 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 		return true;
 	}
 	
+	public Mission getMissionVonAktivemSpieler()
+	{
+		for(Mission m: missionVw.getMissionsListe())	{
+			if(m.getSpieler().equals(spielerVw.getAktiverSpieler()))	{
+				return m;
+			}
+		}
+		return null;
+	}
 }
