@@ -426,6 +426,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			
 				try {
 					sp.istNachbar(land1, land, sp.getAktiverSpieler());
+					sp.landWaehlen(landstring,sp.getAktiverSpieler());
 					land2 = land;
 					sp.einheitenPositionieren(-1, land1);
 					sp.einheitenPositionieren(1, land2);
@@ -442,6 +443,9 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 					} catch(KannLandNichtBenutzenException lene){
 						consolePanel.textSetzen(lene.getMessage());
 					}							
+				} catch (KannLandNichtBenutzenException e) {
+					consolePanel.textSetzen(e.getMessage());
+					
 				}
 			
 		}

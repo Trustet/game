@@ -71,6 +71,7 @@ public class ButtonPanel extends JPanel{
 		vLand.setText(verteidigungsLand);
 		this.add(angreifen,"center,grow");
 		this.add(nextTurn,"center,grow");
+		this.repaint();
 	}
 	
 	public void verschiebenNachAngreifenAktiv()	{
@@ -86,6 +87,8 @@ public class ButtonPanel extends JPanel{
 		this.add(anzahlEinheitenVerschieben,"center,grow");
 		this.add(verschieben,"center,grow");
 		this.add(nextTurn,"center,grow");
+		
+		this.repaint();
 	}
 	
 	public void verteilenAktiv(int einheiten)	{		
@@ -93,6 +96,7 @@ public class ButtonPanel extends JPanel{
 		this.add(anzahlEinheitenVerteilen,"center,grow");
 		anzahlEinheitenVerteilen.setText(einheiten + "");
 		this.add(nextTurn,"center,grow");
+		this.repaint();
 	}
 	
 	public void inaktiv()	{
