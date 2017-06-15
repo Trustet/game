@@ -423,6 +423,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	}
 	
 	public void verschieben(String landstring, Land land)	{
+<<<<<<< HEAD
 		if(land.getEinheiten() > 1)
 		{
 			if(land1 == null){
@@ -432,6 +433,39 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 					buttonPanel.verschiebenAktiv(land1.getName(), "zweites Land");
 				} catch(KannLandNichtBenutzenException lene){
 					consolePanel.textSetzen(lene.getMessage());
+=======
+		if(land1 == null){
+			try{
+				sp.landWaehlen(landstring,sp.getAktiverSpieler());
+				land1 = land;
+			} catch(KannLandNichtBenutzenException lene){
+				consolePanel.textSetzen(lene.getMessage());
+			}
+		}else{
+			
+				try {
+					sp.istNachbar(land1, land, sp.getAktiverSpieler());
+					sp.landWaehlen(landstring,sp.getAktiverSpieler());
+					land2 = land;
+					sp.einheitenPositionieren(-1, land1);
+					sp.einheitenPositionieren(1, land2);
+					spielfeld.labelsSetzen("", land1.getEinheiten(), "");
+					spielfeld.fahneEinheit(land1.getEinheitenLab());
+					spielfeld.labelsSetzen("", land2.getEinheiten(), "");
+					spielfeld.fahneEinheit(land2.getEinheitenLab());
+					land1 = null;
+					land2 = null;
+				} catch (KeinNachbarlandException knle) {
+					try{
+						sp.landWaehlen(landstring,sp.getAktiverSpieler());
+						land1 = land;
+					} catch(KannLandNichtBenutzenException lene){
+						consolePanel.textSetzen(lene.getMessage());
+					}							
+				} catch (KannLandNichtBenutzenException e) {
+					consolePanel.textSetzen(e.getMessage());
+					
+>>>>>>> origin/master
 				}
 			}else{
 					try {
