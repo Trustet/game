@@ -215,7 +215,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	        datei.add(laden);
 	        datei.add(schliessen);
 	        menu.setFont(schrift);
-	        MenuBarBorder menuBorder = new MenuBarBorder(Color.black, Color.white);getContentPane();
+//	        MenuBarBorder menuBorder = new MenuBarBorder(Color.black, Color.white);
+//	        getContentPane();
 	        spielFrame.setMenuBar(menu);
 	        
 	        panel.add(spielfeld,"left,spany 3,grow,hmin 550, wmin 1050");
@@ -441,16 +442,20 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	}
 	
 	public void verschieben(String landstring, Land land)	{
-		if(land.getEinheiten() > 1)
-		{
+		
 			if(land1 == null){
-				try{
-					sp.landWaehlen(landstring,sp.getAktiverSpieler());
-					land1 = land;
-					buttonPanel.verschiebenAktiv(land1.getName(), "zweites Land");
-				} catch(KannLandNichtBenutzenException lene){
-					consolePanel.textSetzen(lene.getMessage());
-			}
+				if(land.getEinheiten() > 1)
+				{
+					try{
+						sp.landWaehlen(landstring,sp.getAktiverSpieler());
+						land1 = land;
+						buttonPanel.verschiebenAktiv(land1.getName(), "zweites Land");
+					} catch(KannLandNichtBenutzenException lene){
+						consolePanel.textSetzen(lene.getMessage());
+					}
+				}else{
+					consolePanel.textSetzen("Du hast nicht genügend Einheiten auf diesem Land.");
+				}
 		}else{
 					try {
 						sp.istNachbar(land1, land, sp.getAktiverSpieler());
@@ -478,9 +483,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 					}
 				
 			}
-		}	else	{
-			consolePanel.textSetzen("Du hast nicht genügend Einheiten auf diesem Land.");
-		}
+		
 	}
 	
 	private void angriff( boolean genugEinheiten, Spieler aSpieler) throws KeinNachbarlandException{
