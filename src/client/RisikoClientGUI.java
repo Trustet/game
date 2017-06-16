@@ -334,6 +334,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		}
 		statistikPanel.statistikPanelAktualisieren();
 	}
+	
 	@Override
 	public void buttonClicked() {
 		sp.nextTurn();

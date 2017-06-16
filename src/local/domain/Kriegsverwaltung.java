@@ -230,7 +230,7 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 //			einheiten = 25;
 //			break;
 //		}
-		return 25;
+		return 3;	//TODO: hier 25?
 	}
 	
 	/**
@@ -414,9 +414,9 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 	 */
 	public boolean checkEinheitenVerteilen(int einheiten,int veinheiten, Spieler spieler) throws KannEinheitenNichtVerschiebenException{
 		if(einheiten > veinheiten){
-			throw new KannEinheitenNichtVerschiebenException("nicht so viele Einheiten verschieben");
+			throw new KannEinheitenNichtVerschiebenException(true);
 		}else if(einheiten < 1){
-			throw new KannEinheitenNichtVerschiebenException("nicht so wenig Einheiten verschieben");
+			throw new KannEinheitenNichtVerschiebenException(false);
 		}else{
 			return true;
 		}
