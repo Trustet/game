@@ -17,6 +17,17 @@ public class AngriffRueckgabe {
 		this.wuerfelAngreifer = wuerfelAngreifer;
 		this.erobert = erobert;
 	}
+	
+	public String hatGewonnen()	{
+		if (verlusteVerteidiger < verlusteAngreifer){
+			return "V";
+	}	else if(verlusteVerteidiger > verlusteAngreifer){
+			return "A";
+	}	else	{
+			return "U";
+	}
+	}
+	
 	public int getVerlusteVerteidiger() {
 		return verlusteVerteidiger;
 	}

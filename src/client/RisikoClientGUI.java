@@ -8,7 +8,8 @@
 //TODO Kartenlogik
 //TODO Wuerfel im MapPanel anzeigen 
 //TODO Aktiver spieler anzeigen (Yannik)
-//TODO GUI komplett aufr�umen (Vllt alles in ein Frame)
+//TODO GUI komplett aufr�umen (Vllt alles in ein Frame) -> teschke hat dialogfenster vorgeschlagen
+//TODO Exeptions mit text umschreiben (wie Teschke)
 
 package client;
 
@@ -488,86 +489,64 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	}
 	
 	private void angriff( boolean genugEinheiten, Spieler aSpieler) throws KeinNachbarlandException{
-		Angriff angriff;
-		AngriffRueckgabe angriffRueckgabe;
 			Land aLand = land1;
 			Land vLand = land2;
-			angriff = new Angriff(aLand, vLand);
-			angriffRueckgabe = sp.befreiungsAktion(angriff);
-			String ausgabe;
+			AngriffRueckgabe angriffRueckgabe = sp.befreiungsAktion(new Angriff(aLand, vLand));
 			
-			ausgabe = aLand.getBesitzer().getName() + " hat ";
-			
+			//TODO: würfel bilder anzeigen lassen
 			if(angriffRueckgabe.getWuerfelAngreifer().size() == 2)
 			{
-				ausgabe += angriffRueckgabe.getWuerfelAngreifer().get(0) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(1);
+				//2 angreifer würfel anzeigen
 			} else if (angriffRueckgabe.getWuerfelAngreifer().size() == 3)
 			{
-				ausgabe += angriffRueckgabe.getWuerfelAngreifer().get(0) + ", " + angriffRueckgabe.getWuerfelAngreifer().get(1) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(2);
+				//3 angreifer würfel anzeigen
 			}
-				ausgabe += (" gew�rfelt.\n");
-			
-			ausgabe += vLand.getBesitzer().getName() + " hat ";
-				
+
 			if(angriffRueckgabe.getWuerfelVerteidiger().size() == 1)
 			{
-				ausgabe += " eine " + angriffRueckgabe.getWuerfelVerteidiger().get(0);
+				//1 angreifer würfel anzeigen
 			} else if (angriffRueckgabe.getWuerfelVerteidiger().size() == 2)
 			{
-				ausgabe += angriffRueckgabe.getWuerfelVerteidiger().get(0) + " und " + angriffRueckgabe.getWuerfelAngreifer().get(1);
+				//2 angreifer würfel anzeigen
 			}
 			
-			ausgabe += " gew�rfelt.\n";
-				
 			if(angriffRueckgabe.isErobert() != true){
 					
-				if (angriffRueckgabe.getVerlusteVerteidiger() < angriffRueckgabe.getVerlusteAngreifer()){
-						ausgabe += vLand.getBesitzer().getName() + " hat gewonnen." ;
-						ausgabe += aLand.getBesitzer().getName() + " hat " + angriffRueckgabe.getVerlusteAngreifer() + " verloren.";
-						
-				}else if(angriffRueckgabe.getVerlusteVerteidiger() > angriffRueckgabe.getVerlusteAngreifer()){
-						ausgabe += aLand.getBesitzer().getName() + " hat gewonnen." ;
-						ausgabe += vLand.getBesitzer().getName() + " hat " + angriffRueckgabe.getVerlusteVerteidiger() + " verloren.";
-						
-				}else if(angriffRueckgabe.getVerlusteVerteidiger() == angriffRueckgabe.getVerlusteAngreifer()){
-						ausgabe += "Ihr habt unentschieden gespielt, beide verlieren eine Einheit." ;
-				}
-				
-				
+				if (angriffRueckgabe.hatGewonnen().equals("V")){
+						consolePanel.textSetzen(vLand.getBesitzer().getName() + " hat gewonnen.") ;
+				}	else if(angriffRueckgabe.hatGewonnen().equals("A")){
+					consolePanel.textSetzen(aLand.getBesitzer().getName() + " hat gewonnen.");
+				}	else	{
+					consolePanel.textSetzen("Ihr habt unentschieden gespielt, beide verlieren eine Einheit.");
+				}	
 			} else {
 				vLand.setFahne(aSpieler.getFarbe());
 				spielfeld.fahnenVerteilen(sp.getLaenderListe());
-				ausgabe += aLand.getBesitzer().getName() + " hat das Land erobert." ;
+				consolePanel.textSetzen(aLand.getBesitzer().getName() + " hat das Land erobert.");
 				genugEinheiten = false;
+				//wird das ab hier genutzt?
 					if(aLand.getEinheiten() == 2) {
-						ausgabe += "Eine Einheit wird auf " + vLand.getName() + " gesetzt.";
-						sp.eroberungBesetzen(aLand, vLand, 1); 
-						ausgabe += sp.einheitenAusgabe(aLand, vLand);
+						consolePanel.textSetzen("Eine Einheit wird auf " + vLand.getName() + " gesetzt.");
+						sp.eroberungBesetzen(aLand, vLand, 1);
 						genugEinheiten = true;
 					} else {
-					
-						ausgabe += "Wie viele Einheiten m\u00F6chtest du auf " + vLand.getName() + " setzen?";
-						ausgabe += aLand.getEinheiten() - 1 + " Einheiten kannst du setzen";
-						int einheiten = 1;
-						if(einheiten < aLand.getEinheiten() && einheiten > 0){
-							sp.eroberungBesetzen(aLand, vLand, einheiten); 
-							ausgabe += sp.einheitenAusgabe(aLand, vLand);
-							genugEinheiten = true;
-						}else{
-							ausgabe += "Bitte gebe eine Korrekte Zahl ein";
+//						ausgabe += "Wie viele Einheiten m\u00F6chtest du auf " + vLand.getName() + " setzen?";
+//						ausgabe += aLand.getEinheiten() - 1 + " Einheiten kannst du setzen";
+//						int einheiten = 1;
+//						if(einheiten < aLand.getEinheiten() && einheiten > 0){
+//							sp.eroberungBesetzen(aLand, vLand, einheiten); 
+//						ausgabe += sp.einheitenAusgabe(aLand, vLand);
+//							genugEinheiten = true;
+//						}else{
+//							ausgabe += "Bitte gebe eine Korrekte Zahl ein";
+						consolePanel.textSetzen("hier fehlt einheiten rübersetzen");
 						}
 					
 						
 						
 				}
-			}
-			
-			consolePanel.textSetzen(ausgabe);
 	}
-
-
-}
-	
+}	
 
 
 

@@ -3,7 +3,7 @@ package local.domain;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
-
+import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
@@ -81,8 +81,11 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 		for(int i = 0;i < anzahl;i++) {
 			ergebnisse.add((int)(Math.random() * 6) + 1);
 		}
-		Collections.sort(ergebnisse);
-		
+		System.out.println( ergebnisse );
+		Comparator<Integer> comparator = Collections.reverseOrder();
+		Collections.sort(ergebnisse, comparator);
+		System.out.println( ergebnisse );
+		//jetzt ist die Stelle 0 die höchste Zahl und die Stelle 1 die zweithöchste
 		return ergebnisse;
 	}
 	
@@ -113,7 +116,7 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 		AngriffRueckgabe rueckgabe;
 		boolean erobert = false;
 		
-		
+		//immer maximal mögliche anzahl an angreifer/verteidiger Einheiten
 		if(angreiferEinheiten < 4) {
 			angreifendeEinheiten = angreiferEinheiten - 1;
 		} else {
@@ -128,24 +131,51 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 		
 		wuerfeAngreifer = wuerfeln(angreifendeEinheiten);
 		wuerfeVerteidiger = wuerfeln(verteidigendeEinheiten);
+		
 		//TODO irgendein Fall wurde hier noch nicht beachtet, jedes 10. mal oder so kommt eine Exception
 		//Angreifer Würfelanzahl wird nicht beachtet
-		if((wuerfeVerteidiger.size() == 1) && (wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(1))) {
-			 verluste.add(0);
-			 verluste.add(1);
-		} else if((wuerfeVerteidiger.size() == 2) && (wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) < wuerfeAngreifer.get(2))) {
-			 verluste.add(0);
-			 verluste.add(2);
-		} else if((wuerfeVerteidiger.size() == 2) && (((wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) >= wuerfeAngreifer.get(2))) || ((wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) < wuerfeAngreifer.get(2))))) {
-			 verluste.add(1);
-			 verluste.add(1);	
-		} else if((wuerfeVerteidiger.size() == 1) && (wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(1))) {
-			 verluste.add(1);
-			 verluste.add(0);
-		} else if((wuerfeVerteidiger.size() == 2) && (wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) >= wuerfeAngreifer.get(2))) {
-			 verluste.add(2);
-			 verluste.add(0);
+//		if((wuerfeVerteidiger.size() == 1) && (wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(1))) {
+//			 verluste.add(0);
+//			 verluste.add(1);
+//		} else if((wuerfeVerteidiger.size() == 2) && (wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) < wuerfeAngreifer.get(2))) {
+//			 verluste.add(0);
+//			 verluste.add(2);
+//		} else if((wuerfeVerteidiger.size() == 2) && (((wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) >= wuerfeAngreifer.get(2))) || ((wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) < wuerfeAngreifer.get(2))))) {
+//			 verluste.add(1);
+//			 verluste.add(1);	
+//		} else if((wuerfeVerteidiger.size() == 1) && (wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(1))) {
+//			 verluste.add(1);
+//			 verluste.add(0);
+//		} else if((wuerfeVerteidiger.size() == 2) && (wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) >= wuerfeAngreifer.get(2))) {
+//			 verluste.add(2);
+//			 verluste.add(0);
+//		}
+		
+		if(wuerfeVerteidiger.size() == 1)	{
+			if(wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(0))	{
+				//Angreifer gewonnen
+				verluste.add(0); //Verluste die der Angreifer macht
+				verluste.add(1); //Verluste die der Verteidiger macht
+			} else if(wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(0))	{
+				//Verteidiger gewonnen
+				verluste.add(1); //Verluste die der Angreifer macht
+				verluste.add(0); //Verluste die der Verteidiger macht
+			}
+		} else if(wuerfeVerteidiger.size() == 2)	{
+			if((wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(0) && (wuerfeVerteidiger.get(1) < wuerfeAngreifer.get(1))))	{
+				//Angreifer gewonnen
+				verluste.add(0); //Verluste die der Angreifer macht
+				verluste.add(2); //Verluste die der Verteidiger macht
+			} else if((wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(0) && (wuerfeVerteidiger.get(1) >= wuerfeAngreifer.get(1))))	{
+				//Verteidiger gewonnen
+				verluste.add(2); //Verluste die der Angreifer macht
+				verluste.add(0); //Verluste die der Verteidiger macht
+			} else	{
+				verluste.add(1);
+				verluste.add(1);
+			}
 		}
+		
 		//verluste ist ein Vector mit den Angaben: AngreiferVerlust / VerteidigerVerlust
 		angreifendesLand.setEinheiten(angreifendesLand.getEinheiten() - verluste.get(0));
 		verteidigendesLand.setEinheiten(verteidigendesLand.getEinheiten() - verluste.get(1));
