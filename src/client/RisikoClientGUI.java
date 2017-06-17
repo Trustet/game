@@ -2,15 +2,12 @@
 //TODO Verschieben vervollständigen (Jesse)
 //TODO Missionen ausgeben
 //TODO Missionenlogik
-//TODO Mehr missionen erstellen
-//TODO mehr Farben und Fahnen implementieren
 //TODO Karten ausgeben
 //TODO Kartenlogik
-//TODO Wuerfel im MapPanel anzeigen 
 //TODO Aktiver spieler anzeigen (Yannik)
 //TODO GUI komplett aufr�umen (Vllt alles in ein Frame) -> teschke hat dialogfenster vorgeschlagen
 //TODO Exeptions mit text umschreiben (wie Teschke)
-//TODO Würfel einbinden
+
 
 package client;
 

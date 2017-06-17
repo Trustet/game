@@ -1,6 +1,5 @@
 package client;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -16,13 +15,13 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 
 import net.miginfocom.swing.MigLayout;
 
 public class MissionPanel extends JPanel{
 		private JLabel mArt = new JLabel();
-		private JTextField mBeschreibung = new JTextField();
+		private JTextArea mBeschreibung = new JTextArea();
 		private JLabel kBeschreibung = new JLabel();
 		private BufferedImage iconEinheiten;
 		private Font schrift;
@@ -40,12 +39,13 @@ public class MissionPanel extends JPanel{
 		tabbedPane.setFont(uberschrift);
 		JComponent mission = new JPanel();
 		mission.setLayout(new MigLayout("wrap1","[]","[]"));
-		
+		mBeschreibung.setEditable(false);
+		mBeschreibung.setLineWrap(true);
 		mBeschreibung.setText("Missionsbeschreibung");
 		mBeschreibung.setFont(schrift);
 //		mission.add(new JLabel("Mission:"),"left");
 //		mission.add(mArt,"center");
-		mission.add(mBeschreibung,"center, grow");
+		mission.add(mBeschreibung,"center, growx, growy");
 		mission.setPreferredSize(new Dimension(230,130));
 		
 		JComponent karten = new JPanel();
