@@ -10,6 +10,7 @@
 //TODO Aktiver spieler anzeigen (Yannik)
 //TODO GUI komplett aufr�umen (Vllt alles in ein Frame) -> teschke hat dialogfenster vorgeschlagen
 //TODO Exeptions mit text umschreiben (wie Teschke)
+//TODO Würfel einbinden
 
 package client;
 
@@ -352,6 +353,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 			break;
 		case VERSCHIEBEN:
+			spielfeld.wuerfelEntfernen();
 			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " verschiebe nun deine Einheiten.");
 			buttonPanel.verschiebenAktiv("erstes Land","zweites Land");
 			break;
@@ -493,22 +495,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			Land vLand = land2;
 			AngriffRueckgabe angriffRueckgabe = sp.befreiungsAktion(new Angriff(aLand, vLand));
 			
-			//TODO: würfel bilder anzeigen lassen
-			if(angriffRueckgabe.getWuerfelAngreifer().size() == 2)
-			{
-				//2 angreifer würfel anzeigen
-			} else if (angriffRueckgabe.getWuerfelAngreifer().size() == 3)
-			{
-				//3 angreifer würfel anzeigen
-			}
-
-			if(angriffRueckgabe.getWuerfelVerteidiger().size() == 1)
-			{
-				//1 angreifer würfel anzeigen
-			} else if (angriffRueckgabe.getWuerfelVerteidiger().size() == 2)
-			{
-				//2 angreifer würfel anzeigen
-			}
+			spielfeld.wuerfelAnzeigen(angriffRueckgabe.getWuerfelAngreifer(), angriffRueckgabe.getWuerfelVerteidiger());
 			
 			if(angriffRueckgabe.isErobert() != true){
 					

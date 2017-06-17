@@ -38,13 +38,56 @@ public class MapPanel extends JLayeredPane {
 	public JLabel einheitenLab = null;
 	public JLabel besitzerLab = null;
 	
+	private JLabel wuerfelLab = null;
+	private BufferedImage wuerfelB1;
+	private BufferedImage wuerfelB2;
+	private BufferedImage wuerfelB3;
+	private BufferedImage wuerfelB4;
+	private BufferedImage wuerfelB5;
+	private BufferedImage wuerfelB6;
+	private BufferedImage wuerfelR1;
+	private BufferedImage wuerfelR2;
+	private BufferedImage wuerfelR3;
+	private BufferedImage wuerfelR4;
+	private BufferedImage wuerfelR5;
+	private BufferedImage wuerfelR6;
+	private JLabel wB1 = new JLabel();
+	private JLabel wB2 = new JLabel();
+	private JLabel wR1 = new JLabel();
+	private JLabel wR2 = new JLabel();
+	private JLabel wR3 = new JLabel();
+	
+	
 	
 	public MapPanel(MapClickHandler handler,Font schrift) {
 		this.handler = handler;
 		this.schrift = schrift;
+		wuerfelBilderLaden();
 		initialize();
 	}
 	
+	private void wuerfelBilderLaden() {
+		try{
+			wuerfelB1 = ImageIO.read(new File("./wuerfel/blau/wuerfelB1.png"));
+			wuerfelB2 = ImageIO.read(new File("./wuerfel/blau/wuerfelB2.png"));
+			wuerfelB3 = ImageIO.read(new File("./wuerfel/blau/wuerfelB3.png"));
+			wuerfelB4 = ImageIO.read(new File("./wuerfel/blau/wuerfelB4.png"));
+			wuerfelB5 = ImageIO.read(new File("./wuerfel/blau/wuerfelB5.png"));
+			wuerfelB6 = ImageIO.read(new File("./wuerfel/blau/wuerfelB6.png"));
+			
+			wuerfelR1 = ImageIO.read(new File("./wuerfel/rot/wuerfelR1.png"));
+			wuerfelR2 = ImageIO.read(new File("./wuerfel/rot/wuerfelR2.png"));
+			wuerfelR3 = ImageIO.read(new File("./wuerfel/rot/wuerfelR3.png"));
+			wuerfelR4 = ImageIO.read(new File("./wuerfel/rot/wuerfelR4.png"));
+			wuerfelR5 = ImageIO.read(new File("./wuerfel/rot/wuerfelR5.png"));
+			wuerfelR6 = ImageIO.read(new File("./wuerfel/rot/wuerfelR6.png"));
+
+		}catch (IOException e){
+				System.out.println("nicht geladen");
+			}
+		
+	}
+
 	public void initialize() {
         BufferedImage myPicture;
    
@@ -141,7 +184,74 @@ public class MapPanel extends JLayeredPane {
 		}
 	}
 	
-
+	public void wuerfelAnzeigen(List<Integer> wuerfelAngreifer, List<Integer> wuerfelVerteidiger)	{
+		wuerfelEntfernen();
+		//rote Angreifer Würfel
+		wR1 = getWuerfelLabel("rot", wuerfelAngreifer.get(0));
+		wR2 = getWuerfelLabel("rot", wuerfelAngreifer.get(1));
+		wR1.setBounds(20,420, 40, 40);
+		wR2.setBounds(wR1.getX() + 50,wR1.getY(), 40, 40);
+		this.add(wR1, new Integer(2), 0);
+		this.add(wR2, new Integer(2), 0);
+		
+		if(wuerfelAngreifer.size() == 3)	{
+			wR3 = getWuerfelLabel("rot", wuerfelAngreifer.get(2));
+			wR3.setBounds(wR2.getX() + 50,wR2.getY(), 40, 40);
+			this.add(wR3, new Integer(2), 0);
+		}
+		//blaue Verteidiger Würfel
+		wB1 = getWuerfelLabel("blau", wuerfelVerteidiger.get(0));
+		wB1.setBounds(wR1.getX(),wR1.getY() + 50, 40, 40);
+		this.add(wB1, new Integer(2), 0);
+		
+		if(wuerfelVerteidiger.size() == 2)	{
+			wB2 = getWuerfelLabel("blau", wuerfelVerteidiger.get(1));
+			wB2.setBounds(wB1.getX() + 50,wB1.getY(), 40, 40);
+			this.add(wB2, new Integer(2), 0);
+		}	
+	}
 	
-	
+	public void wuerfelEntfernen()	{
+		//TODO ich glaube wenn die würfel noch nicht entstanden sind, entshet ein fehler
+		remove(wB1);
+		remove(wB2);
+		remove(wR1);
+		remove(wR2);
+		remove(wR3);
+	}
+public JLabel getWuerfelLabel(String farbe, int augenzahl){
+	if(farbe.equals("blau"))	{
+		switch(augenzahl){
+		case 1:	wuerfelLab = new JLabel(new ImageIcon(wuerfelB1.getScaledInstance(40, 40, Image.SCALE_FAST)));
+		break;
+		case 2:	wuerfelLab = new JLabel(new ImageIcon(wuerfelB2.getScaledInstance(40, 40, Image.SCALE_FAST)));
+		break;
+		case 3:	wuerfelLab = new JLabel(new ImageIcon(wuerfelB3.getScaledInstance(40, 40, Image.SCALE_FAST)));
+		break;
+		case 4:	wuerfelLab = new JLabel(new ImageIcon(wuerfelB4.getScaledInstance(40, 40, Image.SCALE_FAST)));
+		break;
+		case 5:	wuerfelLab = new JLabel(new ImageIcon(wuerfelB5.getScaledInstance(40, 40, Image.SCALE_FAST)));
+		break;
+		case 6:	wuerfelLab = new JLabel(new ImageIcon(wuerfelB6.getScaledInstance(40, 40, Image.SCALE_FAST)));
+		break;
+		}
+	} else if(farbe.equals("rot"))	{
+		switch(augenzahl){
+		case 1:	wuerfelLab = new JLabel(new ImageIcon(wuerfelR1.getScaledInstance(40, 40, Image.SCALE_FAST)));
+		break;
+		case 2:	wuerfelLab = new JLabel(new ImageIcon(wuerfelR2.getScaledInstance(40, 40, Image.SCALE_FAST)));
+		break;
+		case 3:	wuerfelLab = new JLabel(new ImageIcon(wuerfelR3.getScaledInstance(40, 40, Image.SCALE_FAST)));
+		break;
+		case 4:	wuerfelLab = new JLabel(new ImageIcon(wuerfelR4.getScaledInstance(40, 40, Image.SCALE_FAST)));
+		break;
+		case 5:	wuerfelLab = new JLabel(new ImageIcon(wuerfelR5.getScaledInstance(40, 40, Image.SCALE_FAST)));
+		break;
+		case 6:	wuerfelLab = new JLabel(new ImageIcon(wuerfelR6.getScaledInstance(40, 40, Image.SCALE_FAST)));
+		break;
+		}
+	}
+		
+		return wuerfelLab;
+	}
 }
