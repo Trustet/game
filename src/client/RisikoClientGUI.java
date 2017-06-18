@@ -11,6 +11,7 @@
 //TODO GUI komplett aufr�umen (Vllt alles in ein Frame) -> teschke hat dialogfenster vorgeschlagen
 //TODO Exeptions mit text umschreiben (wie Teschke)
 //TODO Würfel einbinden
+//TODO viele viele Bugs
 
 package client;
 
@@ -528,13 +529,6 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 //							ausgabe += "Bitte gebe eine Korrekte Zahl ein";
 						consolePanel.textSetzen("hier fehlt einheiten rübersetzen");
 						}
-					
-						
-						
-				}
+					}
 	}
 }	
-
-
-
-
