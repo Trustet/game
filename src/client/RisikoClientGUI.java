@@ -7,12 +7,8 @@
 //TODO Aktiver spieler anzeigen (Yannik)
 //TODO GUI komplett aufr�umen (Vllt alles in ein Frame) -> teschke hat dialogfenster vorgeschlagen
 //TODO Exeptions mit text umschreiben (wie Teschke)
-<<<<<<< HEAD
 //TODO Würfel einbinden
 //TODO viele viele Bugs
-=======
-
->>>>>>> origin/master
 
 package client;
 
