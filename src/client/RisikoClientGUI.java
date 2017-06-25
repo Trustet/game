@@ -8,6 +8,7 @@
 //TODO GUI komplett aufr�umen (Vllt alles in ein Frame) -> teschke hat dialogfenster vorgeschlagen
 //TODO Exeptions mit text umschreiben (wie Teschke)
 //TODO viele viele Bugs
+//TODO Phasen dürfen erst beendet werden können, wenn "alles erledigt" ist (solange disabled machen, während etwas gemacht wird bzw nicht alle einheiten verteilt sind)
 
 package client;
 
@@ -53,7 +54,7 @@ import net.miginfocom.swing.MigLayout;
 public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonClickHandler {
 	Spielfeld sp = new Spielfeld();
 
-    int anzahlSpieler; //von anzahl in anzahlSpieler umbenannt
+    int anzahlSpieler;
     private SpielerPanel spielerListPanel;
     private MissionPanel missionPanel;
     private JFrame spielFrame;
@@ -173,6 +174,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		frame.setVisible(true);
 	
 	}
+	
     public void spiel(String name, int anzahlSpieler,JFrame frameStart) {
     	//verbindungAufbauen(ip,port);
     	this.anzahlSpieler = anzahlSpieler;
