@@ -68,8 +68,6 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     private Land land1 = null;
     private Land land2 = null;
     private int anzahlSetzbareEinheiten;
-    boolean startphase;
-    int spielerDieVerteiltHaben;
     
 //    private Socket socket = null;
 //    private BufferedReader in;
@@ -233,12 +231,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	  	        
     	}catch(SpielerExistiertBereitsException sebe){
     		JOptionPane.showMessageDialog(null,sebe.getMessage(),"Name vergeben",JOptionPane.WARNING_MESSAGE);
-    	}
-    		startphase = true;
-    		
-    		
-    		sp.setTurn("VERTEILEN");
-    		spielerDieVerteiltHaben = 0;
+    	}  		
+    		sp.setTurn("STARTPHASE");
         	anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
         	consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
 //			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());	
@@ -319,11 +313,13 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			spielfeld.labelsSetzen(land.getName(), land.getEinheiten(), land.getBesitzer().getName());
 			Spieler spieler = sp.getAktiverSpieler();
 			switch(sp.getTurn()){
+			case STARTPHASE:
+				startphase(landstring, land);
+				break;
 			case ANGRIFF:
 				angreifen(landstring, land, spieler);
 				break;
 			case VERTEILEN:
-				
 				verteilen(landstring, land);
 				break;
 			case VERSCHIEBEN:
@@ -339,6 +335,10 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		sp.nextTurn();
 		
 		switch(sp.getTurn()){
+		case STARTPHASE:
+			anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
+        	consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
+			break;
 		case ANGRIFF:
 			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun angreifen.");
 			buttonPanel.angreifenAktiv("angreifendes Land","verteidigendes Land");
@@ -360,6 +360,24 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		
 	}
 	
+	public void startphase(String landstring, Land land) {
+		try{
+			sp.landWaehlen(landstring,sp.getAktiverSpieler());
+			if(anzahlSetzbareEinheiten > 0)
+			{
+				sp.einheitenPositionieren(1, land);
+				anzahlSetzbareEinheiten--;
+				spielfeld.labelsSetzen("", land.getEinheiten(), "");
+				spielfeld.fahneEinheit(land.getEinheitenLab());
+				statistikPanel.statistikPanelAktualisieren();
+			} else {
+				consolePanel.textSetzen("Du hast alle Einheiten gesetzt. Drücke auf den Button.");	
+			}
+		}catch(KannLandNichtBenutzenException lene ){
+			consolePanel.textSetzen(lene.getMessage());
+		}
+	}
+	
 	public void verteilen(String landstring, Land land)	{
 		try{
 			sp.landWaehlen(landstring,sp.getAktiverSpieler());
@@ -371,29 +389,11 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 				spielfeld.fahneEinheit(land.getEinheitenLab());
 				statistikPanel.statistikPanelAktualisieren();
 			} else {
-				consolePanel.textSetzen("Du hast alle Einheiten gesetzt.");
-				
+				consolePanel.textSetzen("Du hast alle Einheiten gesetzt.");	
 			}
 		}catch(KannLandNichtBenutzenException lene ){
 			consolePanel.textSetzen(lene.getMessage());
 		}
-		
-    	if((startphase == true) && (anzahlSetzbareEinheiten == 0))
-    	{
-    		spielerDieVerteiltHaben++;
-    		
-    		if(spielerDieVerteiltHaben == anzahlSpieler)
-    		{
-    			startphase = false;
-    			sp.naechsterSpieler();
-    			buttonClicked();
-    			buttonPanel.buttonFreigeben();
-    		} else {
-    		anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
-    		sp.naechsterSpieler();
-        	consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
-    		}
-    	}
 	}
 	
 	public void angreifen(String landstring, Land land, Spieler spieler)	{

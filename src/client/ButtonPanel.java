@@ -44,7 +44,7 @@ public class ButtonPanel extends JPanel{
 		
 		//Verteilen
 		this.anzahlEinheitenVerteilen = new JLabel("anzahl Einheiten");
-		nextTurn = new JButton("Naechste Phase");
+		nextTurn = new JButton("Naechster Spieler");
 		
 		nextTurn.addActionListener(next -> handler.buttonClicked());
 		nextTurn.setEnabled(false);
@@ -57,12 +57,8 @@ public class ButtonPanel extends JPanel{
 		this.add(anzahlEinheitenVerschieben,"center,grow");
 		this.add(verschieben,"center,grow");
 		this.add(anzahlEinheitenVerteilen,"center,grow");
-		inaktiv();
+		startphase();
 	}
-	public void buttonFreigeben(){
-		nextTurn.setEnabled(true);
-	}
-
 	public void angreifenAktiv(String angriffsLand,String verteidigungsLand)	{
 		removeAll();
 		this.add(aLand,"center,grow");
@@ -71,6 +67,7 @@ public class ButtonPanel extends JPanel{
 		vLand.setText(verteidigungsLand);
 		this.add(angreifen,"center,grow");
 		this.add(nextTurn,"center,grow");
+		nextTurn.setText("Naechste Phase");
 		this.repaint();
 	}
 	
@@ -87,6 +84,7 @@ public class ButtonPanel extends JPanel{
 		this.add(anzahlEinheitenVerschieben,"center,grow");
 		this.add(verschieben,"center,grow");
 		this.add(nextTurn,"center,grow");
+		nextTurn.setText("Naechste Phase");
 		
 		this.repaint();
 	}
@@ -96,13 +94,14 @@ public class ButtonPanel extends JPanel{
 		this.add(anzahlEinheitenVerteilen,"center,grow");
 		anzahlEinheitenVerteilen.setText(einheiten + "");
 		this.add(nextTurn,"center,grow");
+		nextTurn.setText("Naechste Phase");
 		this.repaint();
 	}
 	
-	public void inaktiv()	{
+	public void startphase()	{
 		removeAll();
 		this.add(nextTurn,"center,grow");
-		nextTurn.setEnabled(false);
+		nextTurn.setEnabled(true);
 		this.repaint();
 	}
 	

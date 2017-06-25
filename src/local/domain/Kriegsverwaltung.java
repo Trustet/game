@@ -21,6 +21,7 @@ private phasen Phase;
 //public List<Mission> missionsListe = new Vector<Mission>();
 private List<Land> benutzteLaender = new Vector<Land>();
 private FilePersistenceManager pm = new FilePersistenceManager();
+private int startphaseZaehler = 1;
 	
 	/**
 	 * Konstruktor Kriegsverwaltung
@@ -131,25 +132,6 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 		
 		wuerfeAngreifer = wuerfeln(angreifendeEinheiten);
 		wuerfeVerteidiger = wuerfeln(verteidigendeEinheiten);
-		
-		//TODO irgendein Fall wurde hier noch nicht beachtet, jedes 10. mal oder so kommt eine Exception
-		//Angreifer Würfelanzahl wird nicht beachtet
-//		if((wuerfeVerteidiger.size() == 1) && (wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(1))) {
-//			 verluste.add(0);
-//			 verluste.add(1);
-//		} else if((wuerfeVerteidiger.size() == 2) && (wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) < wuerfeAngreifer.get(2))) {
-//			 verluste.add(0);
-//			 verluste.add(2);
-//		} else if((wuerfeVerteidiger.size() == 2) && (((wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) >= wuerfeAngreifer.get(2))) || ((wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) < wuerfeAngreifer.get(2))))) {
-//			 verluste.add(1);
-//			 verluste.add(1);	
-//		} else if((wuerfeVerteidiger.size() == 1) && (wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(1))) {
-//			 verluste.add(1);
-//			 verluste.add(0);
-//		} else if((wuerfeVerteidiger.size() == 2) && (wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(1)) && (wuerfeVerteidiger.get(1) >= wuerfeAngreifer.get(2))) {
-//			 verluste.add(2);
-//			 verluste.add(0);
-//		}
 		
 		if(wuerfeVerteidiger.size() == 1)	{
 			if(wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(0))	{
@@ -268,24 +250,30 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 	 */
 	public void nextTurn(){
 		switch(Phase){
+			case STARTPHASE:
+				startphaseZaehler++;
+				if(startphaseZaehler > spielerVw.getSpielerList().size()){
+				Phase = phasen.ANGRIFF;
+				}
+				spielerVw.naechsterSpieler();
+				break;
 			case VERSCHIEBEN:
 				Phase = phasen.VERTEILEN;
+				spielerVw.naechsterSpieler();
 				break;
 			case ANGRIFF:
 				Phase = phasen.VERSCHIEBEN;
 				break;
 			case VERTEILEN:
 				Phase = phasen.ANGRIFF;
-				spielerVw.naechsterSpieler();
 				break;
-				
 		}
 	}
 	/**
 	 * Phasen Enum
 	 */
 	public enum phasen{
-		VERTEILEN,ANGRIFF,VERSCHIEBEN
+		STARTPHASE,VERTEILEN,ANGRIFF,VERSCHIEBEN
 	}
 	
 
@@ -299,6 +287,9 @@ private FilePersistenceManager pm = new FilePersistenceManager();
 	
 	public void setTurn(String phase){
 		switch(phase){
+		case "STARTPHASE":
+			this.Phase = phasen.STARTPHASE;
+			break;
 		case "VERSCHIEBEN":
 			this.Phase = phasen.VERSCHIEBEN;
 			break;
