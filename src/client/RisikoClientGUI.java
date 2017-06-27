@@ -6,7 +6,7 @@
 //TODO Kartenlogik
 //TODO Aktiver spieler anzeigen (Yannik)
 //TODO GUI komplett aufr�umen (Vllt alles in ein Frame) -> teschke hat dialogfenster vorgeschlagen
-//TODO Exeptions mit text umschreiben (wie Teschke)
+//TODO Exceptions mit text umschreiben (wie Teschke)
 //TODO viele viele Bugs
 //TODO Phasen dürfen erst beendet werden können, wenn "alles erledigt" ist (solange disabled machen, während etwas gemacht wird bzw nicht alle einheiten verteilt sind)
 
@@ -15,29 +15,23 @@ package client;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.plaf.basic.BasicBorders.MenuBarBorder;
 
 import client.ButtonPanel.ButtonClickHandler;
+import client.ErstellenPanel.ErstellenButtonClicked;
 import client.MapPanel.MapClickHandler;
+import client.StartPanel.StartButtonClickHandler;
 import local.domain.Spielfeld;
 import local.domain.exceptions.KannLandNichtBenutzenException;
 import local.domain.exceptions.KeinGegnerException;
@@ -51,18 +45,19 @@ import local.valueobjects.Spieler;
 import net.miginfocom.swing.MigLayout;
 
 
-public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonClickHandler {
+public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, ErstellenButtonClicked {
 	Spielfeld sp = new Spielfeld();
 
     int anzahlSpieler;
     private SpielerPanel spielerListPanel;
     private MissionPanel missionPanel;
-    private JFrame spielFrame;
     private MapPanel spielfeld;
     private InfoPanel infoPanel;
     private ButtonPanel buttonPanel;
     private StatistikPanel statistikPanel;
     private ConsolePanel consolePanel;
+    private StartPanel startPanel;
+    private ErstellenPanel erstellenPanel;
     private MenuBar menu;
     private Font schrift;
     private Font uberschrift;
@@ -84,116 +79,61 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	public void start() {
 		uberschrift = new Font(Font.SERIF, Font.BOLD,25);
 		schrift = new Font(Font.SANS_SERIF, Font.PLAIN,20);
-		
-		//Frame und Layout
-		JFrame frame = new JFrame("Spiel starten");
-		JPanel panel = new JPanel(new MigLayout("wrap1","[]","[][][][][][]"));
-		frame.setLocationRelativeTo(null);
-		frame.setSize(500,700);
-//		panel.setBackground(new Color(220,175,116));
-		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		//Logo wird eingebunden
-		BufferedImage logoImg;
-		JLabel logo = new JLabel();
-		try {
-			logoImg = ImageIO.read(new File("./logo.jpeg"));
-			logo = new JLabel(new ImageIcon(logoImg.getScaledInstance(300, 150, Image.SCALE_FAST)));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		//Objekte erstellen
-		JButton startBtn = new JButton("Spiel erstellen");
-		JButton ladenBtn = new JButton("Spiel laden");
-		JButton optionBtn = new JButton("Optionen");
-		JButton beendenBtn = new JButton("Beenden");
-		
-		
-		//ActionListener
-		startBtn.addActionListener(start -> spielErstellen(frame));
-		beendenBtn.addActionListener(close -> System.exit(0));
-		
-		//Objekte hinzufügen
-		panel.add(logo,"center");
-		panel.add(startBtn,"center,growx");
-		panel.add(ladenBtn,"center,growx");
-		panel.add(optionBtn,"center,growx");
-		panel.add(beendenBtn,"center,growx");
-		frame.add(panel);
-		frame.pack();
-		frame.setResizable(false);
-		frame.setVisible(true);
+		//Frame und Layout
+				this.setTitle("Spiel starten");
+				this.setSize(330,350);
+				this.setLocationRelativeTo(null);
+//				panel.setBackground(new Color(220,175,116));
+				this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+				startPanel = new StartPanel(this);
+				this.add(startPanel);
+				this.setResizable(true);
+				this.setVisible(true);
 		
 
 
 		
 	}
 
-	public void spielErstellen(JFrame frameStart){
+	public void spielErstellen(){
 		
-		//Schließt das vorherige Fenster
-		frameStart.dispose();
 		
 		//Frame und Layout
-		JFrame frame = new JFrame("Spiel erstellen");
-		JPanel panel = new JPanel(new MigLayout("debug, wrap2","[][150]","[][][][][]")); 
-		frame.setLocationRelativeTo(null); 
+		this.setTitle("Spiel erstellen");
+		
 //		panel.setBackground(new Color(220,175,116));
-		frame.setSize(280, 200); //von 300 auf 280 gestellt //FRAGE: kann man panel zentrieren?
-		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-		
-		//Objekte erstellen
-		JLabel nameLab = new JLabel("Name:");
-		JTextField nameText = new JTextField();
-		JLabel ipLab = new JLabel("IP:");
-		JTextField ipText = new JTextField();
-		JLabel portLab = new JLabel("Port:");
-		JTextField portText = new JTextField();
-		String[] zahlen = {"2","3","4","5","6"};
-		JLabel anzahlLab = new JLabel("Spieler Anzahl:");
-		JComboBox<String> anzahlCBox = new JComboBox<String>(zahlen);
-		JButton startBtn = new JButton("Spiel starten");
-		
-		//Actionlistener
-		startBtn.addActionListener(start -> spiel(nameText.getText(), Integer.parseInt((String)anzahlCBox.getSelectedItem()),frame));
-		
-		
-		//Objekte hinzufügen
-		panel.add(nameLab,"right");
-		panel.add(nameText,"left,growx");
-		panel.add(ipLab,"right");
-		panel.add(ipText,"left,growx");
-		panel.add(portLab,"right");
-		panel.add(portText,"left,growx");
-		panel.add(anzahlLab,"left");
-		panel.add(anzahlCBox,"left");
-		panel.add(startBtn,"center,spanx2");
-		frame.add(panel);
-		frame.setVisible(true);
+		this.setSize(280, 200); //von 300 auf 280 gestellt //FRAGE: kann man panel zentrieren?
+		this.setLocationRelativeTo(null); 
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		erstellenPanel = new ErstellenPanel(this);
+
+		this.add(erstellenPanel);
+		this.setVisible(true);
+		this.repaint();
+		this.revalidate();
 	
 	}
 	
-    public void spiel(String name, int anzahlSpieler,JFrame frameStart) {
+    public void spiel(String name, int anzahlSpieler) {
     	//verbindungAufbauen(ip,port);
     	this.anzahlSpieler = anzahlSpieler;
-    	for(int i = 1; i < anzahlSpieler; i++ ){
-    		neuerSpieler();
-    	}
+    	
     	try{
     		sp.erstelleSpieler(name); 
-	    	
-	    	frameStart.dispose();
-	    	
-	        spielFrame = new JFrame("Risiko");
-	        spielFrame.setLocationRelativeTo(null);
-	        spielFrame.setPreferredSize(new Dimension(1250,780 + 37));
-	        spielFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    		this.remove(erstellenPanel);
+    		for(int i = 1; i < anzahlSpieler; i++ ){
+        		neuerSpieler();
+        	}
+	        this.setTitle("Risiko");
+	        this.setSize(1250,817);
+	        this.setLocationRelativeTo(null);
+	        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-	        JPanel panel = new JPanel(new MigLayout(" wrap2","[][]","[][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
-			
-	        spielFrame.add(panel);
+	        //JPanel panel = new JPanel(new MigLayout(" wrap2","[][]","[][][]")); // hier "debug,wrap2" schreiben für Debug-Modus
+			this.setLayout(new MigLayout(" wrap2","[][]","[][][]"));
+	        //this.add(panel);
 
 	        spielfeld = new MapPanel(this, schrift);
 	        spielerListPanel = new SpielerPanel(schrift, uberschrift);
@@ -216,27 +156,27 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	        menu.setFont(schrift);
 //	        MenuBarBorder menuBorder = new MenuBarBorder(Color.black, Color.white);
 //	        getContentPane();
-	        spielFrame.setMenuBar(menu);
+	        this.setMenuBar(menu);
 	        
-	        panel.add(spielfeld,"left,spany 3,grow,hmin 550, wmin 1050");
-	        panel.add(infoPanel,"left,growx");
-	        panel.add(spielerListPanel,"growx");
-	        panel.add(statistikPanel,"left,top,growx,spany 2");
-	        panel.add(missionPanel,"left,top,split3");
-	        panel.add(consolePanel,"left, top");
-	        panel.add(buttonPanel,"right,growy");
-	        spielFrame.setResizable(false);
-	        spielFrame.setVisible(true);
-	        spielFrame.pack();
+	        this.add(spielfeld,"left,spany 3,grow,hmin 550, wmin 1050");
+	        this.add(infoPanel,"left,growx");
+	        this.add(spielerListPanel,"growx");
+	        this.add(statistikPanel,"left,top,growx,spany 2");
+	        this.add(missionPanel,"left,top,split3");
+	        this.add(consolePanel,"left, top");
+	        this.add(buttonPanel,"right,growy");
+	        this.setResizable(false);
+	        this.setVisible(true);
+	        this.pack();
 	        
 
-	  	        
+	        sp.setTurn("STARTPHASE");
+        	anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
+        	consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);    
     	}catch(SpielerExistiertBereitsException sebe){
     		JOptionPane.showMessageDialog(null,sebe.getMessage(),"Name vergeben",JOptionPane.WARNING_MESSAGE);
     	}  		
-    		sp.setTurn("STARTPHASE");
-        	anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
-        	consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
+    		
 //			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());	
     }
  
@@ -332,37 +272,9 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		statistikPanel.statistikPanelAktualisieren();
 	}
 	
-	@Override
-	public void buttonClicked() {
-		sp.nextTurn();
-		
-		switch(sp.getTurn()){
-		case STARTPHASE:
-			anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
-        	consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
-			break;
-		case ANGRIFF:
-			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun angreifen.");
-			buttonPanel.angreifenAktiv("angreifendes Land","verteidigendes Land");
-			break;
-		case VERTEILEN:
-			anzahlSetzbareEinheiten = sp.bekommtEinheiten(sp.getAktiverSpieler());
-			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst " + anzahlSetzbareEinheiten + " Einheiten setzen.");
-			buttonPanel.verteilenAktiv(anzahlSetzbareEinheiten);
-			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
-			break;
-		case VERSCHIEBEN:
-			spielfeld.wuerfelEntfernen();
-			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " verschiebe nun deine Einheiten.");
-			buttonPanel.verschiebenAktiv("erstes Land","zweites Land");
-			break;
-		}
-		
-		infoPanel.changePanel(sp.getTurn()+"");
-		
-	}
 	
 	public void startphase(String landstring, Land land) {
+		
 		try{
 			sp.landWaehlen(landstring,sp.getAktiverSpieler());
 			if(anzahlSetzbareEinheiten > 0)
@@ -373,7 +285,11 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 				spielfeld.fahneEinheit(land.getEinheitenLab());
 				statistikPanel.statistikPanelAktualisieren();
 			} else {
+				
 				consolePanel.textSetzen("Du hast alle Einheiten gesetzt. Drücke auf den Button.");	
+			}
+			if(anzahlSetzbareEinheiten == 0){
+				buttonPanel.phaseEnable();
 			}
 		}catch(KannLandNichtBenutzenException lene ){
 			consolePanel.textSetzen(lene.getMessage());
@@ -399,7 +315,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	}
 	
 	public void angreifen(String landstring, Land land, Spieler spieler)	{
-		
+	
 		if(land1 == null){	
 			try{
 				sp.landWaehlen(landstring,spieler);
@@ -420,12 +336,10 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 					land2 = land;
 					//erstmal nur zum testen
 					buttonPanel.angreifenAktiv(land1.getName(), land2.getName());
-					angriff(true, spieler);
+					buttonPanel.angriffEnable();
 					spielfeld.fahneEinheit(land1.getEinheitenLab());
 					spielfeld.fahneEinheit(land2.getEinheitenLab());
-					land1 = null;
-					land2 = null;
-					buttonPanel.angreifenAktiv("angreifendes Land","verteidigendes Land");
+					
 				} catch (KeinNachbarlandException knle) {
 					try{
 						sp.landWaehlen(landstring, spieler);
@@ -528,5 +442,60 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 						consolePanel.textSetzen("hier fehlt einheiten rübersetzen");
 						}
 					}
+	}
+	@Override
+	public void startButtonClicked() {
+		this.remove(startPanel);
+		spielErstellen();
+		
+	}
+	@Override
+	public void spielErstellen(String name, int anzahl) {
+		spiel(name,anzahl);
+		
+	}
+
+	@Override
+	public void buttonClicked() {
+		sp.nextTurn();
+		
+		switch(sp.getTurn()){
+		case STARTPHASE:
+			buttonPanel.phaseDisable();
+			anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
+        	consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
+			break;
+		case ANGRIFF:
+			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun angreifen.");
+			buttonPanel.angreifenAktiv("angreifendes Land","verteidigendes Land");
+			break;
+		case VERTEILEN:
+			anzahlSetzbareEinheiten = sp.bekommtEinheiten(sp.getAktiverSpieler());
+			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst " + anzahlSetzbareEinheiten + " Einheiten setzen.");
+			buttonPanel.verteilenAktiv(anzahlSetzbareEinheiten);
+			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
+			break;
+		case VERSCHIEBEN:
+			spielfeld.wuerfelEntfernen();
+			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " verschiebe nun deine Einheiten.");
+			buttonPanel.verschiebenAktiv("erstes Land","zweites Land");
+			break;
+		}
+		
+		infoPanel.changePanel(sp.getTurn()+"");
+		
+	}
+	@Override
+	public void angriffClicked() {
+		try {
+			angriff(true, sp.getAktiverSpieler());
+			land1 = null;
+			land2 = null;
+			buttonPanel.angreifenAktiv("angreifendes Land","verteidigendes Land");
+		} catch (KeinNachbarlandException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }	

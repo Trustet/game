@@ -21,6 +21,7 @@ public class ButtonPanel extends JPanel{
 	
 	public interface ButtonClickHandler {
 		public void buttonClicked();
+		public void angriffClicked();
 	}
 	
 	public ButtonPanel(ButtonClickHandler handler){
@@ -47,6 +48,7 @@ public class ButtonPanel extends JPanel{
 		nextTurn = new JButton("Naechster Spieler");
 		
 		nextTurn.addActionListener(next -> handler.buttonClicked());
+		angreifen.addActionListener(angriff -> handler.angriffClicked());
 		nextTurn.setEnabled(false);
 		this.add(nextTurn,"center,grow");
 		this.add(aLand,"center,grow");
@@ -60,6 +62,7 @@ public class ButtonPanel extends JPanel{
 		startphase();
 	}
 	public void angreifenAktiv(String angriffsLand,String verteidigungsLand)	{
+		angreifen.setEnabled(false);
 		removeAll();
 		this.add(aLand,"center,grow");
 		aLand.setText(angriffsLand);
@@ -97,11 +100,23 @@ public class ButtonPanel extends JPanel{
 		nextTurn.setText("Naechste Phase");
 		this.repaint();
 	}
+	public void phaseDisable(){
+		nextTurn.setEnabled(false);
+	}
 	
+	public void phaseEnable(){
+		nextTurn.setEnabled(true);
+	}
+	public void angriffEnable(){
+		angreifen.setEnabled(true);
+	}
+	public void angriffDisable(){
+		angreifen.setEnabled(false);
+	}
 	public void startphase()	{
 		removeAll();
 		this.add(nextTurn,"center,grow");
-		nextTurn.setEnabled(true);
+		nextTurn.setEnabled(false);
 		this.repaint();
 	}
 	
