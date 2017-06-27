@@ -9,7 +9,8 @@
 //TODO Exceptions mit text umschreiben (wie Teschke)
 //TODO viele viele Bugs
 //TODO Phasen dürfen erst beendet werden können, wenn "alles erledigt" ist (solange disabled machen, während etwas gemacht wird bzw nicht alle einheiten verteilt sind)
-
+//TODO Angreiffen mit nur einer Einheit funtkioniert nicht
+//TODO Verschieben geht noch in den - Bereich und fragt eigene Nachbarn noch nicht ab
 package client;
 
 import java.awt.Color;
@@ -319,7 +320,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		if(land1 == null){	
 			try{
 				sp.landWaehlen(landstring,spieler);
-				sp.checkEinheiten(landstring, 2);
+				sp.checkEinheiten(landstring, 1);
 				land1 = land;
 				//erstmal nur zum testen
 				buttonPanel.angreifenAktiv(land1.getName(), "verteidigendes land");
@@ -337,8 +338,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 					//erstmal nur zum testen
 					buttonPanel.angreifenAktiv(land1.getName(), land2.getName());
 					buttonPanel.angriffEnable();
-					spielfeld.fahneEinheit(land1.getEinheitenLab());
-					spielfeld.fahneEinheit(land2.getEinheitenLab());
+					
 					
 				} catch (KeinNachbarlandException knle) {
 					try{
@@ -381,15 +381,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 						land2 = land;
 						//erstmal nur zum testen
 						buttonPanel.verschiebenAktiv(land1.getName(), land2.getName());
-						sp.einheitenPositionieren(-1, land1);
-						sp.einheitenPositionieren(1, land2);
-						spielfeld.labelsSetzen("", land1.getEinheiten(), "");
-						spielfeld.fahneEinheit(land1.getEinheitenLab());
-						spielfeld.labelsSetzen("", land2.getEinheiten(), "");
-						spielfeld.fahneEinheit(land2.getEinheitenLab());
-						land1 = null;
-						land2 = null;
-						buttonPanel.verschiebenAktiv("erstes Land","zweites Land");
+						buttonPanel.verschiebenEnabled();
+						
 					} catch (KeinNachbarlandException knle) {
 						try{
 							sp.landWaehlen(landstring,sp.getAktiverSpieler());
@@ -489,13 +482,30 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	public void angriffClicked() {
 		try {
 			angriff(true, sp.getAktiverSpieler());
+			spielfeld.fahneEinheit(land1.getEinheitenLab());
+			spielfeld.fahneEinheit(land2.getEinheitenLab());
 			land1 = null;
 			land2 = null;
 			buttonPanel.angreifenAktiv("angreifendes Land","verteidigendes Land");
+			
 		} catch (KeinNachbarlandException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+	}
+	@Override
+	public void verschiebenClicked(int einheiten) {
+		sp.einheitenPositionieren(-einheiten, land1);
+		sp.einheitenPositionieren(einheiten, land2);
+		spielfeld.labelsSetzen("", land1.getEinheiten(), "");
+		spielfeld.fahneEinheit(land1.getEinheitenLab());
+		spielfeld.labelsSetzen("", land2.getEinheiten(), "");
+		spielfeld.fahneEinheit(land2.getEinheitenLab());
+		land1 = null;
+		land2 = null;
+		buttonPanel.verschiebenAktiv("erstes Land","zweites Land");
+		buttonPanel.verschiebenDisabled();
 		
 	}
 }	

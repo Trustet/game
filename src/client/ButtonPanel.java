@@ -22,6 +22,7 @@ public class ButtonPanel extends JPanel{
 	public interface ButtonClickHandler {
 		public void buttonClicked();
 		public void angriffClicked();
+		public void verschiebenClicked(int einheiten);
 	}
 	
 	public ButtonPanel(ButtonClickHandler handler){
@@ -49,6 +50,7 @@ public class ButtonPanel extends JPanel{
 		
 		nextTurn.addActionListener(next -> handler.buttonClicked());
 		angreifen.addActionListener(angriff -> handler.angriffClicked());
+		verschieben.addActionListener(verschieben -> handler.verschiebenClicked(Integer.parseInt(anzahlEinheitenVerschieben.getText())));
 		nextTurn.setEnabled(false);
 		this.add(nextTurn,"center,grow");
 		this.add(aLand,"center,grow");
@@ -88,6 +90,8 @@ public class ButtonPanel extends JPanel{
 		this.add(verschieben,"center,grow");
 		this.add(nextTurn,"center,grow");
 		nextTurn.setText("Naechste Phase");
+		verschieben.setEnabled(false);
+
 		
 		this.repaint();
 	}
@@ -112,6 +116,12 @@ public class ButtonPanel extends JPanel{
 	}
 	public void angriffDisable(){
 		angreifen.setEnabled(false);
+	}
+	public void verschiebenEnabled(){
+		verschieben.setEnabled(true);
+	}
+	public void verschiebenDisabled(){
+		verschieben.setEnabled(false);
 	}
 	public void startphase()	{
 		removeAll();
