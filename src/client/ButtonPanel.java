@@ -1,5 +1,7 @@
 package client;
 
+import java.awt.Font;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,6 +21,7 @@ public class ButtonPanel extends JPanel{
 	private JButton verschieben;
 	private JButton verschiebenNA;
 	private JLabel anzahlEinheitenVerteilen;
+	private Font font;
 	
 	public interface ButtonClickHandler {
 		public void buttonClicked();
@@ -27,13 +30,14 @@ public class ButtonPanel extends JPanel{
 		public void verschiebenNAClicked(int einheiten);
 	}
 	
-	public ButtonPanel(ButtonClickHandler handler){
+	public ButtonPanel(ButtonClickHandler handler, Font font){
 		this.handler = handler;
+		this.font = font;
 		initialize();	
 	}
 	
 	public void initialize(){
-		this.setLayout(new MigLayout("wrap1","[]","[][]"));
+		this.setLayout(new MigLayout("wrap1","[160]","[][]"));
 		
 		//Angreifen
 		this.aLand = new JLabel("aLand");
@@ -49,6 +53,7 @@ public class ButtonPanel extends JPanel{
 		
 		//Verteilen
 		this.anzahlEinheitenVerteilen = new JLabel("anzahl Einheiten");
+		this.anzahlEinheitenVerteilen.setFont(font);
 		nextTurn = new JButton("Naechster Spieler");
 		
 		nextTurn.addActionListener(next -> handler.buttonClicked());
@@ -57,49 +62,49 @@ public class ButtonPanel extends JPanel{
 		verschiebenNA.addActionListener(verschiebenNA -> handler.verschiebenNAClicked(Integer.parseInt(anzahlEinheitenVerschieben.getText())));
 		
 		nextTurn.setEnabled(false);
-		this.add(nextTurn,"center,grow");
-		this.add(aLand,"center,grow");
-		this.add(vLand,"center,grow");
-		this.add(angreifen,"center,grow");
-		this.add(land1,"center,grow");
-		this.add(land2,"center,grow");
-		this.add(anzahlEinheitenVerschieben,"center,grow");
-		this.add(verschieben,"center,grow");
-		this.add(anzahlEinheitenVerteilen,"center,grow");
+//		this.add(nextTurn,"left,grow");
+//		this.add(aLand,"left,grow");
+//		this.add(vLand,"left,grow");
+//		this.add(angreifen,"left,grow");
+//		this.add(land1,"left,grow");
+//		this.add(land2,"left,grow");
+//		this.add(anzahlEinheitenVerschieben,"left,grow");
+//		this.add(verschieben,"left,grow");
+//		this.add(anzahlEinheitenVerteilen,"left,grow");
 		startphase();
 	}
 	public void angreifenAktiv(String angriffsLand,String verteidigungsLand)	{
 		angreifen.setEnabled(false);
 		removeAll();
-		this.add(aLand,"center,grow");
+		this.add(aLand,"left,grow");
 		aLand.setText(angriffsLand);
-		this.add(vLand,"center,grow");
+		this.add(vLand,"left,grow");
 		vLand.setText(verteidigungsLand);
-		this.add(angreifen,"center,grow");
-		this.add(nextTurn,"center,grow");
+		this.add(angreifen,"left,grow");
+		this.add(nextTurn,"left,grow");
 		nextTurn.setText("Naechste Phase");
 		this.repaint();
 	}
 	
 	public void verschiebenNachAngreifenAktiv(String erstesLand, String zweitesLand)	{
 		removeAll();
-		this.add(land1,"center,grow");
+		this.add(land1,"left,grow");
 		land1.setText(erstesLand);
-		this.add(land2,"center,grow");
+		this.add(land2,"left,grow");
 		land2.setText(zweitesLand);
-		this.add(anzahlEinheitenVerschieben,"center,grow");
-		this.add(verschiebenNA,"center,grow");
+		this.add(anzahlEinheitenVerschieben,"left,grow");
+		this.add(verschiebenNA,"left,grow");
 	}
 	
 	public void verschiebenAktiv(String erstesLand, String zweitesLand)	{
 		removeAll();
-		this.add(land1,"center,grow");
+		this.add(land1,"left,grow");
 		land1.setText(erstesLand);
-		this.add(land2,"center,grow");
+		this.add(land2,"left,grow");
 		land2.setText(zweitesLand);
-		this.add(anzahlEinheitenVerschieben,"center,grow");
-		this.add(verschieben,"center,grow");
-		this.add(nextTurn,"center,grow");
+		this.add(anzahlEinheitenVerschieben,"left,grow");
+		this.add(verschieben,"left,grow");
+		this.add(nextTurn,"left,grow");
 		nextTurn.setText("Naechste Phase");
 		verschieben.setEnabled(false);
 
@@ -109,9 +114,9 @@ public class ButtonPanel extends JPanel{
 	
 	public void verteilenAktiv(int einheiten)	{		
 		removeAll();
-		this.add(anzahlEinheitenVerteilen,"center,grow");
+		this.add(anzahlEinheitenVerteilen,"center");
 		anzahlEinheitenVerteilen.setText(einheiten + "");
-		this.add(nextTurn,"center,grow");
+		this.add(nextTurn,"left,grow");
 		nextTurn.setText("Naechste Phase");
 		this.repaint();
 	}
@@ -139,7 +144,7 @@ public class ButtonPanel extends JPanel{
 	}
 	public void startphase()	{
 		removeAll();
-		this.add(nextTurn,"center,grow");
+		this.add(nextTurn,"left,grow");
 		nextTurn.setEnabled(false);
 		this.repaint();
 	}

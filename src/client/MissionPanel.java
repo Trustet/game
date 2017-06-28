@@ -47,7 +47,7 @@ public class MissionPanel extends JPanel{
 //		mission.add(new JLabel("Mission:"),"left");
 //		mission.add(mArt,"center");
 		mission.add(mBeschreibung,"center, growx, growy");
-		mission.setPreferredSize(new Dimension(230,130));
+		mission.setPreferredSize(new Dimension(280,140));
 		
 		JComponent karten = new JPanel();
 		karten.setLayout(new MigLayout("wrap1","[]","[][][]"));
@@ -70,7 +70,7 @@ public class MissionPanel extends JPanel{
 		karten.add(new JLabel("Du hast folgende Karten:"),"center");
 		karten.add(icon2);
 		karten.add(kBeschreibung,"center");
-		karten.setPreferredSize(new Dimension(230,130));
+		karten.setPreferredSize(new Dimension(280,140));
 		
 		tabbedPane.addTab("Mission",mission);
 		tabbedPane.addTab("Karten", karten);

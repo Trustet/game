@@ -64,7 +64,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 	private Land land1 = null;
 	private Land land2 = null;
 	private int anzahlSetzbareEinheiten;
-	private Spieler spieler;
+	private Spieler aktiverSpieler;
 	// private Socket socket = null;
 	// private BufferedReader in;
 	// private PrintStream out;
@@ -96,7 +96,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 	}
 
 	public void spielErstellen() {
-
+		
 		// Frame und Layout
 		this.setTitle("Spiel erstellen");
 
@@ -124,6 +124,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			for (int i = 1; i < anzahlSpieler; i++) {
 				neuerSpieler();
 			}
+			aktiverSpieler = sp.getAktiverSpieler();
 			this.setTitle("Risiko");
 			this.setSize(1250, 817);
 			this.setLocationRelativeTo(null);
@@ -132,14 +133,14 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			// JPanel panel = new JPanel(new MigLayout("
 			// wrap2","[][]","[][][]")); // hier "debug,wrap2" schreiben für
 			// Debug-Modus
-			this.setLayout(new MigLayout(" wrap2", "[][]", "[][][]"));
+			this.setLayout(new MigLayout("debug, wrap2", "[1050][]", "[][][]"));
 			// this.add(panel);
 
 			spielfeld = new MapPanel(this, schrift);
 			spielerListPanel = new SpielerPanel(schrift, uberschrift);
 			missionPanel = new MissionPanel(uberschrift, schrift);
-			infoPanel = new InfoPanel(sp.getTurn() + "", sp.getAktiverSpieler().getName(), schrift, uberschrift);
-			buttonPanel = new ButtonPanel(this);
+			infoPanel = new InfoPanel(sp.getTurn() + "", aktiverSpieler.getName(), schrift, uberschrift);
+			buttonPanel = new ButtonPanel(this, uberschrift);
 			statistikPanel = new StatistikPanel(sp.getSpielerList(), sp.getLaenderListe(), schrift, uberschrift);
 			consolePanel = new ConsolePanel(schrift);
 
@@ -163,16 +164,16 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			this.add(infoPanel, "left,growx");
 			this.add(spielerListPanel, "growx");
 			this.add(statistikPanel, "left,top,growx,spany 2");
-			this.add(missionPanel, "left,top,split3");
+			this.add(missionPanel, "left,top,split3,wmin 300, wmax 300");
 			this.add(consolePanel, "left, top");
-			this.add(buttonPanel, "right,growy");
+			this.add(buttonPanel, "right,growy, wmin 180, wmax 180");
 			this.setResizable(false);
 			this.setVisible(true);
 			this.pack();
 
 			sp.setTurn("STARTPHASE");
 			anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
-			consolePanel.textSetzen(sp.getAktiverSpieler().getName()
+			consolePanel.textSetzen(aktiverSpieler.getName()
 					+ " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
 		} catch (SpielerExistiertBereitsException sebe) {
 			JOptionPane.showMessageDialog(null, sebe.getMessage(), "Name vergeben", JOptionPane.WARNING_MESSAGE);
@@ -257,13 +258,12 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		Land land = sp.stringToLand(landstring);
 		if (land != null) {
 			spielfeld.labelsSetzen(land.getName(), land.getEinheiten(), land.getBesitzer().getName());
-			Spieler spieler = sp.getAktiverSpieler();
 			switch (sp.getTurn()) {
 			case STARTPHASE:
 				startphase(landstring, land);
 				break;
 			case ANGRIFF:
-				angreifen(landstring, land, spieler);
+				angreifen(landstring, land, aktiverSpieler);
 				break;
 			case VERTEILEN:
 				verteilen(landstring, land);
@@ -279,7 +279,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 	public void startphase(String landstring, Land land) {
 
 		try {
-			sp.landWaehlen(landstring, sp.getAktiverSpieler());
+			sp.landWaehlen(landstring, aktiverSpieler);
 			if (anzahlSetzbareEinheiten > 0) {
 				sp.einheitenPositionieren(1, land);
 				anzahlSetzbareEinheiten--;
@@ -300,7 +300,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 
 	public void verteilen(String landstring, Land land) {
 		try {
-			sp.landWaehlen(landstring, sp.getAktiverSpieler());
+			sp.landWaehlen(landstring, aktiverSpieler);
 			if (anzahlSetzbareEinheiten > 0) {
 				sp.einheitenPositionieren(1, land);
 				anzahlSetzbareEinheiten--;
@@ -365,7 +365,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 
 		if (land1 == null) {
 			try {
-				sp.landWaehlen(landstring, sp.getAktiverSpieler());
+				sp.landWaehlen(landstring, aktiverSpieler);
 				sp.benutzeLaender(land);
 				sp.checkEinheiten(landstring, 1);
 				land1 = land;
@@ -380,8 +380,8 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		} else {
 
 			try {
-				sp.landWaehlen(landstring, sp.getAktiverSpieler());
-				sp.istNachbar(land1, land, sp.getAktiverSpieler());
+				sp.landWaehlen(landstring, aktiverSpieler);
+				sp.istNachbar(land1, land, aktiverSpieler);
 				land2 = land;
 				buttonPanel.verschiebenAktiv(land1.getName(), land2.getName());
 				buttonPanel.verschiebenEnabled();
@@ -389,7 +389,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 				consolePanel.textSetzen(klnbe.getMessage());
 			} catch (KeinNachbarlandException kne) {
 				try {
-					sp.landWaehlen(landstring, sp.getAktiverSpieler());
+					sp.landWaehlen(landstring, aktiverSpieler);
 					sp.checkEinheiten(landstring, 1);
 					land1 = land;
 				} catch (KannLandNichtBenutzenException lene) {
@@ -470,30 +470,30 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 	@Override
 	public void buttonClicked() {
 		sp.nextTurn();
-		spieler = sp.getAktiverSpieler();
-		spielerListPanel.setAktiverSpieler(sp.getSpielerList().indexOf(spieler) + 1);
+		aktiverSpieler = sp.getAktiverSpieler();
+		spielerListPanel.setAktiverSpieler(sp.getSpielerList().indexOf(aktiverSpieler) + 1);
 		switch (sp.getTurn()) {
 		case STARTPHASE:
 			buttonPanel.phaseDisable();
 			anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
-			consolePanel.textSetzen(sp.getAktiverSpieler().getName()
+			consolePanel.textSetzen(aktiverSpieler.getName()
 					+ " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
 			break;
 		case ANGRIFF:
-			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst nun angreifen.");
+			consolePanel.textSetzen(aktiverSpieler.getName() + " du kannst nun angreifen.");
 			buttonPanel.angreifenAktiv("angreifendes Land", "verteidigendes Land");
 			break;
 		case VERTEILEN:
 			buttonPanel.phaseDisable();
-			anzahlSetzbareEinheiten = sp.bekommtEinheiten(sp.getAktiverSpieler());
+			anzahlSetzbareEinheiten = sp.bekommtEinheiten(aktiverSpieler);
 			consolePanel.textSetzen(
-					sp.getAktiverSpieler().getName() + " du kannst " + anzahlSetzbareEinheiten + " Einheiten setzen.");
+			aktiverSpieler.getName() + " du kannst " + anzahlSetzbareEinheiten + " Einheiten setzen.");
 			buttonPanel.verteilenAktiv(anzahlSetzbareEinheiten);
 			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 			break;
 		case VERSCHIEBEN:
 			spielfeld.wuerfelEntfernen();
-			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " verschiebe nun deine Einheiten.");
+			consolePanel.textSetzen(aktiverSpieler.getName() + " verschiebe nun deine Einheiten.");
 			buttonPanel.verschiebenAktiv("erstes Land", "zweites Land");
 			break;
 		}
@@ -505,7 +505,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 	@Override
 	public void angriffClicked() {
 		try {
-			angriff(true, sp.getAktiverSpieler());
+			angriff(true, aktiverSpieler);
 
 		} catch (KeinNachbarlandException e) {
 			// TODO Auto-generated catch block
