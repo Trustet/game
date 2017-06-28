@@ -17,10 +17,17 @@ import java.awt.Font;
 import java.awt.Menu;
 import java.awt.MenuBar;
 import java.awt.MenuItem;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -226,6 +233,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			}
 
 			statistikPanel.statistikAktualisieren();
+			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 
 		}
 	}
@@ -451,7 +459,23 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 				// ausgabe += "Bitte gebe eine Korrekte Zahl ein";
 				buttonPanel.verschiebenNachAngreifenAktiv(aLand.getName(), vLand.getName());
 			}
+			schuss();
 		}
+	}
+	public void gewonnen(Spieler spieler){
+		this.remove(spielfeld);
+		this.remove(spielerListPanel);
+		this.remove(missionPanel);
+		this.remove(infoPanel);
+		this.remove(statistikPanel);
+		this.remove(consolePanel);
+		this.remove(buttonPanel);
+		this.setSize(500, 600);
+		JLabel firework = new JLabel(new ImageIcon("./firework.gif"));
+		this.add(firework);
+		this.setBackground(Color.BLACK);
+		this.repaint();
+		this.revalidate();
 	}
 
 	@Override
@@ -470,8 +494,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 	@Override
 	public void buttonClicked() {
 		if(sp.getSpielerMission(aktiverSpieler).istAbgeschlossen()){
-			consolePanel.textSetzen(aktiverSpieler.getName() + " du hast gewonnen");
-			spielfeld.gewonnen();
+			gewonnen(aktiverSpieler);
 		}
 		sp.nextTurn();
 		aktiverSpieler = sp.getAktiverSpieler();
@@ -493,7 +516,6 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			consolePanel.textSetzen(
 			aktiverSpieler.getName() + " du kannst " + anzahlSetzbareEinheiten + " Einheiten setzen.");
 			buttonPanel.verteilenAktiv(anzahlSetzbareEinheiten);
-			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 			break;
 		case VERSCHIEBEN:
 			spielfeld.wuerfelEntfernen();
@@ -552,5 +574,22 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			consolePanel.textSetzen(ngee.getMessage());
 	}
 		
+	}
+	public void schuss(){
+		try{
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("hit.wav"));
+            AudioFormat af     = audioInputStream.getFormat();
+            int size      = (int) (af.getFrameSize() * audioInputStream.getFrameLength());
+            byte[] audio       = new byte[size];
+            DataLine.Info info      = new DataLine.Info(Clip.class, af, size);
+            audioInputStream.read(audio, 0, size);
+           
+           // for(int i=0; i < 10; i++) {
+                Clip clip = (Clip) AudioSystem.getLine(info);
+                clip.open(af, audio, 0, size);
+                clip.start();
+                
+            //}
+        }catch(Exception e){ e.printStackTrace(); }
 	}
 }	
