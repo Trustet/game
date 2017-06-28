@@ -95,6 +95,7 @@ public class MapPanel extends JLayeredPane {
         try {
 			myPicture = ImageIO.read(new File("./weltkarte.jpg"));
 			spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(1050, 550, Image.SCALE_FAST)));
+			//1050, 550
 			weltKarteBunt = ImageIO.read(new File("./weltkarte_bunt.png"));
 			weltKarteBuntLab = new JLabel(new ImageIcon(weltKarteBunt));
 			

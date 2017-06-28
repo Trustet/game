@@ -331,7 +331,7 @@ public class RisikoClientCUI {
 	
 	private Land verteidigendesLandAbfrage(Spieler spieler, Land aLand){
 		String verteidigungsLandString;
-		Land vLand = new Land("Platzhalter", new Spieler("PLatzhalter"), 0,"Platzhalter");
+		Land vLand = new Land("Platzhalter", new Spieler("PLatzhalter"), 0,"Platzhalter",0,0);
 		boolean gegnerNachbar = false;
 		
 		do{

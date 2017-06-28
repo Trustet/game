@@ -5,12 +5,12 @@
 //TODO Karten ausgeben
 //TODO Kartenlogik
 //TODO Aktiver spieler anzeigen (Yannik)
-//TODO GUI komplett aufr�umen (Vllt alles in ein Frame) -> teschke hat dialogfenster vorgeschlagen
+//TODO GUI komplett aufraeumen
 //TODO Exceptions mit text umschreiben (wie Teschke)
 //TODO viele viele Bugs
-//TODO Phasen dürfen erst beendet werden können, wenn "alles erledigt" ist (solange disabled machen, während etwas gemacht wird bzw nicht alle einheiten verteilt sind)
 //TODO Angreiffen mit nur einer Einheit funtkioniert nicht
-//TODO Verschieben geht noch in den - Bereich und fragt eigene Nachbarn noch nicht ab
+//TODO Verschieben geht noch in den negativen Bereich und fragt eigene Nachbarn noch nicht ab
+//TODO Javadoc
 package client;
 
 import java.awt.Color;
@@ -37,6 +37,7 @@ import local.domain.Spielfeld;
 import local.domain.exceptions.KannLandNichtBenutzenException;
 import local.domain.exceptions.KeinGegnerException;
 import local.domain.exceptions.KeinNachbarlandException;
+import local.domain.exceptions.LandBereitsBenutztException;
 import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.valueobjects.Angriff;
@@ -65,7 +66,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
     private Land land1 = null;
     private Land land2 = null;
     private int anzahlSetzbareEinheiten;
-    
+    private Spieler spieler;
 //    private Socket socket = null;
 //    private BufferedReader in;
 //    private PrintStream out;
@@ -307,8 +308,12 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 				spielfeld.labelsSetzen("", land.getEinheiten(), "");
 				spielfeld.fahneEinheit(land.getEinheitenLab());
 				statistikPanel.statistikPanelAktualisieren();
+				buttonPanel.setEinheitenVerteilenLab(anzahlSetzbareEinheiten);
 			} else {
 				consolePanel.textSetzen("Du hast alle Einheiten gesetzt.");	
+			}
+			if(anzahlSetzbareEinheiten == 0){
+				buttonPanel.phaseEnable();
 			}
 		}catch(KannLandNichtBenutzenException lene ){
 			consolePanel.textSetzen(lene.getMessage());
@@ -359,42 +364,49 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	}
 	
 	public void verschieben(String landstring, Land land)	{
-		
-			if(land1 == null){
-				if(land.getEinheiten() > 1)
-				{
-					try{
-						sp.landWaehlen(landstring,sp.getAktiverSpieler());
-						land1 = land;
-						buttonPanel.verschiebenAktiv(land1.getName(), "zweites Land");
-					} catch(KannLandNichtBenutzenException lene){
-						consolePanel.textSetzen(lene.getMessage());
-					}
-				}else{
-					consolePanel.textSetzen("Du hast nicht genügend Einheiten auf diesem Land.");
-				}
-		}else{
-					try {
-						sp.istNachbar(land1, land, sp.getAktiverSpieler());
-						//geht das so oder mit exception/if-Abfrage?
-						//land1.getBesitzer().equals(land2.getBesitzer());
-						land2 = land;
-						//erstmal nur zum testen
-						buttonPanel.verschiebenAktiv(land1.getName(), land2.getName());
-						buttonPanel.verschiebenEnabled();
-						
-					} catch (KeinNachbarlandException knle) {
-						try{
-							sp.landWaehlen(landstring,sp.getAktiverSpieler());
-							land1 = land;
-						} catch(KannLandNichtBenutzenException lene){
-							consolePanel.textSetzen(lene.getMessage());
-						}							
-					}
-				
+
+		if(land1 == null){
+			try{
+				sp.landWaehlen(landstring,sp.getAktiverSpieler());
+				sp.benutzeLaender(land);
+				sp.checkEinheiten(landstring,1);
+				land1 = land;
+			}catch(KannLandNichtBenutzenException lene ){
+				consolePanel.textSetzen(lene.getMessage());
+			}catch(NichtGenugEinheitenException ngee){
+				consolePanel.textSetzen(ngee.getMessage());					
+			}catch(LandBereitsBenutztException lbbe){
+				consolePanel.textSetzen(lbbe.getMessage());
 			}
 		
+		}else{
+	
+				try{
+					sp.landWaehlen(landstring, sp.getAktiverSpieler());
+					sp.istNachbar(land1, land, sp.getAktiverSpieler());
+					land2 = land;
+					buttonPanel.verschiebenAktiv(land1.getName(), land2.getName());
+					buttonPanel.verschiebenEnabled();
+				}catch(KannLandNichtBenutzenException klnbe){
+					consolePanel.textSetzen(klnbe.getMessage());
+				}catch(KeinNachbarlandException kne){
+					try{
+						sp.landWaehlen(landstring,sp.getAktiverSpieler());
+						sp.checkEinheiten(landstring,1);
+						land1 = land;
+					} catch(KannLandNichtBenutzenException lene){
+						consolePanel.textSetzen(lene.getMessage());
+					} catch (NichtGenugEinheitenException ngee) {
+						consolePanel.textSetzen(ngee.getMessage());
+					}	
+				}
+		}
 	}
+						
+							
+			
+		
+	
 	
 	private void angriff( boolean genugEinheiten, Spieler aSpieler) throws KeinNachbarlandException{
 			Land aLand = land1;
@@ -412,6 +424,11 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 				}	else	{
 					consolePanel.textSetzen("Ihr habt unentschieden gespielt, beide verlieren eine Einheit.");
 				}	
+				spielfeld.fahneEinheit(land1.getEinheitenLab());
+				spielfeld.fahneEinheit(land2.getEinheitenLab());
+				land1 = null;
+				land2 = null;
+				buttonPanel.angreifenAktiv("angreifendes Land","verteidigendes Land");
 			} else {
 				vLand.setFahne(aSpieler.getFarbe());
 				spielfeld.fahnenVerteilen(sp.getLaenderListe());
@@ -422,6 +439,11 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 						consolePanel.textSetzen("Eine Einheit wird auf " + vLand.getName() + " gesetzt.");
 						sp.eroberungBesetzen(aLand, vLand, 1);
 						genugEinheiten = true;
+						spielfeld.fahneEinheit(land1.getEinheitenLab());
+						spielfeld.fahneEinheit(land2.getEinheitenLab());
+						land1 = null;
+						land2 = null;
+						buttonPanel.angreifenAktiv("angreifendes Land","verteidigendes Land");
 					} else {
 //						ausgabe += "Wie viele Einheiten m\u00F6chtest du auf " + vLand.getName() + " setzen?";
 //						ausgabe += aLand.getEinheiten() - 1 + " Einheiten kannst du setzen";
@@ -432,7 +454,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 //							genugEinheiten = true;
 //						}else{
 //							ausgabe += "Bitte gebe eine Korrekte Zahl ein";
-						consolePanel.textSetzen("hier fehlt einheiten rübersetzen");
+						buttonPanel.verschiebenNachAngreifenAktiv(aLand.getName(), vLand.getName());
 						}
 					}
 	}
@@ -451,7 +473,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	@Override
 	public void buttonClicked() {
 		sp.nextTurn();
-		
+		spieler = sp.getAktiverSpieler();
+		spielerListPanel.setAktiverSpieler(sp.getSpielerList().indexOf(spieler)+1);
 		switch(sp.getTurn()){
 		case STARTPHASE:
 			buttonPanel.phaseDisable();
@@ -463,6 +486,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			buttonPanel.angreifenAktiv("angreifendes Land","verteidigendes Land");
 			break;
 		case VERTEILEN:
+			buttonPanel.phaseDisable();
 			anzahlSetzbareEinheiten = sp.bekommtEinheiten(sp.getAktiverSpieler());
 			consolePanel.textSetzen(sp.getAktiverSpieler().getName() + " du kannst " + anzahlSetzbareEinheiten + " Einheiten setzen.");
 			buttonPanel.verteilenAktiv(anzahlSetzbareEinheiten);
@@ -482,11 +506,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	public void angriffClicked() {
 		try {
 			angriff(true, sp.getAktiverSpieler());
-			spielfeld.fahneEinheit(land1.getEinheitenLab());
-			spielfeld.fahneEinheit(land2.getEinheitenLab());
-			land1 = null;
-			land2 = null;
-			buttonPanel.angreifenAktiv("angreifendes Land","verteidigendes Land");
+			
 			
 		} catch (KeinNachbarlandException e) {
 			// TODO Auto-generated catch block
@@ -496,16 +516,32 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	}
 	@Override
 	public void verschiebenClicked(int einheiten) {
-		sp.einheitenPositionieren(-einheiten, land1);
-		sp.einheitenPositionieren(einheiten, land2);
-		spielfeld.labelsSetzen("", land1.getEinheiten(), "");
+		try{
+			sp.checkEinheiten(land1.getName(), einheiten);
+			sp.einheitenPositionieren(-einheiten, land1);
+			sp.einheitenPositionieren(einheiten, land2);
+			spielfeld.labelsSetzen("", land1.getEinheiten(), "");
+			spielfeld.fahneEinheit(land1.getEinheitenLab());
+			spielfeld.labelsSetzen("", land2.getEinheiten(), "");
+			spielfeld.fahneEinheit(land2.getEinheitenLab());
+			land1 = null;
+			land2 = null;
+			buttonPanel.verschiebenAktiv("erstes Land","zweites Land");
+			buttonPanel.verschiebenDisabled();
+		}catch(NichtGenugEinheitenException ngee){
+			consolePanel.textSetzen(ngee.getMessage());
+		}
+		
+		
+	}
+	@Override
+	public void verschiebenNAClicked(int einheiten) {
+		sp.eroberungBesetzen(land1, land2, einheiten);
 		spielfeld.fahneEinheit(land1.getEinheitenLab());
-		spielfeld.labelsSetzen("", land2.getEinheiten(), "");
 		spielfeld.fahneEinheit(land2.getEinheitenLab());
 		land1 = null;
 		land2 = null;
-		buttonPanel.verschiebenAktiv("erstes Land","zweites Land");
-		buttonPanel.verschiebenDisabled();
+		buttonPanel.angreifenAktiv("erstes Land","zweites Land");
 		
 	}
 }	

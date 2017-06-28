@@ -17,12 +17,14 @@ public class ButtonPanel extends JPanel{
 	private JLabel land2;
 	private JTextField anzahlEinheitenVerschieben;
 	private JButton verschieben;
+	private JButton verschiebenNA;
 	private JLabel anzahlEinheitenVerteilen;
 	
 	public interface ButtonClickHandler {
 		public void buttonClicked();
 		public void angriffClicked();
 		public void verschiebenClicked(int einheiten);
+		public void verschiebenNAClicked(int einheiten);
 	}
 	
 	public ButtonPanel(ButtonClickHandler handler){
@@ -43,6 +45,7 @@ public class ButtonPanel extends JPanel{
 		this.land2 = new JLabel("land2");
 		this.anzahlEinheitenVerschieben = new JTextField();
 		this.verschieben = new JButton("Verschieben");
+		this.verschiebenNA = new JButton("Verschieben");
 		
 		//Verteilen
 		this.anzahlEinheitenVerteilen = new JLabel("anzahl Einheiten");
@@ -51,6 +54,8 @@ public class ButtonPanel extends JPanel{
 		nextTurn.addActionListener(next -> handler.buttonClicked());
 		angreifen.addActionListener(angriff -> handler.angriffClicked());
 		verschieben.addActionListener(verschieben -> handler.verschiebenClicked(Integer.parseInt(anzahlEinheitenVerschieben.getText())));
+		verschiebenNA.addActionListener(verschiebenNA -> handler.verschiebenNAClicked(Integer.parseInt(anzahlEinheitenVerschieben.getText())));
+		
 		nextTurn.setEnabled(false);
 		this.add(nextTurn,"center,grow");
 		this.add(aLand,"center,grow");
@@ -76,8 +81,14 @@ public class ButtonPanel extends JPanel{
 		this.repaint();
 	}
 	
-	public void verschiebenNachAngreifenAktiv()	{
-
+	public void verschiebenNachAngreifenAktiv(String erstesLand, String zweitesLand)	{
+		removeAll();
+		this.add(land1,"center,grow");
+		land1.setText(erstesLand);
+		this.add(land2,"center,grow");
+		land2.setText(zweitesLand);
+		this.add(anzahlEinheitenVerschieben,"center,grow");
+		this.add(verschiebenNA,"center,grow");
 	}
 	
 	public void verschiebenAktiv(String erstesLand, String zweitesLand)	{
@@ -123,12 +134,19 @@ public class ButtonPanel extends JPanel{
 	public void verschiebenDisabled(){
 		verschieben.setEnabled(false);
 	}
+	public void resetTextbox(){
+		anzahlEinheitenVerschieben.setText("");
+	}
 	public void startphase()	{
 		removeAll();
 		this.add(nextTurn,"center,grow");
 		nextTurn.setEnabled(false);
 		this.repaint();
 	}
+	public void setEinheitenVerteilenLab(int einheiten){
+		anzahlEinheitenVerteilen.setText(einheiten + "");
+	}
+
 	
 	public void removeAll()	{
 		this.remove(nextTurn);
@@ -140,6 +158,7 @@ public class ButtonPanel extends JPanel{
 		this.remove(anzahlEinheitenVerschieben);
 		this.remove(verschieben);
 		this.remove(anzahlEinheitenVerteilen);
+		this.remove(verschiebenNA);
 		this.repaint();
 	}
 

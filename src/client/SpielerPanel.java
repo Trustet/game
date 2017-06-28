@@ -1,6 +1,6 @@
 package client;
 
-import java.awt.Dimension;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -8,9 +8,11 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -120,6 +122,33 @@ public class SpielerPanel extends JPanel{
 					spieler6Fahne.setIcon(fahne);
 					break;
 		}
+	}
+	public void setAktiverSpieler(int nummer){
+		Border border = BorderFactory.createLineBorder(Color.ORANGE, 2);
+		removeBorder();
+		
+		switch(nummer){
+		case 1: spieler1.setBorder(border);
+				break;
+		case 2: spieler2.setBorder(border);
+				break;
+		case 3: spieler3.setBorder(border);
+				break;
+		case 4: spieler4.setBorder(border);
+				break;
+		case 5: spieler5.setBorder(border);
+				break;
+		case 6: spieler6.setBorder(border);
+				break;
+	}
+	}
+	private void removeBorder(){
+		spieler1.setBorder(null);
+		spieler2.setBorder(null);
+		spieler3.setBorder(null);
+		spieler4.setBorder(null);
+		spieler5.setBorder(null);
+		spieler6.setBorder(null);
 	}
 	
 }
