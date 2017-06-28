@@ -27,7 +27,7 @@ public class MapPanel extends JLayeredPane {
 	public interface MapClickHandler {
 		public void processMouseClick(Color color);
 	}
-	
+	private JLabel firework = null;
 	private JLabel spielfeld = null;
 	private JLabel weltKarteBuntLab = null;
 	private MapClickHandler handler = null;
@@ -99,11 +99,15 @@ public class MapPanel extends JLayeredPane {
 			weltKarteBunt = ImageIO.read(new File("./weltkarte_bunt.png"));
 			weltKarteBuntLab = new JLabel(new ImageIcon(weltKarteBunt));
 			
+			myPicture = ImageIO.read(new File("./firework.gif"));
+			firework = new JLabel(new ImageIcon(myPicture.getScaledInstance(700, 700, Image.SCALE_FAST)));
+			
 //			fahneBlauLab = new JLabel(new ImageIcon(fahneBlauImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+        
         
 
         spielfeld.addMouseListener(new MouseAdapter() {
@@ -129,14 +133,17 @@ public class MapPanel extends JLayeredPane {
         
 
         spielfeld.setBounds(0, 0, 1050, 550);
+        firework.setBounds(30, 30, 700, 700);
         weltKarteBuntLab.setBounds(0, 0, 1050, 550);
         weltKarteBuntLab.setVisible(false);
         this.add(spielfeld,new Integer(2), 1); 
+        
 
         this.add(weltKarteBuntLab);
         this.add(landLab,new Integer(2), 0);
         this.add(einheitenLab,new Integer(2), 0);
         this.add(besitzerLab, new Integer(2), 0);
+        this.add(firework,new Integer(2), 0); 
         this.setPreferredSize(new Dimension(1050,550));
         
 	}

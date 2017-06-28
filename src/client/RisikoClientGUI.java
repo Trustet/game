@@ -469,6 +469,9 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 
 	@Override
 	public void buttonClicked() {
+		if(sp.getSpielerMission(aktiverSpieler).istAbgeschlossen()){
+			consolePanel.textSetzen(aktiverSpieler.getName() + " du hast gewonnen");
+		}
 		sp.nextTurn();
 		aktiverSpieler = sp.getAktiverSpieler();
 		spielerListPanel.setAktiverSpieler(sp.getSpielerList().indexOf(aktiverSpieler) + 1);
