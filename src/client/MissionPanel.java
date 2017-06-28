@@ -21,7 +21,8 @@ import net.miginfocom.swing.MigLayout;
 
 public class MissionPanel extends JPanel{
 		private JLabel mArt = new JLabel();
-		private JTextArea mBeschreibung = new JTextArea();
+		//private JTextArea mBeschreibung = new JTextArea();
+		private JLabel mBeschreibung = new JLabel();
 		private JLabel kBeschreibung = new JLabel();
 		private BufferedImage iconEinheiten;
 		private Font schrift;
@@ -39,8 +40,8 @@ public class MissionPanel extends JPanel{
 		tabbedPane.setFont(uberschrift);
 		JComponent mission = new JPanel();
 		mission.setLayout(new MigLayout("wrap1","[]","[]"));
-		mBeschreibung.setEditable(false);
-		mBeschreibung.setLineWrap(true);
+//		mBeschreibung.setEditable(false);
+//		mBeschreibung.setLineWrap(true);
 		mBeschreibung.setText("Missionsbeschreibung");
 		mBeschreibung.setFont(schrift);
 //		mission.add(new JLabel("Mission:"),"left");
@@ -81,5 +82,6 @@ public class MissionPanel extends JPanel{
 				
 //		mArt.setText(art);
 		mBeschreibung.setText(beschreibung);
+		
 	}
 }
