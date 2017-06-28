@@ -54,9 +54,9 @@ public class Missionsverwaltung {
 		mission6Kontinente.add(kontinentenListe.get(3));
 		missionsListe.add(new KontinentenMission(6,platzhalterSpieler,mission6Kontinente));
 //		Befreien Sie 24 Laender Ihrer Wahl
-//		missionsListe.add(new LaenderMission(5,null, 24, 1, null));
+		missionsListe.add(new LaenderMission(5,null, 24, 1, null));
 //		Befreien Sie 18 Laender und setzen Sie in jedes Land mindestens 2 Armeen
-//		missionsListe.add(new LaenderMission(6,null, 18, 2, null));
+		missionsListe.add(new LaenderMission(6,null, 18, 2, null));
 //		Befreien Sie alle Länder von den roten Armeen
 		//missionsListe.add(new SpielerMission(5,platzhalterSpieler,platzhalterSpieler,spielerListe));
 		//Missionen abspeichern
