@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -90,7 +91,7 @@ public class MapPanel extends JLayeredPane {
 
 	public void initialize() {
         BufferedImage myPicture;
-   
+ 
         
         try {
 			myPicture = ImageIO.read(new File("./weltkarte.jpg"));
@@ -99,13 +100,20 @@ public class MapPanel extends JLayeredPane {
 			weltKarteBunt = ImageIO.read(new File("./weltkarte_bunt.png"));
 			weltKarteBuntLab = new JLabel(new ImageIcon(weltKarteBunt));
 			
-			myPicture = ImageIO.read(new File("./firework.gif"));
-			firework = new JLabel(new ImageIcon(myPicture.getScaledInstance(700, 700, Image.SCALE_FAST)));
-			
+
+//		    URL url = new URL("http://www.animierte-gifs.net/data/media/492/animiertes-feuerwerk-bild-0028.gif");
+//			Icon icon = new ImageIcon(MapPanel.class.getResource("firework"));
+//		    Icon icon = new ImageIcon(url);
+//		    label = new JLabel(icon);
+		    firework = new JLabel(new ImageIcon("./firework.gif"));
+
+//			myPicture = ImageIO.read(new File("./firework.gif"));
+//			firework = new JLabel(new ImageIcon(myPicture.getScaledInstance(700, 700, Image.SCALE_FAST)));
+//			
 //			fahneBlauLab = new JLabel(new ImageIcon(fahneBlauImg.getScaledInstance(20, 20, Image.SCALE_FAST)));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
         
         
@@ -133,7 +141,7 @@ public class MapPanel extends JLayeredPane {
         
 
         spielfeld.setBounds(0, 0, 1050, 550);
-        firework.setBounds(30, 30, 700, 700);
+        firework.setBounds(0, 0, 1050, 550);
         weltKarteBuntLab.setBounds(0, 0, 1050, 550);
         weltKarteBuntLab.setVisible(false);
         this.add(spielfeld,new Integer(2), 1); 
@@ -143,7 +151,6 @@ public class MapPanel extends JLayeredPane {
         this.add(landLab,new Integer(2), 0);
         this.add(einheitenLab,new Integer(2), 0);
         this.add(besitzerLab, new Integer(2), 0);
-        this.add(firework,new Integer(2), 0); 
         this.setPreferredSize(new Dimension(1050,550));
         
 	}
@@ -261,5 +268,9 @@ public JLabel getWuerfelLabel(String farbe, int augenzahl){
 	}
 		
 		return wuerfelLab;
+	}
+
+	public void gewonnen(){
+		 this.add(firework,new Integer(2), 0); 
 	}
 }

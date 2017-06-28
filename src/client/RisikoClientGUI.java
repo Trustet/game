@@ -471,6 +471,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 	public void buttonClicked() {
 		if(sp.getSpielerMission(aktiverSpieler).istAbgeschlossen()){
 			consolePanel.textSetzen(aktiverSpieler.getName() + " du hast gewonnen");
+			spielfeld.gewonnen();
 		}
 		sp.nextTurn();
 		aktiverSpieler = sp.getAktiverSpieler();
