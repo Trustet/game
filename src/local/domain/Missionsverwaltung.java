@@ -54,11 +54,12 @@ public class Missionsverwaltung {
 		mission6Kontinente.add(kontinentenListe.get(3));
 		missionsListe.add(new KontinentenMission(6,platzhalterSpieler,mission6Kontinente));
 //		Befreien Sie 24 Laender Ihrer Wahl
-		missionsListe.add(new LaenderMission(5,null, 24, 1, null));
+		missionsListe.add(new LaenderMission(7,null, 24, 1, laenderListe));
 //		Befreien Sie 18 Laender und setzen Sie in jedes Land mindestens 2 Armeen
-		missionsListe.add(new LaenderMission(6,null, 18, 2, null));
+		missionsListe.add(new LaenderMission(8,null, 18, 2, laenderListe));
 //		Befreien Sie alle Länder von den roten Armeen
-		//missionsListe.add(new SpielerMission(5,platzhalterSpieler,platzhalterSpieler,spielerListe));
+		missionsListe.add(new SpielerMission(9,platzhalterSpieler,platzhalterSpieler,spielerListe));
+		missionsListe.add(new SpielerMission(10,platzhalterSpieler,platzhalterSpieler,spielerListe));
 		//Missionen abspeichern
 	}
 		public void missionenVerteilen(List<Spieler> spielerListe){
@@ -68,34 +69,43 @@ public class Missionsverwaltung {
 		}
 		
 		for(Spieler s : spielerListe){
+			Mission spielerMission = null;
 			int random = (int)(Math.random() * speicher.size());
 			for(Mission m : this.missionsListe){
 				if(m.getId() == speicher.get(random).getId()){
-					
-					if(m instanceof LaenderMission){
-						m.setSpieler(s);
-						//Länder des Spielers setzen
-						//m.setLaender(/*TODO Länder des Spielers*/null);
-					} else if(m instanceof SpielerMission) {
-						boolean gegner= false;
-						do{
-							
-							int random2= (int)(Math.random() * spielerListe.size());
-							if (!s.equals(spielerListe.get(random2))){
-								((SpielerMission) m).setSpieler2(spielerListe.get(random2));
-								gegner= true;
-							}
-						} while(gegner==false);
-						m.setSpieler(s);
-						
-					} else if(m instanceof KontinentenMission){
-						m.setSpieler(s);
-					}
-					speicher.remove(random);
-					break;
+					spielerMission = m;
 				}
 			}
-		}
+					if(spielerMission instanceof LaenderMission){
+						spielerMission.setSpieler(s);
+						
+						//Länder des Spielers setzen
+						//m.setLaender(/*TODO Länder des Spielers*/null);
+					} else if(spielerMission instanceof SpielerMission) {
+
+							boolean gegnerGefunden = false;
+							do{
+								int random2 = (int)(Math.random() * spielerListe.size());
+								System.out.println(spielerListe.get(random2).getName());
+								if(!s.equals(spielerListe.get(random2))){
+									spielerMission.setSpieler2(spielerListe.get(random2));
+									gegnerGefunden = true;
+								}
+							}while(!gegnerGefunden);
+							System.out.println("Draussen");
+//						} while(gegner==false);
+						spielerMission.setSpieler(s);
+						System.out.println(spielerMission.getBeschreibung());
+						((SpielerMission) spielerMission).resetBeschreibung();
+						
+					} else if(spielerMission instanceof KontinentenMission){
+						spielerMission.setSpieler(s);
+					}
+					speicher.remove(random);
+					
+				}
+//			}
+//		}
 		
 	}
 	public String missionAusgeben(Spieler spieler){

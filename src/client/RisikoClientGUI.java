@@ -224,6 +224,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			}
 			sp.missionenVerteilen();
 			sp.laenderAufteilen();
+			
 			farbenVerteilen();
 			spielfeld.fahnenVerteilen(sp.getLaenderListe());
 			int spielerNr = 1;
@@ -505,6 +506,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
 			consolePanel.textSetzen(aktiverSpieler.getName()
 					+ " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
+			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 			break;
 		case ANGRIFF:
 			consolePanel.textSetzen(aktiverSpieler.getName() + " du kannst nun angreifen.");
@@ -516,8 +518,10 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			consolePanel.textSetzen(
 			aktiverSpieler.getName() + " du kannst " + anzahlSetzbareEinheiten + " Einheiten setzen.");
 			buttonPanel.verteilenAktiv(anzahlSetzbareEinheiten);
+			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 			break;
 		case VERSCHIEBEN:
+			istSpielerRaus();
 			spielfeld.wuerfelEntfernen();
 			consolePanel.textSetzen(aktiverSpieler.getName() + " verschiebe nun deine Einheiten.");
 			buttonPanel.verschiebenAktiv("erstes Land", "zweites Land");
@@ -591,5 +595,17 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
                 
             //}
         }catch(Exception e){ e.printStackTrace(); }
+	}
+	
+	private void istSpielerRaus(){
+		List<Spieler> spielerListe = sp.getSpielerList();
+		for(Spieler s : spielerListe){
+			String name = s.getName();
+			if(sp.spielerRaus(s)){
+				System.out.println("Der Spieler " + name + " hat verloren und ist raus");
+				istSpielerRaus();
+				break;
+			}
+		}
 	}
 }	

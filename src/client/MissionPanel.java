@@ -82,6 +82,7 @@ public class MissionPanel extends JPanel{
 				
 //		mArt.setText(art);
 		mBeschreibung.setText(beschreibung);
+	
 		
 	}
 }

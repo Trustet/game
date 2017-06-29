@@ -5,8 +5,9 @@ import java.util.Vector;
 
 public abstract class Mission{
 
-	private String beschreibung;
+	protected String beschreibung;
 	protected Spieler spieler;
+	protected Spieler spieler2;
 	private int id;
 
 	public Mission(int id, String beschreibung, Spieler spieler) {
@@ -35,5 +36,9 @@ public abstract class Mission{
 
 	public void setSpieler(Spieler spieler) {
 		this.spieler = spieler;
+	}
+	public void setSpieler2(Spieler spieler) {
+		this.spieler2 = spieler;
+		
 	}
 }

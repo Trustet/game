@@ -5,12 +5,16 @@ import java.util.List;
 public class SpielerMission extends Mission {
 
 	List<Spieler> spielerliste;
-	Spieler spieler2;
+
 	
 	public SpielerMission(int id, Spieler spieler,Spieler spieler2,List<Spieler> spielerliste) {
-		super(id, "Erobern Sie alle Länder von ", spieler); // +  spieler2,spieler);
+		super(id, "<html>Erobern Sie alle Länder von<br> " + spieler2.getName() +"</html>", spieler); // +  spieler2,spieler);
 		this.spielerliste = spielerliste;
-		this.spieler2 = spieler2;
+		
+	}
+	
+	public void resetBeschreibung(){
+		beschreibung = "<html>Erobern Sie alle Länder von<br> " + spieler2.getName() +"</html>";
 	}
 
 	public boolean istAbgeschlossen() {
@@ -20,9 +24,5 @@ public class SpielerMission extends Mission {
 		return true;
 	}
 	
-	public void setSpieler2(Spieler spieler) {
-		this.spieler2 = spieler;
-		
-	}
 
 }

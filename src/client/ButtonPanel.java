@@ -121,7 +121,7 @@ public class ButtonPanel extends JPanel{
 		this.repaint();
 	}
 	public void phaseDisable(){
-		nextTurn.setEnabled(false);
+		nextTurn.setEnabled(true);
 	}
 	
 	public void phaseEnable(){

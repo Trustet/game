@@ -9,7 +9,7 @@ public class LaenderMission extends Mission {
 
 	
 	public LaenderMission(int id, Spieler spieler, int anzahlLaender, int anzahlEinheiten, List<Land> laender) {
-		super(id,"Erobern Sie " + anzahlLaender + " und besetzen Sie jedes mit " + anzahlEinheiten + ".", spieler);
+		super(id,"<html> Erobern Sie " + anzahlLaender + " Laender <br> und besetzen Sie jedes mit " + anzahlEinheiten + "Einheiten.</html>", spieler);
 		this.anzahlLaender = anzahlLaender;
 		this.anzahlEinheiten = anzahlEinheiten;
 		this.laender = laender;
@@ -27,8 +27,8 @@ public class LaenderMission extends Mission {
 		int counter = 0;
 		
 		for(Land l : laender){
-			if(l.getBesitzer().equals(this.spieler)){
-				if (l.getEinheiten()>= 3){
+			if(l.getBesitzer().equals(spieler)){
+				if (l.getEinheiten() >= anzahlEinheiten){
 					counter++;
 				}
 			
