@@ -232,7 +232,9 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 				spielerListPanel.setLabel(spielerNr, s.getName(), s.getFarbe());
 				spielerNr++;
 			}
-
+			//zum testen
+			this.gewonnen(sp.getSpielerList().get(0), frame);
+			
 			statistikPanel.statistikAktualisieren();
 			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 
@@ -463,7 +465,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			schuss();
 		}
 	}
-	public void gewonnen(Spieler spieler){
+	public void gewonnen(Spieler spieler, JFrame frame){
 		this.remove(spielfeld);
 		this.remove(spielerListPanel);
 		this.remove(missionPanel);
@@ -471,9 +473,16 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		this.remove(statistikPanel);
 		this.remove(consolePanel);
 		this.remove(buttonPanel);
-		this.setSize(500, 600);
+		//this.setSize(500, 600);
+		frame.setLayout(new MigLayout("wrap1","[]","[][]"));
+		frame.setForeground(Color.black);
+		JLabel gewinner = new JLabel("Spieler" + " hat gewonnen.");
+		gewinner.setFont(uberschrift);
+		gewinner.setForeground(Color.white);
 		JLabel firework = new JLabel(new ImageIcon("./firework.gif"));
-		this.add(firework);
+		this.add(gewinner, "center");
+		this.add(firework, "center");
+		
 		this.setBackground(Color.BLACK);
 		this.repaint();
 		this.revalidate();
