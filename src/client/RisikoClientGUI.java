@@ -1,10 +1,6 @@
 //TODO Angriffsphase erweitern (Yannik)
 //TODO Verschieben vervollständigen (Jesse)
-//TODO Missionen ausgeben
-//TODO Missionenlogik
 //TODO Karten ausgeben
-//TODO Kartenlogik
-//TODO Aktiver spieler anzeigen (Yannik)
 //TODO GUI komplett aufraeumen
 //TODO Exceptions mit text umschreiben (wie Teschke)
 //TODO viele viele Bugs
@@ -504,7 +500,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 	@Override
 	public void buttonClicked() {
 		if(sp.getSpielerMission(aktiverSpieler).istAbgeschlossen()){
-			gewonnen(aktiverSpieler);
+//			gewonnen(aktiverSpieler);
 		}
 		sp.nextTurn();
 		aktiverSpieler = sp.getAktiverSpieler();
