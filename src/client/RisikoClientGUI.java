@@ -6,6 +6,7 @@
 //TODO viele viele Bugs
 //TODO Angreiffen mit nur einer Einheit funtkioniert nicht
 //TODO Javadoc
+//TODO Speichern erweitern (Idee: Jeder Spieler bekommt beim ersten Onlinespiel eine eindeutige ID)
 package client;
 
 import java.awt.Color;
