@@ -9,7 +9,7 @@ public class LaenderMission extends Mission {
 
 	
 	public LaenderMission(int id, Spieler spieler, int anzahlLaender, int anzahlEinheiten, List<Land> laender) {
-		super(id,"<html> Erobern Sie " + anzahlLaender + " Laender <br> und besetzen Sie jedes mit " + anzahlEinheiten + "Einheiten.</html>", spieler);
+		super(id,"<html> Erobern Sie " + anzahlLaender + " Laender <br> und besetzen Sie jedes mit " + anzahlEinheiten + "Einheiten.</html>", spieler,"laender");
 		this.anzahlLaender = anzahlLaender;
 		this.anzahlEinheiten = anzahlEinheiten;
 		this.laender = laender;

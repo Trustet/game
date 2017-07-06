@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import local.valueobjects.Land;
+import local.valueobjects.Mission;
 import local.valueobjects.Spieler;
 
 public class FilePersistenceManager {
@@ -51,7 +52,7 @@ public class FilePersistenceManager {
 		
 	}
 
-	public boolean spielSpeichern(List<Land> welt, List<Spieler> spielerListe, String phase, int aktiverSpieler){
+	public boolean spielSpeichern(List<Land> welt, List<Spieler> spielerListe, String phase, int aktiverSpieler, List<Mission> missionsListe){
 		schreibeZeile(phase);
 		for(Spieler s : spielerListe){
 			schreibeZeile(s.getName());
@@ -66,9 +67,20 @@ public class FilePersistenceManager {
 		schreibeZeile("");
 		
 		schreibeZeile(aktiverSpieler+"");
+		schreibeZeile("");
+		
+		for(Mission m: missionsListe){
+				schreibeZeile(m.getSpieler().getName());
+				schreibeZeile(m.getArt());
+				if(m.getArt().equals("spieler")){
+					schreibeZeile(m.getSpieler2().getName());
+				}
+				schreibeZeile(m.getId()+"");
+		}
 		
 		return true;
 	}
+	
 	public String spielstandLaden() throws IOException{
 		return liesZeile();
 	}

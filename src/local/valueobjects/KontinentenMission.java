@@ -8,7 +8,7 @@ public class KontinentenMission extends Mission {
 	private List<Kontinent> kontinente;
 	
 	public KontinentenMission(int id, Spieler spieler, List<Kontinent> kontinente) {
-		super(id, "<html>Erobern Sie die Kontinente : <br><center> " +  kontinente.get(0).getName() + "<br>" + kontinente.get(1).getName() +"</center></html>",spieler);
+		super(id, "<html>Erobern Sie die Kontinente : <br><center> " +  kontinente.get(0).getName() + "<br>" + kontinente.get(1).getName() +"</center></html>",spieler,"kontinent");
 		this.kontinente = kontinente;
 	}
 	public void setText(){

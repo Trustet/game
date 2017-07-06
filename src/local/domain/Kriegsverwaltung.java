@@ -505,15 +505,19 @@ private int startphaseZaehler = 1;
 	}
 	public void spielSpeichern(String datei) throws IOException{
 		pm.schreibkanalOeffnen(datei);
-		pm.spielSpeichern(weltVw.getLaenderListe(), spielerVw.getSpielerList(), Phase+"", spielerVw.getAktiverSpielerNummer() );
+		pm.spielSpeichern(weltVw.getLaenderListe(), spielerVw.getSpielerList(), Phase+"", spielerVw.getAktiverSpielerNummer(), missionVw.getMissionsListe());
 		pm.close();
 	}
 	public void spielLaden(String datei) throws IOException, SpielerExistiertBereitsException {
 		pm.lesekanalOeffnen(datei);
 		String phase = pm.spielstandLaden();
 		String spieler = "";
+		String spieler2 = "";
+		Spieler spielerS2 = null;
 		String land = "";
 		String kuerzel = "";
+		int id = 0;
+		boolean istSpielerMission = false;
 		int einheiten = 0;
 		switch(phase){
 		case "ANGRIFF":
@@ -547,6 +551,27 @@ private int startphaseZaehler = 1;
 		}while(land.length() != 0);
 		int spielerNummer = Integer.parseInt(pm.spielstandLaden());
 		spielerVw.setAktiverSpieler(spielerNummer);
+
+		do{
+			spieler = pm.spielstandLaden();
+			istSpielerMission = Boolean.parseBoolean(pm.spielstandLaden());
+			if(istSpielerMission)
+			{
+				spieler2 = pm.spielstandLaden();
+				for(Spieler s : spielerVw.getSpielerList()){
+					if(s.equals(spieler2)){
+						spielerS2 = s;
+					}
+				}
+			}
+			id = Integer.parseInt(pm.spielstandLaden());
+			for(Spieler s : spielerVw.getSpielerList()){
+				if(s.getName().equals(spieler)){
+					
+					missionVw.missionLaden(weltVw.getLaenderListe(), weltVw.getKontinentenListe(), spielerVw.getSpielerList(),s,spielerS2,id);
+				}
+			}
+		}while(spieler.length() != 0);
 		pm.close();
 	}
 	public boolean landZumAngreifen(Spieler spieler) throws KeinLandZumAngreifenException{

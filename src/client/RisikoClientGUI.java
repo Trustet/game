@@ -1,9 +1,7 @@
 //TODO Angriffsphase erweitern (Yannik)
-//TODO Verschieben vervollständigen (Jesse)
 //TODO Karten ausgeben
 //TODO GUI komplett aufraeumen
 //TODO Exceptions mit text umschreiben (wie Teschke)
-//TODO viele viele Bugs
 //TODO Angreiffen mit nur einer Einheit funtkioniert nicht
 //TODO Javadoc
 //TODO Speichern erweitern (Idee: Jeder Spieler bekommt beim ersten Onlinespiel eine eindeutige ID)

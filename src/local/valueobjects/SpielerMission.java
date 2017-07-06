@@ -8,7 +8,7 @@ public class SpielerMission extends Mission {
 
 	
 	public SpielerMission(int id, Spieler spieler,Spieler spieler2,List<Spieler> spielerliste) {
-		super(id, "<html>Erobern Sie alle Länder von<br> " + spieler2.getName() +"</html>", spieler); // +  spieler2,spieler);
+		super(id, "<html>Erobern Sie alle Länder von<br> " + spieler2.getName() +"</html>", spieler,"spieler"); // +  spieler2,spieler);
 		this.spielerliste = spielerliste;
 		
 	}

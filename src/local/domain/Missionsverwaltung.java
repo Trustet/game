@@ -54,9 +54,9 @@ public class Missionsverwaltung {
 		mission6Kontinente.add(kontinentenListe.get(3));
 		missionsListe.add(new KontinentenMission(6,platzhalterSpieler,mission6Kontinente));
 //		Befreien Sie 24 Laender Ihrer Wahl
-		missionsListe.add(new LaenderMission(7,null, 24, 1, laenderListe));
+		missionsListe.add(new LaenderMission(7,platzhalterSpieler, 24, 1, laenderListe));
 //		Befreien Sie 18 Laender und setzen Sie in jedes Land mindestens 2 Armeen
-		missionsListe.add(new LaenderMission(8,null, 18, 2, laenderListe));
+		missionsListe.add(new LaenderMission(8,platzhalterSpieler, 18, 2, laenderListe));
 //		Befreien Sie alle Länder von den roten Armeen
 		missionsListe.add(new SpielerMission(9,platzhalterSpieler,platzhalterSpieler,spielerListe));
 		missionsListe.add(new SpielerMission(10,platzhalterSpieler,platzhalterSpieler,spielerListe));
@@ -127,5 +127,54 @@ public class Missionsverwaltung {
 			}
 		}
 		return null;
+	}
+	
+	public void missionLaden(List<Land> laenderListe, List<Kontinent> kontinentenListe, List<Spieler> spielerListe, Spieler spieler, Spieler spieler2, int id) {
+		if(id == 1) {
+			//Befreien Sie Nordamerika und Afrika
+			List<Kontinent> mission1Kontinente = new Vector<Kontinent>();
+			mission1Kontinente.add(kontinentenListe.get(3));
+			mission1Kontinente.add(kontinentenListe.get(5));
+			missionsListe.add(new KontinentenMission(1,spieler,mission1Kontinente));
+		} else if(id == 2) {
+			//Befreien Sie Nordamerika und Australien
+			List<Kontinent> mission2Kontinente = new Vector<Kontinent>();
+			mission2Kontinente.add(kontinentenListe.get(2));
+			mission2Kontinente.add(kontinentenListe.get(5));
+			missionsListe.add(new KontinentenMission(2,spieler,mission2Kontinente));
+		} else if(id == 3) {
+			//Befreien Sie Asien und Südamerika
+			List<Kontinent> mission3Kontinente = new Vector<Kontinent>();
+			mission3Kontinente.add(kontinentenListe.get(1));
+			mission3Kontinente.add(kontinentenListe.get(4));
+			missionsListe.add(new KontinentenMission(3,spieler,mission3Kontinente));
+		} else if(id == 4) {
+			//Befreien Sie Afrika und Asien
+			List<Kontinent> mission4Kontinente = new Vector<Kontinent>();
+			mission4Kontinente.add(kontinentenListe.get(1));
+			mission4Kontinente.add(kontinentenListe.get(3));
+			missionsListe.add(new KontinentenMission(4,spieler,mission4Kontinente));
+		} else if(id == 5) {
+			List<Kontinent> mission5Kontinente = new Vector<Kontinent>();
+			mission5Kontinente.add(kontinentenListe.get(1));
+			mission5Kontinente.add(kontinentenListe.get(3));
+			missionsListe.add(new KontinentenMission(5,spieler,mission5Kontinente));
+		} else if(id == 6) {
+			List<Kontinent> mission6Kontinente = new Vector<Kontinent>();
+			mission6Kontinente.add(kontinentenListe.get(1));
+			mission6Kontinente.add(kontinentenListe.get(3));
+			missionsListe.add(new KontinentenMission(6,spieler,mission6Kontinente));
+		} else if(id == 7) {
+			//Befreien Sie 24 Laender Ihrer Wahl
+			missionsListe.add(new LaenderMission(7,spieler, 24, 1, laenderListe));
+		} else if(id == 8) {
+			//Befreien Sie 18 Laender und setzen Sie in jedes Land mindestens 2 Armeen
+			missionsListe.add(new LaenderMission(8,spieler, 18, 2, laenderListe));
+		} else if(id == 9) {
+			//Befreien Sie alle Länder von den roten Armeen
+			missionsListe.add(new SpielerMission(9,spieler,spieler2,spielerListe));
+		} else if(id == 10) {
+			missionsListe.add(new SpielerMission(10,spieler,spieler2,spielerListe));
+		}
 	}
 }
