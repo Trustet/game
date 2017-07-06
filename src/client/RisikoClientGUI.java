@@ -229,8 +229,8 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 				spielerListPanel.setLabel(spielerNr, s.getName(), s.getFarbe());
 				spielerNr++;
 			}
-			//zum testen
-			this.gewonnen(sp.getSpielerList().get(0), frame);
+			//zum testen für den Gewinnbildschirm
+			//this.gewonnen(sp.getSpielerList().get(0), frame);
 			
 			statistikPanel.statistikAktualisieren();
 			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
