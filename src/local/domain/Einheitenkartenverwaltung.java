@@ -154,15 +154,22 @@ public class Einheitenkartenverwaltung {
 			return false;	
 		}
 		//TODO tauscht bisher automatisch ein, sobald möglich
-		einheitenKartenVonSpielerEntfernen(spieler, kartenZumAbgeben);
+		//einheitenKartenVonSpielerEntfernen(spieler, kartenZumAbgeben);
 		return true;
 	}
 	
-	private void einheitenKartenVonSpielerEntfernen(Spieler spieler, List<Einheitenkarten> benutzteKarten)
+	private void einheitenKartenVonSpielerEntfernen(Spieler spieler, List<String> benutzteKarten)
 	{
 		List<Einheitenkarten> kartenListe = spieler.getEinheitenkarten();
-		for (Einheitenkarten karte: benutzteKarten) {
-			kartenListe.remove(karte);
+		
+		for (String karte: benutzteKarten) {
+			for(Einheitenkarten k : kartenListe){
+				if(k.getKartenwert() == karte){
+					kartenListe.remove(k);
+					break;
+				}
+			}
+			
 		}
 
 //		for(Einheitenkarten karteAbgeben : benutzteKarten)
@@ -178,34 +185,53 @@ public class Einheitenkartenverwaltung {
 //		}
 	}
 	
-	public int einheitenkartenEinloesen(Spieler spieler)
-	{
-		if(spielerkartenAuswerten(spieler))
-		{
-			int einheiten = 0;
-			switch(kartenEingeloest){
-			case 1: einheiten = 4;
-					break;
-			case 2: einheiten = 6;
-					break;
-			case 3: einheiten = 8;
-					break;
-			case 4: einheiten = 10;
-					break;
-			case 5: einheiten = 12;
-					break;
-			case 6: einheiten = 15;
-					break;
-			}
-			if(kartenEingeloest > 6)
-			{
-				einheiten = 15 + (kartenEingeloest - 6) * 5;
-			}
+	public int einheitenkartenEinloesen(Spieler spieler,List<String> tauschKarten){
+		int einheiten = 0;
+		if(tauschKarten.get(0) == tauschKarten.get(1)){
 			
-			kartenEingeloest++;
-			
-			return einheiten;
+			switch(tauschKarten.get(0)){
+			case "Soldat":
+				einheiten = 10;
+				break;
+			case "Pferd":
+				einheiten = 15;
+				break;
+			case "Panzer":
+				einheiten = 20;
+				break;
+			}
+		}else{
+			einheiten = 10;
 		}
-		return 0;
+		einheitenKartenVonSpielerEntfernen(spieler, tauschKarten);
+		return einheiten;
 	}
+//		if(spielerkartenAuswerten(spieler))
+//		{
+//			int einheiten = 0;
+//			switch(kartenEingeloest){
+//			case 1: einheiten = 4;
+//					break;
+//			case 2: einheiten = 6;
+//					break;
+//			case 3: einheiten = 8;
+//					break;
+//			case 4: einheiten = 10;
+//					break;
+//			case 5: einheiten = 12;
+//					break;
+//			case 6: einheiten = 15;
+//					break;
+//			}
+//			if(kartenEingeloest > 6)
+//			{
+//				einheiten = 15 + (kartenEingeloest - 6) * 5;
+//			}
+//			
+//			kartenEingeloest++;
+//			
+//			return einheiten;
+//		}
+//		return 0;
+//	}
 }

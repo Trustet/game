@@ -154,7 +154,7 @@ public class MissionPanel extends JPanel{
 
 	}
 	public void kartenTauschen(){
-		System.out.println("Hier bin ich");
+
 		
 		for(String kartenString : kartenWahl){
 			String karte = kartenString;
@@ -168,11 +168,12 @@ public class MissionPanel extends JPanel{
 				kartenSpeicher3 = karte;
 				System.out.println("Speicher3");
 				System.out.println(kartenSpeicher1 + " " + kartenSpeicher2 + " " + kartenSpeicher3);
-				if(kartenSpeicher1 == kartenSpeicher2 && kartenSpeicher1 == kartenSpeicher3){
-
-
-				}else if(kartenSpeicher1 != kartenSpeicher2 && kartenSpeicher2 != kartenSpeicher3 && kartenSpeicher1 != kartenSpeicher3){
-
+				if(kartenSpeicher1 == kartenSpeicher2 && kartenSpeicher1 == kartenSpeicher3 || kartenSpeicher1 != kartenSpeicher2 && kartenSpeicher2 != kartenSpeicher3 && kartenSpeicher1 != kartenSpeicher3){
+					List<String> kartenUebergabe = new Vector<String>();
+					kartenUebergabe.add(kartenSpeicher1);
+					kartenUebergabe.add(kartenSpeicher2);
+					kartenUebergabe.add(kartenSpeicher3);
+					handler.karteEintauschen(kartenUebergabe);
 				}else{
 					handler.tauschFehlgeschlagen();
 					

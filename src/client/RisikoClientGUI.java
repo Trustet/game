@@ -504,6 +504,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		}
 		sp.nextTurn();
 		aktiverSpieler = sp.getAktiverSpieler();
+		missionPanel.kartenAusgeben(aktiverSpieler);
 		spielerListPanel.setAktiverSpieler(sp.getSpielerList().indexOf(aktiverSpieler) + 1);
 		switch (sp.getTurn()) {
 		case STARTPHASE:
@@ -530,6 +531,8 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			spielfeld.wuerfelEntfernen();
 			consolePanel.textSetzen(aktiverSpieler.getName() + " verschiebe nun deine Einheiten.");
 			buttonPanel.verschiebenAktiv("erstes Land", "zweites Land");
+			sp.einheitenKarteZiehen(aktiverSpieler);
+			missionPanel.kartenAusgeben(aktiverSpieler);
 			break;
 		}
 
@@ -616,7 +619,8 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 
 	@Override
 	public void karteEintauschen(List<String> tauschKarten) {
-		// TODO Auto-generated method stub
+		sp.kartenEinloesen(aktiverSpieler, tauschKarten);
+		missionPanel.kartenAusgeben(aktiverSpieler);
 		
 	}
 
