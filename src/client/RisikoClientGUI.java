@@ -32,6 +32,7 @@ import javax.swing.JTextField;
 import client.ButtonPanel.ButtonClickHandler;
 import client.ErstellenPanel.ErstellenButtonClicked;
 import client.MapPanel.MapClickHandler;
+import client.MissionPanel.KarteClickedHandler;
 import client.StartPanel.StartButtonClickHandler;
 import local.domain.Spielfeld;
 import local.domain.exceptions.KannLandNichtBenutzenException;
@@ -47,7 +48,7 @@ import local.valueobjects.Spieler;
 import net.miginfocom.swing.MigLayout;
 
 public class RisikoClientGUI extends JFrame
-implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, ErstellenButtonClicked {
+implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, ErstellenButtonClicked, KarteClickedHandler {
 	Spielfeld sp = new Spielfeld();
 
 	int anzahlSpieler;
@@ -140,7 +141,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 
 			spielfeld = new MapPanel(this, schrift);
 			spielerListPanel = new SpielerPanel(schrift, uberschrift);
-			missionPanel = new MissionPanel(uberschrift, schrift);
+			missionPanel = new MissionPanel(uberschrift, schrift,this);
 			infoPanel = new InfoPanel(sp.getTurn() + "", aktiverSpieler.getName(), schrift, uberschrift);
 			buttonPanel = new ButtonPanel(this, uberschrift);
 			statistikPanel = new StatistikPanel(sp.getSpielerList(), sp.getLaenderListe(), schrift, uberschrift);
@@ -611,5 +612,17 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 				break;
 			}
 		}
+	}
+
+	@Override
+	public void karteEintauschen(List<String> tauschKarten) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void tauschFehlgeschlagen() {
+		consolePanel.textSetzen("Die Karten konnten nicht eingetauscht werden");
+		
 	}
 }	
