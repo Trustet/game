@@ -68,8 +68,9 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	private Land land2 = null;
 	private int anzahlSetzbareEinheiten;
 	private Spieler aktiverSpieler;
+	private JFrame frame;
 
-	public RisikoClientGUI() {
+	private RisikoClientGUI() {
 		this.start();
 	}
 
@@ -77,7 +78,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		new RisikoClientGUI();
 	}
 
-	public void start() {
+	private void start() {
 		//Schriften für alle Panel
 		uberschrift = new Font(Font.SERIF, Font.BOLD, 25);
 		schrift = new Font(Font.SANS_SERIF, Font.PLAIN, 17);
@@ -93,7 +94,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		this.setVisible(true);
 	}
 
-	public void spielErstellen() {
+	private void spielErstellen() {
 		
 		//Spieler erstellen Fenster erstellen
 		this.setTitle("Spiel erstellen");
@@ -107,7 +108,12 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		this.revalidate();
 	}
 
-	public void spiel(String name, int anzahlSpieler) {
+	public void spielErstellen(String name, int anzahl) {
+		//von Spiel erstellen zu Spiel wechseln
+		spiel(name, anzahl);
+	}
+
+	private void spiel(String name, int anzahlSpieler) {
 		this.anzahlSpieler = anzahlSpieler;
 		
 		//Spiel erzeugen
@@ -183,57 +189,32 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		}
 	}
 
-	public void aufloesungAendern(int breite, int hoehe) {
-		this.setSize(breite, hoehe);
-		spielfeld = new MapPanel(this, schrift,1550, 850);
-		spielfeld.repaint();
-		spielfeld.revalidate();
-		this.repaint();
-		this.revalidate();
-		this.setLocationRelativeTo(null);
-	}
-
-	public void spielLaden(){
-			try{
-			sp.spielLaden("Game2.txt");
-			} catch(Exception e) {
-				consolePanel.textSetzen("Kann nicht geladen werden");
-			}
-	}
-	
-	public void spielSpeichern() {
-		try{
-			sp.spielSpeichern("Game2.txt");
-		}catch(IOException e){
-			consolePanel.textSetzen("Spiel konnte nicht gespeichert werden" + e.getMessage());
-		}
-	}
-
-	public void neuerSpieler() {
-		JFrame frame = new JFrame("Spieler erstellen");
+	private void neuerSpieler() {
+		frame = new JFrame("Spieler erstellen");
 		frame.setSize(150, 300);
 		frame.setLayout(new MigLayout("wrap 2", "[][100]", "[][]"));
 		JLabel nameLab = new JLabel("Name:");
 		JTextField nameText = new JTextField();
 		JButton erstellenBtn = new JButton("Erstellen");
-
+	
 		erstellenBtn.addActionListener(erstellen -> spielerErstellen(frame, nameText.getText()));
-
+	
 		frame.add(nameLab, "right");
 		frame.add(nameText, "left,growx");
 		frame.add(erstellenBtn, "center,spanx 2");
 		frame.setVisible(true);
 	}
 
-	public void spielerErstellen(JFrame frame, String name) {
+	private void spielerErstellen(JFrame frame, String name) {
+		//Spieler erstellen
 		try {
 			sp.erstelleSpieler(name);
 			frame.dispose();
-
 		} catch (SpielerExistiertBereitsException sebe) {
 			JOptionPane.showMessageDialog(null, sebe.getMessage(), "Name vergeben", JOptionPane.WARNING_MESSAGE);
 		}
-
+	
+		//Wenn alle Spieler erstellt sind, dann Welt und Missionen erstellen und aufteilen
 		if (sp.getSpielerList().size() == anzahlSpieler) {
 			try {
 				sp.laenderErstellen();
@@ -252,16 +233,12 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 				spielerListPanel.setLabel(spielerNr, s.getName(), s.getFarbe());
 				spielerNr++;
 			}
-			//zum testen für den Gewinnbildschirm
-			//this.gewonnen(sp.getSpielerList().get(0), frame);
-			
 			statistikPanel.statistikAktualisieren();
 			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
-
 		}
 	}
 
-	public void farbenVerteilen() {
+	private void farbenVerteilen() {
 		List<String> farben = new Vector<String>();
 		farben.add("rot");
 		farben.add("gruen");
@@ -269,29 +246,49 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		farben.add("gelb");
 		farben.add("orange");
 		farben.add("cyan");
-
+	
 		for (Spieler s : sp.getSpielerList()) {
 			s.setFarbe(farben.get(0));
 			farben.remove(0);
 		}
 	}
 
-	@Override
-	public void processMouseClick(Color color) {
-		String landcode = color.getRed() + "" + color.getGreen() + "" + color.getBlue();
-		landWaehlen(landcode);
-
+	private void aufloesungAendern(int breite, int hoehe) {
+		this.setSize(breite, hoehe);
+		spielfeld = new MapPanel(this, schrift,1550, 850);
+		spielfeld.repaint();
+		spielfeld.revalidate();
+		this.repaint();
+		this.revalidate();
+		this.setLocationRelativeTo(null);
 	}
 
-	public void landWaehlen(String landcode) {
+	private void spielLaden(){
+			try{
+			sp.spielLaden("Game2.txt");
+			} catch(Exception e) {
+				consolePanel.textSetzen("Kann nicht geladen werden");
+			}
+	}
+	
+	private void spielSpeichern() {
+		try{
+			sp.spielSpeichern("Game2.txt");
+		}catch(IOException e){
+			consolePanel.textSetzen("Spiel konnte nicht gespeichert werden" + e.getMessage());
+		}
+	}
 
+	private void landWaehlen(String landcode) {
 		String landstring = sp.getLandVonFarbcode(landcode);
 		Land land = sp.stringToLand(landstring);
+		
 		if (land != null) {
 			spielfeld.labelsSetzen(land.getName(), land.getEinheiten(), land.getBesitzer().getName());
+			//Phasen abhängige Aktion beim Klicken eines Landes
 			switch (sp.getTurn()) {
 			case STARTPHASE:
-				startphase(landstring, land);
+				verteilen(landstring, land);
 				break;
 			case ANGRIFF:
 				
@@ -309,31 +306,12 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		statistikPanel.statistikPanelAktualisieren();
 	}
 
-	public void startphase(String landstring, Land land) {
 
+	private void verteilen(String landstring, Land land) {
+		//eine Einheit verteilen in Startphase oder Verteilen-Phase
 		try {
 			sp.landWaehlen(landstring, aktiverSpieler);
-			if (anzahlSetzbareEinheiten > 0) {
-				sp.einheitenPositionieren(1, land);
-				anzahlSetzbareEinheiten--;
-				spielfeld.labelsSetzen("", land.getEinheiten(), "");
-				spielfeld.fahneEinheit(land.getEinheitenLab());
-				statistikPanel.statistikPanelAktualisieren();
-			} else {
-
-				consolePanel.textSetzen("Du hast alle Einheiten gesetzt. Drücke auf den Button.");
-			}
-			if (anzahlSetzbareEinheiten == 0) {
-				buttonPanel.phaseEnable();
-			}
-		} catch (KannLandNichtBenutzenException lene) {
-			consolePanel.textSetzen(lene.getMessage());
-		}
-	}
-
-	public void verteilen(String landstring, Land land) {
-		try {
-			sp.landWaehlen(landstring, aktiverSpieler);
+			
 			if (anzahlSetzbareEinheiten > 0) {
 				sp.einheitenPositionieren(1, land);
 				anzahlSetzbareEinheiten--;
@@ -341,10 +319,9 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 				spielfeld.fahneEinheit(land.getEinheitenLab());
 				statistikPanel.statistikPanelAktualisieren();
 				buttonPanel.setEinheitenVerteilenLab(anzahlSetzbareEinheiten);
-			} else {
-				consolePanel.textSetzen("Du hast alle Einheiten gesetzt.");
 			}
-			if (anzahlSetzbareEinheiten == 0) {
+			if(anzahlSetzbareEinheiten == 0){
+				consolePanel.textSetzen("Du hast alle Einheiten gesetzt.");
 				buttonPanel.phaseEnable();
 			}
 		} catch (KannLandNichtBenutzenException lene) {
@@ -352,14 +329,13 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		}
 	}
 
-	public void angreifen(String landstring, Land land, Spieler spieler) {
-
+	private void angreifen(String landstring, Land land, Spieler spieler) {
 		if (land1 == null) {
+			//Land wählen mit dem angegriffen werden soll
 			try {
 				sp.landWaehlen(landstring, spieler);
 				sp.checkEinheiten(landstring, 1);
 				land1 = land;
-				// erstmal nur zum testen
 				buttonPanel.angreifenAktiv(land1.getName(), "verteidigendes land");
 			} catch (KannLandNichtBenutzenException lene) {
 				consolePanel.textSetzen(lene.getMessage());
@@ -367,15 +343,13 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 				consolePanel.textSetzen(e.getMessage());
 			}
 		} else {
-
+			//Land wählen, welches angegriffen werden soll und angreifen
 			try {
 				sp.istNachbar(land1, land, spieler);
 				sp.istGegner(landstring, spieler);
 				land2 = land;
-				// erstmal nur zum testen
 				buttonPanel.angreifenAktiv(land1.getName(), land2.getName());
 				buttonPanel.angriffEnable();
-
 			} catch (KeinNachbarlandException knle) {
 				try {
 					sp.landWaehlen(landstring, spieler);
@@ -390,13 +364,12 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 					consolePanel.textSetzen(lene.getMessage());
 				}
 			}
-
 		}
 	}
 
-	public void verschieben(String landstring, Land land) {
-
+	private void verschieben(String landstring, Land land) {
 		if (land1 == null) {
+			//Land wählen von dem aus verschoben werden soll
 			try {
 				sp.landWaehlen(landstring, aktiverSpieler);
 				sp.benutzeLaender(land);
@@ -409,9 +382,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			} catch (LandBereitsBenutztException lbbe) {
 				consolePanel.textSetzen(lbbe.getMessage());
 			}
-
 		} else {
-
+			//Land wählen auf das verschoben werden soll und verschieben
 			try {
 				sp.landWaehlen(landstring, aktiverSpieler);
 				sp.istNachbar(land1, land, aktiverSpieler);
@@ -437,12 +409,13 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	private void angriff(boolean genugEinheiten, Spieler aSpieler) throws KeinNachbarlandException {
 		Land aLand = land1;
 		Land vLand = land2;
+		//Angriff durchführen
 		AngriffRueckgabe angriffRueckgabe = sp.befreiungsAktion(new Angriff(aLand, vLand));
-
+		//Würfel anzeigen lassen
 		spielfeld.wuerfelAnzeigen(angriffRueckgabe.getWuerfelAngreifer(), angriffRueckgabe.getWuerfelVerteidiger());
-
+		//Angriff auswerten und Ergebnis anzeigen
 		if (angriffRueckgabe.isErobert() != true) {
-
+			//Ausgabe falls nicht erobert ist
 			if (angriffRueckgabe.hatGewonnen().equals("V")) {
 				consolePanel.textSetzen(vLand.getBesitzer().getName() + " hat gewonnen.");
 			} else if (angriffRueckgabe.hatGewonnen().equals("A")) {
@@ -450,18 +423,21 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			} else {
 				consolePanel.textSetzen("Ihr habt unentschieden gespielt, beide verlieren eine Einheit.");
 			}
+			//Einheiten auf Fahne setzen
 			spielfeld.fahneEinheit(land1.getEinheitenLab());
 			spielfeld.fahneEinheit(land2.getEinheitenLab());
 			land1 = null;
 			land2 = null;
 			buttonPanel.angreifenAktiv("angreifendes Land", "verteidigendes Land");
 		} else {
+			//bei Eroberung
 			vLand.setFahne(aSpieler.getFarbe());
 			spielfeld.fahnenVerteilen(sp.getLaenderListe());
 			consolePanel.textSetzen(aLand.getBesitzer().getName() + " hat das Land erobert.");
 			genugEinheiten = false;
-			// wird das ab hier genutzt?
+			// Verschieben nach Eroberung
 			if (aLand.getEinheiten() == 2) {
+				//wenn nur zwei Einheiten auf ANgriffsland sind
 				consolePanel.textSetzen("Eine Einheit wird auf " + vLand.getName() + " gesetzt.");
 				sp.eroberungBesetzen(aLand, vLand, 1);
 				genugEinheiten = true;
@@ -471,23 +447,28 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 				land2 = null;
 				buttonPanel.angreifenAktiv("angreifendes Land", "verteidigendes Land");
 			} else {
-				// ausgabe += "Wie viele Einheiten m\u00F6chtest du auf " +
-				// vLand.getName() + " setzen?";
-				// ausgabe += aLand.getEinheiten() - 1 + " Einheiten kannst du
-				// setzen";
-				// int einheiten = 1;
-				// if(einheiten < aLand.getEinheiten() && einheiten > 0){
-				// sp.eroberungBesetzen(aLand, vLand, einheiten);
-				// ausgabe += sp.einheitenAusgabe(aLand, vLand);
-				// genugEinheiten = true;
-				// }else{
-				// ausgabe += "Bitte gebe eine Korrekte Zahl ein";
+				//verschieben einstellungen in button panel öffnen
 				buttonPanel.verschiebenNachAngreifenAktiv(aLand.getName(), vLand.getName());
 			}
 			schuss();
 		}
 	}
-	public void gewonnen(Spieler spieler, JFrame frame){
+	
+	private void istSpielerRaus(){
+		//Überprüfung ob ein Spieler verloren hat
+		List<Spieler> spielerListe = sp.getSpielerList();
+		for(Spieler s : spielerListe){
+			String name = s.getName();
+			if(sp.spielerRaus(s)){
+				System.out.println("Der Spieler " + name + " hat verloren und ist raus");
+				istSpielerRaus();
+				break;
+			}
+		}
+	}
+
+	private void gewonnen(Spieler spieler){
+		//alle Panels entfernen und Gewonnen Screen zeigen
 		this.remove(spielfeld);
 		this.remove(spielerListPanel);
 		this.remove(missionPanel);
@@ -495,7 +476,6 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		this.remove(statistikPanel);
 		this.remove(consolePanel);
 		this.remove(buttonPanel);
-		//this.setSize(500, 600);
 		frame.setLayout(new MigLayout("wrap1","[]","[][]"));
 		frame.setForeground(Color.black);
 		JLabel gewinner = new JLabel("Spieler" + " hat gewonnen.");
@@ -504,40 +484,52 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		JLabel firework = new JLabel(new ImageIcon("./firework.gif"));
 		this.add(gewinner, "center");
 		this.add(firework, "center");
-		
 		this.setBackground(Color.BLACK);
 		this.repaint();
 		this.revalidate();
 	}
+	
+	public void karteEintauschen(List<String> tauschKarten) {
+		//Karten eintauschen
+		anzahlSetzbareEinheiten += sp.kartenEinloesen(aktiverSpieler, tauschKarten);
+		missionPanel.kartenAusgeben(aktiverSpieler);
+		buttonPanel.setEinheitenVerteilenLab(anzahlSetzbareEinheiten);
+	}
 
-	@Override
+	public void tauschFehlgeschlagen() {
+		consolePanel.textSetzen("Die Karten konnten nicht eingetauscht werden.");
+	}
+
+	public void processMouseClick(Color color) {
+		//Farbcode auslesen
+		String landcode = color.getRed() + "" + color.getGreen() + "" + color.getBlue();
+		landWaehlen(landcode);
+	
+	}
+
 	public void startButtonClicked() {
+		//von Anfangsmenü zu Spieler erstellen wechseln
 		this.remove(startPanel);
 		spielErstellen();
-
 	}
 
-	@Override
-	public void spielErstellen(String name, int anzahl) {
-		spiel(name, anzahl);
-
-	}
-
-	@Override
-	public void buttonClicked() {
+	public void phaseButtonClicked() {
+		//Wenn Mission erfüllt, dann gewonnen aufrufen
 		if(sp.getSpielerMission(aktiverSpieler).istAbgeschlossen()){
-//			gewonnen(aktiverSpieler);
+			gewonnen(aktiverSpieler);
 		}
 		sp.nextTurn();
 		aktiverSpieler = sp.getAktiverSpieler();
 		missionPanel.kartenAusgeben(aktiverSpieler);
+		//Rahmen auf aktiven Spieler
 		spielerListPanel.setAktiverSpieler(sp.getSpielerList().indexOf(aktiverSpieler) + 1);
+		
 		switch (sp.getTurn()) {
 		case STARTPHASE:
 			buttonPanel.phaseDisable();
 			anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
-			consolePanel.textSetzen(aktiverSpieler.getName()
-					+ " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
+			buttonPanel.setEinheitenVerteilenLab(anzahlSetzbareEinheiten);
+			consolePanel.textSetzen(aktiverSpieler.getName() + " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
 			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 			break;
 		case ANGRIFF:
@@ -565,25 +557,20 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			missionPanel.kartenAusgeben(aktiverSpieler);
 			break;
 		}
-
 		infoPanel.changePanel(sp.getTurn() + "");
-
 	}
 
-	@Override
 	public void angriffClicked() {
+		//Angreifen Button klicken
 		try {
 			angriff(true, aktiverSpieler);
-
 		} catch (KeinNachbarlandException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
-	@Override
 	public void verschiebenClicked(int einheiten) {
+		//verschieben Button klicken
 		try {
 			sp.checkEinheiten(land1.getName(), einheiten);
 			sp.einheitenPositionieren(-einheiten, land1);
@@ -599,11 +586,10 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		} catch (NichtGenugEinheitenException ngee) {
 			consolePanel.textSetzen(ngee.getMessage());
 		}
-
 	}
 
-	@Override
 	public void verschiebenNAClicked(int einheiten) {
+		//nach angreifen verteilen klicken
 		try {
 			sp.checkEinheiten(land1.getName(), einheiten);
 			sp.eroberungBesetzen(land1, land2, einheiten);
@@ -614,50 +600,23 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			buttonPanel.angreifenAktiv("erstes Land", "zweites Land");
 		} catch (NichtGenugEinheitenException ngee) {
 			consolePanel.textSetzen(ngee.getMessage());
-	}
-		
-	}
-	public void schuss(){
-		try{
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("hit.wav"));
-            AudioFormat af     = audioInputStream.getFormat();
-            int size      = (int) (af.getFrameSize() * audioInputStream.getFrameLength());
-            byte[] audio       = new byte[size];
-            DataLine.Info info      = new DataLine.Info(Clip.class, af, size);
-            audioInputStream.read(audio, 0, size);
-           
-           // for(int i=0; i < 10; i++) {
-                Clip clip = (Clip) AudioSystem.getLine(info);
-                clip.open(af, audio, 0, size);
-                clip.start();
-                
-            //}
-        }catch(Exception e){ e.printStackTrace(); }
-	}
-	
-	private void istSpielerRaus(){
-		List<Spieler> spielerListe = sp.getSpielerList();
-		for(Spieler s : spielerListe){
-			String name = s.getName();
-			if(sp.spielerRaus(s)){
-				System.out.println("Der Spieler " + name + " hat verloren und ist raus");
-				istSpielerRaus();
-				break;
-			}
 		}
 	}
-
-	@Override
-	public void karteEintauschen(List<String> tauschKarten) {
-		anzahlSetzbareEinheiten += sp.kartenEinloesen(aktiverSpieler, tauschKarten);
-		missionPanel.kartenAusgeben(aktiverSpieler);
-		buttonPanel.setEinheitenVerteilenLab(anzahlSetzbareEinheiten);
-		
-	}
-
-	@Override
-	public void tauschFehlgeschlagen() {
-		consolePanel.textSetzen("Die Karten konnten nicht eingetauscht werden");
-		
+	
+	public void schuss(){
+		//Schuss Geräusch für Angriff
+		try{
+	        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("hit.wav"));
+	        AudioFormat af = audioInputStream.getFormat();
+	        int size = (int)(af.getFrameSize() * audioInputStream.getFrameLength());
+	        byte[] audio = new byte[size];
+	        DataLine.Info info = new DataLine.Info(Clip.class, af, size);
+	        audioInputStream.read(audio, 0, size);
+	        Clip clip = (Clip) AudioSystem.getLine(info);
+	        clip.open(af, audio, 0, size);
+	        clip.start();
+	    }catch(Exception e){ 
+	    	e.printStackTrace(); 
+	    }
 	}
 }	

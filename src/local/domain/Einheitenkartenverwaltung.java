@@ -46,7 +46,7 @@ public class Einheitenkartenverwaltung {
 	public boolean spielerkartenAuswerten(Spieler spieler)
 	{
 		/*
-		Bitvektor für Soldat/Kanone/Pferd: 
+		Bitvektor fï¿½r Soldat/Kanone/Pferd: 
 			100
 			010
 			001

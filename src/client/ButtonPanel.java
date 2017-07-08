@@ -24,7 +24,7 @@ public class ButtonPanel extends JPanel{
 	private Font font;
 	
 	public interface ButtonClickHandler {
-		public void buttonClicked();
+		public void phaseButtonClicked();
 		public void angriffClicked();
 		public void verschiebenClicked(int einheiten);
 		public void verschiebenNAClicked(int einheiten);
@@ -56,22 +56,14 @@ public class ButtonPanel extends JPanel{
 		this.anzahlEinheitenVerteilen.setFont(font);
 		nextTurn = new JButton("Naechster Spieler");
 		
-		nextTurn.addActionListener(next -> handler.buttonClicked());
+		nextTurn.addActionListener(next -> handler.phaseButtonClicked());
 		angreifen.addActionListener(angriff -> handler.angriffClicked());
 		verschieben.addActionListener(verschieben -> handler.verschiebenClicked(Integer.parseInt(anzahlEinheitenVerschieben.getText())));
 		verschiebenNA.addActionListener(verschiebenNA -> handler.verschiebenNAClicked(Integer.parseInt(anzahlEinheitenVerschieben.getText())));
 		
 		nextTurn.setEnabled(false);
-//		this.add(nextTurn,"left,grow");
-//		this.add(aLand,"left,grow");
-//		this.add(vLand,"left,grow");
-//		this.add(angreifen,"left,grow");
-//		this.add(land1,"left,grow");
-//		this.add(land2,"left,grow");
-//		this.add(anzahlEinheitenVerschieben,"left,grow");
-//		this.add(verschieben,"left,grow");
-//		this.add(anzahlEinheitenVerteilen,"left,grow");
-		startphase();
+		//TODO hier muss Anzahl der Einheiten am Anfang rein
+		startphase(3);
 	}
 	public void angreifenAktiv(String angriffsLand,String verteidigungsLand)	{
 		angreifen.setEnabled(false);
@@ -142,8 +134,10 @@ public class ButtonPanel extends JPanel{
 	public void resetTextbox(){
 		anzahlEinheitenVerschieben.setText("");
 	}
-	public void startphase()	{
+	public void startphase(int einheiten)	{
 		removeAll();
+		this.add(anzahlEinheitenVerteilen,"center");
+		anzahlEinheitenVerteilen.setText(einheiten + "");
 		this.add(nextTurn,"left,grow");
 		nextTurn.setEnabled(false);
 		this.repaint();

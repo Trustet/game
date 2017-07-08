@@ -198,7 +198,7 @@ public class Spielfeld {
 		return kriegsVw.spielerRaus(spieler);
 	}
 
-	public int kartenEinloesen(Spieler spieler, List<String> tauschKarten) {
+	public int kartenEinloesen(Spieler spieler, List<String> tauschKarten){
 		return einheitenVw.einheitenkartenEinloesen(spieler,tauschKarten);
 	}
 	public void laenderErstellen() throws IOException{
