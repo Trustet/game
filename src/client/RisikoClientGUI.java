@@ -48,10 +48,9 @@ import local.valueobjects.Land;
 import local.valueobjects.Spieler;
 import net.miginfocom.swing.MigLayout;
 
-public class RisikoClientGUI extends JFrame
-implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, ErstellenButtonClicked, KarteClickedHandler {
+public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, ErstellenButtonClicked, KarteClickedHandler {
+	
 	Spielfeld sp = new Spielfeld();
-
 	int anzahlSpieler;
 	private SpielerPanel spielerListPanel;
 	private MissionPanel missionPanel;
@@ -69,9 +68,6 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 	private Land land2 = null;
 	private int anzahlSetzbareEinheiten;
 	private Spieler aktiverSpieler;
-	// private Socket socket = null;
-	// private BufferedReader in;
-	// private PrintStream out;
 
 	public RisikoClientGUI() {
 		this.start();
@@ -82,47 +78,41 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 	}
 
 	public void start() {
+		//Schriften für alle Panel
 		uberschrift = new Font(Font.SERIF, Font.BOLD, 25);
 		schrift = new Font(Font.SANS_SERIF, Font.PLAIN, 17);
 
-		// Frame und Layout
+		//Spielmenu Fenster erstellen
 		this.setTitle("Spiel starten");
 		this.setSize(330, 350);
 		this.setLocationRelativeTo(null);
-		// panel.setBackground(new Color(220,175,116));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
 		startPanel = new StartPanel(this);
 		this.add(startPanel);
 		this.setResizable(true);
 		this.setVisible(true);
-
 	}
 
 	public void spielErstellen() {
 		
-		// Frame und Layout
+		//Spieler erstellen Fenster erstellen
 		this.setTitle("Spiel erstellen");
-
-		// panel.setBackground(new Color(220,175,116));
-		this.setSize(280, 200); // von 300 auf 280 gestellt //FRAGE: kann man
-		// panel zentrieren?
+		this.setSize(280, 200);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		erstellenPanel = new ErstellenPanel(this);
-
 		this.add(erstellenPanel);
 		this.setVisible(true);
 		this.repaint();
 		this.revalidate();
-
 	}
 
 	public void spiel(String name, int anzahlSpieler) {
-		// verbindungAufbauen(ip,port);
 		this.anzahlSpieler = anzahlSpieler;
-
+		
+		//Spiel erzeugen
 		try {
+			//Spieler erstellen
 			sp.erstelleSpieler(name);
 			this.remove(erstellenPanel);
 			for (int i = 1; i < anzahlSpieler; i++) {
@@ -133,13 +123,9 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			this.setSize(1250, 817);
 			this.setLocationRelativeTo(null);
 			this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-			// JPanel panel = new JPanel(new MigLayout("
-			// wrap2","[][]","[][][]")); // hier "debug,wrap2" schreiben für
-			// Debug-Modus
+			
+			//Fenster mit Layout und Paneln füllen
 			this.setLayout(new MigLayout("debug, wrap2", "[1050][]", "[][][]"));
-			// this.add(panel);
-
 			spielfeld = new MapPanel(this, schrift,1050, 550);
 			spielerListPanel = new SpielerPanel(schrift, uberschrift);
 			missionPanel = new MissionPanel(uberschrift, schrift,this);
@@ -148,7 +134,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			statistikPanel = new StatistikPanel(sp.getSpielerList(), sp.getLaenderListe(), schrift, uberschrift);
 			consolePanel = new ConsolePanel(schrift);
 
-			// Menu auslagern
+			//Menuleiste erstellen
 			menu = new MenuBar();
 			Menu datei = new Menu("Datei");
 			Menu grafik = new Menu("Grafik");
@@ -159,25 +145,23 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			MenuItem schliessen = new MenuItem("Schließen");
 			Menu aufloesung = new Menu("Aufloesung");
 			MenuItem aufloesung1 = new MenuItem("1920x1080");
+			MenuItem aufloesung2 = new MenuItem("2.Auflösung");
+			MenuItem aufloesung3 = new MenuItem("3.Auflösung");
 			datei.add(speichern);
 			datei.add(laden);
 			datei.add(schliessen);
-
 			grafik.add(aufloesung);
 			aufloesung.add(aufloesung1);
-			
+			aufloesung.add(aufloesung2);
+			aufloesung.add(aufloesung3);
 			aufloesung1.addActionListener(ausfuehren -> aufloesungAendern(1920, 1080));
-	
 			laden.addActionListener(load -> spielLaden());
 			speichern.addActionListener(save -> spielSpeichern());
-
-			
+			schliessen.addActionListener(close -> System.exit(0));
 			menu.setFont(schrift);
-			// MenuBarBorder menuBorder = new MenuBarBorder(Color.black,
-			// Color.white);
-			// getContentPane();
 			this.setMenuBar(menu);
 
+			//Layout anpassen
 			this.add(spielfeld, "left,spany 3,grow,hmin 550, wmin 1050");
 			this.add(infoPanel, "left,growx");
 			this.add(spielerListPanel, "growx");
@@ -189,6 +173,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			this.setVisible(true);
 			this.pack();
 
+			//Spiel beginnen
 			sp.setTurn("STARTPHASE");
 			anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
 			consolePanel.textSetzen(aktiverSpieler.getName()
@@ -196,12 +181,9 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		} catch (SpielerExistiertBereitsException sebe) {
 			JOptionPane.showMessageDialog(null, sebe.getMessage(), "Name vergeben", JOptionPane.WARNING_MESSAGE);
 		}
-
-		// missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 	}
 
-
-	public void aufloesungAendern(int breite, int hoehe){
+	public void aufloesungAendern(int breite, int hoehe) {
 		this.setSize(breite, hoehe);
 		spielfeld = new MapPanel(this, schrift,1550, 850);
 		spielfeld.repaint();
@@ -212,8 +194,6 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 	}
 
 	public void spielLaden(){
-		//Spiel laden
-		System.out.println("Laden");
 			try{
 			sp.spielLaden("Game2.txt");
 			} catch(Exception e) {
@@ -228,7 +208,6 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			consolePanel.textSetzen("Spiel konnte nicht gespeichert werden" + e.getMessage());
 		}
 	}
-	
 
 	public void neuerSpieler() {
 		JFrame frame = new JFrame("Spieler erstellen");
