@@ -60,12 +60,12 @@ public class ButtonPanel extends JPanel{
 		angreifen.addActionListener(angriff -> handler.angriffClicked());
 		verschieben.addActionListener(verschieben -> handler.verschiebenClicked(Integer.parseInt(anzahlEinheitenVerschieben.getText())));
 		verschiebenNA.addActionListener(verschiebenNA -> handler.verschiebenNAClicked(Integer.parseInt(anzahlEinheitenVerschieben.getText())));
-		
 		nextTurn.setEnabled(false);
 		//TODO hier muss Anzahl der Einheiten am Anfang rein
 		startphase(3);
 	}
-	public void angreifenAktiv(String angriffsLand,String verteidigungsLand)	{
+	
+	public void angreifenAktiv(String angriffsLand,String verteidigungsLand) {
 		angreifen.setEnabled(false);
 		removeAll();
 		this.add(aLand,"left,grow");
@@ -78,7 +78,7 @@ public class ButtonPanel extends JPanel{
 		this.repaint();
 	}
 	
-	public void verschiebenNachAngreifenAktiv(String erstesLand, String zweitesLand)	{
+	public void verschiebenNachAngreifenAktiv(String erstesLand, String zweitesLand) {
 		removeAll();
 		this.add(land1,"left,grow");
 		land1.setText(erstesLand);
@@ -99,12 +99,10 @@ public class ButtonPanel extends JPanel{
 		this.add(nextTurn,"left,grow");
 		nextTurn.setText("Naechste Phase");
 		verschieben.setEnabled(false);
-
-		
 		this.repaint();
 	}
 	
-	public void verteilenAktiv(int einheiten)	{		
+	public void verteilenAktiv(int einheiten) {		
 		removeAll();
 		this.add(anzahlEinheitenVerteilen,"center");
 		anzahlEinheitenVerteilen.setText(einheiten + "");
@@ -112,29 +110,35 @@ public class ButtonPanel extends JPanel{
 		nextTurn.setText("Naechste Phase");
 		this.repaint();
 	}
-	public void phaseDisable(){
+	
+	public void phaseDisable() {
 		nextTurn.setEnabled(true);
 	}
 	
-	public void phaseEnable(){
+	public void phaseEnable() {
 		nextTurn.setEnabled(true);
 	}
-	public void angriffEnable(){
+	
+	public void angriffEnable() {
 		angreifen.setEnabled(true);
 	}
-	public void angriffDisable(){
+	
+	public void angriffDisable() {
 		angreifen.setEnabled(false);
 	}
-	public void verschiebenEnabled(){
+	
+	public void verschiebenEnabled() {
 		verschieben.setEnabled(true);
 	}
-	public void verschiebenDisabled(){
+	
+	public void verschiebenDisabled() {
 		verschieben.setEnabled(false);
 	}
-	public void resetTextbox(){
+	public void resetTextbox() {
 		anzahlEinheitenVerschieben.setText("");
 	}
-	public void startphase(int einheiten)	{
+	
+	public void startphase(int einheiten) {
 		removeAll();
 		this.add(anzahlEinheitenVerteilen,"center");
 		anzahlEinheitenVerteilen.setText(einheiten + "");
@@ -142,11 +146,11 @@ public class ButtonPanel extends JPanel{
 		nextTurn.setEnabled(false);
 		this.repaint();
 	}
-	public void setEinheitenVerteilenLab(int einheiten){
+	
+	public void setEinheitenVerteilenLab(int einheiten) {
 		anzahlEinheitenVerteilen.setText(einheiten + "");
 	}
 
-	
 	public void removeAll()	{
 		this.remove(nextTurn);
 		this.remove(aLand);

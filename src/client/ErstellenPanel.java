@@ -8,18 +8,18 @@ import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
-public class ErstellenPanel extends JPanel{
+public class ErstellenPanel extends JPanel {
 	private ErstellenButtonClicked handler = null;
 	public interface ErstellenButtonClicked{
 		public void spielErstellen(String name, int anzahl);
 	}
 	
-	public ErstellenPanel(ErstellenButtonClicked handler){
+	public ErstellenPanel(ErstellenButtonClicked handler) {
 		this.handler = handler;
 		initialize();
 	}
 	
-	public void initialize(){
+	public void initialize() {
 		this.setLayout(new MigLayout(" wrap2","[][150]","[][][][][]")); 
 		//Objekte erstellen
 		JLabel nameLab = new JLabel("Name:");
@@ -32,12 +32,8 @@ public class ErstellenPanel extends JPanel{
 		JLabel anzahlLab = new JLabel("Spieler Anzahl:");
 		JComboBox<String> anzahlCBox = new JComboBox<String>(zahlen);
 		JButton startBtn = new JButton("Spiel starten");
-		
 		//Actionlistener
-		//startBtn.addActionListener(start -> spiel(nameText.getText(), Integer.parseInt((String)anzahlCBox.getSelectedItem()),frame));
 		startBtn.addActionListener(start -> handler.spielErstellen(nameText.getText(),Integer.parseInt((String)anzahlCBox.getSelectedItem())));
-		
-		//Objekte hinzufügen
 		this.add(nameLab,"right");
 		this.add(nameText,"left,growx");
 		this.add(ipLab,"right");

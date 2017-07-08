@@ -13,16 +13,13 @@ public class ConsolePanel extends JPanel{
 	private JTextArea consoleText;
 	private Font schrift;
 	
-	public ConsolePanel(Font schrift)
-	{
+	public ConsolePanel(Font schrift) {
 		this.schrift = schrift;
 		initialize();
 	}
 	
-	public void initialize(){
-		
+	public void initialize() {
 		this.setLayout(new MigLayout("wrap1","[600]","[][140]"));
-		
 		JLabel header = new JLabel("Benachrichtigung:");
 		consoleText = new JTextArea();
 		JScrollPane consoleScrollBar = new JScrollPane(consoleText);
@@ -33,7 +30,7 @@ public class ConsolePanel extends JPanel{
 		this.add(consoleScrollBar,"growx,growy");
 	}
 	
-	public void textSetzen(String text){
+	public void textSetzen(String text) {
 		consoleText.setText(consoleText.getText() + "\n" + text);
 	}
 }

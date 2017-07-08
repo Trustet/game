@@ -40,8 +40,6 @@ import local.domain.exceptions.KeinNachbarlandException;
 import local.domain.exceptions.LandBereitsBenutztException;
 import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
-import local.ui.cui.IO;
-import local.ui.cui.RisikoClientCUI;
 import local.valueobjects.Angriff;
 import local.valueobjects.AngriffRueckgabe;
 import local.valueobjects.Land;
