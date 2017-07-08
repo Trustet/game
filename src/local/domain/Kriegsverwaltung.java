@@ -516,6 +516,7 @@ private int startphaseZaehler = 1;
 		Spieler spielerS2 = null;
 		String land = "";
 		String kuerzel = "";
+		String karte = "";
 		int id = 0;
 		boolean istSpielerMission = false;
 		int einheiten = 0;
@@ -572,6 +573,14 @@ private int startphaseZaehler = 1;
 				}
 			}
 		}while(spieler.length() != 0);
+		
+		for(Spieler s: spielerVw.getSpielerList()) {
+			do{
+				karte = pm.spielstandLaden();
+				Einheitenkarten einheitenkarte = new Einheitenkarten(karte);
+				s.getEinheitenkarten().add(einheitenkarte);
+			}while(karte.length() != 0);
+		}
 		pm.close();
 	}
 	public boolean landZumAngreifen(Spieler spieler) throws KeinLandZumAngreifenException{

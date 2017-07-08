@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+
+import local.valueobjects.Einheitenkarten;
 import local.valueobjects.Land;
 import local.valueobjects.Mission;
 import local.valueobjects.Spieler;
@@ -76,6 +78,14 @@ public class FilePersistenceManager {
 					schreibeZeile(m.getSpieler2().getName());
 				}
 				schreibeZeile(m.getId()+"");
+		}
+		schreibeZeile("");
+		
+		for(Spieler s: spielerListe) {
+			for(Einheitenkarten k:s.getEinheitenkarten()){
+				schreibeZeile(k.getKartenwert());
+			}
+			schreibeZeile("");
 		}
 		
 		return true;
