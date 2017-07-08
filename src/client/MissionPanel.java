@@ -82,8 +82,8 @@ public class MissionPanel extends JPanel{
 
 
 		try{
-			iconEinheiten = ImageIO.read(new File("./soldat.jpg"));
-			iconPferd = ImageIO.read(new File("./pferd.jpg"));
+			iconEinheiten = ImageIO.read(new File("./soldat.png"));
+			iconPferd = ImageIO.read(new File("./pferd.png"));
 			iconKanone = ImageIO.read(new File("./panzer.png"));
 
 		} catch (IOException e){

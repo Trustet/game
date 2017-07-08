@@ -48,8 +48,8 @@ public class StatistikPanel extends JPanel{
 		header.setFont(uberschrift);
 		
 		try{
-			iconLand = ImageIO.read(new File("./land.jpg"));
-			iconEinheiten = ImageIO.read(new File("./soldat.jpg"));
+			iconLand = ImageIO.read(new File("./land.png"));
+			iconEinheiten = ImageIO.read(new File("./soldat.png"));
 			iconKarten = ImageIO.read(new File("./karten.png"));
 		}catch (IOException e){}
 		

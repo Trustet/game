@@ -1,6 +1,6 @@
 //TODO Angriffsphase erweitern (Yannik)
 //TODO Karten ausgeben
-//TODO GUI komplett aufraeumen
+//TODO Backend aufraeumen
 //TODO Angreifen mit nur einer Einheit funtkioniert nicht
 //TODO Javadoc
 //TODO Speichern erweitern (Idee: Jeder Spieler bekommt beim ersten Onlinespiel eine eindeutige ID)
