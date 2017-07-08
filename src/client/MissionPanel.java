@@ -62,7 +62,7 @@ public class MissionPanel extends JPanel{
 	}
 
 	public void initialize(){
-		//könnte weg, sieht aber eig ganz cool aus
+		//kï¿½nnte weg, sieht aber eig ganz cool aus
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabbedPane.setFont(uberschrift);
 		JComponent mission = new JPanel();
@@ -82,8 +82,8 @@ public class MissionPanel extends JPanel{
 
 		try{
 			iconEinheiten = ImageIO.read(new File("./soldat.jpg"));
-			iconPferd = ImageIO.read(new File("./land.jpg"));
-			iconKanone = ImageIO.read(new File("./karten.png"));
+			iconPferd = ImageIO.read(new File("./pferd.jpg"));
+			iconKanone = ImageIO.read(new File("./panzer.png"));
 
 		} catch (IOException e){
 
