@@ -139,7 +139,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			this.setLayout(new MigLayout("debug, wrap2", "[1050][]", "[][][]"));
 			// this.add(panel);
 
-			spielfeld = new MapPanel(this, schrift);
+			spielfeld = new MapPanel(this, schrift,1050, 550);
 			spielerListPanel = new SpielerPanel(schrift, uberschrift);
 			missionPanel = new MissionPanel(uberschrift, schrift,this);
 			infoPanel = new InfoPanel(sp.getTurn() + "", aktiverSpieler.getName(), schrift, uberschrift);
@@ -150,13 +150,22 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			// Menu auslagern
 			menu = new MenuBar();
 			Menu datei = new Menu("Datei");
+			Menu grafik = new Menu("Grafik");
 			menu.add(datei);
+			menu.add(grafik);
 			MenuItem speichern = new MenuItem("Speichern");
 			MenuItem laden = new MenuItem("Laden");
 			MenuItem schliessen = new MenuItem("Schließen");
+			Menu aufloesung = new Menu("Aufloesung");
+			MenuItem aufloesung1 = new MenuItem("1920x1080");
 			datei.add(speichern);
 			datei.add(laden);
 			datei.add(schliessen);
+			grafik.add(aufloesung);
+			aufloesung.add(aufloesung1);
+			
+			aufloesung1.addActionListener(ausfuehren -> aufloesungAendern(1920, 1080));
+			
 			menu.setFont(schrift);
 			// MenuBarBorder menuBorder = new MenuBarBorder(Color.black,
 			// Color.white);
@@ -185,6 +194,15 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		// missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 	}
 
+	public void aufloesungAendern(int breite, int hoehe){
+		this.setSize(breite, hoehe);
+		spielfeld = new MapPanel(this, schrift,1550, 850);
+		spielfeld.repaint();
+		spielfeld.revalidate();
+		this.repaint();
+		this.revalidate();
+		this.setLocationRelativeTo(null);
+	}
 	public void neuerSpieler() {
 		JFrame frame = new JFrame("Spieler erstellen");
 		frame.setSize(150, 300);
@@ -270,9 +288,11 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 				startphase(landstring, land);
 				break;
 			case ANGRIFF:
+				
 				angreifen(landstring, land, aktiverSpieler);
 				break;
 			case VERTEILEN:
+				
 				verteilen(landstring, land);
 				break;
 			case VERSCHIEBEN:
@@ -515,10 +535,12 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 			break;
 		case ANGRIFF:
+			missionPanel.klickDisablen();
 			consolePanel.textSetzen(aktiverSpieler.getName() + " du kannst nun angreifen.");
 			buttonPanel.angreifenAktiv("angreifendes Land", "verteidigendes Land");
 			break;
 		case VERTEILEN:
+			missionPanel.klickEnablen();
 			buttonPanel.phaseDisable();
 			anzahlSetzbareEinheiten = sp.bekommtEinheiten(aktiverSpieler);
 			consolePanel.textSetzen(
@@ -531,7 +553,9 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			spielfeld.wuerfelEntfernen();
 			consolePanel.textSetzen(aktiverSpieler.getName() + " verschiebe nun deine Einheiten.");
 			buttonPanel.verschiebenAktiv("erstes Land", "zweites Land");
-			sp.einheitenKarteZiehen(aktiverSpieler);
+			if(aktiverSpieler.getEinheitenkarten().size() < 5){
+				sp.einheitenKarteZiehen(aktiverSpieler);
+			}
 			missionPanel.kartenAusgeben(aktiverSpieler);
 			break;
 		}
@@ -619,8 +643,9 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 
 	@Override
 	public void karteEintauschen(List<String> tauschKarten) {
-		sp.kartenEinloesen(aktiverSpieler, tauschKarten);
+		anzahlSetzbareEinheiten += sp.kartenEinloesen(aktiverSpieler, tauschKarten);
 		missionPanel.kartenAusgeben(aktiverSpieler);
+		buttonPanel.setEinheitenVerteilenLab(anzahlSetzbareEinheiten);
 		
 	}
 

@@ -57,12 +57,16 @@ public class MapPanel extends JLayeredPane {
 	private JLabel wR1 = new JLabel();
 	private JLabel wR2 = new JLabel();
 	private JLabel wR3 = new JLabel();
+	private int breite;
+	private int hoehe;
 	
 	
 	
-	public MapPanel(MapClickHandler handler,Font schrift) {
+	public MapPanel(MapClickHandler handler,Font schrift,int breite, int hoehe) {
 		this.handler = handler;
 		this.schrift = schrift;
+		this.breite = breite;
+		this.hoehe = hoehe;
 		wuerfelBilderLaden();
 		initialize();
 	}
@@ -95,7 +99,7 @@ public class MapPanel extends JLayeredPane {
         
         try {
 			myPicture = ImageIO.read(new File("./weltkarte.jpg"));
-			spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(1050, 550, Image.SCALE_FAST)));
+			spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(breite, hoehe, Image.SCALE_FAST)));
 			//1050, 550
 			weltKarteBunt = ImageIO.read(new File("./weltkarte_bunt.png"));
 			weltKarteBuntLab = new JLabel(new ImageIcon(weltKarteBunt));
@@ -140,9 +144,9 @@ public class MapPanel extends JLayeredPane {
         besitzerLab.setBounds(400, 52, 200, 15);
         
 
-        spielfeld.setBounds(0, 0, 1050, 550);
+        spielfeld.setBounds(0, 0, breite, hoehe);
         firework.setBounds(0, 0, 1050, 550);
-        weltKarteBuntLab.setBounds(0, 0, 1050, 550);
+        weltKarteBuntLab.setBounds(0, 0, breite, hoehe);
         weltKarteBuntLab.setVisible(false);
         this.add(spielfeld,new Integer(2), 1); 
         
@@ -151,7 +155,7 @@ public class MapPanel extends JLayeredPane {
         this.add(landLab,new Integer(2), 0);
         this.add(einheitenLab,new Integer(2), 0);
         this.add(besitzerLab, new Integer(2), 0);
-        this.setPreferredSize(new Dimension(1050,550));
+        this.setPreferredSize(new Dimension(breite, hoehe));
         
 	}
 	
@@ -272,5 +276,11 @@ public JLabel getWuerfelLabel(String farbe, int augenzahl){
 
 	public void gewonnen(){
 		 this.add(firework,new Integer(2), 0); 
+	}
+	public void aufloesungAendern(int breite, int hoehe){
+		this.breite = breite;
+		this.hoehe = hoehe;
+		this.repaint();
+		this.revalidate();
 	}
 }

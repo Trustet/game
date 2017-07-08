@@ -50,6 +50,7 @@ public class MissionPanel extends JPanel{
 	private String kartenSpeicher1 = null;
 	private String kartenSpeicher2 = null;
 	private String kartenSpeicher3 = null;
+	private boolean klick = false;
 	BufferedImage iconEinheiten;
 	BufferedImage iconPferd;
 	BufferedImage iconKanone;
@@ -209,19 +210,29 @@ public class MissionPanel extends JPanel{
 				kartenListe.get(i).addMouseListener(new MouseAdapter() {					
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						kartenZahl++;
+						if(klick == true){
+						
 						if(kartenListe.get(s).getBorder() != border){
 							kartenListe.get(s).setBorder(border);
+							if(kartenWahl.size() == 2){
+								kartenWahl.add("Soldat");
+								kartenTauschen();
+							}else{
+								kartenWahl.add("Soldat");
+							}
+							
 						}else{
 							kartenListe.get(s).setBorder(null);
+							for(String kstring : kartenWahl){
+								if(kstring == "Soldat"){
+									kartenWahl.remove(kstring);
+									break;
+								}
+							}
 						}
-						if(kartenWahl.size() == 2){
-							kartenWahl.add("Soldat");
-							kartenTauschen();
-						}else{
-							kartenWahl.add("Soldat");
-						}
+						
 
+					}
 					}
 				});
 
@@ -231,18 +242,27 @@ public class MissionPanel extends JPanel{
 				kartenListe.get(i).addMouseListener(new MouseAdapter() {					
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						kartenZahl++;
+						if(klick == true){
+						
 						if(kartenListe.get(s).getBorder() != border){
 							kartenListe.get(s).setBorder(border);
+							if(kartenWahl.size() == 2){
+								kartenWahl.add("Pferd");
+								kartenTauschen();
+							}else{
+								kartenWahl.add("Pferd");
+							}
 						}else{
 							kartenListe.get(s).setBorder(null);
+							for(String kstring : kartenWahl){
+								if(kstring == "Pferd"){
+									kartenWahl.remove(kstring);
+									break;
+								}
+							}
 						}
-						if(kartenWahl.size() == 2){
-							kartenWahl.add("Pferd");
-							kartenTauschen();
-						}else{
-							kartenWahl.add("Pferd");
-						}
+						
+					}
 					}
 				});
 				break;
@@ -251,18 +271,26 @@ public class MissionPanel extends JPanel{
 				kartenListe.get(i).addMouseListener(new MouseAdapter() {					
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						kartenZahl++;
+						if(klick == true){
 						if(kartenListe.get(s).getBorder() != border){
 							kartenListe.get(s).setBorder(border);
+							if(kartenWahl.size() == 2){
+								kartenWahl.add("Panzer");
+								kartenTauschen();
+							}else{
+								kartenWahl.add("Panzer");
+							}
 						}else{
 							kartenListe.get(s).setBorder(null);
+							for(String kstring : kartenWahl){
+								if(kstring == "Panzer"){
+									kartenWahl.remove(kstring);
+									break;
+								}
+							}
 						}
-						if(kartenWahl.size() == 2){
-							kartenWahl.add("Panzer");
-							kartenTauschen();
-						}else{
-							kartenWahl.add("Panzer");
-						}
+						
+					}
 					}
 				});
 				break;
@@ -276,4 +304,15 @@ public class MissionPanel extends JPanel{
 
 		karten.repaint();
 	}
+	public void klickEnablen(){
+		System.out.println("Klick enable");
+		klick = true;
+	}
+	public void klickDisablen(){
+		klick = false;
+		for(JLabel l : kartenListe){
+			l.setBorder(null);
+		}
+	}
+	
 }
