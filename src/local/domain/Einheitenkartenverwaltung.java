@@ -9,7 +9,7 @@ import local.valueobjects.*;
 public class Einheitenkartenverwaltung {
 
 	private List<Einheitenkarten> kartenstapel;
-	private int kartenEingeloest;
+	private int kartenEingeloest = 1;
 	
 	
 	public Einheitenkartenverwaltung() {
@@ -186,52 +186,52 @@ public class Einheitenkartenverwaltung {
 	}
 	
 	public int einheitenkartenEinloesen(Spieler spieler,List<String> tauschKarten){
-		int einheiten = 0;
-		if(tauschKarten.get(0) == tauschKarten.get(1)){
-			
-			switch(tauschKarten.get(0)){
-			case "Soldat":
-				einheiten = 10;
-				break;
-			case "Pferd":
-				einheiten = 15;
-				break;
-			case "Panzer":
-				einheiten = 20;
-				break;
+
+			int einheiten = 0;
+			switch(kartenEingeloest){
+			case 1: einheiten = 4;
+					break;
+			case 2: einheiten = 6;
+					break;
+			case 3: einheiten = 8;
+					break;
+			case 4: einheiten = 10;
+					break;
+			case 5: einheiten = 12;
+					break;
+			case 6: einheiten = 15;
+					break;
 			}
-		}else{
-			einheiten = 10;
-		}
-		einheitenKartenVonSpielerEntfernen(spieler, tauschKarten);
-		return einheiten;
+			if(kartenEingeloest > 6)
+			{
+				einheiten = 15 + (kartenEingeloest - 6) * 5;
+			}
+			
+			kartenEingeloest++;
+			einheitenKartenVonSpielerEntfernen(spieler, tauschKarten);
+			return einheiten;
+
 	}
-//		if(spielerkartenAuswerten(spieler))
-//		{
-//			int einheiten = 0;
-//			switch(kartenEingeloest){
-//			case 1: einheiten = 4;
-//					break;
-//			case 2: einheiten = 6;
-//					break;
-//			case 3: einheiten = 8;
-//					break;
-//			case 4: einheiten = 10;
-//					break;
-//			case 5: einheiten = 12;
-//					break;
-//			case 6: einheiten = 15;
-//					break;
-//			}
-//			if(kartenEingeloest > 6)
-//			{
-//				einheiten = 15 + (kartenEingeloest - 6) * 5;
-//			}
+	
+//		int einheiten = 0;
+//		if(tauschKarten.get(0) == tauschKarten.get(1)){
 //			
-//			kartenEingeloest++;
-//			
-//			return einheiten;
+//			switch(tauschKarten.get(0)){
+//			case "Soldat":
+//				einheiten = 10;
+//				break;
+//			case "Pferd":
+//				einheiten = 15;
+//				break;
+//			case "Panzer":
+//				einheiten = 20;
+//				break;
+//			}
+//		}else{
+//			einheiten = 10;
 //		}
-//		return 0;
+//		einheitenKartenVonSpielerEntfernen(spieler, tauschKarten);
+//		return einheiten;
 //	}
+
 }
