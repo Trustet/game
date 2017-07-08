@@ -182,21 +182,18 @@ public class Spielfeld {
 	public List<Land> getLaenderListe(){
 		return weltVw.getLaenderListe();
 	}
-
 	public void spielSpeichern(String datei) throws IOException{
 		kriegsVw.spielSpeichern(datei);
 	}
-//	public void spielLaden(String datei) throws IOException, SpielerExistiertBereitsException{
-//		kriegsVw.spielLaden(datei);
-//	}
-
+	public void spielLaden(String datei) throws IOException, SpielerExistiertBereitsException{
+		kriegsVw.spielLaden(datei);
+	}
 	public Einheitenkarten einheitenKarteZiehen(Spieler spieler) {
 		return einheitenVw.karteNehmen(spieler);	
 	}
 	public boolean missionIstAbgeschlossen(Mission mission){
 		return mission.istAbgeschlossen();
 	}
-	
 	public boolean landZumAngreifen(Spieler spieler) throws KeinLandZumAngreifenException{
 		return kriegsVw.landZumAngreifen(spieler);
 	}
@@ -210,9 +207,6 @@ public class Spielfeld {
 
 	public int kartenEinloesen(Spieler spieler, List<String> tauschKarten) {
 		return einheitenVw.einheitenkartenEinloesen(spieler,tauschKarten);
-	}
-	public void spielLaden(String datei) throws IOException, SpielerExistiertBereitsException{
-		kriegsVw.spielLaden(datei);
 	}
 	public void laenderErstellen() throws IOException{
 		weltVw.laenderErstellen();

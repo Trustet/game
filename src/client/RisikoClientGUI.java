@@ -2,7 +2,13 @@
 //TODO Karten ausgeben
 //TODO GUI komplett aufraeumen
 //TODO Exceptions mit text umschreiben (wie Teschke)
-//TODO Angreiffen mit nur einer Einheit funtkioniert nicht
+//-KannEinheitenNichtVerschiebenException
+//-KannLandNichtBenutzenException
+//-KeinLandZumAngreifenException
+//-NichtGenugEinheitenException
+//-SpielerExistiertBereitsException
+//-Land bereits besetzt Exeption kann weg?
+//TODO Angreifen mit nur einer Einheit funtkioniert nicht
 //TODO Javadoc
 //TODO Speichern erweitern (Idee: Jeder Spieler bekommt beim ersten Onlinespiel eine eindeutige ID)
 package client;
@@ -41,6 +47,8 @@ import local.domain.exceptions.KeinNachbarlandException;
 import local.domain.exceptions.LandBereitsBenutztException;
 import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
+import local.ui.cui.IO;
+import local.ui.cui.RisikoClientCUI;
 import local.valueobjects.Angriff;
 import local.valueobjects.AngriffRueckgabe;
 import local.valueobjects.Land;
@@ -161,10 +169,15 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			datei.add(speichern);
 			datei.add(laden);
 			datei.add(schliessen);
+
 			grafik.add(aufloesung);
 			aufloesung.add(aufloesung1);
 			
 			aufloesung1.addActionListener(ausfuehren -> aufloesungAendern(1920, 1080));
+	
+			laden.addActionListener(load -> spielLaden());
+			speichern.addActionListener(save -> spielSpeichern());
+
 			
 			menu.setFont(schrift);
 			// MenuBarBorder menuBorder = new MenuBarBorder(Color.black,
@@ -194,6 +207,7 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		// missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 	}
 
+
 	public void aufloesungAendern(int breite, int hoehe){
 		this.setSize(breite, hoehe);
 		spielfeld = new MapPanel(this, schrift,1550, 850);
@@ -203,6 +217,26 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		this.revalidate();
 		this.setLocationRelativeTo(null);
 	}
+
+	public void spielLaden(){
+		//Spiel laden
+		System.out.println("Laden");
+			try{
+			sp.spielLaden("Game2.txt");
+			} catch(Exception e) {
+				consolePanel.textSetzen("Kann nicht geladen werden");
+			}
+	}
+	
+	public void spielSpeichern() {
+		try{
+			sp.spielSpeichern("Game2.txt");
+		}catch(IOException e){
+			consolePanel.textSetzen("Spiel konnte nicht gespeichert werden" + e.getMessage());
+		}
+	}
+	
+
 	public void neuerSpieler() {
 		JFrame frame = new JFrame("Spieler erstellen");
 		frame.setSize(150, 300);
