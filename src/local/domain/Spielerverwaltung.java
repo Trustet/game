@@ -50,10 +50,8 @@ public class Spielerverwaltung {
 	 */
 	public void neuerSpieler(String name) throws SpielerExistiertBereitsException {
 		Spieler neuerSpieler = new Spieler(name);
-		if (spielerListe.contains(neuerSpieler)) {
-			throw new SpielerExistiertBereitsException("Spieler mit Name " + name + " existiert bereits.");
-		}else if(name.length() == 0){
-			throw new SpielerExistiertBereitsException("Du musst einen Namen eingeben");
+		if (spielerListe.contains(neuerSpieler) || name.length() == 0) {
+			throw new SpielerExistiertBereitsException();
 		}
 		spielerListe.add(neuerSpieler);
 	}

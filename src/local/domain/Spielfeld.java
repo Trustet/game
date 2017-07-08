@@ -7,7 +7,6 @@ import local.domain.Kriegsverwaltung.phasen;
 import local.domain.exceptions.KannEinheitenNichtVerschiebenException;
 import local.domain.exceptions.KannLandNichtBenutzenException;
 import local.domain.exceptions.KeinGegnerException;
-import local.domain.exceptions.KeinLandZumAngreifenException;
 import local.domain.exceptions.KeinNachbarlandException;
 import local.domain.exceptions.LandBereitsBenutztException;
 import local.domain.exceptions.LandExistiertNichtException;
@@ -193,12 +192,6 @@ public class Spielfeld {
 	}
 	public boolean missionIstAbgeschlossen(Mission mission){
 		return mission.istAbgeschlossen();
-	}
-	public boolean landZumAngreifen(Spieler spieler) throws KeinLandZumAngreifenException{
-		return kriegsVw.landZumAngreifen(spieler);
-	}
-	public boolean landZumAngreifen(Spieler spieler, Land land) throws KeinLandZumAngreifenException{
-		return kriegsVw.landZumAngreifen(spieler, land);
 	}
 	
 	public boolean spielerRaus(Spieler spieler){

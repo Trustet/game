@@ -330,10 +330,8 @@ private int startphaseZaehler = 1;
 	 * @throws KannLandNichtBenutzenException
 	 */
 	public boolean landWaehlen(String land, Spieler spieler) throws KannLandNichtBenutzenException{
-		if(weltVw.stringToLand(land) == null){
-			throw new KannLandNichtBenutzenException(land," existiert nicht");
-		}else if(!weltVw.stringToLand(land).getBesitzer().equals(spieler)){
-			throw new KannLandNichtBenutzenException(land," geh\u00F6rt dir nicht");	
+		if(!weltVw.stringToLand(land).getBesitzer().equals(spieler)){
+			throw new KannLandNichtBenutzenException();	
 		}else{
 			return true;
 		}
@@ -347,12 +345,10 @@ private int startphaseZaehler = 1;
 	 * @throws NichtGenugEinheitenException
 	 */
 	public boolean checkEinheiten(String land, int einheiten) throws NichtGenugEinheitenException{
-		if(weltVw.stringToLand(land).getEinheiten() < 2){
-			throw new NichtGenugEinheitenException(land, " hat zu wenig Einheiten.");
-		}else if(weltVw.stringToLand(land).getEinheiten() <= einheiten){
-			throw new NichtGenugEinheitenException(land, " hat nicht so viele Einheiten.");
-		}else if(einheiten < 1){
-			throw new NichtGenugEinheitenException(land, " kann nicht so wenig Einheiten verschicken.");
+		int landEinheiten = weltVw.stringToLand(land).getEinheiten();
+		
+		if(landEinheiten < 2 || landEinheiten <= einheiten || einheiten < 1){
+			throw new NichtGenugEinheitenException(einheiten);
 		}else{
 			return true;
 		}
@@ -581,26 +577,6 @@ private int startphaseZaehler = 1;
 			}while(karte.length() != 0);
 		}
 		pm.close();
-	}
-	public boolean landZumAngreifen(Spieler spieler) throws KeinLandZumAngreifenException{
-		List<Land> nachbarn = new Vector<Land>();
-		for(Land l : weltVw.getLaenderListe()){
-			if(l.getBesitzer().equals(spieler) && l.getEinheiten() > 1){
-				nachbarn = this.moeglicheAngriffsziele(l);
-				if(nachbarn.size() > 0){
-					return true;
-				}
-			}
-		}
-		throw new KeinLandZumAngreifenException("Du hast kein Land mit dem du angreifen kannst");
-	}
-	public boolean landZumAngreifen(Spieler spieler,Land land) throws KeinLandZumAngreifenException{
-		List<Land> nachbarn = new Vector<Land>();
-		nachbarn = this.moeglicheAngriffsziele(land);
-			if(nachbarn.size() > 0){
-				return true;
-			}
-		throw new KeinLandZumAngreifenException("Dieses Land hat keine feindlichen Nachbarn");
 	}
 	
 	public boolean spielerRaus(Spieler spieler){

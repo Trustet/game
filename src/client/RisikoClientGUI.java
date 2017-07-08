@@ -1,13 +1,6 @@
 //TODO Angriffsphase erweitern (Yannik)
 //TODO Karten ausgeben
 //TODO GUI komplett aufraeumen
-//TODO Exceptions mit text umschreiben (wie Teschke)
-//-KannEinheitenNichtVerschiebenException
-//-KannLandNichtBenutzenException
-//-KeinLandZumAngreifenException
-//-NichtGenugEinheitenException
-//-SpielerExistiertBereitsException
-//-Land bereits besetzt Exeption kann weg?
 //TODO Angreifen mit nur einer Einheit funtkioniert nicht
 //TODO Javadoc
 //TODO Speichern erweitern (Idee: Jeder Spieler bekommt beim ersten Onlinespiel eine eindeutige ID)
