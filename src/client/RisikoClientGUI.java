@@ -2,7 +2,13 @@
 //TODO Karten ausgeben
 //TODO GUI komplett aufraeumen
 //TODO Exceptions mit text umschreiben (wie Teschke)
-//TODO Angreiffen mit nur einer Einheit funtkioniert nicht
+//-KannEinheitenNichtVerschiebenException
+//-KannLandNichtBenutzenException
+//-KeinLandZumAngreifenException
+//-NichtGenugEinheitenException
+//-SpielerExistiertBereitsException
+//-Land bereits besetzt Exeption kann weg?
+//TODO Angreifen mit nur einer Einheit funtkioniert nicht
 //TODO Javadoc
 //TODO Speichern erweitern (Idee: Jeder Spieler bekommt beim ersten Onlinespiel eine eindeutige ID)
 package client;
