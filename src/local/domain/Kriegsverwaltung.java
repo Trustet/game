@@ -568,7 +568,6 @@ private int startphaseZaehler = 1;
 			id = Integer.parseInt(pm.spielstandLaden());
 			for(Spieler s : spielerVw.getSpielerList()){
 				if(s.getName().equals(spieler)){
-					
 					missionVw.missionLaden(weltVw.getLaenderListe(), weltVw.getKontinentenListe(), spielerVw.getSpielerList(),s,spielerS2,id);
 				}
 			}

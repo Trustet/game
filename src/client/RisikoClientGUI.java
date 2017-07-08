@@ -41,6 +41,8 @@ import local.domain.exceptions.KeinNachbarlandException;
 import local.domain.exceptions.LandBereitsBenutztException;
 import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
+import local.ui.cui.IO;
+import local.ui.cui.RisikoClientCUI;
 import local.valueobjects.Angriff;
 import local.valueobjects.AngriffRueckgabe;
 import local.valueobjects.Land;
@@ -157,6 +159,10 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			datei.add(speichern);
 			datei.add(laden);
 			datei.add(schliessen);
+			
+			laden.addActionListener(load -> spielLaden());
+			speichern.addActionListener(save -> spielSpeichern());
+			
 			menu.setFont(schrift);
 			// MenuBarBorder menuBorder = new MenuBarBorder(Color.black,
 			// Color.white);
@@ -185,6 +191,24 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		// missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 	}
 
+	public void spielLaden(){
+		//Spiel laden
+		System.out.println("Laden");
+			try{
+			sp.spielLaden("Game2.txt");
+			} catch(Exception e) {
+				consolePanel.textSetzen("Kann nicht geladen werden");
+			}
+	}
+	
+	public void spielSpeichern() {
+		try{
+			sp.spielSpeichern("Game2.txt");
+		}catch(IOException e){
+			consolePanel.textSetzen("Spiel konnte nicht gespeichert werden" + e.getMessage());
+		}
+	}
+	
 	public void neuerSpieler() {
 		JFrame frame = new JFrame("Spieler erstellen");
 		frame.setSize(150, 300);

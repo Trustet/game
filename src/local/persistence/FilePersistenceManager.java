@@ -70,14 +70,28 @@ public class FilePersistenceManager {
 		
 		schreibeZeile(aktiverSpieler+"");
 		schreibeZeile("");
-		
-		for(Mission m: missionsListe){
-				schreibeZeile(m.getSpieler().getName());
-				schreibeZeile(m.getArt());
-				if(m.getArt().equals("spieler")){
-					schreibeZeile(m.getSpieler2().getName());
+//	
+//		for(Mission m: missionsListe){
+//				schreibeZeile(m.getSpieler().getName());
+//				schreibeZeile(m.getArt());
+//				if(m.getArt().equals("spieler")){
+//					schreibeZeile(m.getSpieler2().getName());
+//				}
+//				schreibeZeile(m.getId()+"");
+//		}
+//		
+		for(Spieler s: spielerListe){
+			for(Mission m: missionsListe){
+				if(s.getName().equals(m.getSpieler().getName()))
+				{
+					schreibeZeile(m.getSpieler().getName());
+					schreibeZeile(m.getArt());
+					if(m.getArt().equals("spieler")){
+						schreibeZeile(m.getSpieler2().getName());
+					}
+					schreibeZeile(m.getId()+"");
 				}
-				schreibeZeile(m.getId()+"");
+			}
 		}
 		schreibeZeile("");
 		
@@ -85,7 +99,6 @@ public class FilePersistenceManager {
 			for(Einheitenkarten k:s.getEinheitenkarten()){
 				schreibeZeile(k.getKartenwert());
 			}
-			schreibeZeile("");
 		}
 		
 		return true;
@@ -102,6 +115,7 @@ public class FilePersistenceManager {
 			return "";
 		}
 	}
+	
 	private void schreibeZeile(String daten) {
 		if (writer != null)
 			writer.println(daten);
