@@ -36,7 +36,8 @@ public class Einheitenkartenverwaltung {
 	
 	public Einheitenkarten karteNehmen(Spieler spieler)
 	{
-		Einheitenkarten karte = kartenstapel.remove(0);
+		Einheitenkarten karte = kartenstapel.get(0);
+		kartenstapel.remove(0);
 		spieler.karteNehmen(karte);
 //		kartenstapel.remove(0);
 		

@@ -26,36 +26,32 @@ import local.valueobjects.Spieler;
 import net.miginfocom.swing.MigLayout;
 
 public class MissionPanel extends JPanel{
+
 	public interface KarteClickedHandler{
 		public void karteEintauschen(List<String> tauschKarten);
 		public void tauschFehlgeschlagen();
 	}
-	private JLabel mArt = new JLabel();
-	//private JTextArea mBeschreibung = new JTextArea();
 	private List<JLabel> kartenListe = new Vector<JLabel>();
 	private KarteClickedHandler handler;
 	private JLabel mBeschreibung = new JLabel();
-	private JLabel kBeschreibung = new JLabel();
 	private Font schrift;
 	private Font uberschrift;
-	private ImageIcon icon2 = null;
-	private ImageIcon icon3 = null;
-	private ImageIcon icon4 = null;
+	private ImageIcon soldatImg = null;
+	private ImageIcon pferdImg = null;
+	private ImageIcon panzerImg = null;
+	private ImageIcon jokerImg = null;
 	private JComponent karten;
-	private List<Spieler> spielerListe;
-	private int wert = 0;
 	private Border border = null;
-	private int kartenZahl = 0;
 	private List<String> kartenWahl = new Vector<String>();
 	private String kartenSpeicher1 = null;
 	private String kartenSpeicher2 = null;
 	private String kartenSpeicher3 = null;
 	private boolean klick = false;
-	BufferedImage iconEinheiten;
-	BufferedImage iconPferd;
-	BufferedImage iconKanone;
+	private BufferedImage iconEinheiten;
+	private BufferedImage iconPferd;
+	private BufferedImage iconKanone;
+	private BufferedImage iconJoker;
 	public MissionPanel(Font uberschrift, Font schrift, KarteClickedHandler handler){
-		this.spielerListe = spielerListe;
 		this.handler = handler;
 		this.schrift = schrift;
 		this.uberschrift = uberschrift;
@@ -63,17 +59,12 @@ public class MissionPanel extends JPanel{
 	}
 
 	public void initialize(){
-		//k�nnte weg, sieht aber eig ganz cool aus
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP,JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabbedPane.setFont(uberschrift);
 		JComponent mission = new JPanel();
 		mission.setLayout(new MigLayout("wrap1","[]","[]"));
-		//		mBeschreibung.setEditable(false);
-		//		mBeschreibung.setLineWrap(true);
 		mBeschreibung.setText("Missionsbeschreibung");
 		mBeschreibung.setFont(schrift);
-		//		mission.add(new JLabel("Mission:"),"left");
-		//		mission.add(mArt,"center");
 		mission.add(mBeschreibung,"center, growx, growy");
 		mission.setPreferredSize(new Dimension(280,140));
 
@@ -85,78 +76,29 @@ public class MissionPanel extends JPanel{
 			iconEinheiten = ImageIO.read(new File("./soldat.png"));
 			iconPferd = ImageIO.read(new File("./pferd.png"));
 			iconKanone = ImageIO.read(new File("./panzer.png"));
+			iconJoker = ImageIO.read(new File("./karten.png"));
 
 		} catch (IOException e){
 
 		}
 
-		icon2 = new ImageIcon(iconEinheiten.getScaledInstance(40, 40, Image.SCALE_FAST));
-		icon3 = new ImageIcon(iconPferd.getScaledInstance(40, 40, Image.SCALE_FAST));
-		icon4 = new ImageIcon(iconKanone.getScaledInstance(40, 40, Image.SCALE_FAST));
+		soldatImg = new ImageIcon(iconEinheiten.getScaledInstance(40, 40, Image.SCALE_FAST));
+		pferdImg = new ImageIcon(iconPferd.getScaledInstance(40, 40, Image.SCALE_FAST));
+		panzerImg = new ImageIcon(iconKanone.getScaledInstance(40, 40, Image.SCALE_FAST));
+		jokerImg = new ImageIcon(iconJoker.getScaledInstance(40, 40, Image.SCALE_FAST));
 		border = BorderFactory.createLineBorder(Color.BLUE, 2);
-
-
-		//
-		//		icon2.addMouseListener(new MouseAdapter() {
-		//
-		//			@Override
-		//			public void mouseClicked(MouseEvent e) {
-		//				handler.karteEintauschen("Soldat");
-		//				if(icon2.getBorder() != border){
-		//					icon2.setBorder(border);
-		//				}else{
-		//					icon2.setBorder(null);
-		//				}
-		//			}
-		//		});
-		//		icon3.addMouseListener(new MouseAdapter() {
-		//
-		//			@Override
-		//			public void mouseClicked(MouseEvent e) {
-		//				handler.karteEintauschen("Pferd");
-		//				if(icon3.getBorder() != border){
-		//					icon3.setBorder(border);
-		//				}else{
-		//					icon3.setBorder(null);
-		//				}
-		//			}
-		//		});
-		//		icon4.addMouseListener(new MouseAdapter() {
-		//
-		//			@Override
-		//			public void mouseClicked(MouseEvent e) {
-		//				handler.karteEintauschen("Panzer");
-		//				if(icon4.getBorder() != border){
-		//					icon4.setBorder(border);
-		//				}else{
-		//					icon4.setBorder(null);
-		//				}
-		//				
-		//			}
-		//		});
-
-
 		karten.add(new JLabel("Du hast folgende Karten:"),"center,spanx 5");
-
-		//		karten.add(kBeschreibung);
 		karten.setPreferredSize(new Dimension(280,140));
-
 		tabbedPane.addTab("Mission",mission);
 		tabbedPane.addTab("Karten", karten);
 		this.add(tabbedPane);
-
 	}
 
 	public void setMBeschreibung(String beschreibung){
-
-		//		mArt.setText(art);
 		mBeschreibung.setText(beschreibung);
-
-
 	}
-	public void kartenTauschen(){
 
-		
+	public void kartenTauschen(){	
 		for(String kartenString : kartenWahl){
 			String karte = kartenString;
 			if(kartenSpeicher1 == null){
@@ -169,19 +111,17 @@ public class MissionPanel extends JPanel{
 				kartenSpeicher3 = karte;
 				System.out.println("Speicher3");
 				System.out.println(kartenSpeicher1 + " " + kartenSpeicher2 + " " + kartenSpeicher3);
-				if(kartenSpeicher1 == kartenSpeicher2 && kartenSpeicher1 == kartenSpeicher3 || kartenSpeicher1 != kartenSpeicher2 && kartenSpeicher2 != kartenSpeicher3 && kartenSpeicher1 != kartenSpeicher3){
+				if(kartenSpeicher1 == kartenSpeicher2 && kartenSpeicher1 == kartenSpeicher3 || kartenSpeicher1 != kartenSpeicher2 && kartenSpeicher2 != kartenSpeicher3 && kartenSpeicher1 != kartenSpeicher3  || kartenSpeicher1 == kartenSpeicher2 && kartenSpeicher3 == "Joker" || kartenSpeicher2 == kartenSpeicher3 && kartenSpeicher1 == "Joker" || kartenSpeicher1 == kartenSpeicher3 && kartenSpeicher2 == "Joker"){
 					List<String> kartenUebergabe = new Vector<String>();
 					kartenUebergabe.add(kartenSpeicher1);
 					kartenUebergabe.add(kartenSpeicher2);
 					kartenUebergabe.add(kartenSpeicher3);
 					handler.karteEintauschen(kartenUebergabe);
 				}else{
-					handler.tauschFehlgeschlagen();
-					
+					handler.tauschFehlgeschlagen();		
 				}
 			}
 		}
-		kartenZahl = 0;
 		for(JLabel l : kartenListe){
 			l.setBorder(null);
 		}
@@ -194,6 +134,7 @@ public class MissionPanel extends JPanel{
 	}
 
 	public void kartenAusgeben(Spieler spieler){
+
 		for(JLabel k : kartenListe){
 			karten.remove(k);
 		}
@@ -206,113 +147,148 @@ public class MissionPanel extends JPanel{
 			int s = i;
 			switch(kartenStapel.get(i).getKartenwert()){
 			case "Soldat":
-				kartenListe.add(new JLabel(icon2));
+				kartenListe.add(new JLabel(soldatImg));
+				kartenListe.get(i).setName("Soldat");
+				System.out.println(kartenListe.get(i).getName());
 				kartenListe.get(i).addMouseListener(new MouseAdapter() {					
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						if(klick == true){
-						
-						if(kartenListe.get(s).getBorder() != border){
-							kartenListe.get(s).setBorder(border);
-							if(kartenWahl.size() == 2){
-								kartenWahl.add("Soldat");
-								kartenTauschen();
+
+							if(kartenListe.get(s).getBorder() != border){
+								kartenListe.get(s).setBorder(border);
+								if(kartenWahl.size() == 2){
+									kartenWahl.add("Soldat");
+									kartenTauschen();
+								}else{
+									kartenWahl.add("Soldat");
+								}
+
 							}else{
-								kartenWahl.add("Soldat");
-							}
-							
-						}else{
-							kartenListe.get(s).setBorder(null);
-							for(String kstring : kartenWahl){
-								if(kstring == "Soldat"){
-									kartenWahl.remove(kstring);
-									break;
+								kartenListe.get(s).setBorder(null);
+								for(String kstring : kartenWahl){
+									if(kstring == "Soldat"){
+										kartenWahl.remove(kstring);
+										break;
+									}
 								}
 							}
-						}
-						
 
-					}
+
+						}
 					}
 				});
 
 				break;
 			case "Pferd":
-				kartenListe.add(new JLabel(icon3));
+				kartenListe.add(new JLabel(pferdImg));
+				kartenListe.get(i).setName("Pferd");
+				System.out.println(kartenListe.get(i).getName());
 				kartenListe.get(i).addMouseListener(new MouseAdapter() {					
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						if(klick == true){
-						
-						if(kartenListe.get(s).getBorder() != border){
-							kartenListe.get(s).setBorder(border);
-							if(kartenWahl.size() == 2){
-								kartenWahl.add("Pferd");
-								kartenTauschen();
+
+							if(kartenListe.get(s).getBorder() != border){
+								kartenListe.get(s).setBorder(border);
+								if(kartenWahl.size() == 2){
+									kartenWahl.add("Pferd");
+									kartenTauschen();
+								}else{
+									kartenWahl.add("Pferd");
+								}
 							}else{
-								kartenWahl.add("Pferd");
-							}
-						}else{
-							kartenListe.get(s).setBorder(null);
-							for(String kstring : kartenWahl){
-								if(kstring == "Pferd"){
-									kartenWahl.remove(kstring);
-									break;
+								kartenListe.get(s).setBorder(null);
+								for(String kstring : kartenWahl){
+									if(kstring == "Pferd"){
+										kartenWahl.remove(kstring);
+										break;
+									}
 								}
 							}
+
 						}
-						
-					}
 					}
 				});
 				break;
 			case "Panzer":
-				kartenListe.add(new JLabel(icon4));
+				kartenListe.add(new JLabel(panzerImg));
 				kartenListe.get(i).addMouseListener(new MouseAdapter() {					
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						if(klick == true){
-						if(kartenListe.get(s).getBorder() != border){
-							kartenListe.get(s).setBorder(border);
-							if(kartenWahl.size() == 2){
-								kartenWahl.add("Panzer");
-								kartenTauschen();
+							if(kartenListe.get(s).getBorder() != border){
+								kartenListe.get(s).setBorder(border);
+								if(kartenWahl.size() == 2){
+									kartenWahl.add("Panzer");
+									kartenTauschen();
+								}else{
+									kartenWahl.add("Panzer");
+								}
 							}else{
-								kartenWahl.add("Panzer");
-							}
-						}else{
-							kartenListe.get(s).setBorder(null);
-							for(String kstring : kartenWahl){
-								if(kstring == "Panzer"){
-									kartenWahl.remove(kstring);
-									break;
+								kartenListe.get(s).setBorder(null);
+								for(String kstring : kartenWahl){
+									if(kstring == "Panzer"){
+										kartenWahl.remove(kstring);
+										break;
+									}
 								}
 							}
+
 						}
-						
-					}
 					}
 				});
 				break;
+			case "Joker":
+				kartenListe.add(new JLabel(jokerImg));
+				System.out.println(kartenListe.get(i).getName());
+				kartenListe.get(i).addMouseListener(new MouseAdapter() {					
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						if(klick == true){
+
+							if(kartenListe.get(s).getBorder() != border){
+								kartenListe.get(s).setBorder(border);
+								if(kartenWahl.size() == 2){
+									kartenWahl.add("Joker");
+									kartenTauschen();
+								}else{
+									kartenWahl.add("Joker");
+								}
+
+							}else{
+								kartenListe.get(s).setBorder(null);
+								for(String kstring : kartenWahl){
+									if(kstring == "Joker"){
+										kartenWahl.remove(kstring);
+										break;
+									}
+								}
+							}
+						}
+					}
+				});
+
+				break;
 			}
-			wert = 1;
 
 		}
 		for(JLabel l : kartenListe){
 			karten.add(l);
 		}
-
 		karten.repaint();
 	}
+
 	public void klickEnablen(){
-		System.out.println("Klick enable");
 		klick = true;
 	}
+
 	public void klickDisablen(){
 		klick = false;
 		for(JLabel l : kartenListe){
 			l.setBorder(null);
 		}
 	}
-	
+
+
 }

@@ -57,6 +57,7 @@ public class MapPanel extends JLayeredPane {
 	private JLabel wR3 = new JLabel();
 	private int breite;
 	private int hoehe;
+	private  BufferedImage myPicture;
 	
 	
 	
@@ -89,7 +90,7 @@ public class MapPanel extends JLayeredPane {
 	}
 
 	public void initialize() {
-        BufferedImage myPicture;
+
         try {
 			myPicture = ImageIO.read(new File("./weltkarte.jpg"));
 			spielfeld = new JLabel(new ImageIcon(myPicture.getScaledInstance(breite, hoehe, Image.SCALE_FAST)));
@@ -252,6 +253,26 @@ public class MapPanel extends JLayeredPane {
 	public void aufloesungAendern(int breite, int hoehe) {
 		this.breite = breite;
 		this.hoehe = hoehe;
+		this.repaint();
+		this.revalidate();
+	}
+	public void neuMalen(int breite, int hoehe){
+		this.breite = breite;
+		this.hoehe = hoehe;
+		try {
+			myPicture = ImageIO.read(new File("./weltkarte.jpg"));
+		
+			spielfeld.setIcon(new ImageIcon(myPicture.getScaledInstance(breite, hoehe, Image.SCALE_FAST)));
+			
+			weltKarteBunt = ImageIO.read(new File("./weltkarte_bunt.png"));
+			weltKarteBuntLab = new JLabel(new ImageIcon(weltKarteBunt));
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+		spielfeld.setBounds(0, 0, breite, hoehe);
+		spielfeld.repaint();
+		spielfeld.revalidate();
+		this.setSize(breite-30,hoehe);
 		this.repaint();
 		this.revalidate();
 	}

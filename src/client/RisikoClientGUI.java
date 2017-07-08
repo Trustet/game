@@ -66,7 +66,9 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	private Land land2 = null;
 	private int anzahlSetzbareEinheiten;
 	private Spieler aktiverSpieler;
+
 	private JFrame frame;
+
 
 	private RisikoClientGUI() {
 		this.start();
@@ -149,7 +151,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			MenuItem schliessen = new MenuItem("Schließen");
 			Menu aufloesung = new Menu("Aufloesung");
 			MenuItem aufloesung1 = new MenuItem("1920x1080");
-			MenuItem aufloesung2 = new MenuItem("2.Auflösung");
+			MenuItem aufloesung2 = new MenuItem("1280x800");
 			MenuItem aufloesung3 = new MenuItem("3.Auflösung");
 			datei.add(speichern);
 			datei.add(laden);
@@ -159,6 +161,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			aufloesung.add(aufloesung2);
 			aufloesung.add(aufloesung3);
 			aufloesung1.addActionListener(ausfuehren -> aufloesungAendern(1920, 1080));
+			aufloesung2.addActionListener(ausfuehren -> aufloesungAendern(1280, 800));
 			laden.addActionListener(load -> spielLaden());
 			speichern.addActionListener(save -> spielSpeichern());
 			schliessen.addActionListener(close -> System.exit(0));
@@ -166,17 +169,18 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			this.setMenuBar(menu);
 
 			//Layout anpassen
-			this.add(spielfeld, "left,spany 3,grow,hmin 550, wmin 1050");
+			this.add(spielfeld, "left,spany 3,grow");
 			this.add(infoPanel, "left,growx");
 			this.add(spielerListPanel, "growx");
 			this.add(statistikPanel, "left,top,growx,spany 2");
-			this.add(missionPanel, "left,top,split3,wmin 300, wmax 300");
+//			this.add(missionPanel, "left,top,split3,wmin 300, wmax 300");
+			this.add(missionPanel, "left,top,split3");
 			this.add(consolePanel, "left, top");
-			this.add(buttonPanel, "right,growy, wmin 180, wmax 180");
+//			this.add(buttonPanel, "right,growy, wmin 180, wmax 180");
+			this.add(buttonPanel, "right,growy");
 			this.setResizable(false);
 			this.setVisible(true);
 			this.pack();
-
 			//Spiel beginnen
 			sp.setTurn("STARTPHASE");
 			anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
@@ -187,8 +191,20 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		}
 	}
 
-	private void neuerSpieler() {
-		frame = new JFrame("Spieler erstellen");
+
+	public void aufloesungAendern(int breite, int hoehe) {
+		
+		
+		this.setSize(breite, hoehe);
+		spielfeld.neuMalen(1000, 600);
+		this.repaint();
+		this.revalidate();
+		
+		this.setLocationRelativeTo(null);
+	}
+
+	public void neuerSpieler() {
+		JFrame frame = new JFrame("Spieler erstellen");
 		frame.setSize(150, 300);
 		frame.setLayout(new MigLayout("wrap 2", "[][100]", "[][]"));
 		JLabel nameLab = new JLabel("Name:");
@@ -251,15 +267,6 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		}
 	}
 
-	private void aufloesungAendern(int breite, int hoehe) {
-		this.setSize(breite, hoehe);
-		spielfeld = new MapPanel(this, schrift,1550, 850);
-		spielfeld.repaint();
-		spielfeld.revalidate();
-		this.repaint();
-		this.revalidate();
-		this.setLocationRelativeTo(null);
-	}
 
 	private void spielLaden(){
 			try{
@@ -311,6 +318,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			sp.landWaehlen(landstring, aktiverSpieler);
 			
 			if (anzahlSetzbareEinheiten > 0) {
+				missionPanel.klickDisablen();
+				consolePanel.textSetzen("Du kannst nun keine Einheitenkarten mehr tauschen");
 				sp.einheitenPositionieren(1, land);
 				anzahlSetzbareEinheiten--;
 				spielfeld.labelsSetzen("", land.getEinheiten(), "");
@@ -451,6 +460,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			schuss();
 		}
 	}
+
 	
 	private void istSpielerRaus(){
 		//Überprüfung ob ein Spieler verloren hat
@@ -465,8 +475,8 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		}
 	}
 
-	private void gewonnen(Spieler spieler){
 		//alle Panels entfernen und Gewonnen Screen zeigen
+	public void gewonnen(){
 		this.remove(spielfeld);
 		this.remove(spielerListPanel);
 		this.remove(missionPanel);
@@ -476,6 +486,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 		this.remove(buttonPanel);
 		frame.setLayout(new MigLayout("wrap1","[]","[][]"));
 		frame.setForeground(Color.black);
+
 		JLabel gewinner = new JLabel("Spieler" + " hat gewonnen.");
 		gewinner.setFont(uberschrift);
 		gewinner.setForeground(Color.white);
@@ -514,7 +525,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 	public void phaseButtonClicked() {
 		//Wenn Mission erfüllt, dann gewonnen aufrufen
 		if(sp.getSpielerMission(aktiverSpieler).istAbgeschlossen()){
-			gewonnen(aktiverSpieler);
+			gewonnen();
 		}
 		sp.nextTurn();
 		aktiverSpieler = sp.getAktiverSpieler();
@@ -531,11 +542,13 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 			break;
 		case ANGRIFF:
+			
 			missionPanel.klickDisablen();
 			consolePanel.textSetzen(aktiverSpieler.getName() + " du kannst nun angreifen.");
 			buttonPanel.angreifenAktiv("angreifendes Land", "verteidigendes Land");
 			break;
 		case VERTEILEN:
+			missionPanel.kartenAusgeben(aktiverSpieler);
 			missionPanel.klickEnablen();
 			buttonPanel.phaseDisable();
 			anzahlSetzbareEinheiten = sp.bekommtEinheiten(aktiverSpieler);
@@ -550,7 +563,7 @@ public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonCl
 			consolePanel.textSetzen(aktiverSpieler.getName() + " verschiebe nun deine Einheiten.");
 			buttonPanel.verschiebenAktiv("erstes Land", "zweites Land");
 			if(aktiverSpieler.getEinheitenkarten().size() < 5){
-				sp.einheitenKarteZiehen(aktiverSpieler);
+				sp.einheitenKarteZiehen(aktiverSpieler);			
 			}
 			missionPanel.kartenAusgeben(aktiverSpieler);
 			break;
