@@ -8,6 +8,13 @@ public class LaenderMission extends Mission {
 	protected List<Land> laender;
 
 	
+	/**
+	 * @param id
+	 * @param spieler
+	 * @param anzahlLaender
+	 * @param anzahlEinheiten
+	 * @param laender
+	 */
 	public LaenderMission(int id, Spieler spieler, int anzahlLaender, int anzahlEinheiten, List<Land> laender) {
 		super(id,"<html> Erobern Sie " + anzahlLaender + " Laender <br> und besetzen Sie jedes mit " + anzahlEinheiten + "Einheiten.</html>", spieler,"laender");
 		this.anzahlLaender = anzahlLaender;
@@ -15,10 +22,17 @@ public class LaenderMission extends Mission {
 		this.laender = laender;
 	}
 
+	/**
+	 * @return
+	 */
 	public List<Land> getLaender() {
 		return laender;
 	}
 
+	/**
+	 * Setzt die Laender
+	 * @param laender
+	 */
 	public void setLaender(List<Land> laender) {
 		this.laender = laender;
 	}

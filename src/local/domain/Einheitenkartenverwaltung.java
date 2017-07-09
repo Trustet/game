@@ -16,6 +16,10 @@ public class Einheitenkartenverwaltung {
 		kartenstapelErstellen();
 	}
 
+	/**
+	 * Kartenstapel wird erstellt
+	 * @return List
+	 */
 	public List<Einheitenkarten> kartenstapelErstellen()
 	{
 		kartenstapel = new Vector<Einheitenkarten>();
@@ -34,6 +38,11 @@ public class Einheitenkartenverwaltung {
 		return kartenstapel;
 	}
 	
+	/**
+	 * Spieler nimmt Karte, Karte wird vom Stapel entfernt
+	 * @param spieler
+	 * @return
+	 */
 	public Einheitenkarten karteNehmen(Spieler spieler)
 	{
 		Einheitenkarten karte = kartenstapel.remove(0);
@@ -43,6 +52,10 @@ public class Einheitenkartenverwaltung {
 		return karte;
 	}
 	
+	/**
+	 * @param spieler
+	 * @return
+	 */
 	public boolean spielerkartenAuswerten(Spieler spieler)
 	{
 		/*
@@ -158,6 +171,11 @@ public class Einheitenkartenverwaltung {
 		return true;
 	}
 	
+	/**
+	 * Benutzte Einheitenkarten werdem dem Spieler entzogen
+	 * @param spieler
+	 * @param benutzteKarten
+	 */
 	private void einheitenKartenVonSpielerEntfernen(Spieler spieler, List<String> benutzteKarten)
 	{
 		List<Einheitenkarten> kartenListe = spieler.getEinheitenkarten();
@@ -185,6 +203,12 @@ public class Einheitenkartenverwaltung {
 //		}
 	}
 	
+	/**
+	 * Einheitenkarten werden eingelöst
+	 * @param spieler
+	 * @param tauschKarten
+	 * @return
+	 */
 	public int einheitenkartenEinloesen(Spieler spieler,List<String> tauschKarten){
 		int einheiten = 0;
 		if(tauschKarten.get(0) == tauschKarten.get(1)){

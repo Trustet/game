@@ -18,6 +18,10 @@ public class AngriffRueckgabe {
 		this.erobert = erobert;
 	}
 	
+	/**
+	 * Gibt aus wer gewonnen hat oder ob es unentschieden ausgeht
+	 * @return
+	 */
 	public String hatGewonnen()	{
 		if (verlusteVerteidiger < verlusteAngreifer){
 			return "V";
@@ -28,15 +32,27 @@ public class AngriffRueckgabe {
 	}
 	}
 	
+	/**
+	 * Gibt die Anzahl der Verluste des Verteidigers aus
+	 * @return int
+	 */
 	public int getVerlusteVerteidiger() {
 		return verlusteVerteidiger;
 	}
 	public void setVerlusteVerteidiger(int verlusteVerteidiger) {
 		this.verlusteVerteidiger = verlusteVerteidiger;
 	}
+	/**
+	 * Gibt die Anzahl der Verluste des Angreifers aus
+	 * @return int
+	 */
 	public int getVerlusteAngreifer() {
 		return verlusteAngreifer;
 	}
+	/**
+	 * Setzt die Anzahl der Verluste des Angreifers
+	 * @param verlusteAngreifer
+	 */
 	public void setVerlusteAngreifer(int verlusteAngreifer) {
 		this.verlusteAngreifer = verlusteAngreifer;
 	}
@@ -55,6 +71,10 @@ public class AngriffRueckgabe {
 	public boolean isErobert() {
 		return erobert;
 	}
+	/**
+	 * Zeigt an ob ein Land erobert ist
+	 * @param erobert
+	 */
 	public void setErobert(boolean erobert) {
 		this.erobert = erobert;
 	}

@@ -30,6 +30,10 @@ public class ButtonPanel extends JPanel{
 		public void verschiebenNAClicked(int einheiten);
 	}
 	
+	/**
+	 * @param handler
+	 * @param font
+	 */
 	public ButtonPanel(ButtonClickHandler handler, Font font){
 		this.handler = handler;
 		this.font = font;
@@ -73,6 +77,11 @@ public class ButtonPanel extends JPanel{
 //		this.add(anzahlEinheitenVerteilen,"left,grow");
 		startphase();
 	}
+	/**
+	 * Spieler kann wieder angreifen
+	 * @param angriffsLand
+	 * @param verteidigungsLand
+	 */
 	public void angreifenAktiv(String angriffsLand,String verteidigungsLand)	{
 		angreifen.setEnabled(false);
 		removeAll();
@@ -86,6 +95,11 @@ public class ButtonPanel extends JPanel{
 		this.repaint();
 	}
 	
+	/**
+	 * Spieler kann wieder angreifen , nachdem verschoben wurde
+	 * @param erstesLand
+	 * @param zweitesLand
+	 */
 	public void verschiebenNachAngreifenAktiv(String erstesLand, String zweitesLand)	{
 		removeAll();
 		this.add(land1,"left,grow");
@@ -96,6 +110,11 @@ public class ButtonPanel extends JPanel{
 		this.add(verschiebenNA,"left,grow");
 	}
 	
+	/**
+	 * Spieler kann wieder verschieben
+	 * @param erstesLand
+	 * @param zweitesLand
+	 */
 	public void verschiebenAktiv(String erstesLand, String zweitesLand)	{
 		removeAll();
 		this.add(land1,"left,grow");
@@ -112,6 +131,10 @@ public class ButtonPanel extends JPanel{
 		this.repaint();
 	}
 	
+	/**
+	 * Spieler kann wieder verteilen
+	 * @param einheiten
+	 */
 	public void verteilenAktiv(int einheiten)	{		
 		removeAll();
 		this.add(anzahlEinheitenVerteilen,"center");

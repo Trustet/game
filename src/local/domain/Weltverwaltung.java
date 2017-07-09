@@ -371,6 +371,11 @@ public class Weltverwaltung {
 		return ausgabe;
 	}
 	
+	/**
+	 * Gibt den Farbcode vom jeweiligen Land aus
+	 * @param farbe
+	 * @return String
+	 */
 	public String getLandVonFarbcode(String farbe){
 		String landstring = "";
 		switch(farbe){

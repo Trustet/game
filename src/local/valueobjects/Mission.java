@@ -11,6 +11,12 @@ public abstract class Mission{
 	private int id;
 	private String art;
 
+	/**
+	 * @param id
+	 * @param beschreibung
+	 * @param spieler
+	 * @param art
+	 */
 	public Mission(int id, String beschreibung, Spieler spieler, String art) {
 		this.beschreibung = beschreibung;
 		this.spieler = spieler;

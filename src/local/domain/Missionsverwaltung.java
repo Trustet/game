@@ -62,6 +62,10 @@ public class Missionsverwaltung {
 		missionsListe.add(new SpielerMission(10,platzhalterSpieler,platzhalterSpieler,spielerListe));
 		//Missionen abspeichern
 	}
+		/**
+		 * Den Missionen werden zufällig Spieler zugeordnet 
+		 * @param spielerListe
+		 */
 		public void missionenVerteilen(List<Spieler> spielerListe){
 		List<Mission> speicher= new Vector<Mission>();
 		for(Mission m : this.missionsListe){
@@ -108,6 +112,11 @@ public class Missionsverwaltung {
 //		}
 		
 	}
+	/**
+	 * Gibt die Mission des Spielers aus
+	 * @param spieler
+	 * @return String
+	 */
 	public String missionAusgeben(Spieler spieler){
 		String ausgabe = "";
 		for(Mission m : this.missionsListe){
@@ -117,9 +126,18 @@ public class Missionsverwaltung {
 		}
 		return ausgabe;
 	}
+	/**
+	 * Gibt die Missionsliste aus
+	 * @return
+	 */
 	public List<Mission> getMissionsListe(){
 		return this.missionsListe;
 	}
+	/**
+	 * Gibt die Mission des Spielers aus
+	 * @param spieler
+	 * @return
+	 */
 	public Mission getSpielerMission(Spieler spieler){
 		for(Mission m : missionsListe){
 			if(m.getSpieler().equals(spieler)){
@@ -129,6 +147,14 @@ public class Missionsverwaltung {
 		return null;
 	}
 	
+	/**
+	 * @param laenderListe
+	 * @param kontinentenListe
+	 * @param spielerListe
+	 * @param spieler
+	 * @param spieler2
+	 * @param id
+	 */
 	public void missionLaden(List<Land> laenderListe, List<Kontinent> kontinentenListe, List<Spieler> spielerListe, Spieler spieler, Spieler spieler2, int id) {
 		if(id == 1) {
 			//Befreien Sie Nordamerika und Afrika

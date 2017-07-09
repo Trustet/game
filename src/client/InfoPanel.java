@@ -36,6 +36,10 @@ public class InfoPanel extends JPanel{
 	public void setInfo(String phase){
 		phaseLab.setText(phase);
 	}
+	/**
+	 * Wechselt zum Panel der jetzigen Phase
+	 * @param phase
+	 */
 	public void changePanel(String phase){
 		switch(phase){
 		case "VERTEILEN":

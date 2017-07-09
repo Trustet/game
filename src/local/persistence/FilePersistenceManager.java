@@ -18,14 +18,25 @@ public class FilePersistenceManager {
 	private BufferedReader reader = null;
 	private PrintWriter writer = null;
 	
+	/**
+	 * @param datei
+	 * @throws FileNotFoundException
+	 */
 	public void lesekanalOeffnen(String datei) throws FileNotFoundException{
 		reader = new BufferedReader(new FileReader(datei));
 	}
 	
+	/**
+	 * @param datei
+	 * @throws IOException
+	 */
 	public void schreibkanalOeffnen(String datei) throws IOException{
 		writer = new PrintWriter(new BufferedWriter(new FileWriter(datei)));
 	}
 
+	/**
+	 * @return
+	 */
 	public boolean close(){
 		if(writer != null){
 			writer.close();
@@ -41,6 +52,10 @@ public class FilePersistenceManager {
 		
 		return true;
 	}
+	/**
+	 * @return
+	 * @throws IOException
+	 */
 	public Land ladeLand() throws IOException{
 		String name = liesZeile();
 		if(name == null){
@@ -54,6 +69,14 @@ public class FilePersistenceManager {
 		
 	}
 
+	/**
+	 * @param welt
+	 * @param spielerListe
+	 * @param phase
+	 * @param aktiverSpieler
+	 * @param missionsListe
+	 * @return
+	 */
 	public boolean spielSpeichern(List<Land> welt, List<Spieler> spielerListe, String phase, int aktiverSpieler, List<Mission> missionsListe){
 		schreibeZeile(phase);
 		for(Spieler s : spielerListe){
@@ -104,10 +127,18 @@ public class FilePersistenceManager {
 		return true;
 	}
 	
+	/**
+	 * @return
+	 * @throws IOException
+	 */
 	public String spielstandLaden() throws IOException{
 		return liesZeile();
 	}
 
+	/**
+	 * @return
+	 * @throws IOException
+	 */
 	private String liesZeile() throws IOException{
 		if(reader != null){
 			return reader.readLine();
@@ -116,6 +147,9 @@ public class FilePersistenceManager {
 		}
 	}
 	
+	/**
+	 * @param daten
+	 */
 	private void schreibeZeile(String daten) {
 		if (writer != null)
 			writer.println(daten);
