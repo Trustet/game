@@ -1,7 +1,7 @@
 //TODO Angriffsphase erweitern (Yannik)
 //TODO Karten ausgeben
 //TODO Backend aufraeumen
-//TODO Angreifen mit nur einer Einheit funtkioniert nicht
+//TODO nach angreifen mit einer einheit, wird keine rübergezogen
 //TODO Javadoc
 //TODO Speichern erweitern (Idee: Jeder Spieler bekommt beim ersten Onlinespiel eine eindeutige ID)
 //TODO mit ostafrika kann man Nordafrika nicht angreifen?

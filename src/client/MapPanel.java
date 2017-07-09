@@ -178,11 +178,14 @@ public class MapPanel extends JLayeredPane {
 		wuerfelEntfernen();
 		//rote Angreifer Würfel
 		wR1 = getWuerfelLabel("rot", wuerfelAngreifer.get(0));
-		wR2 = getWuerfelLabel("rot", wuerfelAngreifer.get(1));
 		wR1.setBounds(20,420, 40, 40);
-		wR2.setBounds(wR1.getX() + 50,wR1.getY(), 40, 40);
 		this.add(wR1, new Integer(2), 0);
-		this.add(wR2, new Integer(2), 0);
+		
+		if(wuerfelAngreifer.size() == 2 || wuerfelAngreifer.size() == 3) {
+			wR2 = getWuerfelLabel("rot", wuerfelAngreifer.get(1));
+			wR2.setBounds(wR1.getX() + 50,wR1.getY(), 40, 40);
+			this.add(wR2, new Integer(2), 0);
+		}
 		
 		if(wuerfelAngreifer.size() == 3) {
 			wR3 = getWuerfelLabel("rot", wuerfelAngreifer.get(2));

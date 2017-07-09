@@ -145,17 +145,29 @@ private int startphaseZaehler = 1;
 				verluste.add(0); //Verluste die der Verteidiger macht
 			}
 		} else if(wuerfeVerteidiger.size() == 2)	{
-			if((wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(0) && (wuerfeVerteidiger.get(1) < wuerfeAngreifer.get(1))))	{
-				//Angreifer gewonnen
-				verluste.add(0); //Verluste die der Angreifer macht
-				verluste.add(2); //Verluste die der Verteidiger macht
-			} else if((wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(0) && (wuerfeVerteidiger.get(1) >= wuerfeAngreifer.get(1))))	{
-				//Verteidiger gewonnen
-				verluste.add(2); //Verluste die der Angreifer macht
-				verluste.add(0); //Verluste die der Verteidiger macht
-			} else	{
-				verluste.add(1);
-				verluste.add(1);
+			if(wuerfeAngreifer.size() >= 2) {
+				if((wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(0) && (wuerfeVerteidiger.get(1) < wuerfeAngreifer.get(1))))	{
+					//Angreifer gewonnen
+					verluste.add(0); //Verluste die der Angreifer macht
+					verluste.add(2); //Verluste die der Verteidiger macht
+				} else if((wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(0) && (wuerfeVerteidiger.get(1) >= wuerfeAngreifer.get(1))))	{
+					//Verteidiger gewonnen
+					verluste.add(2); //Verluste die der Angreifer macht
+					verluste.add(0); //Verluste die der Verteidiger macht
+				} else	{
+					verluste.add(1);
+					verluste.add(1);
+				}
+			} else {
+				if(wuerfeVerteidiger.get(0) < wuerfeAngreifer.get(0)) {
+					//Angreifer gewonnen
+					verluste.add(0); //Verluste die der Angreifer macht
+					verluste.add(1); //Verluste die der Verteidiger macht
+				} else if(wuerfeVerteidiger.get(0) >= wuerfeAngreifer.get(0))	{
+					//Verteidiger gewonnen
+					verluste.add(1); //Verluste die der Angreifer macht
+					verluste.add(0); //Verluste die der Verteidiger macht
+				}
 			}
 		}
 		
@@ -348,7 +360,7 @@ private int startphaseZaehler = 1;
 	public boolean checkEinheiten(String land, int einheiten) throws NichtGenugEinheitenException{
 		int landEinheiten = weltVw.stringToLand(land).getEinheiten();
 		
-		if(landEinheiten < 2 || landEinheiten <= einheiten || einheiten < 1){
+		if(landEinheiten < 2 || landEinheiten <= einheiten){
 			throw new NichtGenugEinheitenException(einheiten);
 		}else{
 			return true;
