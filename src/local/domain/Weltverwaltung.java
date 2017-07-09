@@ -7,7 +7,9 @@ import java.util.Vector;
 import local.domain.exceptions.KeinGegnerException;
 import local.domain.exceptions.LandExistiertNichtException;
 import local.persistence.FilePersistenceManager;
-import local.valueobjects.*;
+import local.valueobjects.Kontinent;
+import local.valueobjects.Land;
+import local.valueobjects.Spieler;
 
 public class Weltverwaltung {
 
@@ -35,36 +37,37 @@ public class Weltverwaltung {
 		this.verbindungenErstellen();
 		this.kontinenteErstellen();
 	}
+	
 	/**
 	 * Teilt die Länder auf
 	 * @param anzahlSpieler
 	 * @param spielerVw
 	 * @param weltVw
 	 */
-
-		public void laenderAufteilen(List<Spieler> spielerListe){
-			List<Land> laenderWahl = new Vector<Land>();
-			for(Land ls :this.getLaenderListe()){
-				laenderWahl.add(ls);
-			}
-			int random;
-			while(laenderWahl.size() > 0){
-				for(Spieler s : spielerListe){
-					if(laenderWahl.size() > 0){
-						random = (int)(Math.random() * laenderWahl.size());
-						String land = laenderWahl.get(random).getName();
-						for(Land l : this.getLaenderListe()){
-							if(l.getName().equals(land)){
-								l.setBesitzer(s);
-							}
+	public void laenderAufteilen(List<Spieler> spielerListe){
+		List<Land> laenderWahl = new Vector<Land>();
+		int random;
+		
+		for(Land ls :this.getLaenderListe()){
+			laenderWahl.add(ls);
+		}
+		
+		while(laenderWahl.size() > 0){
+			for(Spieler s : spielerListe){
+				if(laenderWahl.size() > 0){
+					random = (int)(Math.random() * laenderWahl.size());
+					String land = laenderWahl.get(random).getName();
+					for(Land l : this.getLaenderListe()){
+						if(l.getName().equals(land)){
+							l.setBesitzer(s);
 						}
-						laenderWahl.remove(random);
 					}
+					laenderWahl.remove(random);
 				}
 			}
 		}
+	}
 
-	
 	/**
 	 * erstellt Länder
 	 */
@@ -194,7 +197,6 @@ public class Weltverwaltung {
 				return i;
 			}
 		}
-		//fehlermeldung
 		return 9999;
 	}
 	
@@ -269,8 +271,6 @@ public class Weltverwaltung {
 		return kontinentenListe;
 	}
 
-
-
 	/**
 	 * @param angriffsLandString
 	 * @return Land
@@ -299,7 +299,6 @@ public class Weltverwaltung {
 		return laender;
 	}
 	
-	
 	/**
 	 * Listet alle Länder auf mit denen man angreifen kann
 	 * @param spieler
@@ -327,8 +326,8 @@ public class Weltverwaltung {
 		}else{
 			return true;
 		}
-		
 	}
+	
 	/**
 	 * Überprüft ob ein Land dem Gegner gehört
 	 * @param land
@@ -344,6 +343,7 @@ public class Weltverwaltung {
 		}
 		
 	}
+	
 	/**
 	 * Listet alle Länder auf, auf die man verschieben kann
 	 * @param spieler
@@ -360,6 +360,7 @@ public class Weltverwaltung {
 			}
 		return rueckgabeLaender;
 	}
+	
 	/**
 	 * Gibt die Namen und Einheiten von zwei Länder aus
 	 * @param erstesLand
@@ -371,6 +372,11 @@ public class Weltverwaltung {
 		return ausgabe;
 	}
 	
+	/**
+	 * 
+	 * @param farbe
+	 * @return
+	 */
 	public String getLandVonFarbcode(String farbe){
 		String landstring = "";
 		switch(farbe){

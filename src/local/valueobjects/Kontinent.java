@@ -12,7 +12,6 @@ public class Kontinent {
 		this.laender = laender;
 	}
 
-
 	public String toString() {
 		return name;
 	}

@@ -6,11 +6,9 @@ public class SpielerMission extends Mission {
 
 	List<Spieler> spielerliste;
 
-	
 	public SpielerMission(int id, Spieler spieler,Spieler spieler2,List<Spieler> spielerliste) {
 		super(id, "<html>Erobern Sie alle Länder von<br> " + spieler2.getName() +"</html>", spieler,"spieler"); // +  spieler2,spieler);
 		this.spielerliste = spielerliste;
-		
 	}
 	
 	public void resetBeschreibung(){
@@ -23,6 +21,4 @@ public class SpielerMission extends Mission {
 		}
 		return true;
 	}
-	
-
 }

@@ -1,8 +1,5 @@
 package local.valueobjects;
 
-import java.util.List;
-import java.util.Vector;
-
 public abstract class Mission{
 
 	protected String beschreibung;

@@ -7,7 +7,6 @@ import local.persistence.FilePersistenceManager;
 import local.valueobjects.Spieler;
 
 public class Spielerverwaltung {
-
 	private List<Spieler> spielerListe = new Vector<Spieler>();
 	private int spielerNummer = 0;
 	private FilePersistenceManager pm = new FilePersistenceManager();
@@ -29,6 +28,10 @@ public class Spielerverwaltung {
 		return this.spielerListe.get(spielerNummer);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getAktiverSpielerNummer(){
 		return spielerNummer;
 	}
@@ -43,6 +46,7 @@ public class Spielerverwaltung {
 			spielerNummer = 0;
 		}
 	}
+	
 	/**
 	 * Fügt einen neuen Spieler zu
 	 * @param name
@@ -55,7 +59,6 @@ public class Spielerverwaltung {
 		}
 		spielerListe.add(neuerSpieler);
 	}
-	
 
 	/**
 	 * Gibt die SPielerliste zurück
@@ -65,9 +68,11 @@ public class Spielerverwaltung {
 		return spielerListe;
 	}
 	
+	/**
+	 * 
+	 * @param spieler
+	 */
 	public void setAktiverSpieler(int spieler){
 		this.spielerNummer = spieler;
 	}
-	
-
 }

@@ -4,6 +4,7 @@
 //TODO Angreifen mit nur einer Einheit funtkioniert nicht
 //TODO Javadoc
 //TODO Speichern erweitern (Idee: Jeder Spieler bekommt beim ersten Onlinespiel eine eindeutige ID)
+//TODO mit ostafrika kann man Nordafrika nicht angreifen?
 package client;
 
 import java.awt.Color;

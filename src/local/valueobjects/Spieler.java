@@ -33,7 +33,6 @@ public class Spieler {
 		this.einheitenkarten = einheitenkarten;
 	}
 	
-	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Spieler) {
 			Spieler andererSpieler = (Spieler) obj;
@@ -41,9 +40,11 @@ public class Spieler {
 		}
 		return false;
 	}
+	
 	public void setFarbe(String farbe){
 		this.farbe = farbe;
 	}
+	
 	public String getFarbe(){
 		return this.farbe;
 	}

@@ -1,12 +1,12 @@
 package local.valueobjects;
+
 import java.util.List;
-import java.util.Vector;
+
 public class LaenderMission extends Mission {
 
 	private int anzahlLaender = 0;
 	private int anzahlEinheiten = 0;	
 	protected List<Land> laender;
-
 	
 	public LaenderMission(int id, Spieler spieler, int anzahlLaender, int anzahlEinheiten, List<Land> laender) {
 		super(id,"<html> Erobern Sie " + anzahlLaender + " Laender <br> und besetzen Sie jedes mit " + anzahlEinheiten + "Einheiten.</html>", spieler,"laender");
@@ -31,13 +31,11 @@ public class LaenderMission extends Mission {
 				if (l.getEinheiten() >= anzahlEinheiten){
 					counter++;
 				}
-			
 			}
 		}
 		if(counter >= anzahlLaender){
 			return true;
 		}
-		
 		return false;
 	}
 }

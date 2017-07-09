@@ -1,7 +1,6 @@
 package local.valueobjects;
 
 public class Einheitenkarten {
-
 	private String kartenwert;
 
 	public Einheitenkarten(String kartenwert) {
@@ -16,7 +15,6 @@ public class Einheitenkarten {
 		this.kartenwert = kartenwert;
 	}
 	
-	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Einheitenkarten) {
 			Einheitenkarten andereKarte = (Einheitenkarten) obj;
@@ -24,5 +22,4 @@ public class Einheitenkarten {
 		}
 		return false;
 	}
-	
 }
