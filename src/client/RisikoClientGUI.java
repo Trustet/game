@@ -1,10 +1,10 @@
 //TODO Angriffsphase erweitern (Yannik)
 //TODO Karten ausgeben
-//TODO GUI komplett aufraeumen
-//TODO Exceptions mit text umschreiben (wie Teschke)
-//TODO Angreiffen mit nur einer Einheit funtkioniert nicht
+//TODO Backend aufraeumen
+//TODO Angreifen mit nur einer Einheit funtkioniert nicht
 //TODO Javadoc
 //TODO Speichern erweitern (Idee: Jeder Spieler bekommt beim ersten Onlinespiel eine eindeutige ID)
+//TODO mit ostafrika kann man Nordafrika nicht angreifen?
 package client;
 
 import java.awt.Color;
@@ -41,18 +41,15 @@ import local.domain.exceptions.KeinNachbarlandException;
 import local.domain.exceptions.LandBereitsBenutztException;
 import local.domain.exceptions.NichtGenugEinheitenException;
 import local.domain.exceptions.SpielerExistiertBereitsException;
-import local.ui.cui.IO;
-import local.ui.cui.RisikoClientCUI;
 import local.valueobjects.Angriff;
 import local.valueobjects.AngriffRueckgabe;
 import local.valueobjects.Land;
 import local.valueobjects.Spieler;
 import net.miginfocom.swing.MigLayout;
 
-public class RisikoClientGUI extends JFrame
-implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, ErstellenButtonClicked, KarteClickedHandler {
+public class RisikoClientGUI extends JFrame implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, ErstellenButtonClicked, KarteClickedHandler {
+	
 	Spielfeld sp = new Spielfeld();
-
 	int anzahlSpieler;
 	private SpielerPanel spielerListPanel;
 	private MissionPanel missionPanel;
@@ -70,11 +67,11 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 	private Land land2 = null;
 	private int anzahlSetzbareEinheiten;
 	private Spieler aktiverSpieler;
-	// private Socket socket = null;
-	// private BufferedReader in;
-	// private PrintStream out;
 
-	public RisikoClientGUI() {
+	private JFrame frame;
+
+
+	private RisikoClientGUI() {
 		this.start();
 	}
 
@@ -82,48 +79,47 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		new RisikoClientGUI();
 	}
 
-	public void start() {
+	private void start() {
+		//Schriften für alle Panel
 		uberschrift = new Font(Font.SERIF, Font.BOLD, 25);
 		schrift = new Font(Font.SANS_SERIF, Font.PLAIN, 17);
 
-		// Frame und Layout
+		//Spielmenu Fenster erstellen
 		this.setTitle("Spiel starten");
 		this.setSize(330, 350);
 		this.setLocationRelativeTo(null);
-		// panel.setBackground(new Color(220,175,116));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
 		startPanel = new StartPanel(this);
 		this.add(startPanel);
 		this.setResizable(true);
 		this.setVisible(true);
-
 	}
 
-	public void spielErstellen() {
+	private void spielErstellen() {
 		
-		// Frame und Layout
+		//Spieler erstellen Fenster erstellen
 		this.setTitle("Spiel erstellen");
-
-		// panel.setBackground(new Color(220,175,116));
-		this.setSize(280, 200); // von 300 auf 280 gestellt //FRAGE: kann man
-		// panel zentrieren?
+		this.setSize(280, 200);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		erstellenPanel = new ErstellenPanel(this);
-
 		this.add(erstellenPanel);
 		this.setVisible(true);
 		this.repaint();
 		this.revalidate();
-
 	}
 
-	public void spiel(String name, int anzahlSpieler) {
-		// verbindungAufbauen(ip,port);
-		this.anzahlSpieler = anzahlSpieler;
+	public void spielErstellen(String name, int anzahl) {
+		//von Spiel erstellen zu Spiel wechseln
+		spiel(name, anzahl);
+	}
 
+	private void spiel(String name, int anzahlSpieler) {
+		this.anzahlSpieler = anzahlSpieler;
+		
+		//Spiel erzeugen
 		try {
+			//Spieler erstellen
 			sp.erstelleSpieler(name);
 			this.remove(erstellenPanel);
 			for (int i = 1; i < anzahlSpieler; i++) {
@@ -134,14 +130,10 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			this.setSize(1250, 817);
 			this.setLocationRelativeTo(null);
 			this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-			// JPanel panel = new JPanel(new MigLayout("
-			// wrap2","[][]","[][][]")); // hier "debug,wrap2" schreiben für
-			// Debug-Modus
+			
+			//Fenster mit Layout und Paneln füllen
 			this.setLayout(new MigLayout("debug, wrap2", "[1050][]", "[][][]"));
-			// this.add(panel);
-
-			spielfeld = new MapPanel(this, schrift);
+			spielfeld = new MapPanel(this, schrift,1050, 550);
 			spielerListPanel = new SpielerPanel(schrift, uberschrift);
 			missionPanel = new MissionPanel(uberschrift, schrift,this);
 			infoPanel = new InfoPanel(sp.getTurn() + "", aktiverSpieler.getName(), schrift, uberschrift);
@@ -149,37 +141,48 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			statistikPanel = new StatistikPanel(sp.getSpielerList(), sp.getLaenderListe(), schrift, uberschrift);
 			consolePanel = new ConsolePanel(schrift);
 
-			// Menu auslagern
+			//Menuleiste erstellen
 			menu = new MenuBar();
 			Menu datei = new Menu("Datei");
+			Menu grafik = new Menu("Grafik");
 			menu.add(datei);
+			menu.add(grafik);
 			MenuItem speichern = new MenuItem("Speichern");
 			MenuItem laden = new MenuItem("Laden");
 			MenuItem schliessen = new MenuItem("Schließen");
+			Menu aufloesung = new Menu("Aufloesung");
+			MenuItem aufloesung1 = new MenuItem("1920x1080");
+			MenuItem aufloesung2 = new MenuItem("1280x800");
+			MenuItem aufloesung3 = new MenuItem("3.Auflösung");
 			datei.add(speichern);
 			datei.add(laden);
 			datei.add(schliessen);
-			
+			grafik.add(aufloesung);
+			aufloesung.add(aufloesung1);
+			aufloesung.add(aufloesung2);
+			aufloesung.add(aufloesung3);
+			aufloesung1.addActionListener(ausfuehren -> aufloesungAendern(1920, 1080));
+			aufloesung2.addActionListener(ausfuehren -> aufloesungAendern(1280, 800));
 			laden.addActionListener(load -> spielLaden());
 			speichern.addActionListener(save -> spielSpeichern());
-			
+			schliessen.addActionListener(close -> System.exit(0));
 			menu.setFont(schrift);
-			// MenuBarBorder menuBorder = new MenuBarBorder(Color.black,
-			// Color.white);
-			// getContentPane();
 			this.setMenuBar(menu);
 
-			this.add(spielfeld, "left,spany 3,grow,hmin 550, wmin 1050");
+			//Layout anpassen
+			this.add(spielfeld, "left,spany 3,grow");
 			this.add(infoPanel, "left,growx");
 			this.add(spielerListPanel, "growx");
 			this.add(statistikPanel, "left,top,growx,spany 2");
-			this.add(missionPanel, "left,top,split3,wmin 300, wmax 300");
+//			this.add(missionPanel, "left,top,split3,wmin 300, wmax 300");
+			this.add(missionPanel, "left,top,split3");
 			this.add(consolePanel, "left, top");
-			this.add(buttonPanel, "right,growy, wmin 180, wmax 180");
+//			this.add(buttonPanel, "right,growy, wmin 180, wmax 180");
+			this.add(buttonPanel, "right,growy");
 			this.setResizable(false);
 			this.setVisible(true);
 			this.pack();
-
+			//Spiel beginnen
 			sp.setTurn("STARTPHASE");
 			anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
 			consolePanel.textSetzen(aktiverSpieler.getName()
@@ -187,28 +190,20 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		} catch (SpielerExistiertBereitsException sebe) {
 			JOptionPane.showMessageDialog(null, sebe.getMessage(), "Name vergeben", JOptionPane.WARNING_MESSAGE);
 		}
-
-		// missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 	}
 
-	public void spielLaden(){
-		//Spiel laden
-		System.out.println("Laden");
-			try{
-			sp.spielLaden("Game2.txt");
-			} catch(Exception e) {
-				consolePanel.textSetzen("Kann nicht geladen werden");
-			}
+
+	public void aufloesungAendern(int breite, int hoehe) {
+		
+		
+		this.setSize(breite, hoehe);
+		spielfeld.neuMalen(1000, 600);
+		this.repaint();
+		this.revalidate();
+		
+		this.setLocationRelativeTo(null);
 	}
-	
-	public void spielSpeichern() {
-		try{
-			sp.spielSpeichern("Game2.txt");
-		}catch(IOException e){
-			consolePanel.textSetzen("Spiel konnte nicht gespeichert werden" + e.getMessage());
-		}
-	}
-	
+
 	public void neuerSpieler() {
 		JFrame frame = new JFrame("Spieler erstellen");
 		frame.setSize(150, 300);
@@ -216,24 +211,25 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		JLabel nameLab = new JLabel("Name:");
 		JTextField nameText = new JTextField();
 		JButton erstellenBtn = new JButton("Erstellen");
-
+	
 		erstellenBtn.addActionListener(erstellen -> spielerErstellen(frame, nameText.getText()));
-
+	
 		frame.add(nameLab, "right");
 		frame.add(nameText, "left,growx");
 		frame.add(erstellenBtn, "center,spanx 2");
 		frame.setVisible(true);
 	}
 
-	public void spielerErstellen(JFrame frame, String name) {
+	private void spielerErstellen(JFrame frame, String name) {
+		//Spieler erstellen
 		try {
 			sp.erstelleSpieler(name);
 			frame.dispose();
-
 		} catch (SpielerExistiertBereitsException sebe) {
 			JOptionPane.showMessageDialog(null, sebe.getMessage(), "Name vergeben", JOptionPane.WARNING_MESSAGE);
 		}
-
+	
+		//Wenn alle Spieler erstellt sind, dann Welt und Missionen erstellen und aufteilen
 		if (sp.getSpielerList().size() == anzahlSpieler) {
 			try {
 				sp.laenderErstellen();
@@ -252,16 +248,12 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 				spielerListPanel.setLabel(spielerNr, s.getName(), s.getFarbe());
 				spielerNr++;
 			}
-			//zum testen für den Gewinnbildschirm
-			//this.gewonnen(sp.getSpielerList().get(0), frame);
-			
 			statistikPanel.statistikAktualisieren();
 			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
-
 		}
 	}
 
-	public void farbenVerteilen() {
+	private void farbenVerteilen() {
 		List<String> farben = new Vector<String>();
 		farben.add("rot");
 		farben.add("gruen");
@@ -269,34 +261,47 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		farben.add("gelb");
 		farben.add("orange");
 		farben.add("cyan");
-
+	
 		for (Spieler s : sp.getSpielerList()) {
 			s.setFarbe(farben.get(0));
 			farben.remove(0);
 		}
 	}
 
-	@Override
-	public void processMouseClick(Color color) {
-		String landcode = color.getRed() + "" + color.getGreen() + "" + color.getBlue();
-		landWaehlen(landcode);
 
+	private void spielLaden(){
+			try{
+			sp.spielLaden("Game2.txt");
+			} catch(Exception e) {
+				consolePanel.textSetzen("Kann nicht geladen werden");
+			}
+	}
+	
+	private void spielSpeichern() {
+		try{
+			sp.spielSpeichern("Game2.txt");
+		}catch(IOException e){
+			consolePanel.textSetzen("Spiel konnte nicht gespeichert werden" + e.getMessage());
+		}
 	}
 
-	public void landWaehlen(String landcode) {
-
+	private void landWaehlen(String landcode) {
 		String landstring = sp.getLandVonFarbcode(landcode);
 		Land land = sp.stringToLand(landstring);
+		
 		if (land != null) {
 			spielfeld.labelsSetzen(land.getName(), land.getEinheiten(), land.getBesitzer().getName());
+			//Phasen abhängige Aktion beim Klicken eines Landes
 			switch (sp.getTurn()) {
 			case STARTPHASE:
-				startphase(landstring, land);
+				verteilen(landstring, land);
 				break;
 			case ANGRIFF:
+				
 				angreifen(landstring, land, aktiverSpieler);
 				break;
 			case VERTEILEN:
+				
 				verteilen(landstring, land);
 				break;
 			case VERSCHIEBEN:
@@ -307,42 +312,24 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		statistikPanel.statistikPanelAktualisieren();
 	}
 
-	public void startphase(String landstring, Land land) {
 
+	private void verteilen(String landstring, Land land) {
+		//eine Einheit verteilen in Startphase oder Verteilen-Phase
 		try {
 			sp.landWaehlen(landstring, aktiverSpieler);
+			
 			if (anzahlSetzbareEinheiten > 0) {
-				sp.einheitenPositionieren(1, land);
-				anzahlSetzbareEinheiten--;
-				spielfeld.labelsSetzen("", land.getEinheiten(), "");
-				spielfeld.fahneEinheit(land.getEinheitenLab());
-				statistikPanel.statistikPanelAktualisieren();
-			} else {
-
-				consolePanel.textSetzen("Du hast alle Einheiten gesetzt. Drücke auf den Button.");
-			}
-			if (anzahlSetzbareEinheiten == 0) {
-				buttonPanel.phaseEnable();
-			}
-		} catch (KannLandNichtBenutzenException lene) {
-			consolePanel.textSetzen(lene.getMessage());
-		}
-	}
-
-	public void verteilen(String landstring, Land land) {
-		try {
-			sp.landWaehlen(landstring, aktiverSpieler);
-			if (anzahlSetzbareEinheiten > 0) {
+				missionPanel.klickDisablen();
+				consolePanel.textSetzen("Du kannst nun keine Einheitenkarten mehr tauschen");
 				sp.einheitenPositionieren(1, land);
 				anzahlSetzbareEinheiten--;
 				spielfeld.labelsSetzen("", land.getEinheiten(), "");
 				spielfeld.fahneEinheit(land.getEinheitenLab());
 				statistikPanel.statistikPanelAktualisieren();
 				buttonPanel.setEinheitenVerteilenLab(anzahlSetzbareEinheiten);
-			} else {
-				consolePanel.textSetzen("Du hast alle Einheiten gesetzt.");
 			}
-			if (anzahlSetzbareEinheiten == 0) {
+			if(anzahlSetzbareEinheiten == 0){
+				consolePanel.textSetzen("Du hast alle Einheiten gesetzt.");
 				buttonPanel.phaseEnable();
 			}
 		} catch (KannLandNichtBenutzenException lene) {
@@ -350,14 +337,13 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		}
 	}
 
-	public void angreifen(String landstring, Land land, Spieler spieler) {
-
+	private void angreifen(String landstring, Land land, Spieler spieler) {
 		if (land1 == null) {
+			//Land wählen mit dem angegriffen werden soll
 			try {
 				sp.landWaehlen(landstring, spieler);
 				sp.checkEinheiten(landstring, 1);
 				land1 = land;
-				// erstmal nur zum testen
 				buttonPanel.angreifenAktiv(land1.getName(), "verteidigendes land");
 			} catch (KannLandNichtBenutzenException lene) {
 				consolePanel.textSetzen(lene.getMessage());
@@ -365,15 +351,13 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 				consolePanel.textSetzen(e.getMessage());
 			}
 		} else {
-
+			//Land wählen, welches angegriffen werden soll und angreifen
 			try {
 				sp.istNachbar(land1, land, spieler);
 				sp.istGegner(landstring, spieler);
 				land2 = land;
-				// erstmal nur zum testen
 				buttonPanel.angreifenAktiv(land1.getName(), land2.getName());
 				buttonPanel.angriffEnable();
-
 			} catch (KeinNachbarlandException knle) {
 				try {
 					sp.landWaehlen(landstring, spieler);
@@ -388,13 +372,12 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 					consolePanel.textSetzen(lene.getMessage());
 				}
 			}
-
 		}
 	}
 
-	public void verschieben(String landstring, Land land) {
-
+	private void verschieben(String landstring, Land land) {
 		if (land1 == null) {
+			//Land wählen von dem aus verschoben werden soll
 			try {
 				sp.landWaehlen(landstring, aktiverSpieler);
 				sp.benutzeLaender(land);
@@ -407,9 +390,8 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			} catch (LandBereitsBenutztException lbbe) {
 				consolePanel.textSetzen(lbbe.getMessage());
 			}
-
 		} else {
-
+			//Land wählen auf das verschoben werden soll und verschieben
 			try {
 				sp.landWaehlen(landstring, aktiverSpieler);
 				sp.istNachbar(land1, land, aktiverSpieler);
@@ -435,12 +417,13 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 	private void angriff(boolean genugEinheiten, Spieler aSpieler) throws KeinNachbarlandException {
 		Land aLand = land1;
 		Land vLand = land2;
+		//Angriff durchführen
 		AngriffRueckgabe angriffRueckgabe = sp.befreiungsAktion(new Angriff(aLand, vLand));
-
+		//Würfel anzeigen lassen
 		spielfeld.wuerfelAnzeigen(angriffRueckgabe.getWuerfelAngreifer(), angriffRueckgabe.getWuerfelVerteidiger());
-
+		//Angriff auswerten und Ergebnis anzeigen
 		if (angriffRueckgabe.isErobert() != true) {
-
+			//Ausgabe falls nicht erobert ist
 			if (angriffRueckgabe.hatGewonnen().equals("V")) {
 				consolePanel.textSetzen(vLand.getBesitzer().getName() + " hat gewonnen.");
 			} else if (angriffRueckgabe.hatGewonnen().equals("A")) {
@@ -448,18 +431,21 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			} else {
 				consolePanel.textSetzen("Ihr habt unentschieden gespielt, beide verlieren eine Einheit.");
 			}
+			//Einheiten auf Fahne setzen
 			spielfeld.fahneEinheit(land1.getEinheitenLab());
 			spielfeld.fahneEinheit(land2.getEinheitenLab());
 			land1 = null;
 			land2 = null;
 			buttonPanel.angreifenAktiv("angreifendes Land", "verteidigendes Land");
 		} else {
+			//bei Eroberung
 			vLand.setFahne(aSpieler.getFarbe());
 			spielfeld.fahnenVerteilen(sp.getLaenderListe());
 			consolePanel.textSetzen(aLand.getBesitzer().getName() + " hat das Land erobert.");
 			genugEinheiten = false;
-			// wird das ab hier genutzt?
+			// Verschieben nach Eroberung
 			if (aLand.getEinheiten() == 2) {
+				//wenn nur zwei Einheiten auf ANgriffsland sind
 				consolePanel.textSetzen("Eine Einheit wird auf " + vLand.getName() + " gesetzt.");
 				sp.eroberungBesetzen(aLand, vLand, 1);
 				genugEinheiten = true;
@@ -469,23 +455,29 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 				land2 = null;
 				buttonPanel.angreifenAktiv("angreifendes Land", "verteidigendes Land");
 			} else {
-				// ausgabe += "Wie viele Einheiten m\u00F6chtest du auf " +
-				// vLand.getName() + " setzen?";
-				// ausgabe += aLand.getEinheiten() - 1 + " Einheiten kannst du
-				// setzen";
-				// int einheiten = 1;
-				// if(einheiten < aLand.getEinheiten() && einheiten > 0){
-				// sp.eroberungBesetzen(aLand, vLand, einheiten);
-				// ausgabe += sp.einheitenAusgabe(aLand, vLand);
-				// genugEinheiten = true;
-				// }else{
-				// ausgabe += "Bitte gebe eine Korrekte Zahl ein";
+				//verschieben einstellungen in button panel öffnen
 				buttonPanel.verschiebenNachAngreifenAktiv(aLand.getName(), vLand.getName());
 			}
 			schuss();
 		}
 	}
-	public void gewonnen(Spieler spieler, JFrame frame){
+
+	
+	private void istSpielerRaus(){
+		//Überprüfung ob ein Spieler verloren hat
+		List<Spieler> spielerListe = sp.getSpielerList();
+		for(Spieler s : spielerListe){
+			String name = s.getName();
+			if(sp.spielerRaus(s)){
+				System.out.println("Der Spieler " + name + " hat verloren und ist raus");
+				istSpielerRaus();
+				break;
+			}
+		}
+	}
+
+		//alle Panels entfernen und Gewonnen Screen zeigen
+	public void gewonnen(){
 		this.remove(spielfeld);
 		this.remove(spielerListPanel);
 		this.remove(missionPanel);
@@ -493,56 +485,72 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		this.remove(statistikPanel);
 		this.remove(consolePanel);
 		this.remove(buttonPanel);
-		//this.setSize(500, 600);
 		frame.setLayout(new MigLayout("wrap1","[]","[][]"));
 		frame.setForeground(Color.black);
+
 		JLabel gewinner = new JLabel("Spieler" + " hat gewonnen.");
 		gewinner.setFont(uberschrift);
 		gewinner.setForeground(Color.white);
 		JLabel firework = new JLabel(new ImageIcon("./firework.gif"));
 		this.add(gewinner, "center");
 		this.add(firework, "center");
-		
 		this.setBackground(Color.BLACK);
 		this.repaint();
 		this.revalidate();
 	}
+	
+	public void karteEintauschen(List<String> tauschKarten) {
+		//Karten eintauschen
+		anzahlSetzbareEinheiten += sp.kartenEinloesen(aktiverSpieler, tauschKarten);
+		missionPanel.kartenAusgeben(aktiverSpieler);
+		buttonPanel.setEinheitenVerteilenLab(anzahlSetzbareEinheiten);
+	}
 
-	@Override
+	public void tauschFehlgeschlagen() {
+		consolePanel.textSetzen("Die Karten konnten nicht eingetauscht werden.");
+	}
+
+	public void processMouseClick(Color color) {
+		//Farbcode auslesen
+		String landcode = color.getRed() + "" + color.getGreen() + "" + color.getBlue();
+		landWaehlen(landcode);
+	
+	}
+
 	public void startButtonClicked() {
+		//von Anfangsmenü zu Spieler erstellen wechseln
 		this.remove(startPanel);
 		spielErstellen();
-
 	}
 
-	@Override
-	public void spielErstellen(String name, int anzahl) {
-		spiel(name, anzahl);
-
-	}
-
-	@Override
-	public void buttonClicked() {
+	public void phaseButtonClicked() {
+		//Wenn Mission erfüllt, dann gewonnen aufrufen
 		if(sp.getSpielerMission(aktiverSpieler).istAbgeschlossen()){
-//			gewonnen(aktiverSpieler);
+			gewonnen();
 		}
 		sp.nextTurn();
 		aktiverSpieler = sp.getAktiverSpieler();
 		missionPanel.kartenAusgeben(aktiverSpieler);
+		//Rahmen auf aktiven Spieler
 		spielerListPanel.setAktiverSpieler(sp.getSpielerList().indexOf(aktiverSpieler) + 1);
+		
 		switch (sp.getTurn()) {
 		case STARTPHASE:
 			buttonPanel.phaseDisable();
 			anzahlSetzbareEinheiten = sp.checkAnfangsEinheiten();
-			consolePanel.textSetzen(aktiverSpieler.getName()
-					+ " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
+			buttonPanel.setEinheitenVerteilenLab(anzahlSetzbareEinheiten);
+			consolePanel.textSetzen(aktiverSpieler.getName() + " du kannst nun deine ersten Einheiten setzen. Es sind " + anzahlSetzbareEinheiten);
 			missionPanel.setMBeschreibung(sp.getMissionVonAktivemSpieler().getBeschreibung());
 			break;
 		case ANGRIFF:
+			
+			missionPanel.klickDisablen();
 			consolePanel.textSetzen(aktiverSpieler.getName() + " du kannst nun angreifen.");
 			buttonPanel.angreifenAktiv("angreifendes Land", "verteidigendes Land");
 			break;
 		case VERTEILEN:
+			missionPanel.kartenAusgeben(aktiverSpieler);
+			missionPanel.klickEnablen();
 			buttonPanel.phaseDisable();
 			anzahlSetzbareEinheiten = sp.bekommtEinheiten(aktiverSpieler);
 			consolePanel.textSetzen(
@@ -555,29 +563,26 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			spielfeld.wuerfelEntfernen();
 			consolePanel.textSetzen(aktiverSpieler.getName() + " verschiebe nun deine Einheiten.");
 			buttonPanel.verschiebenAktiv("erstes Land", "zweites Land");
-			sp.einheitenKarteZiehen(aktiverSpieler);
+			if(aktiverSpieler.getEinheitenkarten().size() < 5){
+				sp.einheitenKarteZiehen(aktiverSpieler);			
+			}
 			missionPanel.kartenAusgeben(aktiverSpieler);
 			break;
 		}
-
 		infoPanel.changePanel(sp.getTurn() + "");
-
 	}
 
-	@Override
 	public void angriffClicked() {
+		//Angreifen Button klicken
 		try {
 			angriff(true, aktiverSpieler);
-
 		} catch (KeinNachbarlandException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
-	@Override
 	public void verschiebenClicked(int einheiten) {
+		//verschieben Button klicken
 		try {
 			sp.checkEinheiten(land1.getName(), einheiten);
 			sp.einheitenPositionieren(-einheiten, land1);
@@ -593,11 +598,10 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 		} catch (NichtGenugEinheitenException ngee) {
 			consolePanel.textSetzen(ngee.getMessage());
 		}
-
 	}
 
-	@Override
 	public void verschiebenNAClicked(int einheiten) {
+		//nach angreifen verteilen klicken
 		try {
 			sp.checkEinheiten(land1.getName(), einheiten);
 			sp.eroberungBesetzen(land1, land2, einheiten);
@@ -608,49 +612,23 @@ implements MapClickHandler, ButtonClickHandler, StartButtonClickHandler, Erstell
 			buttonPanel.angreifenAktiv("erstes Land", "zweites Land");
 		} catch (NichtGenugEinheitenException ngee) {
 			consolePanel.textSetzen(ngee.getMessage());
-	}
-		
-	}
-	public void schuss(){
-		try{
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("hit.wav"));
-            AudioFormat af     = audioInputStream.getFormat();
-            int size      = (int) (af.getFrameSize() * audioInputStream.getFrameLength());
-            byte[] audio       = new byte[size];
-            DataLine.Info info      = new DataLine.Info(Clip.class, af, size);
-            audioInputStream.read(audio, 0, size);
-           
-           // for(int i=0; i < 10; i++) {
-                Clip clip = (Clip) AudioSystem.getLine(info);
-                clip.open(af, audio, 0, size);
-                clip.start();
-                
-            //}
-        }catch(Exception e){ e.printStackTrace(); }
-	}
-	
-	private void istSpielerRaus(){
-		List<Spieler> spielerListe = sp.getSpielerList();
-		for(Spieler s : spielerListe){
-			String name = s.getName();
-			if(sp.spielerRaus(s)){
-				System.out.println("Der Spieler " + name + " hat verloren und ist raus");
-				istSpielerRaus();
-				break;
-			}
 		}
 	}
-
-	@Override
-	public void karteEintauschen(List<String> tauschKarten) {
-		sp.kartenEinloesen(aktiverSpieler, tauschKarten);
-		missionPanel.kartenAusgeben(aktiverSpieler);
-		
-	}
-
-	@Override
-	public void tauschFehlgeschlagen() {
-		consolePanel.textSetzen("Die Karten konnten nicht eingetauscht werden");
-		
+	
+	public void schuss(){
+		//Schuss Geräusch für Angriff
+		try{
+	        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("hit.wav"));
+	        AudioFormat af = audioInputStream.getFormat();
+	        int size = (int)(af.getFrameSize() * audioInputStream.getFrameLength());
+	        byte[] audio = new byte[size];
+	        DataLine.Info info = new DataLine.Info(Clip.class, af, size);
+	        audioInputStream.read(audio, 0, size);
+	        Clip clip = (Clip) AudioSystem.getLine(info);
+	        clip.open(af, audio, 0, size);
+	        clip.start();
+	    }catch(Exception e){ 
+	    	e.printStackTrace(); 
+	    }
 	}
 }	

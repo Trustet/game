@@ -1,24 +1,32 @@
 package local.domain;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
-import local.domain.exceptions.*;
+import local.domain.exceptions.KannEinheitenNichtVerschiebenException;
+import local.domain.exceptions.KannLandNichtBenutzenException;
+import local.domain.exceptions.KeinNachbarlandException;
+import local.domain.exceptions.LandBereitsBenutztException;
+import local.domain.exceptions.NichtGenugEinheitenException;
+import local.domain.exceptions.SpielerExistiertBereitsException;
 import local.persistence.FilePersistenceManager;
-import local.valueobjects.*;
+import local.valueobjects.Angriff;
+import local.valueobjects.AngriffRueckgabe;
+import local.valueobjects.Einheitenkarten;
+import local.valueobjects.Kontinent;
+import local.valueobjects.Land;
+import local.valueobjects.Mission;
+import local.valueobjects.Spieler;
 
-//Test
 public class Kriegsverwaltung {
 
 private Spielerverwaltung spielerVw;
 private Weltverwaltung weltVw;
 private Missionsverwaltung missionVw;
 private phasen Phase;
-//public List<Mission> missionsListe = new Vector<Mission>();
 private List<Land> benutzteLaender = new Vector<Land>();
 private FilePersistenceManager pm = new FilePersistenceManager();
 private int startphaseZaehler = 1;
@@ -29,10 +37,10 @@ private int startphaseZaehler = 1;
 	 * @param weltVw
 	 */
 	public Kriegsverwaltung(Spielerverwaltung spielerVw, Weltverwaltung weltVw, Missionsverwaltung missionVw) {
-	this.spielerVw = spielerVw;
-	this.weltVw = weltVw;
-	this.missionVw = missionVw;
-	Phase = phasen.VERTEILEN;
+		this.spielerVw = spielerVw;
+		this.weltVw = weltVw;
+		this.missionVw = missionVw;
+		Phase = phasen.VERTEILEN;
 	}
 
 	/**
@@ -91,18 +99,12 @@ private int startphaseZaehler = 1;
 	}
 	
 	/**
-	 * Greift mit einem Land ein anderes an und gibt Verluste zurück
-	 * @param angreifendesLand
-	 * @param verteidigendesLand
-	 * @return Vector<Integer> Verluste
-	 * @throws KeinNachbarlandException 
+	 * 
+	 * @param angriff
+	 * @return
+	 * @throws KeinNachbarlandException
 	 */
-
-//	public AttackResult befreiungsAktion(Attack attack) {
-//		Attack -> Angreifer, Verteidiger, vielleicht noch wie viele Würfel
-//		AttackResult -> AngreiferLand, VerteidigerLand, Gewinner / Verluste 
 	public AngriffRueckgabe befreiungsAktion(Angriff angriff) throws KeinNachbarlandException {
-		
 		istNachbar(angriff.getAngriffsland(), angriff.getVerteidigungsland(), null);
 		
 		Land angreifendesLand = angriff.getAngriffsland();
@@ -116,8 +118,7 @@ private int startphaseZaehler = 1;
 		List<Integer> verluste = new Vector<Integer>();
 		AngriffRueckgabe rueckgabe;
 		boolean erobert = false;
-		
-		//immer maximal mögliche anzahl an angreifer/verteidiger Einheiten
+
 		if(angreiferEinheiten < 4) {
 			angreifendeEinheiten = angreiferEinheiten - 1;
 		} else {
@@ -188,19 +189,16 @@ private int startphaseZaehler = 1;
 	 * @return int
 	 */
 	public int bekommtEinheiten(Spieler spieler) {
-		int einheiten = 0;
 		int anzahl = 1;
-		Spieler speicher;
+		int einheiten = weltVw.besitztLaender(spieler).size() / 3;
 		
-		einheiten = weltVw.besitztLaender(spieler).size()/3;
 		if (einheiten < 3) {
 			einheiten = 3;
 		}
 			for (Kontinent k : weltVw.getKontinentenListe()){
-				for (int i=1;i<k.getLaender().size();i++){
+				for (int i = 1;i < k.getLaender().size();i++){
 					
-					if(k.getLaender().get(i).getBesitzer() == k.getLaender().get(i-1).getBesitzer())
-					{
+					if(k.getLaender().get(i).getBesitzer() == k.getLaender().get(i-1).getBesitzer()) {
 						anzahl++;
 					}
 					
@@ -219,7 +217,6 @@ private int startphaseZaehler = 1;
 					}
 				}
 			}
-			
 			return einheiten;
 		}
 	
@@ -269,6 +266,7 @@ private int startphaseZaehler = 1;
 				break;
 		}
 	}
+	
 	/**
 	 * Phasen Enum
 	 */
@@ -276,7 +274,6 @@ private int startphaseZaehler = 1;
 		STARTPHASE,VERTEILEN,ANGRIFF,VERSCHIEBEN
 	}
 	
-
 	/**
 	 * Gibt die aktuelle Phase zurück
 	 * @return Phase
@@ -285,6 +282,10 @@ private int startphaseZaehler = 1;
 		return Phase;
 	}
 	
+	/**
+	 * 
+	 * @param phase
+	 */
 	public void setTurn(String phase){
 		switch(phase){
 		case "STARTPHASE":
@@ -330,10 +331,8 @@ private int startphaseZaehler = 1;
 	 * @throws KannLandNichtBenutzenException
 	 */
 	public boolean landWaehlen(String land, Spieler spieler) throws KannLandNichtBenutzenException{
-		if(weltVw.stringToLand(land) == null){
-			throw new KannLandNichtBenutzenException(land," existiert nicht");
-		}else if(!weltVw.stringToLand(land).getBesitzer().equals(spieler)){
-			throw new KannLandNichtBenutzenException(land," geh\u00F6rt dir nicht");	
+		if(!weltVw.stringToLand(land).getBesitzer().equals(spieler)){
+			throw new KannLandNichtBenutzenException();	
 		}else{
 			return true;
 		}
@@ -347,42 +346,25 @@ private int startphaseZaehler = 1;
 	 * @throws NichtGenugEinheitenException
 	 */
 	public boolean checkEinheiten(String land, int einheiten) throws NichtGenugEinheitenException{
-		if(weltVw.stringToLand(land).getEinheiten() < 2){
-			throw new NichtGenugEinheitenException(land, " hat zu wenig Einheiten.");
-		}else if(weltVw.stringToLand(land).getEinheiten() <= einheiten){
-			throw new NichtGenugEinheitenException(land, " hat nicht so viele Einheiten.");
-		}else if(einheiten < 1){
-			throw new NichtGenugEinheitenException(land, " kann nicht so wenig Einheiten verschicken.");
+		int landEinheiten = weltVw.stringToLand(land).getEinheiten();
+		
+		if(landEinheiten < 2 || landEinheiten <= einheiten || einheiten < 1){
+			throw new NichtGenugEinheitenException(einheiten);
 		}else{
 			return true;
 		}
 	}
 	
-//	/**
-//	 * Erstellt die Missionsliste
-//	 */
-//	public void missionsListeErstellen()
-//	{
-//		missionsListe.add(new Mission("Befreien Sie Nordamerika und Afrika!",null));
-//		missionsListe.add(new Mission("Befreien Sie Nordamerika und Australien!",null));
-//		missionsListe.add(new Mission("Befreien Sie 24 L\u00E4nder Ihrer Wahl!",null));
-//		missionsListe.add(new Mission("Befreien Sie 18 L\u00E4nder und setzen Sie in jedes Land mindestens 2 Armeen!",null));
-//		missionsListe.add(new Mission("Befreien Sie Europa, S\u00FCdamerika und einen dritten Kontinent Ihrer Wahl!",null));
-//		missionsListe.add(new Mission("Befreien Sie Europa, Australien und einen dritten Kontinent Ihrer Wahl!",null));
-//		missionsListe.add(new Mission("Befreien Sie Asien und S\u00FCdamerika!",null));
-//		missionsListe.add(new Mission("Befreien Sie Afrika und Asien!",null));
-//		missionsListe.add(new Mission("Befreien Sie alle L\u00E4nder von den roten Armeen!",null));
-//
-//	}
 	/**
 	 * Gibt alle eigenen NAchbarländer als Tabelle zurück
 	 * @param land
 	 * @param spieler
 	 * @return String
 	 */
-	public List<Land> moeglicheVerschiebeZiele(Land land, Spieler spieler){
+	public List<Land> moeglicheVerschiebeZiele(Land land, Spieler spieler) {
 		List<Land> nachbarLaender = this.weltVw.getNachbarLaender(land);
 		List<Land> rueckgabe = new Vector<Land>();
+		
 		for(Land l : nachbarLaender) {
 			if(spieler.equals(l.getBesitzer())) {
 				rueckgabe.add(l);
@@ -390,31 +372,33 @@ private int startphaseZaehler = 1;
 		}
 		return rueckgabe;
 	}
+	
 	/**
 	 * Gibt zurück, ob das übergebene Land in der Runde für einen Angriff benutzt wurde
 	 * @param land
 	 * @return boolean
 	 * @throws LandBereitsBenutztException
 	 */
-	public boolean benutzeLaender(Land land) throws LandBereitsBenutztException{
+	public boolean benutzeLaender(Land land) throws LandBereitsBenutztException {
 		if(benutzteLaender.contains(land)){
 			throw new LandBereitsBenutztException(land.getName());
 		}else{
 			return true;
 		}
 	}
+	
 	/**
 	 * Fügt der liste der benutzten Länder das übergebene Land zu
 	 * @param land
 	 */
-	public void landBenutzen(Land land){
+	public void landBenutzen(Land land) {
 		benutzteLaender.add(land);
 	}
 	
 	/**
 	 * Löscht die Liste, der Länder, die in einer Runde für einen Angriff benutzt wurden
 	 */
-	public void benutzteLaenderLoeschen(){
+	public void benutzteLaenderLoeschen() {
 		benutzteLaender.clear();
 	}
 	
@@ -422,7 +406,7 @@ private int startphaseZaehler = 1;
 	 * Gibt die Liste der Länder zurück, die für einen Angriff benutzt wurden
 	 * @return List<Land>
 	 */
-	public List<Land> getBenutzteLaenderListe(){
+	public List<Land> getBenutzteLaenderListe() {
 		return benutzteLaender;
 	}
 	
@@ -442,58 +426,12 @@ private int startphaseZaehler = 1;
 			return true;
 		}
 	}
-//	public void missionenVerteilen(){
-//		List<Mission> speicher = new Vector<Mission>();
-//		int random;
-//		for(Mission m : this.missionsListe){
-//			speicher.add(m);
-//		}
-//		for(Spieler s : spielerVw.getSpielerList()){
-//			random = (int)(Math.random() * speicher.size());
-//			for(Mission m : this.missionsListe){
-//				if(m.getBeschreibung().equals(speicher.get(random).getBeschreibung())){
-//					m.setMissionSpieler(s);
-//				}
-//			}
-//			speicher.remove(random);
-//		}
-//		
-//	}
-//	public String missionAusgeben(Spieler spieler){
-//		String ausgabe = "";
-//		for(Mission m : this.missionsListe){
-//			if(m.getMissionSpieler() != null && m.getMissionSpieler().equals(spieler)){
-//				ausgabe = m.getBeschreibung();
-//			}
-//		}
-//		return ausgabe;
-//	}
-	public List<String> willkommenNachricht(){
-		List<String> willkommen = new Vector<String>();
-		willkommen.add("W");
-		willkommen.add("I");
-		willkommen.add("L");
-		willkommen.add("L");
-		willkommen.add("K");
-		willkommen.add("O");
-		willkommen.add("M");
-		willkommen.add("M");
-		willkommen.add("E");
-		willkommen.add("N");
-		willkommen.add(" ");
-		willkommen.add("B");
-		willkommen.add("E");
-		willkommen.add("I");
-		willkommen.add(" ");
-		willkommen.add("R");
-		willkommen.add("I");
-		willkommen.add("S");
-		willkommen.add("I");
-		willkommen.add("K");
-		willkommen.add("O");
-		return willkommen;
-	}
 	
+	/**
+	 * 
+	 * @param spieler
+	 * @return
+	 */
 	public List<Land> getSpielerLaender(Spieler spieler){
 		List<Land> rueckgabeLaender = new Vector<Land>();
 		for(Land l : weltVw.getLaenderListe()){
@@ -503,11 +441,24 @@ private int startphaseZaehler = 1;
 		}
 		return rueckgabeLaender;
 	}
+	
+	/**
+	 * 
+	 * @param datei
+	 * @throws IOException
+	 */
 	public void spielSpeichern(String datei) throws IOException{
 		pm.schreibkanalOeffnen(datei);
-		pm.spielSpeichern(weltVw.getLaenderListe(), spielerVw.getSpielerList(), Phase+"", spielerVw.getAktiverSpielerNummer(), missionVw.getMissionsListe());
+		pm.spielSpeichern(weltVw.getLaenderListe(), spielerVw.getSpielerList(), Phase + "", spielerVw.getAktiverSpielerNummer(), missionVw.getMissionsListe());
 		pm.close();
 	}
+	
+	/**
+	 * 
+	 * @param datei
+	 * @throws IOException
+	 * @throws SpielerExistiertBereitsException
+	 */
 	public void spielLaden(String datei) throws IOException, SpielerExistiertBereitsException {
 		pm.lesekanalOeffnen(datei);
 		String phase = pm.spielstandLaden();
@@ -520,6 +471,7 @@ private int startphaseZaehler = 1;
 		int id = 0;
 		boolean istSpielerMission = false;
 		int einheiten = 0;
+		
 		switch(phase){
 		case "ANGRIFF":
 			Phase = phasen.ANGRIFF;
@@ -528,6 +480,7 @@ private int startphaseZaehler = 1;
 		case "VERTEILEN":
 			Phase = phasen.VERTEILEN;
 		}
+		
 		do{
 			spieler = pm.spielstandLaden();
 			if(spieler.length() != 0){
@@ -550,6 +503,7 @@ private int startphaseZaehler = 1;
 				}
 			}	
 		}while(land.length() != 0);
+		
 		int spielerNummer = Integer.parseInt(pm.spielstandLaden());
 		spielerVw.setAktiverSpieler(spielerNummer);
 
@@ -582,30 +536,15 @@ private int startphaseZaehler = 1;
 		}
 		pm.close();
 	}
-	public boolean landZumAngreifen(Spieler spieler) throws KeinLandZumAngreifenException{
-		List<Land> nachbarn = new Vector<Land>();
-		for(Land l : weltVw.getLaenderListe()){
-			if(l.getBesitzer().equals(spieler) && l.getEinheiten() > 1){
-				nachbarn = this.moeglicheAngriffsziele(l);
-				if(nachbarn.size() > 0){
-					return true;
-				}
-			}
-		}
-		throw new KeinLandZumAngreifenException("Du hast kein Land mit dem du angreifen kannst");
-	}
-	public boolean landZumAngreifen(Spieler spieler,Land land) throws KeinLandZumAngreifenException{
-		List<Land> nachbarn = new Vector<Land>();
-		nachbarn = this.moeglicheAngriffsziele(land);
-			if(nachbarn.size() > 0){
-				return true;
-			}
-		throw new KeinLandZumAngreifenException("Dieses Land hat keine feindlichen Nachbarn");
-	}
 	
-	public boolean spielerRaus(Spieler spieler){
-		for(Land l : weltVw.getLaenderListe()){
-			if(l.getBesitzer().equals(spieler)){
+	/**
+	 * 
+	 * @param spieler
+	 * @return
+	 */
+	public boolean spielerRaus(Spieler spieler) {
+		for(Land l : weltVw.getLaenderListe()) {
+			if(l.getBesitzer().equals(spieler)) {
 				return false;
 			}
 		}
@@ -613,10 +552,14 @@ private int startphaseZaehler = 1;
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Mission getMissionVonAktivemSpieler()
 	{
-		for(Mission m: missionVw.getMissionsListe())	{
-			if(m.getSpieler().equals(spielerVw.getAktiverSpieler()))	{
+		for(Mission m: missionVw.getMissionsListe()) {
+			if(m.getSpieler().equals(spielerVw.getAktiverSpieler())) {
 				return m;
 			}
 		}

@@ -11,7 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
 import net.miginfocom.swing.MigLayout;
 
 public class StartPanel extends JPanel{
@@ -25,41 +24,31 @@ public class StartPanel extends JPanel{
 		public void startButtonClicked();
 	}
 	
-	public void initialize(){
+	public void initialize() {
 		this.setLayout(new MigLayout("wrap1","[]","[][][][][][]"));
 
 		//Logo wird eingebunden
 		BufferedImage logoImg;
 		JLabel logo = new JLabel();
 		try {
-			
 			logoImg = ImageIO.read(new File("./logo.jpeg"));
 			logo = new JLabel(new ImageIcon(logoImg.getScaledInstance(300, 150, Image.SCALE_FAST)));
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		//Objekte erstellen
 		JButton startBtn = new JButton("Spiel erstellen");
 		JButton ladenBtn = new JButton("Spiel laden");
 		JButton optionBtn = new JButton("Optionen");
 		JButton beendenBtn = new JButton("Beenden");
 		
-		
-		//ActionListener
 		startBtn.addActionListener(start -> handler.startButtonClicked());
 		beendenBtn.addActionListener(close -> System.exit(0));
 		
-		//Objekte hinzufügen
 		this.add(logo,"center");
 		this.add(startBtn,"center,growx");
 		this.add(ladenBtn,"center,growx");
 		this.add(optionBtn,"center,growx");
 		this.add(beendenBtn,"center,growx");
-		
-		
-	}
-	
-	
+	}	
 }

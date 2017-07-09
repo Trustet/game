@@ -6,19 +6,21 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
+
 public class serverGUI extends JFrame{
 
-	private JTextField portText;
-	private risikoServer server;
+
 	
-	public static void main(String[] args) {
-		serverGUI gui = new serverGUI();
-		
+	public static void main(String[] args){
+	//serverGUI gui = new serverGUI();
+
 	}
+	
+
+	
 	public serverGUI(){
 		JFrame frame = new JFrame("Spiel starten");
 		JPanel panel = new JPanel(new MigLayout("wrap2","[50][150]","[][]"));
@@ -30,12 +32,12 @@ public class serverGUI extends JFrame{
 		//Objekte erstellen
 		JButton serverStart = new JButton("Server starten");
 		JLabel portLab = new JLabel("Port:");
-		portText = new JTextField();
+//		portText = new JTextField();
 		
-		serverStart.addActionListener(start -> serverStarten(Integer.parseInt(portText.getText()),frame));
+//		serverStart.addActionListener(start -> serverStarten(Integer.parseInt(portText.getText()),frame));
 		
 		panel.add(portLab,"right");
-		panel.add(portText,"left,growx");
+//		panel.add(portText,"left,growx");
 		panel.add(serverStart,"center,spanx 2");
 		frame.add(panel);
 		frame.setVisible(true);
@@ -50,8 +52,9 @@ public class serverGUI extends JFrame{
 		
 		frame.add(startText);
 		frame.setVisible(true);
-		risikoServer server = new risikoServer(port);
+		RisikoServer server = new RisikoServer(port);
 		
 	}
+
 
 }

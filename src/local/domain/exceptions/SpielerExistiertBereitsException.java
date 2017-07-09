@@ -2,7 +2,7 @@ package local.domain.exceptions;
 
 public class SpielerExistiertBereitsException extends Exception {
 
-	public SpielerExistiertBereitsException(String text) {
-		super(text);
+	public SpielerExistiertBereitsException() {
+		super("Name ungültig oder bereits verwendet.");
 	}
 }
