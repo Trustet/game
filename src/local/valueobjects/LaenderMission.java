@@ -1,12 +1,12 @@
 package local.valueobjects;
-
 import java.util.List;
-
+import java.util.Vector;
 public class LaenderMission extends Mission {
 
 	private int anzahlLaender = 0;
 	private int anzahlEinheiten = 0;	
 	protected List<Land> laender;
+
 	
 	/**
 	 * @param id
@@ -23,7 +23,8 @@ public class LaenderMission extends Mission {
 	}
 
 	/**
-	 * @return
+	 * Gibt eine Laenderliste zurück
+	 * @return 
 	 */
 	public List<Land> getLaender() {
 		return laender;
@@ -45,11 +46,13 @@ public class LaenderMission extends Mission {
 				if (l.getEinheiten() >= anzahlEinheiten){
 					counter++;
 				}
+			
 			}
 		}
 		if(counter >= anzahlLaender){
 			return true;
 		}
+		
 		return false;
 	}
 }
