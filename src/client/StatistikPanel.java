@@ -114,6 +114,9 @@ public class StatistikPanel extends JPanel{
 		this.revalidate();
 	}
 	
+	/**
+	 * Aktualisiert den StatistikPanel
+	 */
 	public void statistikPanelAktualisieren(){
 		laenderVonSpieler.clear();
 		einheitenVonSpieler.clear();
